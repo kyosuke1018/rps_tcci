@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{employeeImport.pageTitle}</ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+            .data_invalid {color: red !important;}
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <p:panel header="#{employeeImport.pageTitle}">
+            <h:form id="form" prependId="false">
+                <ui:include src="inc_submenu.xhtml"/>
+                <hr/>
+                <p:fileUpload fileUploadListener="#{employeeImport.handleFileUpload}"
+                              label="Import"
+                              multiple="false"
+                              auto="true"
+                              allowTypes="/(\.|\/)(xls|xlsx)$/i"
+                              update=":form:result"/>
+                <hr/>
+                <p:fieldset legend="#{msgOrgmgmt['orgmgmt.fieldset.importresult']}">
+                    <p:commandButton value="#{msgApp['app.button.save']}"
+                                     icon="ui-icon-disk"
+                                     action="#{employeeImport.save}"
+                                     update=":form:result"/>
+                    <p:dataTable id="result"
+                                 value="#{employeeImport.result}"
+                                 var="row"
+                                 rows="10"
+                                 paginator="true"
+                                 rowStyleClass="#{row.valid ? '' : 'data_invalid'}">
+                        <p:column sortBy="#{row.rowIndex}">
+                            <f:facet name="header">ROW#</f:facet>
+                            <h:outputText value="#{row.rowIndex}"/>
+                        </p:column>
+                        <p:column sortBy="#{row.compCode}">
+                            <f:facet name="header">#{msgOrgmgmt['orgmgmt.label.companycode']}</f:facet>
+                            <h:outputText value="#{row.compCode}"/>
+                        </p:column>
+                        <p:column sortBy="#{row.deptCode}">
+                            <f:facet name="header">#{msgOrgmgmt['orgmgmt.label.departmentcode']}</f:facet>
+                            <h:outputText value="#{row.deptCode}"/>
+                        </p:column>
+                        <p:column sortBy="#{row.code}">
+                            <f:facet name="header">#{msgOrgmgmt['orgmgmt.label.employeecode']}</f:facet>
+                            <h:outputText value="#{row.code}"/>
+                        </p:column>
+                        <p:column sortBy="#{row.name}">
+                            <f:facet name="header">#{msgOrgmgmt['orgmgmt.label.employee']}</f:facet>
+                            <h:outputText value="#{row.name}"/>
+                        </p:column>
+                        <p:column sortBy="#{row.email}">
+                            <f:facet name="header">#{msgOrgmgmt['orgmgmt.label.email']}</f:facet>
+                            <h:outputText value="#{row.email}"/>
+                        </p:column>
+                        <p:column sortBy="#{row.adaccount}">
+                            <f:facet name="header">#{msgOrgmgmt['orgmgmt.label.adaccount']}</f:facet>
+                            <h:outputText value="#{row.adaccount}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">#{msgOrgmgmt['orgmgmt.label.activation']}</f:facet>
+                            <h:outputText value="#{row.activation}"/>
+                        </p:column>
+                        <p:column sortBy="#{row.message}">
+                            <f:facet name="header">#{msgOrgmgmt['orgmgmt.label.message']}</f:facet>
+                            <h:outputText value="#{row.message}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

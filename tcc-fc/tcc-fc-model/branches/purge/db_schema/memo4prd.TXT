@@ -1,0 +1,2 @@
+INSERT INTO TC_FVVAULT (NAME,HOSTNAME,DOMAIN,LOCATION,READONLY,ENABLED,URL) values ('Default','localhost',1,'/opt/FileUpload/<APP>',0,1,null);
+

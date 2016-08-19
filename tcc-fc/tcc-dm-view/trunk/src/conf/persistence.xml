@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="Model" transaction-type="JTA">
+    <jta-data-source>jdbc/dm</jta-data-source>
+    <class>com.tcci.fc.entity.org.TcUser</class>
+    <class>com.tcci.fc.entity.org.TcGroup</class>
+    <class>com.tcci.fc.entity.org.TcUsergroup</class>
+    <class>com.tcci.fc.entity.essential.TcDomain</class>
+    <class>com.tcci.fc.entity.content.TcApplicationdata</class>
+    <class>com.tcci.fc.entity.content.TcFvitem</class>
+    <class>com.tcci.fc.entity.content.TcFvvault</class>
+    <class>com.tcci.fc.entity.lifecycle.TcLifecycle</class>
+    <class>com.tcci.fc.entity.lifecycle.TcLifecycleState</class>
+    <class>com.tcci.fc.entity.repository.TcFolder</class>
+    <class>com.tcci.fc.entity.repository.TcDocument</class>
+    <class>com.tcci.fc.entity.repository.TcDocumentMaster</class>
+    <class>com.tcci.fc.entity.access.TcFolderedAclEntry</class>
+    <class>com.tcci.fc.entity.log.TcDownloadLog</class>
+    <class>com.tcci.fc.entity.log.TcDownloadLogDetail</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="eclipselink.logging.level" value="FINE"/>
+    </properties>
+  </persistence-unit>
+</persistence>

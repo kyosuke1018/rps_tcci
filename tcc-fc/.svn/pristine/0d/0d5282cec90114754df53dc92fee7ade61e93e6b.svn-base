@@ -1,0 +1,26 @@
+模組功能:
+---------
+* 提供發送email功能, email內容為 Apache Velocity template 格式。
+* $vmformat.dateFormat: 自訂日期格式
+* $vmformat.escapeHtml: 換行(\n) -> <br/>, "<" -> &lt;, ">" -> &gt;
+
+安裝步驟: 
+---------
+copy mail\* to project\
+
+建立email template: src\java\mail_commonReport_batch.vm (UTF-8 encoding)
+
+sendmail sample code:
+	HashMap<String, Object> mailBean = new HashMap<String, Object>();
+	mailBean.put(VelocityMail.SUBJECT, "信件主旨");
+	// 收件者用逗號隔開
+	mailBean.put(VelocityMail.TO, "jimmy.lee@tcci.com.tw,gilbert.lin@tcci.com.tw");
+	mailBean.put("title", "異動通知");  // 在 vm 檔中用 $title取值
+	mailBean.put("reportItems", items); // 在 vm 檔中用 #foreach ($item in $reportItems)
+	mailBean.put("viewURL", viewURL);
+	mailBean.put("notifyURL", notifyURL);
+	VelocityMail.sendMail(mailBean, "mail_commonReport_batch.vm");
+
+Note: 在email template中顯示日期, 多行(outlook不支援white-space:pre-line;)
+$vmformat.dateFormat('yyyy-MM-dd HH:mm',$item.createtimestamp)
+$vmformat.escapeHtml($item.note)

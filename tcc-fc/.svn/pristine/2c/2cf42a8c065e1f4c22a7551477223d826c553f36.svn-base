@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog header="#{msgVaultmgmt['vaultmgmt.label.recycleBin']}"
+              resizable="false"
+              width="900"
+              height="455"
+              modal="true"
+              widgetVar="recycleBinDialogVar"
+              id="recycleBinDialog">
+        <p:dataTable value="#{vaultmgmtController.recycleFvitemDataModel}"
+                     var="fvitem"
+                     selection="#{vaultmgmtController.selectedRecycledFvitems}"
+                     rows="10"
+                     paginator="true">
+            <f:facet name="header">
+                <p:commandButton icon="ui-icon-trash"
+                                 value="#{msgVaultmgmt['fvitem.button.removeAll']}"
+                                 onclick="return confirm('#{msgVaultmgmt['fvitem.label.confirmRemoveAll']}')"
+                                 action="#{vaultmgmtController.removeAllRecycledFvitems}"/>
+                <p:spacer width="5px"/>
+                <p:commandButton icon="ui-icon-trash"
+                                 value="#{msgVaultmgmt['fvitem.button.removeSelected']}"
+                                 onclick="return confirm('#{msgVaultmgmt['fvitem.label.confirmRemoveSelected']}')"
+                                 action="#{vaultmgmtController.removeSelectedRecycledFvitems}"/>
+            </f:facet>
+            <p:column selectionMode="multiple" style="width: 20px; text-align: center;"/>  
+            <p:column headerText="#{msgVaultmgmt['fvitem.label.name']}" style="white-space: nowrap;">
+                <h:outputText value="#{fvitem.name}"/>
+            </p:column>
+            <p:column headerText="#{msgVaultmgmt['fvitem.label.filesize']}" style="white-space: nowrap; text-align: right;">
+                <h:outputText value="#{fvitem.filesize}"/>
+            </p:column>
+            <p:column headerText="#{msgVaultmgmt['fvitem.label.contenttype']}" style="white-space: nowrap;">
+                <h:outputText value="#{fvitem.contenttype}"/>
+            </p:column>
+            <p:column headerText="#{msgVaultmgmt['fvitem.label.creator']}" style="white-space: nowrap;">
+                <h:outputText value="#{fvitem.creator.displayIdentifier}"/>
+            </p:column>
+            <p:column headerText="#{msgVaultmgmt['fvitem.label.createtimestamp']}" style="white-space: nowrap;">
+                <h:outputText value="#{fvitem.createtimestamp}">
+                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" />
+                </h:outputText>
+            </p:column>
+            <p:column headerText="#{msgVaultmgmt['fvitem.label.filename']}" style="white-space: nowrap;">
+                <h:outputText value="#{fvitem.filename}"/>
+            </p:column>
+            <p:column headerText="#{msgVaultmgmt['fvitem.label.domain']}" style="white-space: nowrap;">
+                <h:outputText value="#{fvitem.domain.name}"/>
+            </p:column>
+        </p:dataTable>
+        <h:panelGrid columns="1" width="100%" style="text-align: center;">
+            <p:commandButton value="#{msgApp['app.button.close']}"
+                             onclick="PF('recycleBinDialogVar').hide()"/>
+        </h:panelGrid>
+    </p:dialog>
+</ui:composition>

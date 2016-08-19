@@ -1,0 +1,101 @@
+/*
+*
+*/
+body {
+    font-size: 12px;
+    line-height: 1.5em;
+}
+table {
+    font-size: 12px;
+}
+.page {
+    margin: 0 auto;
+    width: 950px;
+}
+.header {
+    margin: 0 0 0 0;
+    width: 100%
+}
+.content {
+    width: 100%
+}
+
+.footer {
+    background-color: #FFFFFF;
+    clear: left;
+    color: #82786F;
+    font-size: 11px;
+    padding: 10px 0;
+    text-align: center;
+    width: 100%;
+}
+
+.footer a {
+    color: #82786F;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 11px;
+    text-decoration: none;
+}
+
+a:link {
+    text-decoration: none;
+}
+a:hover, a:visited{
+    text-decoration: underline;
+}
+
+.label3b {
+    color: #82786F;
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+}
+.systemname {
+    color: #82786F;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 28px;
+    font-weight: normal;
+    line-height: normal;
+    margin: 10px 220px 10px 30px;
+    padding-top: 2px;
+}
+/* theme */
+.ui-state-default a,.ui-state-default a:link, .ui-state-default a:visited {
+    color: #8D8378 !important;
+    text-decoration: none;
+}
+
+.ui-widget .ui-widget {
+    font-size: 12px;
+}
+.ui-state-default {
+    font-weight: normal !important;
+}
+.ui-panel{
+    width: 100%
+}
+
+.ui-datatable-header {
+    text-align: left !important;
+}
+
+.ui-fieldset .ui-fieldset-legend {
+    font-size: 1.1em;
+    padding: 0.5em 1em;
+    border: none;
+    background: inherit;
+}
+
+label.required
+{
+    background-image:url("#{resource['images:field_required.gif']}");
+    background-position:right center;
+    background-repeat:no-repeat;
+    padding-right:12px;
+}
+
+img.button
+{
+    cursor: pointer;
+    vertical-align: bottom;
+}

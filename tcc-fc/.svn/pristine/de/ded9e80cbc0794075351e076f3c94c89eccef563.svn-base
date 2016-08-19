@@ -1,0 +1,8 @@
+deploy.ant.properties.file=C:\\Users\\jason.yu\\.netbeans\\7.0\\gfv3941713956.properties
+file.reference.primefaces-3.0.M3-SNAPSHOT.jar=D:\\workspace\\tcc-fc\\tcc-dm-view\\lib\\primefaces-3.0.M3-SNAPSHOT.jar
+j2ee.platform.is.jsr109=true
+j2ee.server.home=D:/Oracle/glassfish-3.1/glassfish
+j2ee.server.instance=[D:\\Oracle\\glassfish-3.1\\glassfish]deployer:gfv3ee6wc:localhost:4848
+javac.debug=true
+javadoc.preview=true
+user.properties.file=C:\\Users\\jason.yu\\.netbeans\\7.0\\build.properties

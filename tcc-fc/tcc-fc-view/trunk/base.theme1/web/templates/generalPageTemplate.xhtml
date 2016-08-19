@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <f:view contentType="text/html">
+        <h:head>
+            <ui:include src="/jsff/head.xhtml"/>
+        </h:head>
+        <h:body>
+            <p:growl id="growl" showDetail="false" autoUpdate="true" widgetVar="growlWV"/>
+            <div id="header">
+                <ui:include src="/jsff/pageHeader.xhtml"/>
+            </div>
+
+            <div id="content">
+                <h:panelGroup rendered="#{userSession.isValid()}">
+                    <ui:insert name="content"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{!userSession.isValid()}">
+                    <div class="userError">
+                        <h:outputText value="此帳號無本系統權限, 請填[帳號權限申請單]申請或洽台訊客服 "/>
+                        <a href="mailto:service@tcci.com.tw">(service@tcci.com.tw)</a>
+                    </div>
+                </h:panelGroup>
+            </div>  <!-- content -->
+
+            <div id="footer">
+                <ui:include src="/jsff/pageFooter.xhtml"/>
+            </div>
+
+            <ui:include src="/jsff/ajaxStatusDlg.xhtml"/>
+            <script type="text/javascript">
+                //<![CDATA[
+                $(document).on("keydown", function (e) {
+                    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+                        e.preventDefault();
+                    }
+                });
+                //]]>
+            </script>
+        </h:body>
+    </f:view>
+</html>

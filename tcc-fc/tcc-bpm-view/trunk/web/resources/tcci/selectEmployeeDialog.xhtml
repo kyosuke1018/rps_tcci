@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <composite:interface>
+        <composite:attribute name="widgetVar" required="true"/>
+        <composite:attribute name="callback" required="true" />        
+        <composite:attribute name="height" default="450" />
+        <composite:attribute name="width" default="650" />
+        <composite:attribute name="showEffect" default="clip" />
+        <composite:attribute name="hideEffect" default="clip" />
+        <composite:attribute name="displayRows" default="5" />
+    </composite:interface>
+
+    <composite:implementation>
+        <f:loadBundle basename="pickuser_messages" var="pickuser_msg"/>        
+        <p:dialog resizable="false" draggable="false" height="#{cc.attrs.height}" width="#{cc.attrs.width}" widgetVar="#{cc.attrs.widgetVar}" modal="true" showEffect="#{cc.attrs.showEffect}" hideEffect="#{cc.attrs.hideEffect}">
+            <h:form>
+                <table border="0" width="630">
+                    <tr>
+                        <td align="left">
+                            <h:outputText value="#{pickuser_msg['userpicker.input_employee_id_or_name']}:"/>
+                            <p:inputText id="query" value="#{queryEmpDialog.queryString}">
+                                <f:ajax event="keyup" render="userList" listener="#{queryEmpDialog.query}"/>
+                            </p:inputText>
+                        </td>
+                        <td align="right">
+                            <h:outputText value="#{pickuser_msg['userpicker.department']}:"/>
+                            <h:selectOneMenu value="#{queryEmpDialog.filterGroup}">
+                                <f:selectItem itemLabel="#{pickuser_msg['userpicker.all']}" itemValue=""/>
+                                <f:selectItems value="#{queryEmpDialog.groups}" var="group"
+                                               itemLabel="#{group.treeDisplayName}" itemValue="#{group.groupId}"/>
+                                <f:ajax event="change" render="userList" listener="#{queryEmpDialog.query}"/>
+                            </h:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <p:dataTable id="userList" value="#{queryEmpDialog.qualifiedUsers}" var="user"
+                                        paginator="true" rows="#{cc.attrs.displayRows}" paginatorTemplate="{PageLinks}"
+                                        selection="#{queryEmpDialog.selectedUser}">
+                                <p:column selectionMode="single" />
+                                <p:column style="width:10%" headerText="#{pickuser_msg['userpicker.user_name']}">
+                                    <h:outputText value="#{user.name}"/>
+                                </p:column>
+                                <p:column style="width:10%" headerText="#{pickuser_msg['userpicker.employee_number']}">
+                                    <h:outputText value="#{user.employeeNumber}"/>
+                                </p:column>
+                                <p:column headerText="#{pickuser_msg['userpicker.email']}">
+                                    <h:outputText value="#{user.email}"/>
+                                </p:column>
+                                <p:column headerText="#{pickuser_msg['userpicker.companyname']}">
+                                    <h:outputText value="#{user.companyName}"/>
+                                </p:column>
+                                <p:column headerText="#{pickuser_msg['userpicker.department_name']}">
+                                    <h:outputText value="#{user.department.name}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <p:commandButton update="userList" value="#{pickuser_msg['userpicker.button.confirm']}"  action="#{queryEmpDialog.doQuery}"
+                                             oncomplete="#{cc.attrs.callback}(xhr, status, args);"/>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </p:dialog>
+    </composite:implementation>
+</html>
+

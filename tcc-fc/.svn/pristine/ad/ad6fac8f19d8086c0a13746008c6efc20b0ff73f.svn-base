@@ -1,0 +1,37 @@
+copy orgmgmt\* to project\
+
+install db-schema\install_org.sql
+
+Web Pages\jsff\menu.xhtml: 增加組織管理選單 (系統管理員, 使用者管理下方)
+                <p:menuitem value="#{msgOrgmgmt['orgmgmt.title']}" url="/faces/org/management.xhtml"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"/>
+
+Configuration Files\faces-config.xml, 增加msgOrgmgmt
+        <resource-bundle>
+            <description>message for org management</description>
+            <base-name>msgOrgmgmt</base-name>
+            <var>msgOrgmgmt</var>
+        </resource-bundle>
+
+Configuration Files\persistence.xml, 增加下列 entity
+        <class>com.tcci.fc.entity.org.OrgCompany</class>
+        <class>com.tcci.fc.entity.org.OrgDepartment</class>
+        <class>com.tcci.fc.entity.org.OrgEmployee</class>
+
+Configuration Files\web.xml, /faces/org/* 權限控管 (可將ADMINISTRATORS合併在一起)
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>使用者管理, 組織管理</web-resource-name>
+            <url-pattern>/faces/usermgmt/*</url-pattern>
+            <url-pattern>/faces/org/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ADMINISTRATORS</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+Clean & Build, Run
+系統管理員 > 組織管理
+公司匯入: db-schema\companyImport.xlsx
+部門匯入: db-schema\departmentImport.xlsx
+員工匯入: db-schema\employeeImport.xlsx

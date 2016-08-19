@@ -1,0 +1,100 @@
+Features:
+---------
+	登入的使用者:
+		com.tcci.fc.controller.login.UserSession
+		
+	會員管理:
+		web\usermgmt\*
+		com.tcci.fc.controller.usermgmt.*
+		com.tcci.fc.facade.usermgmt.*
+		com.tcci.fc.facade.usermgmt.*
+		
+	Controller Util:
+		com.tcci.fc.controller.util.CustomResource, CustomResourceHandler: css/js 版本設定
+			web.xml
+			<param-name>RESOURCE_VERSION</param-name>
+			<param-value>100</param-value>
+		JsfUtil: addSuccessMessage, addErrorMessage
+		LogContextInfoFilter: 設定 user, sessionId, used in log4j.properties %X{sessionId}][%X{user}
+		UACompatibleHeaderPhaseListener: 停用IE相容性設定
+		
+	General Util:
+		com.tcci.fc.util.ExcelUtil (importList (excel -> List<T>), exportList (List<T> -> excel))
+		
+	Web Pages:
+		jsff\ajaxStatusDlg.xhtml: ajax loading gif & view/session expired checking
+		resources\js\ajaxCheck.js: view/session expired checking
+		resources\js\checkIE7.js,checkIE8.js,checkIE9.js: 檢查IE版本
+		resources\js\pf_locales.js: p:calendar 中文locale 
+
+Quick Start:
+------------
+new Web Project
+	Project Name: tccidemo
+	check-on Enable Context and Dependency Injection
+	Context Path: tccidemo
+	Frameworks: JavaServer Faces, Components: Primefaces
+
+svn export http://tcci-svn/svn/src/tcc-fc/tcc-fc-view/trunk tcc-fc-view (不要用 check-out)
+
+copy tcc-fc-view\base\* -> tccidemo\ (web.xml overwrite)
+
+Libraries:
+	remove Primefaces3.2
+	add lib\*.jar
+	uncheck cas-client-core-3.2.0.jar package
+	
+Create DB
+	create user tccidemo_user
+	@db-schema\install_fc.sql
+
+Source Packages\default package\log4j.properties
+	fcview.log -> tccidemo.log
+	
+Source Packages\default package\msgApp.properties, msgApp_zh_CN.properties
+	app.title=台泥資訊範例程式
+
+Configuration Files\glassfish-web.xml
+	SAM_FCVIEW -> SAM_TCCIDEMO
+	/fcview -> /tccidemo
+
+Configuration Files\persistence.xml
+	jdbc/fcview -> jdbc/tccidemo
+
+Server Resources\glassfish-resources.xml
+	fcviewPool -> tccidemoPool (2個)
+	fcview_user -> tccidemo_user
+	jdbc/fcview -> jdbc/tccidemo
+	jndi/fcview.config -> jndi/tccidemo.config
+
+Server Resources\glassfish-resources-qa.xml
+	fcviewPool -> tccidemoPool (2個)
+	fcview_user -> tccidemo_user
+	jdbc/fcview -> jdbc/tccidemo
+	jndi/fcview.config -> jndi/tccidemo.config
+
+Server Resources\resources.conf
+	SAM_FCVIEW -> SAM_TCCIDEMO (2個)
+	jdbc/fcview -> jdbc/tccidemo
+
+Server Resources\resources-qa.conf
+	SAM_FCVIEW -> SAM_TCCIDEMO (2個)
+	jdbc/fcview -> jdbc/tccidemo
+	
+Server Resources\resources-local.conf
+	SAM_FCVIEW -> SAM_TCCIDEMO (2個)
+	jdbc/fcview -> jdbc/tccidemo
+
+# 測試機設定 resources
+asadmin --host 192.168.203.81 multimode --file resources.conf
+
+# QA機設定 resources
+asadmin --host 192.168.203.62 multimode --file resources-qa.conf
+
+# 本機設定 resources(要先啟動 glassfish)
+asadmin --host localhost multimode --file resources-local.conf
+
+# deploy & test
+http://localhost:8080/tccidemo/
+http://localhost:8080/tccidemo/faces/usermgmt/userManagement.xhtml
+http://localhost:8080/tccidemo/faces/usermgmt/switchUser.xhtml

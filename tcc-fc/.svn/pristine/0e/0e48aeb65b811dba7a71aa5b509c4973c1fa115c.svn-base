@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <f:loadBundle basename="bpm_messages" var="msg"/>
+    <p:fieldset legend="#{msg['taskmgn.workhistory.workhistory']}">
+        <h:form>
+            <p:dataTable id="history" value="#{workflowHistory.taskList}"
+                         var="row">
+                <p:column> 
+                    <f:facet name="header">#{msg['taskmgn.workhistory.activity']}</f:facet>
+                    <h:outputText value="#{row.taskName}"/>
+                </p:column>
+                <p:column> 
+                    <f:facet name="header">#{msg['taskmgn.workhistory.approver']}</f:facet>
+                    <h:outputText value="#{row.owner.displayIdentifier}"/>
+                    <h:outputText value=" (#{msg['taskmgn.worklist.ori_approver']}: #{row.creator.displayIdentifier})" rendered="#{row.owner.id != row.creator.id}"/>
+                </p:column>
+                <p:column> 
+                    <f:facet name="header">#{msg['taskmgn.workhistory.status']}</f:facet>
+                    <h:outputText value="#{msg[row.status.resourceBundleKey]}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">#{msg['taskmgn.workhistory.create_date']}</f:facet>
+                    <h:outputText value="#{row.createDatetime}">
+                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
+                    </h:outputText>
+                </p:column>
+                <p:column> 
+                    <f:facet name="header">#{msg['taskmgn.workhistory.approve_date']}</f:facet>
+                    <h:outputText value="#{row.processDatetime}">
+                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">#{msg['taskmgn.workhistory.comment']}</f:facet>
+                    <h:outputText escape="false" value="#{row.comment}"/>
+                </p:column>
+            </p:dataTable>  
+        </h:form>
+    </p:fieldset>
+</ui:composition>

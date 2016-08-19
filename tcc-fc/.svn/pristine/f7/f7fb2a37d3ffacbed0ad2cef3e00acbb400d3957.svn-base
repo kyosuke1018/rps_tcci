@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <h:panelGrid columns="1">
+        <p:fileUpload rendered="#{!attachmentController.readonly}"
+                      label="#{msgApp['app.label.upload']}"
+                      multiple="true" 
+                      auto="true"
+                      update=":form:uploadFilesGroup"
+                      fileUploadListener="#{attachmentController.handleFileUpload}"
+                      oncomplete="$('div.fileupload-content tr.template-upload.ui-state-error').remove()"/>
+        <h:panelGroup id="uploadFilesGroup">
+            <p:dataTable value="#{attachmentController.attachmentVOList}"
+                         var="attachmentVO"
+                         rows="10"
+                         paginator="true"
+                         paginatorPosition="bottom">
+                <p:column headerText="檔名(點擊下載檔案)">
+                    <h:commandLink actionListener="#{attachmentController.downloadAction(attachmentVO)}"
+                                   class="uploadFile"
+                                   immediate="true"
+                                   onclick="monitorDownload(); return true;">
+                        <h:graphicImage library="images" name="attach.png" rendered="#{not empty attachmentVO.applicationdata}"/>
+                        <h:graphicImage library="images" name="new.png" rendered="#{empty attachmentVO.applicationdata}"/>
+                        <h:outputText value="#{attachmentVO.fileName}"/>
+                        <p:fileDownload value="#{attachmentController.downloadFile}"/>
+                    </h:commandLink>
+                </p:column>
+                <p:column headerText="檔案大小" style="text-align: right;">
+                    <h:outputText value="#{attachmentVO.size}">
+                        <f:convertNumber pattern="#,###"/>
+                    </h:outputText>
+                    <h:outputText value=" bytes"/>
+                </p:column>
+                <p:column headerText="備註">
+                    <h:outputText value="#{attachmentVO.description}"/>
+                </p:column>
+                <p:column headerText="#{mspApp['app.label.action']}" width="40" rendered="#{!attachmentController.readonly}">
+                    <p:commandLink action="#{attachmentController.editFileDesc(attachmentVO)}"
+                                   update=":form:fileDescContent"
+                                   oncomplete="fileDescDlg.show();"
+                                   global="off">
+                        <h:graphicImage title="編輯備註" library="images" name="comment_edit.png"/>
+                    </p:commandLink>
+                    <p:commandLink actionListener="#{attachmentController.remove(attachmentVO)}"
+                                   immediate="true"
+                                   update=":form:uploadFilesGroup"
+                                   global="off">
+                        <h:graphicImage title="#{msgApp['app.button.remove']}" library="images" name="delete.png"/>
+                    </p:commandLink>
+                </p:column>
+            </p:dataTable>
+        </h:panelGroup>
+    </h:panelGrid>
+    <p:dialog header="編輯檔案備註"
+              modal="true"
+              widgetVar="fileDescDlg"
+              resizable="false">
+        <h:panelGrid id="fileDescContent" columns="2">
+            <h:outputLabel value="檔案:"/>
+            <h:outputText value="#{attachmentController.selectedAttachmentVO.fileName}"/>
+            <h:outputLabel value="備註:" for="fileDesc"/>
+            <p:inputText id="fileDesc"
+                         value="#{attachmentController.fileDesc}"
+                         size="80"
+                         maxlength="500"/>
+        </h:panelGrid>
+        <hr/>
+        <div align="center">
+            <p:commandButton value="#{msgApp['app.button.ok']}"
+                             action="#{attachmentController.editFileDescOK()}"
+                             update=":form:uploadFilesGroup"
+                             oncomplete="fileDescDlg.hide();"/>&nbsp;
+            <p:button value="#{msgApp['app.button.cancel']}"
+                      onclick="fileDescDlg.hide(); return false;"/>
+        </div>
+    </p:dialog>
+</ui:composition>

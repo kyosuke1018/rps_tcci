@@ -1,0 +1,31 @@
+模組功能:
+---------
+* 簽核流程管理
+
+安裝步驟: 
+---------
+copy bpmadmin\* to project\
+注意: java\META-INF\beans.xml 不能移到 web\WEB-INF\beans.xml
+
+Libraries:
+  增加 lib\tcc-bpm-model.jar
+
+修改 web\WEB-INFO\faces-config.xml:
+  增加 BPM resource-bundle(從faces-config_bpm.xml copy/paste, 刪除faces-config_bpm.xml)
+  
+修改 web\WEB-INFO\web.xml:
+  將 <url-pattern>/faces/bpmadmin/*</url-pattern> 加在系統管理權限內
+
+修改 web\jsff\menu.xhtml:
+  在 p:menubar 中加上 <ui:include src="menu_bpm.xhtml"/>
+  
+修改 src\conf\persistence.xml:
+  增加 BPM entities (從persistence_bpm.xml copy/paste, 刪除persistence_bpm.xml)
+
+DB setup: exec db-schema\install_bpm.sql
+
+Deploy & Run:
+-------------
+匯入 process template
+新增流程
+簽核/改派/加簽

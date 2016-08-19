@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplateUpload.xhtml">
+
+    <ui:define name="title"> 更新KPI </ui:define>
+    <ui:define name="content">
+        <p:panel header="Update KPI">
+            <h:form id="form_CRT" prependId="false">
+
+                <h:panelGroup id="createGroup">
+                    <p:messages id="msgCrt"/>
+                    <h:panelGrid columns="2">     
+                        <p:fieldset >
+                            <h:panelGrid columns="2">
+                                <h:outputLabel value="KPI對應公司:" />
+                                <h:panelGroup>
+                                    <h:selectOneMenu  id="companyName" value="#{kpiAdminController.companyName}">
+                                        <p:ajax event="change"
+                                                listener="#{kpiAdminController.kpiCompanyChange()}"
+                                                update="classificationName,kpiTypeId"
+                                                />
+                                        <f:selectItem itemValue="0" itemLabel="#{msgCR['mygui.commonreport.selectitem.selecttype']}"/>
+                                        <f:selectItem itemValue="TCC" itemLabel="台泥"/>
+                                        <f:selectItem itemValue="CSRC" itemLabel="中橡"/>                                     
+                                        <f:selectItem itemValue="TPCC" itemLabel="信昌"/>
+                                        <f:selectItem itemValue="SKNG" itemLabel="景德"/>
+                                        <f:selectItem itemValue="TTSC" itemLabel="台通"/>
+                                        <f:selectItem itemValue="HPPC" itemLabel="和電"/>
+                                        <f:selectItem itemValue="TAHOHO" itemLabel="達環"/>
+                                        <f:selectItem itemValue="TCCI" itemLabel="台訊"/>
+                                    </h:selectOneMenu>
+
+                                    <br/>   
+                                </h:panelGroup>
+                                <h:outputLabel value="KPI對應類別:" />
+                                <h:panelGroup>
+                                    <h:selectOneMenu  id="classificationName" value="#{kpiAdminController.classificationName}">
+                                        <p:ajax event="change"
+                                                listener="#{kpiAdminController.kpiClassificationChange()}"
+                                                update="kpiTypeId"
+                                                />
+                                        <f:selectItem itemValue="0" itemLabel="#{msgCR['mygui.commonreport.selectitem.selecttype']}"/>
+                                        <f:selectItems value="#{kpiAdminController.kpiccList}" 
+                                                       var="kpiType"                                       
+                                                       itemLabel="#{kpiType.classification}"
+                                                       itemValue="#{kpiType.classification}"                                                
+                                                       />
+                                    </h:selectOneMenu>
+                                    <br/>          
+                                </h:panelGroup>
+                                <h:outputLabel value="KPI名稱:"/>
+                                <h:panelGroup>
+                                    <h:selectOneMenu id="kpiTypeId"
+                                                     value="#{kpiAdminController.kpiTypeId}"
+                                                     style="width:300px;"                                            
+                                                     >
+                                        <p:ajax event="change"
+                                                listener="#{kpiAdminController.kpiTypeChange}"
+                                                update="leftUsers,rightUsers,reportFileInfo"/>
+                                        <f:selectItem itemValue="0" itemLabel="#{msgCR['mygui.commonreport.selectitem.selecttype']}"/>
+                                        <f:selectItems value="#{kpiAdminController.myItemsCRT}" 
+                                                       var="kpiType"                                       
+                                                       itemLabel="#{kpiType.kpiName}"
+                                                       itemValue="#{kpiType.id}"                                                
+                                                       />
+                                    </h:selectOneMenu>
+                                    <br/>
+                                    <h:outputText value="#{msgCR['mygui.commonreport.label.typechangenote']}" style="color:red;"/>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                            <ui:include src="/include/inc_selectRecipients.xhtml"/>
+                        </p:fieldset>
+                    </h:panelGrid>
+                </h:panelGroup>     
+
+                <h:panelGroup id="attachment">
+                    <p:fieldset legend="附件" rendered="#{not empty fileUploadController.attachmentVOList}">    
+                        <p:dataTable value="#{fileUploadController.attachmentVOList}" var="row">
+                            <p:column>
+                                <h:commandLink target="downloadFile" immediate="true" value="#{row.fileName}" title="#{row.fileName}">  
+                                    <p:fileDownload value="#{fileUploadController.downloadFile}" />  
+                                </h:commandLink>
+                                <p:commandLink  action="#{fileUploadController.removeAttachmentVO}" 
+                                                update="attachment" ajax="true" immediate="true" >
+                                    <f:setPropertyActionListener target="#{fileUploadController.selectedAttachmentVO}" value="#{row}"/>
+                                    <h:outputText value=" "/>
+                                    <h:outputText value="#{row.size}"/>
+                                    <h:outputText value=" "/>
+                                    <h:outputText value="bytes"/>
+                                    <h:outputText value=" "/>
+                                    <h:graphicImage title="移除"
+                                                    library="images" 
+                                                    name="delete.png"
+                                                    />
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable>
+                    </p:fieldset> 
+                    <p:fieldset legend="檔案清單">
+                        <ui:include src="/include/inc_attachment.xhtml"/>
+                    </p:fieldset>
+                </h:panelGroup> 
+                <p:commandButton value="更新"
+                                 icon="ui-icon-disk"
+                                 action="#{kpiAdminController.updateKpi()}" 
+                                 update="createGroup"
+                                 ajax="false"/>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>  
+
+

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <title><h:outputText value="#{msgApp['app.title']} - "/><ui:insert name="title"/></title>
+    <h:outputStylesheet library="css" name="stylesheet.css"/>
+    <h:outputScript library="js" name="checkIE.js"/>
+    <h:outputScript library="js" name="ajaxCheck.js"/>
+    <h:outputScript library="js" name="pf_locales.js"/>
+    <ui:insert name="head"/>
+</ui:composition>

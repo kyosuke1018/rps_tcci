@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditFileuploadTestTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditFileuploadTestLabel_name}" for="name" />
+                    <h:inputText id="name" value="#{fileUploadTestController.selected.name}" title="#{bundle.EditFileuploadTestTitle_name}" />
+                    <h:outputLabel value="#{bundle.EditFileuploadTestLabel_content}" for="content" />
+                    <h:inputText id="content" value="#{fileUploadTestController.selected.content}" title="#{bundle.EditFileuploadTestTitle_content}" />
+                    <h:outputLabel value="#{bundle.EditFileuploadTestLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{fileUploadTestController.selected.id}" title="#{bundle.EditFileuploadTestTitle_id}" required="true" requiredMessage="#{bundle.EditFileuploadTestRequiredMessage_id}"/>
+                </h:panelGrid>
+                <h:commandLink action="#{fileUploadTestController.update}" value="#{bundle.EditFileuploadTestSaveLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="View" value="#{bundle.EditFileuploadTestViewLink}" immediate="true"/>
+                <br />
+                <h:commandLink action="#{fileUploadTestController.prepareList}" value="#{bundle.EditFileuploadTestShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.EditFileuploadTestIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

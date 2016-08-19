@@ -1,0 +1,37 @@
+# vaultmgmt module
+
+# label, table header
+vaultmgmt.label.backupFile=\u5099\u4efd\u6a94\u6848
+vaultmgmt.label.recycleBin=\u8cc7\u6e90\u56de\u6536\u6876
+
+# fvvault
+fvvault.label.name=\u6a94\u6848\u6ac3\u540d\u7a31
+fvvault.label.hostname=\u4e3b\u6a5f\u540d\u7a31
+fvvault.label.domain=Domain
+fvvault.label.location=\u5be6\u9ad4\u8def\u5f91
+fvvault.label.backupLocation=\u5be6\u9ad4\u5099\u4efd\u8def\u5f91
+fvvault.label.readonly=\u662f\u5426\u552f\u8b80
+fvvault.label.enabled=\u662f\u5426\u555f\u7528
+fvvault.label.url=\u7db2\u5740
+
+# fvitem
+fvitem.label.name=\u6a94\u6848\u540d\u7a31
+fvitem.label.filename=\u5be6\u9ad4\u6a94\u6848\u540d\u7a31
+fvitem.label.filesize=\u6a94\u6848\u5927\u5c0f
+fvitem.label.contenttype=\u6a94\u6848\u985e\u578b
+fvitem.label.domain=Domain
+fvitem.label.creator=\u5efa\u7acb\u8005
+fvitem.label.createtimestamp=\u5efa\u7acb\u6642\u9593
+fvitem.label.confirmRemoveAll=\u78ba\u5b9a\u8981\u6e05\u7a7a\u8cc7\u6e90\u56de\u6536\u6876?
+fvitem.label.confirmRemoveSelected=\u78ba\u5b9a\u8981\u522a\u9664\u9078\u64c7\u7684\u6a94\u6848?
+# fieldset legend
+
+# button
+# fvvault
+fvvault.button.removeUnreferenceFvitem=\u79fb\u9664\u672a\u53c3\u8003\u6a94\u6848
+fvvault.button.removeAllUnreferenceFvitem=\u79fb\u9664\u6240\u6709\u672a\u53c3\u8003\u6a94\u6848
+
+# fvitem
+fvitem.button.removeAll=\u6e05\u7a7a\u8cc7\u6e90\u56de\u6536\u6876
+fvitem.button.removeSelected=\u522a\u9664\u9078\u64c7\u7684\u9805\u76ee
+# error message

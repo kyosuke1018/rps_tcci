@@ -1,0 +1,5 @@
+        <resource-bundle>
+            <description>message for BPM</description>
+            <base-name>msgBpm</base-name>
+            <var>msgBpm</var>
+        </resource-bundle>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <persistence-unit name="Model" transaction-type="JTA">
+        <jta-data-source>jdbc/fcview</jta-data-source>
+        <class>com.tcci.fc.entity.org.TcUser</class>
+        <class>com.tcci.fc.entity.org.TcGroup</class>
+        <class>com.tcci.fc.entity.org.TcUsergroup</class>
+        <class>com.tcci.fc.entity.essential.TcDomain</class>
+        <class>com.tcci.fc.entity.content.TcApplicationdata</class>
+        <class>com.tcci.fc.entity.content.TcFvitem</class>
+        <class>com.tcci.fc.entity.content.TcFvvault</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <!-- JPA logging -->
+            <property name="eclipselink.logging.level" value="WARNING"/>
+            <property name="eclipselink.logging.parameters" value="false"/>
+        </properties>
+    </persistence-unit>
+</persistence>

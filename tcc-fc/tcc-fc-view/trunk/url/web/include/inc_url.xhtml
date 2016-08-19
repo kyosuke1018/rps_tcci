@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <h:panelGroup id="addButtonGroup"
+                  rendered="#{!urlController.readonly}">
+        <p:commandButton icon="ui-icon-plus"
+                         value="#{msgApp['app.button.add']}"
+                         action="#{urlController.add}"
+                         update=":form:urlGroup"
+                         global="false"
+                         />
+        <br/>
+    </h:panelGroup>
+    <h:panelGroup id="urlGroup">
+        <ui:repeat value="#{urlController.items}"
+                   var="urldata">
+            <h:outputLink value="#{urlController.getUrl(urldata.url)}"
+                          target="_new"
+                          rendered="#{urlController.readonly}">
+                #{urldata.description}
+            </h:outputLink>
+            <p:inputText id="url" 
+                         size="50"
+                         value="#{urldata.url}"
+                         title="#{msgApp['app.label.url']}"
+                         rendered="#{!urlController.readonly}"
+                         />
+            <p:watermark value="#{msgApp['app.label.url']}" for="url"/>
+            <p:inputText id="description"
+                         size="30"
+                         value="#{urldata.description}"
+                         title="#{msgApp['app.label.description']}"
+                         rendered="#{!urlController.readonly}"
+                         />
+            <p:watermark value="#{msgApp['app.label.description']}" for="description"/>
+
+            <!--            標準刪除按鈕
+                            <p:commandButton icon="ui-icon-trash"
+                                             action="#{urlController.remove(urldata)}"
+                                             update=":form:urlGroup"
+                                             rendered="#{!urlController.readonly}"/>
+            -->
+            <p:spacer width="5"/>
+            <p:commandLink action="#{urlController.remove(urldata)}"
+                           process="@this"
+                           global="false"
+                           update=":form:urlGroup"
+                           rendered="#{!urlController.readonly}">
+                <h:graphicImage title="#{msgApp['app.button.remove']}"
+                                library="images" 
+                                name="delete.png"
+                                />
+            </p:commandLink>
+            <br/>
+        </ui:repeat>
+    </h:panelGroup>
+</ui:composition>

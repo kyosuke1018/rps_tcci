@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:panelGroup id="compDept">
+        <h:panelGrid columns="2" columnClasses="folder_c1, folder_c2">
+            <h:outputText value="#{msgOrgmgmt['orgmgmt.label.currentpath']}:"/>
+            <h:panelGroup>
+                <p:commandLink action="#{orgManagement.gotoNode(null)}"
+                               update=":form:compDept :form:listEmployee">
+                    <h:graphicImage library="images"
+                                    name="computer.png"/>
+                    <h:graphicImage library="images"
+                                    name="folder_sep.gif"
+                                    style="padding:0px 4px;"/>
+                </p:commandLink>
+                <ui:repeat value="#{orgManagement.path}" var="node">
+                    <p:commandLink action="#{orgManagement.gotoNode(node)}"
+                                   update=":form:compDept :form:listEmployee">
+                        <h:outputText value="#{orgManagement.showNodeName(node)}"
+                                      styleClass="#{orgManagement.isNodeActive(node) ? '' : 'inactive'}"/>
+                    </p:commandLink>
+                    <h:graphicImage library="images"
+                                    name="folder_sep.gif"
+                                    style="padding:0px 4px;"/>
+                </ui:repeat>
+            </h:panelGroup>
+            <h:outputText value="#{msgOrgmgmt['orgmgmt.label.childrenfolder']}:"/>
+            <h:panelGroup>
+                <ui:repeat value="#{orgManagement.children}" var="child">
+                    <p:commandLink styleClass="childFolder"
+                                   action="#{orgManagement.gotoNode(child)}"
+                                   update=":form:compDept :form:listEmployee">
+                        <h:graphicImage library="images"
+                                        name="folder.png"/>
+                        <h:outputText value=" #{orgManagement.showNodeName(child)}"
+                                      title="#{orgManagement.showNodeName(child)}"
+                                      styleClass="#{orgManagement.isNodeActive(child) ? '' : 'inactive'}"/>
+                    </p:commandLink>
+                </ui:repeat>
+                <h:outputText value="#{msgOrgmgmt['orgmgmt.label.emptyfolder']}" rendered="#{empty orgManagement.children}"/>
+            </h:panelGroup>
+        </h:panelGrid>
+    </h:panelGroup>
+</ui:composition>

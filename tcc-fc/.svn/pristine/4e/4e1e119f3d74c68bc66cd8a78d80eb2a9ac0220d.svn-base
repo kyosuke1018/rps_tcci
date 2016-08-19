@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+     >
+    <f:view contentType="text/html">
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta http-equiv="Pragma" content="no-cache" />  
+            <meta http-equiv="Expires" content="-1" />  
+            <meta http-equiv="Cache-Control" content="no-cache" />
+            <!--<link href="#{request.contextPath}/resources/css/stylesheet.css" rel="stylesheet" type="text/css" />-->
+            <h:outputScript library="js" name="tcc.js"/>
+            <h:outputStylesheet library="css" name="stylesheet.css"/>
+            <title><ui:insert name="title"/></title>
+            <ui:insert name="head"></ui:insert>            
+        </h:head>
+        <h:body onload="checkIE7Plus();" >            
+             <div class="page">
+                 <table border="0px" width="100%" >
+                     <tr><td width="100%" align="left" >              
+                         
+                                <ui:include src="../jsff/pageHeader.xhtml"/>                        
+                           
+                        </td></tr>           
+                       <div class="content">
+                        <table border="0px" width="100%">
+                            <tr><td width="100%">
+                                    <ui:insert name="content"/>
+                                </td></tr>
+                        </table>                 
+                       </div>
+                </table>               
+                    <ui:include src="../jsff/pageFooter.xhtml"/>   
+             </div>
+        </h:body>
+    </f:view>
+</html>

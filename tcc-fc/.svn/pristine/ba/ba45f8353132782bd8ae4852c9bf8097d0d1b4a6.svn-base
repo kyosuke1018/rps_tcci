@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTreeTemplate.xhtml">
+    <ui:define name="title">
+        Document List
+    </ui:define>
+    <ui:define name="main">  
+        <h:form id="form">
+            <p:panel id="listTable" header="#{folderTreeController.selectedFolder.name}" rendered="#{not empty folderTreeController.selectedFolder}">   
+                <p:commandButton oncomplete="PF('createFolderDlg').show();" 
+                                 value="Create Sub Folder"
+                                 actionListener="#{folderController.prepareCreateFolder}"
+                                 update=":createForm"/>
+                <p:commandButton action="#{folderController.deleteFolder}" update=":message :folderForm:folderTree :form:listTable" value="Delete Folder"/>
+                <p:spacer width="50"/>
+                <p:button value="Create Document" outcome="editDocument.xhtml"/>
+                <hr/>
+                <p:dataTable var="foldered" value="#{listDocumentController.folderedList}"  
+                             paginator="true" rows="10"  
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                             rowsPerPageTemplate="5,10,15"
+                             paginatorPosition="bottom" > 
+                    <p:column sortBy="#{foldered.displayIdentifier}">  
+                        <f:facet name="header">  
+                            <h:outputText value="Name" />  
+                        </f:facet>  
+                        <h:outputLink value="editDocument.xhtml?oid=#{foldered}" rendered="#{listDocumentController.isDocument(foldered)}">
+                            <h:outputText value="#{foldered.displayIdentifier}"/>
+                        </h:outputLink>    
+                        <h:outputLink value="listDocument.xhtml?foid=#{foldered}" rendered="#{not listDocumentController.isDocument(foldered)}">
+                            <h:outputText value="#{foldered.displayIdentifier}"/>
+                        </h:outputLink>                            
+                    </p:column>            
+
+                    <p:column sortBy="#{foldered.creator.loginAccount}"
+                              headerText="Creator">  
+                        <h:outputText value="#{foldered.creator.loginAccount}" />  
+                    </p:column>    
+                    
+                    <p:column sortBy="#{foldered.createtimestamp}"
+                              style="text-align: center;"
+                              headerText="Created Time">  
+                        <h:outputText value="#{foldered.createtimestamp}">  
+                            <f:convertDateTime pattern="#{msgApp['DateFormat']}" />
+                        </h:outputText>    
+                    </p:column>             
+                    
+                    <p:column sortBy="#{foldered.modifier}"
+                              headerText="Modifier">
+                        <h:outputText value="#{foldered.modifier.displayIdentifier}"/>
+                    </p:column>
+                    
+                    <p:column sortBy="#{foldered.modifytimestamp}"
+                              headerText="Last Modify Time"
+                              style="text-align: center;">  
+                        <h:outputText value="#{foldered.createtimestamp}">  
+                            <f:convertDateTime pattern="#{msgApp['DateFormat']}" />
+                        </h:outputText>    
+                    </p:column>                        
+                </p:dataTable>    
+            </p:panel>
+        </h:form>
+    </ui:define>    
+</ui:composition>
+

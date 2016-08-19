@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{bpmProcessView.pageTitle}</ui:define>
+    <ui:define name="content">
+        <style type="text/css">
+            span.ballot {color:#2e6e9e;}
+        </style>
+        <p:panel header="#{bpmProcessView.pageTitle}">
+            <h:form id="form" prependId="false">
+                <p:dataTable value="#{bpmProcessView.activities}"
+                             var="row"
+                             paginator="false"
+                             tableStyle="table-layout: auto;">
+                    <p:column headerText="#{msgBpm['label.activityname']}">
+                        <h:outputText value="#{row.activity.activityname}"/>
+                    </p:column>
+                    <p:column headerText="#{msgBpm['label.approver']}" style="white-space:normal;">
+                        <ui:repeat value="#{row.owner}" var="user" varStatus="varStatus">
+                            <h:outputText value="#{user.cname}"/>
+                            <h:outputText value=", " rendered="#{not varStatus.last}"/>
+                        </ui:repeat>
+                    </p:column>
+                    <p:column headerText="#{msgBpm['label.workitemstate']}">
+                        <h:outputText value="#{bpmViewHelper.i18nState(row.executionstate)}"/>
+                    </p:column>
+                    <p:column headerText="#{msgBpm['label.starttimestamp']}">
+                        <h:outputText value="#{row.activity.starttimestamp}" rendered="#{empty row.workitem}">
+                            <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                        </h:outputText>
+                        <h:outputText value="#{row.workitem.starttimestamp}" rendered="#{not empty row.workitem}">
+                            <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msgBpm['label.endtimestamp']}">
+                        <h:outputText value="#{row.activity.endtimestamp}" rendered="#{empty row.workitem}">
+                            <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                        </h:outputText>
+                        <h:outputText value="#{row.workitem.endtimestamp}" rendered="#{not empty row.workitem}">
+                            <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msgBpm['label.comments']}" style="white-space:normal;">
+                        <ui:repeat value="#{row.workitem.tcSignatureCollection}" var="sign" varStatus="varStatus">
+                            <h:outputText value="#{sign.createtimestamp}">
+                                <f:convertDateTime pattern="MM/dd HH:mm"/>
+                            </h:outputText> [<h:outputText value="#{bpmViewHelper.i18nBallot(sign.ballot)}" styleClass="ballot"/>]
+                            <h:outputText value="#{sign.comments}" escape="false"/>
+                            <h:panelGroup rendered="#{not varStatus.last}"><br/></h:panelGroup>
+                        </ui:repeat>
+                    </p:column>
+                    <p:column headerText="#{msgApp['app.label.action']}">
+                        <h:panelGroup rendered="#{bpmProcessView.process.executionstate eq 'RUNNING'}">
+                            <p:commandLink action="#{bpmProcessView.startActivity(row)}"
+                                           onstart="return confirm('確認要啟動activity嗎?')"
+                                           update=":form"
+                                           rendered="#{not (row.activity.executionstate eq 'RUNNING' or row.activity.executionstate eq 'WAITING')}">
+                                <h:graphicImage title="啟動activity"
+                                                library="images"
+                                                name="play.png"/>
+                            </p:commandLink>
+                            <p:commandLink action="#{bpmProcessView.terminateActivity(row)}"
+                                           onstart="return confirm('確認要停止activity嗎?')"
+                                           update=":form"
+                                           rendered="#{row.activity.executionstate eq 'RUNNING' or row.activity.executionstate eq 'WAITING'}">
+                                <h:graphicImage title="停止activity"
+                                                library="images"
+                                                name="stop.png"/>
+                            </p:commandLink>
+                            <h:panelGroup rendered="#{row.activity.activitytype eq 'TASK'}">
+                                <p:commandLink action="#{bpmProcessView.editRoleUsers(row)}"
+                                               update=":formRoleUsersEdit:roleUsersContent"
+                                               oncomplete="roleUsersDlg.show();"
+                                               global="off">
+                                    <h:graphicImage title="#{msgApp['app.button.edit']}" library="images" name="group_edit.png"/>
+                                </p:commandLink>
+                                <p:commandLink action="#{bpmProcessView.removeRoleUsers(row)}"
+                                               onstart="return confirm('確認要移除簽核人?');"
+                                               update=":form"
+                                               global="off">
+                                    <h:graphicImage title="#{msgApp['app.button.remove']}" library="images" name="group_delete.png"/>
+                                </p:commandLink>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </p:column>
+                </p:dataTable>
+                <h:panelGrid columns="2" rendered="#{bpmProcessView.process.executionstate eq 'TERMINATED'}">
+                    <h:outputLabel value="#{msgBpm['label.terminatereason']}:"/>
+                    <h:outputText value="#{bpmProcessView.process.terminateReason}"/>
+                    <h:outputLabel value="#{msgBpm['label.endtimestamp']}:"/>
+                    <h:outputText value="#{bpmProcessView.process.endtimestamp}">
+                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                    </h:outputText>
+                    <h:outputLabel value="#{msgBpm['label.terminator']}:"/>
+                    <h:outputText value="#{bpmProcessView.process.terminator.cname}"/>
+                </h:panelGrid>
+            </h:form>
+        </p:panel>            
+        <ui:include src="inc_roleUsersDlg.xhtml">
+            <ui:param name="okupdate" value=":form"/>
+        </ui:include>
+    </ui:define>
+</ui:composition>

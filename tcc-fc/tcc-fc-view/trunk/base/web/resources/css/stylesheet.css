@@ -1,0 +1,108 @@
+@charset "UTF-8";
+
+/* main layout */
+body {
+    font-size: 12px;
+    font-family: "微軟正黑體", "Microsoft JhengHei", "新細明體", PMingLiU, arial, sans-serif;
+    line-height: 1.5em;
+    background: white;
+}
+
+.page { /* page */
+    width: 95%;
+    min-width:960px;
+    margin:0 auto;
+    padding:4px 10px 4px 10px;
+    font-size: 1em;
+}
+
+.header {
+    margin-bottom: 2px;
+}
+
+.content {
+    width: 100%
+}
+
+.footer {
+    text-align: center;
+    margin-top: 1em;
+}
+
+/* base component css */
+img {
+    border: none;
+}
+
+/*label {color:brown;}*/
+
+label.required {
+    background:url(data:image/gif;base64,R0lGODlhBwAHAKIGAP8AAP8zM/p/f/+Zmfyvr//MzP///wAAACH5BAEAAAYALAAAAAAHAAcAAAMZaFarJqAAoWSI5oINQiFXQDADQABDlQ5MAgA7) center right no-repeat;
+    padding-right:12px;
+}
+
+a.external {
+    color:#004276;
+    background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAFZJREFUeF59z4EJADEIQ1F36k7u5E7ZKXeUQPACJ3wK7UNokVxVk9kHnQH7bY9hbDyDhNXgjpRLqFlo4M2GgfyJHhjq8V4agfrgPQX3JtJQGbofmCHgA/nAKks+JAjFAAAAAElFTkSuQmCC) center left no-repeat;
+    padding-left:12px;
+}
+
+a, .ui-widget-content a {
+    color: #005790;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #5d4370;
+}
+
+a:hover {
+    color: #f90;
+    text-decoration: underline;
+}
+
+a img {
+    vertical-align: middle;
+    padding-right: 2px;
+}
+
+/* custom css */
+.sysname {
+    font-size: 2.0em;
+    font-weight: bold;
+    padding-bottom: 2px;
+}
+
+.userError {
+    padding: 30px 0;
+    color: red;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* primefaces css overwrite */
+.ui-widget, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+    font-family: "微軟正黑體", "Microsoft JhengHei", "新細明體", PMingLiU, arial, sans-serif;
+}
+
+.ui-button-text {
+    color: #936;
+}
+
+.ui-datatable-odd {
+    background: none repeat scroll 0 0 #F2F5F9;
+}
+
+.ui-fieldset .ui-fieldset-legend {
+    border: none;
+    background: inherit;
+}
+
+.ui-menuitem-text {
+    color: #005790;
+}
+
+.ui-menu-list {
+    margin-top: -1px !important;
+}

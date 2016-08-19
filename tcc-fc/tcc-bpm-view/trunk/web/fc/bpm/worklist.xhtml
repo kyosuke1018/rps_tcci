@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:tcci="http://java.sun.com/jsf/composite/tcci"
+                template="/templates/generalPageTemplate.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="title">
+        Worklist
+    </ui:define>
+    <ui:define name="content">
+        <f:loadBundle basename="bpm_messages" var="msg"/>        
+        <h:form prependId="false">
+            <h:panelGrid rendered="#{worklistController.sysTypeLength > 0}">
+                <h:panelGroup>
+                    <h:outputText value="#{msg['taskmgn.worklist.task_systemid']}"/>:
+                    <h:selectOneMenu value="#{worklistController.sysType}">
+                        <f:ajax render="taskList" event="change" listener="#{worklistController.filterWorklist}"/>
+                        <f:selectItem itemLabel="#{msg['common.all']}" itemValue=""/>
+                        <f:selectItems value="#{worklistController.sysTypes}" var="sysType"
+                                       itemLabel="#{msg[sysType]}" itemValue="#{sysType}"/>
+                    </h:selectOneMenu>
+                </h:panelGroup>
+            </h:panelGrid>
+            <p:spacer height="10"/>
+            <div><p:messages id="actionMsg"/></div>
+
+            <div>
+                <div style="display: inline; width: 50%" align="left">
+                    <p:commandButton value="#{msg['taskmgn.worklist.batch_approve']}"
+                                     image="ui-icon-check"
+                                     onclick="confirmApprove.show()"/>
+                    <p:commandButton value="#{msg['taskmgn.worklist.batch_reject']}"
+                                     image="ui-icon-closethick"
+                                     onclick="confirmReject.show()"/>
+                    <p:commandButton value="#{msg['taskmgn.worklist.batch_reassign']}"
+                                     onclick="queryEmployeeDialog.show()" image="ui-icon-person" />
+                    <p:dialog modal="true" widgetVar="confirmApprove"
+                              showEffect="fade" hideEffect="blind">
+                        <div align="center">
+                            <h:outputText value="#{msg['taskmgn.worklist.approve_confirm_warning']}"/><br/>
+                            <p:spacer height="5" />
+                            <h:outputText value="#{msg['taskmgn.worklist.confirm']}"/><br/>
+                            <p:spacer height="10" />
+                            <p:separator/>
+                            <p:commandButton value="#{msg['common.button.confirm']}" update="taskList actionMsg" oncomplete="confirmApprove.hide()" actionListener="#{worklistController.approveTask}"/>
+                            <p:commandButton value="#{msg['common.button.close']}" oncomplete="confirmApprove.hide()"/>
+                        </div>
+                    </p:dialog>
+                    <p:dialog modal="true" widgetVar="confirmReject"
+                              showEffect="fade" hideEffect="blind">
+                        <div align="center">
+                            <h:outputText value="#{msg['taskmgn.worklist.reject_confirm_warning']}"/><br/>
+                            <p:spacer height="5" />
+                            <h:outputText value="#{msg['taskmgn.worklist.confirm']}"/><br/>
+                            <p:spacer height="10" />
+                            <p:separator/>
+                            <p:commandButton value="#{msg['common.button.confirm']}" update="taskList actionMsg" oncomplete="confirmReject.hide()" actionListener="#{worklistController.rejectTask}"/>
+                            <p:commandButton value="#{msg['common.button.close']}" oncomplete="confirmReject.hide()"/>
+                        </div>
+                    </p:dialog>
+                    <p:dialog modal="true" widgetVar="confirmReassign"
+                              showEffect="fade" hideEffect="blind">
+                        <div align="center">
+                            <h:outputText value="#{msg['taskmgn.worklist.reassign_confirm_warning']}"/><br/>
+                            <p:spacer height="5" />
+                            <h:outputText value="#{msg['taskmgn.worklist.confirm']}"/><br/>
+                            <p:spacer height="10" />
+                            <p:separator/>
+                            <p:commandButton value="#{msg['common.button.confirm']}" update="taskList actionMsg" oncomplete="confirmReassign.hide()" actionListener="#{worklistController.reassignTask}"/>
+                            <p:commandButton value="#{msg['common.button.close']}" oncomplete="confirmReassign.hide()"/>
+                        </div>
+                    </p:dialog>       
+                    <h:inputHidden id="reassignUserId" value="#{worklistController.selectedReassignUserId}"/>                                                                             
+                </div>
+            </div>
+            <p:spacer height="10"/>
+            <div>
+                <p:dataTable id="taskList" var="task" value="#{worklistController.filteredTasks}" selection="#{worklistController.selectedTasks}"
+                             paginator="true" rows="10" paginatorTemplate="{PageLinks}{RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" >
+                    <f:facet name="header"><h:outputText value="#{msg['taskmgn.worklist.worklist']}"/></f:facet>
+                    <p:column selectionMode="multiple" />
+                    <p:column headerText="#{msg['taskmgn.worklist.task_systemid']}" sortBy="#{task.applicationName}" rendered="#{worklistController.sysTypeLength > 0}">
+                        <h:outputText value="#{task.applicationName}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['taskmgn.worklist.form']}">
+                        <h:outputLink target="leaveApp" value="#{task.formURL}">
+                            <h:graphicImage library="images" name="page_view.png" style="border-style: none;"/>
+                            (<h:outputText value="#{task.formId}"/>)
+                        </h:outputLink>
+                    </p:column>
+                    <p:column headerText="#{msg['taskmgn.worklist.activity']}">
+                        <h:outputText value="#{task.taskName}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['taskmgn.worklist.task_name']}">
+                        <h:outputText value="#{task.subject}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['taskmgn.worklist.task_requester']}">
+                        <h:outputText value="#{task.requester}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['taskmgn.worklist.task_process_start']}" sortBy="#{task.processStart}">
+                        <h:outputText value="#{task.processStart}">
+                            <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['taskmgn.worklist.task_process_time']}">
+                        <h:outputText value="#{task.processTimeDisplay}"/>
+                    </p:column>
+                </p:dataTable>
+            </div>
+        </h:form>
+        <ui:include src="/jsff/ajaxStatusDlg.xhtml"/>
+
+        <!--Dialog for Picking Reassigner-->
+
+        <!-- Simple User Picker: BEGIN -->
+        <p:dialog  header="#{msg['taskmgn.worklist.select_assigner']}" modal="true" widgetVar="queryEmployeeDialog"
+                   showEffect="fade" hideEffect="blind">
+            <h:form>
+                <table>
+                    <tr>
+                        <td><h:outputText value="#{msg['taskmgn.worklist.input_employee_id']}"/>:</td>
+                        <td>
+                            <p:inputText id="pickUserId" value="#{worklistController.pickUserId}"/>
+                            <p:spacer width="10"/>
+                            <p:commandButton update="pickUserInfo" title="#{msg['taskmgn.worklist.verify_employee']}" image="ui-icon-check" action="#{worklistController.checkReassigner}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="left"><h:outputText id="pickUserInfo" value="#{worklistController.pickUserInfo}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <p:commandButton update="pickUserId pickUserInfo" value="#{msg['common.button.confirm']}"
+                                             oncomplete="reassign(xhr, status, args);" action="#{worklistController.setReassigner}" />
+                        </td>
+                    </tr>
+                </table>                
+            </h:form>
+        </p:dialog>
+        <!-- Simple User Picker: END -->
+
+        <!-- Auto-complete User Picker: BEGIN -->
+        <!--<tcci:selectEmployeeDialog widgetVar="queryEmployeeDialog"
+                                 callback="reassign"
+                                 width="650"
+                                 height="550"
+                                 hideEffect="clip"
+                                 showEffect="clip"
+                                 displayRows="10" />-->
+        <!-- Auto-complete User Picker: END -->  
+
+        <script type="text/javascript">
+            //<![CDATA[            
+            function reassign(xhr, status, args) {
+                if (typeof args.empCode == 'undefined') {
+                    alert("#{msg['taskmgn.worklist.select_assigner_warn']}");
+                    return;
+                }
+
+                queryEmployeeDialog.hide();
+
+                jQuery('#reassignUserId').val(args.empCode);
+
+                confirmReassign.show();
+            }
+            //]]>
+        </script>
+    </ui:define>
+</ui:composition>

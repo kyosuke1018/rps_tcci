@@ -1,0 +1,141 @@
+/*
+*
+*/
+body {
+    font-size: 12px;
+    line-height: 1.5em;  
+    background: #FFFFFF;
+}
+
+table {
+    font-size: 12px;    
+}
+.page {
+    margin: 0 auto;
+    width: 100%;
+}
+.header {
+    margin: 0 0 0 0;
+    width: 100%
+}
+.content {
+    width: 100%        
+}
+
+.footer {
+    background-color: #FFFFFF;
+    clear: left;
+    color: #82786F;
+    font-size: 11px;
+    text-align: center;
+    width: 100%;
+}
+
+.footer a:link, a:hover, a:visited {
+    color: #82786F;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+a:link, a:hover, a:visited{
+    color: #1A5488;
+    font-size:12px;
+    font-family: Arial,Helvetica,sans-serif;
+    text-decoration: none;
+}
+
+a.visitedlink_gray:visited{
+    color:#AAAAAA;
+    font-size:12px;
+    font-family: Arial,Helvetica,sans-serif;
+    text-decoration: none;
+}
+
+a.visitedlink_gray:hover{   
+    text-decoration: underline;
+}
+
+a.visitedlink_red:visited, a.visitedlink_red:hover, a.visitedlink_red:link{
+    color: red;
+    font-size:12px;
+    font-family: Arial,Helvetica,sans-serif;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a.visitedlink_red:hover{
+    text-decoration: underline;
+}
+
+.label3b {
+    color: #82786F;
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+}
+.systemname {
+    color: #82786F;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 28px;
+    font-weight: normal;
+    line-height: normal;
+    margin: 10px 220px 10px 30px;
+    padding-top: 2px;
+}
+/* theme */
+.ui-state-default a,.ui-state-default a:link, .ui-state-default a:visited {   
+   
+    text-decoration: none;
+}
+
+.ui-widget .ui-widget {
+    font-size: 12px;
+}
+.ui-state-default {
+    font-weight: normal !important;
+}
+.ui-panel{
+    width: 98%; 
+   
+  }
+.ui-widget-header {
+    background: url("../images/background.png") repeat-x scroll 0 0 #FFFFFF;
+    border: 1px solid #E3A1A1;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+  
+  
+.ui-dashboard-column {
+    width: 50%  ;  
+}
+
+.ui-datatable-header {
+    text-align: left;    
+    border: 2px;
+}
+
+.ui-fieldset .ui-fieldset-legend {
+    font-size: 1.1em;
+    padding: 0.5em 1em;
+    border: none;
+    background: inherit;
+}
+
+label.required
+{
+    background-image:url("#{resource['images:required_field.png']}");
+    background-position:right center;
+    background-repeat:no-repeat;
+    padding-right:15px;
+}
+
+img.button
+{
+    cursor: pointer;
+    vertical-align: bottom;
+}

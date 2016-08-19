@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <p:menubar>  
+        <p:submenu label="專案性/資本支出簽或表">
+            <p:menuitem value="新增專案性/資本支出簽或表"  action="#{faDisbursementController.changeReadonly()}" />
+            <p:menuitem value="查詢專案性/資本支出簽或表" action="#{faDisbursementController.changeQuery()}" />
+        </p:submenu>  
+       <p:submenu label="我的表單">
+             <p:menuitem value="我的表單"  url="/faces/forms/disbursementMyQuery.xhtml?status=99" />        
+            <p:menuitem value="我的暫存表單"  url="/faces/forms/disbursementMyQuery.xhtml?status=5" />        
+        </p:submenu> 
+        <p:submenu label="系統管理模組" rendered="#{userSession.isUserInRole('Administrators')}" >
+            <p:menuitem value="變更登入者" url="/faces/usermgmt/switchUser.xhtml" />
+            <p:menuitem value="使用者管理" url="/faces/usermgmt/userManagement.xhtml" />         
+            <p:menuitem value="JPA Cache 管理" url="/faces/cachemgmt/cacheManagement.xhtml" />             
+        </p:submenu>
+    </p:menubar>
+</ui:composition>

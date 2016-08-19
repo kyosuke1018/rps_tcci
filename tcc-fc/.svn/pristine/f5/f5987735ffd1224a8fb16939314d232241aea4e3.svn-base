@@ -1,0 +1,238 @@
+@charset "UTF-8";
+
+/* main layout */
+html, body {
+    font-size: 12px;
+    margin:0;
+    font-family: "微軟正黑體", "新細明體", "simhei", sans-serif, Arial;
+}
+
+#header {
+    width: 100%;
+    height: 100px;
+    min-width: 980px;
+    position: relative;
+    background:#FFFFFF ;
+}
+
+#header .titleBar {
+    width: 100%;
+    height: 37px;
+    margin: 0px;
+    border-collapse: collapse;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    table-layout: fixed;
+}
+
+#header .titleBar .left {
+    width: 100px;
+}
+
+#header .titleBar .middle1 {
+    width: 145px;
+    background:	url("#{resource['images:header_barMiddle.png']}") repeat-x;
+}
+
+#header .titleBar .middle2 {
+    background: url("#{resource['images:header_barMiddle.png']}") repeat-x \0;	/*for IE8*/
+    background: url("#{resource['images:header_reflect.png']}") center top no-repeat,
+        url("#{resource['images:header_barMiddle.png']}") repeat-x;
+}
+
+#header .titleBar .middle3 {
+    width: 200px;
+    padding-right: 10px;
+    background: url("#{resource['images:header_barMiddle.png']}") repeat-x;
+}
+
+#header .titleBar .right {
+    width: 89px;
+    padding-right: 20px;
+    background: url("#{resource['images:header_barRight.png']}") no-repeat;
+}
+
+#header .menuBar {
+    width: 100%;
+    position: absolute;
+    top: 38px;
+    left: 0px;
+}
+
+#header .menuBar .left {
+    width: 150px;
+}
+
+#header .menuBar .menu {
+    padding-left: 120px;
+    padding-right: 20px;
+    color: #3277aa;
+    height: 27px !important;
+    font-size: 14px;
+}
+
+#header .menuBar img {
+    width: 100%;
+    height: 1px;
+}
+
+#header .title {
+    height: 37px;
+    position: absolute;
+    top: 4px;
+    left: 245px;
+    color: #FFFFFF;
+    font-size: 21px;
+    font-weight: bolder;
+    text-shadow: -1px -1px 0px rgba(35, 91, 132, .8);
+}
+
+#header #user {
+    margin-top: -3px;
+    color: #FFFFFF;
+    font-size: 14px;
+    text-align: right;
+    text-shadow: -1px -1px 0px rgba(35, 91, 132, .8);
+}
+
+#header .logoBase {
+    width: 235px;
+    height: 114px;
+    position: absolute;
+    top: 0px;
+    left: 5px;
+    background: url("#{resource['images:header_logoBase.png']}") no-repeat;
+}
+
+#header .logo {
+    width: 64px;
+    height: 60px;
+    position: absolute;
+    top: 10px;
+    left: 78px;
+    background: url("#{resource['images:logo.png']}") no-repeat;
+}
+
+#header .logout {
+    width: 62px;
+    height: 27px;
+    margin-left: 5px;
+    margin-top: -2px;
+    background: url("#{resource['images:logout.png']}") no-repeat;
+}
+
+#header .logout:hover {
+    cursor: pointer;
+    background: url("#{resource['images:logout_hover.gif']}") no-repeat;
+}
+
+#header .logout:active {
+    background: url("#{resource['images:logout_active.png']}") no-repeat;
+}
+
+#header .logout span {
+    width: 62px;
+    height: 27px;
+    display: inline-block;
+    margin: 0px;
+    padding: 6px 0px 0px 10px;
+    color: #6ea7d1;
+    font-size: 11px;
+}
+
+#header .logout span:active {
+    background: url("#{resource['images:logout_active.png']}") no-repeat;
+}
+
+#mainMenu .ui-menu {
+    border: none !important;
+    padding: 0px !important;
+    font-size: 14px !important;
+}
+
+#content {
+    width: 97%;
+    margin-left: 21px;
+    min-width: 941px;
+}
+
+#footer {
+    text-align: center;
+    margin-top: 1em;
+    min-width: 980px;
+}
+
+/* base component css */
+img {
+    border: none;
+}
+
+/*label {color:brown;}*/
+
+label.required {
+    background:url(data:image/gif;base64,R0lGODlhBwAHAKIGAP8AAP8zM/p/f/+Zmfyvr//MzP///wAAACH5BAEAAAYALAAAAAAHAAcAAAMZaFarJqAAoWSI5oINQiFXQDADQABDlQ5MAgA7) center right no-repeat;
+    padding-right:12px;
+}
+
+a.external {
+    color:#004276;
+    background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAFZJREFUeF59z4EJADEIQ1F36k7u5E7ZKXeUQPACJ3wK7UNokVxVk9kHnQH7bY9hbDyDhNXgjpRLqFlo4M2GgfyJHhjq8V4agfrgPQX3JtJQGbofmCHgA/nAKks+JAjFAAAAAElFTkSuQmCC) center left no-repeat;
+    padding-left:12px;
+}
+
+a, .ui-widget-content a {
+    color: #005790;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #5d4370;
+}
+
+a:hover {
+    color: #f90;
+    text-decoration: underline;
+}
+
+a img {
+    vertical-align: middle;
+    padding-right: 2px;
+}
+
+/* custom css */
+.sysname {
+    font-size: 2.0em;
+    font-weight: bold;
+    padding-bottom: 2px;
+}
+
+.userError {
+    padding: 30px 0;
+    color: red;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* primefaces css overwrite */
+.ui-widget, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+    font-family: "微軟正黑體", "Microsoft JhengHei", "新細明體", PMingLiU, arial, sans-serif;
+}
+
+.ui-button-text {
+    color: #936;
+}
+
+.ui-datatable-odd {
+    background: none repeat scroll 0 0 #F2F5F9;
+}
+
+.ui-fieldset .ui-fieldset-legend {
+    border: none;
+    background: inherit;
+}
+
+.ui-menuitem-text {
+    color: #005790;
+}

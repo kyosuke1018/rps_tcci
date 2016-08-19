@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.prime.com.tr/ui"
+                template="/templates/generalPageTreeTemplate.xhtml">
+    <ui:define name="title">
+        Document List
+    </ui:define>
+    <ui:define name="main">  
+        <p:panel id="listTable" header="#{folderTreeController.selectedFolder.name}" rendered="#{not empty folderTreeController.selectedFolder}">   
+            <h:form prependId="false">
+                <p:commandButton onclick="createFolderDlg.show();return false;" value="Create Folder"/>
+                <p:commandButton action="#{folderController.deleteFolder}" update="message folderTree listTable" value="Delete Folder"/>
+                <p:spacer width="50"/>
+                <p:button value="Create Document" outcome="editDocument.xhtml"/>
+                <hr/>
+                <p:dataTable var="foldered" value="#{listDocumentController.folderedList}"  
+                             paginator="true" rows="10"  
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                             rowsPerPageTemplate="5,10,15"
+                             paginatorPosition="bottom" > 
+                    <p:column sortBy="#{foldered.displayIdentifier}">  
+                        <f:facet name="header">  
+                            <h:outputText value="Name" />  
+                        </f:facet>  
+                        <h:outputLink value="editDocument.xhtml?oid=#{foldered}" rendered="#{listDocumentController.isDocument}">
+                            <h:outputText value="#{foldered.displayIdentifier}"/>
+                        </h:outputLink>    
+                        <h:outputLink value="listDocument.xhtml?foid=#{foldered}" rendered="#{not listDocumentController.isDocument}">
+                            <h:outputText value="#{foldered.displayIdentifier}"/>
+                        </h:outputLink>                            
+                    </p:column>                                        
+                    
+                    <p:column sortBy="#{foldered.creator.loginAccount}">  
+                        <f:facet name="header">  
+                            <h:outputText value="Creator" />  
+                        </f:facet>  
+                        <h:outputText value="#{foldered.creator.loginAccount}" />  
+                    </p:column>    
+                    
+                    <p:column sortBy="#{foldered.createtimestamp}">  
+                        <f:facet name="header">  
+                            <h:outputText value="Created Time" />  
+                        </f:facet>  
+                        <h:outputText value="#{foldered.createtimestamp}">  
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </h:outputText>    
+                    </p:column>                        
+                </p:dataTable>    
+            </h:form>
+            <ui:include src="createFolder.xhtml"/>
+        </p:panel>
+    </ui:define>    
+</ui:composition>
+

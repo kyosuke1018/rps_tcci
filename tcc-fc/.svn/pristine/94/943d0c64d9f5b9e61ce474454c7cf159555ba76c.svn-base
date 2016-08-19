@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="dummyform"/> <!-- dummy form to prevent PWC3999 problem -->
+    <table width="100%">
+        <tr>
+            <td width="1%">
+                <h:outputLink value="#{facesContext.externalContext.request.contextPath}">
+                    <h:graphicImage title="#{msgApp['app.title']}"
+                                    library="images"
+                                    name="tcc_logo.jpg"
+                                    width="64" height="64"/>
+                </h:outputLink>
+            </td>
+            <td width="99%">
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <h:outputText value="#{msgApp['app.title']}" styleClass="sysname"/>
+                        </td>
+                        <td style="text-align: right;">
+                            <h:outputText value="#{msgApp['app.label.welcome']}:#{userSession.displayName} | "/>
+                            <h:link value="#{msgApp['app.label.logout']}" outcome="/logoff"/><br/>
+                        </td>
+                    </tr>
+                </table>
+                <ui:include src="menu.xhtml"/>
+            </td>
+        </tr>
+    </table>
+</ui:composition>

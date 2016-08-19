@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{msgApp['app.menu.sysadmin.vaultmgmt']}</ui:define>
+    <ui:define name="content">
+        <h:form id="form" prependId="false">
+            <p:panel>
+                <f:facet name="header">
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                <h:outputText value="#{msgApp['app.menu.sysadmin.vaultmgmt']}"/>    
+                            </td>
+                            <td style="text-align: right;">
+                                <p:commandLink action="#{vaultmgmtController.initRecycleBin}"
+                                               update="recycleBinDialog"
+                                               oncomplete="PF('recycleBinDialogVar').show();"
+                                               >
+                                    <h:graphicImage library="images" name="recycleBin.png"
+                                                    height="18" width="18"
+                                                    title="#{msgVaultmgmt['vaultmgmt.label.recycleBin']}"/>
+                                </p:commandLink>
+                            </td>
+                        </tr>
+                    </table>
+                </f:facet>
+
+
+                <p:commandButton icon="ui-icon-tag"
+                                 value="#{msgVaultmgmt['fvvault.button.removeAllUnreferenceFvitem']}"
+                                 action="#{vaultmgmtController.removeAllUnreferenceFvitem}"/>
+                <p:spacer width="5"/>
+                <p:selectBooleanCheckbox value="#{vaultmgmtController.backupFileFlag}" 
+                                         itemLabel="#{msgVaultmgmt['vaultmgmt.label.backupFile']}"
+                                         style="color: red;"
+                                         />
+                <p:dataTable value="#{vaultmgmtController.items}"
+                             var="item"
+                             rows="10"
+                             paginator="true">
+                    <p:column sortBy="#{item.id}">
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.name}">
+                        <f:facet name="header">#{msgVaultmgmt['fvvault.label.name']}</f:facet>
+                        <h:outputText value="#{item.name}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.hostname}">
+                        <f:facet name="header">#{msgVaultmgmt['fvvault.label.hostname']}</f:facet>
+                        <h:outputText value="#{item.hostname}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.domain.name}">
+                        <f:facet name="header">#{msgVaultmgmt['fvvault.label.domain']}</f:facet>
+                        <h:outputText value="#{item.domain.name}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.location}">
+                        <f:facet name="header">#{msgVaultmgmt['fvvault.label.location']}</f:facet>
+                        <h:outputText value="#{item.location}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.readonly}"
+                              style="text-align: center;">
+                        <f:facet name="header">#{msgVaultmgmt['fvvault.label.readonly']}</f:facet>
+                        <p:selectBooleanCheckbox value="#{item.readonly}"
+                                                 disabled="true"/>
+                    </p:column>
+                    <p:column sortBy="#{item.enabled}"
+                              style="text-align: center;">
+                        <f:facet name="header">#{msgVaultmgmt['fvvault.label.enabled']}</f:facet>
+                        <p:selectBooleanCheckbox value="#{item.enabled}"
+                                                 disabled="true"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">#{msgApp['app.label.action']}</f:facet>
+                        <p:commandButton action="#{vaultmgmtController.removeUnreferenceFvitem(item)}"
+                                         icon="ui-icon-tag"
+                                         title="#{msgVaultmgmt['fvvault.button.removeUnreferenceFvitem']}"
+                                         />
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+            <ui:include src="inc_recycleBinDialog.xhtml"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

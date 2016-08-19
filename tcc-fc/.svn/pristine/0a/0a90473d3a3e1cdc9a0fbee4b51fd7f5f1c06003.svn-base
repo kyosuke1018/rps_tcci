@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTreeTemplate.xhtml">
+    >
+    <ui:define name="title">
+        Document Manager
+    </ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="main">
+        <h:form id="form" enctype="multipart/form-data"> 
+            <h:inputHidden id="listTable"/>
+            <p:panel header="#{folderTreeController.selectedFolder.name}" id="documents" style="width:98%">
+                <p:fieldset legend="#{editDocumentController.action}#{msg.document_document}">
+                    <h:panelGrid columns="2" width="100%">
+                        <h:outputLabel value="#{msg.document_name}:" for="name"/>
+                        <p:inputText id="name" value="#{editDocumentController.document.name}" />
+                        <h:outputLabel value="#{msg.document_description}:" for="description"/>
+                        <p:inputTextarea id="description" cols="40" rows="3" value="#{editDocumentController.document.description}"/>
+                        <h:outputLabel value="#{msg.document_version}:" for="version"  rendered="#{editDocumentController.document.id ne null}"/>
+                        <h:outputLabel id="version" value="#{editDocumentController.document.versionnumber}.#{editDocumentController.document.iterationnumber}"  rendered="#{editDocumentController.document.id ne null}"/>
+                        <h:outputLabel value="#{msg.document_updateVersions}:" for="updateVersions" rendered="#{editDocumentController.document.id ne null}" styleClass="required" />
+                        <p:selectOneRadio id="updateVersions" layout="pageDirection" value="#{editDocumentController.updateVersions}" rendered="#{editDocumentController.document.id ne null}">
+                            <f:selectItem itemValue="0" itemLabel="#{msg.document_updateVersion_none}"  />
+                            <f:selectItem itemValue="1" itemLabel="#{msg.document_updateVersion_iteration}"/>
+                            <f:selectItem itemValue="2" itemLabel="#{msg.document_updateVersion_version}"/>
+                        </p:selectOneRadio>
+                    </h:panelGrid>
+                </p:fieldset>
+                <ui:include src="../include/inc_attachment.xhtml"/>
+                <p:growl id="messages2" showDetail="true"/>              
+                <h:panelGroup>                   
+                    <p:commandButton ajax="false" value="Save" action="#{editDocumentController.editDocument}" update=":message :documents"/>
+                    <p:button value="Go Back" outcome="listDocument.xhtml"/>
+                </h:panelGroup>
+            </p:panel>
+        </h:form>            
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">
+        Document Manager
+    </ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <p:messages showDetail="true" id="message"/>    
+        <p:layout style="min-width:900px;min-height:400px;height:600px" id="layout"> 
+            <p:layoutUnit position="west" resizable="true" size="100" minSize="250" maxSize="350" collapsible="false">   
+                <f:facet name="header">
+                    <h:panelGrid columns="3">
+                        <h:outputText value="Folders"/>
+                        <h:form prependId="false">
+                            <p:commandButton oncomplete="PF('createFolderDlg').show();" 
+                                             value="Create Folder"
+                                             actionListener="#{folderController.prepareCreateRootFolder}"
+                                             update=":createForm">
+                            </p:commandButton>
+                        </h:form>
+                    </h:panelGrid>
+                </f:facet>
+                <h:form id="folderForm" prependId="false">                        
+                    <p:tree value="#{folderTreeController.root}" 
+                            var="node"
+                            cache="false"
+                            selectionMode="single" 
+                            selection="#{folderTreeController.selectedTreeNode}"                          
+                            style="border:0px;width:200px;"
+                            id="folderTree">
+                        <p:ajax event="select" update=":form:listTable" listener="#{folderTreeController.onNodeSelect}" /> 
+                        <p:treeNode expandedIcon="ui-icon ui-icon-folder-open"
+                                    collapsedIcon="ui-icon ui-icon-folder-collapsed">
+                            <h:link outcome="listDocument.xhtml"> 
+                                <h:outputText value="#{node}"/>
+                            </h:link>
+                        </p:treeNode>  
+                    </p:tree>  
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit resizable="true" position="center" id="mainUnit">                
+                <ui:insert name="main">
+                </ui:insert>         
+                <ui:include src="../doc/createFolder.xhtml"/>
+            </p:layoutUnit>
+        </p:layout>    
+    </ui:define>
+</ui:composition>

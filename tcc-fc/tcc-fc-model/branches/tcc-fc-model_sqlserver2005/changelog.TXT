@@ -1,0 +1,8 @@
+Changes on 2012/4/12
+  *) compatible with Oracle, and MSSQL database.
+			  1. replaced @GeneratedValue(generator="SEQ_TCC") 
+			     by @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "SEQ_TCC")
+			  2. remove annotation @NotNull from id attribute for all entities.
+  *) bug fix: CDI compatible
+              1. add @Named to all EJBs
+              2. create META-INF/beans.xml    

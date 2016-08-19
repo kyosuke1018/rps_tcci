@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <div>
+        #{userSession.checkTcUser()}
+        <table border="0" align="left" cellpadding="0" cellspacing="0"> 
+            <tr valign="bottom">
+                <td></td>
+                <td style="vertical-align: middle;padding-bottom: 5px">
+                    <div class="htclogo" id="htclogo" >
+                        <h:outputLink value="#{userSession.getHostURL()}#{facesContext.externalContext.requestContextPath}">
+                            <h:graphicImage  library="images" name="newLogo.png"  style="border:0" />
+                        </h:outputLink>
+                    </div></td>
+                <td style="vertical-align: middle">
+                </td>
+                <td width="100%" id="nav" style="padding-bottom: 5px" align="right" valign="bottom" >                      
+                    <h:outputText styleClass="label3b" value="Welcome !!! #{userSession.userCodeName }" style="font-size: 14px"/>                                    
+
+                    <h:outputLink value="/faportal/faces/logoff.xhtml" style="font-size: 14px">登出</h:outputLink>
+                </td>
+            </tr>
+            <h:form id="menuForm">
+                <tr valign="bottom">
+                    <td></td>
+                    <td colspan="4"> 
+                        <ui:include src="menu.xhtml"/>
+                    </td>
+                    <td></td>
+                    <td rowspan="1" > </td>
+                </tr>
+            </h:form>
+        </table>  
+    </div>
+</ui:composition>
+

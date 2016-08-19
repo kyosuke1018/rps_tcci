@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+
+    <ui:define name="title">檔案上傳</ui:define>
+    <ui:define name="content">
+        <p:panel header="檔案上傳測試">
+            <h:form id="fileUploadForm" prependId="false">
+                    <p:messages id="msg"/>
+                    
+                     <h:outputLabel value="TestName"/>            
+                                <p:spacer width="10px"/>
+                                <p:inputText value="#{fileuploadtest.current.name}"                                   
+                                             />
+                                <p:spacer width="10px"/>
+                                <p:inputText value="#{fileuploadtest.current.content}"                                   
+                                             />
+                    
+                    <h:panelGroup id="uploadArea">        
+                        <p:fieldset legend="上載附件">        
+                            <p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}"
+                                          multiple="true"                          
+                                          auto="true"
+                                          update="@this :fileUploadForm:attachment">
+                            </p:fileUpload>  
+                        </p:fieldset>                     
+                    </h:panelGroup>
+
+                    <h:panelGroup id="attachment">
+                        <p:fieldset legend="附件" rendered="#{not empty fileUploadController.attachmentVOList}">    
+                            <p:dataTable value="#{fileUploadController.attachmentVOList}" var="row">
+                                <p:column>
+                                    <h:commandLink target="downloadFile" immediate="true" value="#{row.fileName}" title="#{row.fileName}">  
+                                        <p:fileDownload value="#{fileUploadController.downloadFile}" />  
+                                    </h:commandLink>
+                                    <p:commandLink  action="#{fileUploadController.removeAttachmentVO}" 
+                                                    update="@this" ajax="true" immediate="true" >
+                                        <f:setPropertyActionListener target="#{fileUploadController.selectedAttachmentVO}" value="#{row}"/>
+                                        <h:outputText value=" "/>
+                                        <h:outputText value="#{row.size}"/>
+                                        <h:outputText value=" "/>
+                                        <h:outputText value="bytes"/>
+                                        <h:outputText value=" "/>
+                                        <h:graphicImage title="移除"
+                                                        library="images" 
+                                                        name="delete.png"
+                                                        />
+                                    </p:commandLink>
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:fieldset> 
+                    </h:panelGroup>                  
+
+                    <p:commandButton value="新增"
+                                     icon="ui-icon-disk"
+                                     action="#{fileuploadtest.upload()}" 
+                                     update="createGroup"
+                                     ajax="false"/>
+
+            </h:form>
+        </p:panel>
+
+    </ui:define>
+</ui:composition>  
+
+

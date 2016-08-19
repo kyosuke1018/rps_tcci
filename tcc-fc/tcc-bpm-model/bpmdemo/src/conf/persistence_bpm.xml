@@ -1,0 +1,15 @@
+        <!-- tcc-bpm-model {{ -->
+        <class>com.tcci.fc.entity.bpm.TcActivity</class>
+        <class>com.tcci.fc.entity.bpm.TcActivityroute</class>
+        <class>com.tcci.fc.entity.bpm.TcActivityroutetemplate</class>
+        <class>com.tcci.fc.entity.bpm.TcActivitytemplate</class>
+        <class>com.tcci.fc.entity.bpm.TcProcess</class>
+        <class>com.tcci.fc.entity.bpm.TcProcesstemplate</class>
+        <class>com.tcci.fc.entity.bpm.TcSignature</class>
+        <class>com.tcci.fc.entity.bpm.TcVariable</class>
+        <class>com.tcci.fc.entity.bpm.TcWorkitem</class>
+        <class>com.tcci.fc.entity.role.TcRole</class>
+        <class>com.tcci.fc.entity.role.TcRoleholderrolemap</class>
+        <class>com.tcci.fc.entity.role.TcRoleprincipallink</class>
+        <class>com.tcci.fc.entity.team.TcTeam</class>
+        <!-- }} -->

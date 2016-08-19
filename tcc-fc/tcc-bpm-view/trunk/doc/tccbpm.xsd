@@ -1,0 +1,50 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+            jxb:version="2.0">
+	  <!--Type definition-->
+  <xsd:simpleType name="activityTypeEnum">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="START" />
+      <xsd:enumeration value="END" />
+      <xsd:enumeration value="TASK" />
+	  <xsd:enumeration value="AND_GATE" />
+      <xsd:enumeration value="OR_GATE" />
+      <xsd:enumeration value="OPTION" />
+      <xsd:enumeration value="EXPRESSION_ROBOT" />
+	  <xsd:enumeration value="SETSTATE_ROBOT" />
+	  <xsd:enumeration value="GROUND" />
+	  <xsd:enumeration value="CONDITION" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:element name="activitytemplate">
+    <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element name="activityname" type="xsd:string"/>
+	  <xsd:element name="activitytype" type="activityTypeEnum"/>
+      <xsd:element name="rolename" type="xsd:string"/>	  
+	  <xsd:element name="duration" type="xsd:int"/>
+	  <xsd:element name="expression" type="xsd:string"/>
+    </xsd:sequence>
+	</xsd:complexType>
+  </xsd:element>
+  <xsd:element name="activityroutetemplate">
+    <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element name="routename" type="xsd:string"/>
+	  <xsd:element name="fromactivity" type="xsd:string"/>
+	  <xsd:element name="toactivity" type="xsd:string"/>
+    </xsd:sequence>
+	</xsd:complexType>
+  </xsd:element>  
+  <xsd:element name="processtemplate">
+    <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element name="processname" type="xsd:string"/>
+      <xsd:element name="processversion" type="xsd:string"/>
+	  <xsd:element ref="activitytemplate" maxOccurs="unbounded"/>
+	  <xsd:element ref="activityroutetemplate" maxOccurs="unbounded"/>
+    </xsd:sequence>
+	</xsd:complexType>
+  </xsd:element>
+</xsd:schema>

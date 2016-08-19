@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.prime.com.tr/ui"
+                template="/templates/generalPageTreeTemplate.xhtml">
+    <ui:define name="title">
+        Document Manager
+    </ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="main">
+        <p:fieldset legend="Document properties">
+            <h:form prependId="false" enctype="multipart/form-data">
+                <p:messages/>
+            <h:panelGrid columns="1" width="100%">
+                <h:panelGroup>
+                    <h:outputLabel value="Name:"/>
+                    <h:outputText value="#{viewDocumentController.document.name}" />
+                </h:panelGroup>
+                <h:panelGroup>
+                    <h:outputLabel value="Description:"/>
+                    <p:inputTextarea readonly="true" cols="40" rows="3" value="#{viewDocumentController.document.description}"/>
+                </h:panelGroup>
+                <h:panelGroup id="attachmentsGroup" >
+                    <p:dataTable id="attachmentsTable" value="#{viewDocumentController.applicationDataList}" var="row">
+                        <p:column >
+                            <h:commandLink immediate="true" value="#{row.fvitem.filename}" title="Download">  
+                                <p:fileDownload value="#{viewDocumentController.downloadFile}" />
+                            </h:commandLink >
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
+            </h:panelGrid>
+            </h:form>
+        </p:fieldset>
+    </ui:define>
+</ui:composition>

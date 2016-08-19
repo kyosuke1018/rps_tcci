@@ -1,0 +1,33 @@
+模組功能:
+---------
+* 在load balance環境下AP的排程，同一時間僅一台AP會執行。
+* 可控制是否要執行排程(在資料庫設定)
+
+安裝步驟: 
+---------
+copy schedule\* to project\
+
+DB setup: exec db-schema\tc_schedule.sql
+# 自行加上排程名稱於資料庫中
+# ex: INSERT INTO TC_SCHEDULE (NAME) VALUES ('CommonReportNotify');
+
+修改在原始的排程facade, sample如下:
+@EJB
+private TcScheduleFacade scheduleFacade;
+
+@Schedule(hour = "12,16")
+public void notifyBatchSchedule() {
+	try {
+		// 30分內不要再執行
+		if (scheduleFacade.canExecute("CommonReportNotify", 30)) {
+			notifyBatch();
+		} else {
+			logger.warn("notifyBatchSchedule not execute");
+		}
+	} catch (Exception ex) {
+		logger.error("notifyBatchSchedule exception", ex);
+	}
+}
+
+停止(啟用)排程: 修改 TC_SCHEDULE.ACTIVE欄位(0:停止, 1:啟用)
+

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dataTable value="#{bpmTemplateEdit.routeList}"
+                 var="route"
+                 rows="10"
+                 paginator="true"
+                 paginatorPosition="bottom"
+                 rowStyleClass="#{route.valid ? '' : 'ui-state-error'}"
+                 tableStyle="table-layout: auto;">
+        <p:column headerText="ROW#">
+            <h:outputText value="#{route.rowIndex}"/>
+        </p:column>
+        <p:column headerText="FROMACTIVITY">
+            <h:outputText value="#{route.fromactivity}"/>
+        </p:column>
+        <p:column headerText="ROUTENAME">
+            <h:outputText value="#{route.routename}"/>
+        </p:column>
+        <p:column headerText="TOACTIVITY">
+            <h:outputText value="#{route.toactivity}"/>
+        </p:column>
+        <p:column headerText="NOTE">
+            <h:outputText value="#{route.message}"/>
+        </p:column>
+    </p:dataTable>
+    <h:outputText value="#{bpmTemplateEdit.routeMsgs}"
+                  style="color: red;white-space: pre;"/>
+</ui:composition>

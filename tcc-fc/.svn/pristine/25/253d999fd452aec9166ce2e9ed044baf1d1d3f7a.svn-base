@@ -1,0 +1,91 @@
+annotation.processing.enabled=true
+annotation.processing.enabled.in.editor=false
+annotation.processing.processor.options=-Aeclipselink.canonicalmodel.use_static_factory=false
+annotation.processing.run.all.processors=true
+annotation.processing.source.output=${build.generated.sources.dir}/ap-source-output
+application.title=tcc-bpm-model
+application.vendor=wayne
+build.classes.dir=${build.dir}/classes
+build.classes.excludes=**/*.java,**/*.form
+# This directory is removed when the project is cleaned:
+build.dir=build
+build.generated.dir=${build.dir}/generated
+build.generated.sources.dir=${build.dir}/generated-sources
+# Only compile against the classpath explicitly listed here:
+build.sysclasspath=ignore
+build.test.classes.dir=${build.dir}/test/classes
+build.test.results.dir=${build.dir}/test/results
+# Uncomment to specify the preferred debugger connection transport:
+#debug.transport=dt_socket
+debug.classpath=\
+    ${run.classpath}
+debug.test.classpath=\
+    ${run.test.classpath}
+# This directory is removed when the project is cleaned:
+dist.dir=dist
+dist.jar=${dist.dir}/tcc-bpm-model.jar
+dist.javadoc.dir=${dist.dir}/javadoc
+endorsed.classpath=
+excludes=
+file.reference.commons-lang-2.2.jar=lib/commons-lang-2.2.jar
+file.reference.gson-1.2.2.jar=lib/gson-1.2.2.jar
+file.reference.javassist.jar=lib/javassist.jar
+file.reference.velocity-1.7.jar=lib/velocity-1.7.jar
+file.reference.velocity-tools-generic-2.0.jar=lib/velocity-tools-generic-2.0.jar
+file.reference.workflowRsClient.jar=lib/workflowRsClient.jar
+includes=**
+jar.compress=false
+javac.classpath=\
+    ${libs.eclipselink.classpath}:\
+    ${libs.javaee-api-6.0.classpath}:\
+    ${file.reference.javassist.jar}:\
+    ${reference.tcc-fc-model.jar}:\
+    ${file.reference.velocity-1.7.jar}:\
+    ${file.reference.velocity-tools-generic-2.0.jar}:\
+    ${file.reference.commons-lang-2.2.jar}:\
+    ${file.reference.gson-1.2.2.jar}:\
+    ${file.reference.workflowRsClient.jar}
+# Space-separated list of extra javac options
+javac.compilerargs=
+javac.deprecation=false
+javac.processorpath=\
+    ${javac.classpath}:\
+    ${libs.eclipselinkmodelgen.classpath}
+javac.source=1.6
+javac.target=1.6
+javac.test.classpath=\
+    ${javac.classpath}:\
+    ${build.classes.dir}
+javac.test.processorpath=\
+    ${javac.test.classpath}
+javadoc.additionalparam=
+javadoc.author=false
+javadoc.encoding=${source.encoding}
+javadoc.noindex=false
+javadoc.nonavbar=false
+javadoc.notree=false
+javadoc.private=false
+javadoc.splitindex=true
+javadoc.use=true
+javadoc.version=false
+javadoc.windowtitle=
+main.class=
+manifest.file=manifest.mf
+meta.inf.dir=${src.dir}/META-INF
+mkdist.disabled=false
+platform.active=default_platform
+project.tcc-fc-model=../../tcc-fc-model
+reference.tcc-fc-model.jar=${project.tcc-fc-model}/dist/tcc-fc-model.jar
+run.classpath=\
+    ${javac.classpath}:\
+    ${build.classes.dir}
+# Space-separated list of JVM arguments used when running the project
+# (you may also define separate properties like run-sys-prop.name=value instead of -Dname=value
+# or test-sys-prop.name=value to set system properties for unit tests):
+run.jvmargs=
+run.test.classpath=\
+    ${javac.test.classpath}:\
+    ${build.test.classes.dir}
+source.encoding=UTF-8
+src.dir=src
+test.src.dir=test

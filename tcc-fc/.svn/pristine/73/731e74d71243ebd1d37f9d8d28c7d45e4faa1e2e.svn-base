@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="findbugs" basedir=".">
+    <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask"/>
+    <!-- <property name="findbugs.home" value="D:/OpenSourceAP/findbugs-2.0.1"/> -->
+    <target name="findbugs">
+        <findbugs home="${findbugs.home}"
+                  output="xml"
+                  outputFile="build/findbugs.xml"
+                  excludefilter="findbugsFilter.xml">
+            <sourcePath path="${basedir}/src/java" />
+            <class location="${basedir}/build/classes"/>
+        </findbugs>
+    </target>
+</project>

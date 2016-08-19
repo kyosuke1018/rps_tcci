@@ -1,0 +1,15 @@
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+
+document_updateVersions=\u66f4\u65b0\u7248\u672c\u65b9\u5f0f
+document_updateVersion_none=\u4e0d\u66f4\u65b0\u7248\u672c\u7248\u5e8f
+document_updateVersion_iteration=\u66f4\u65b0\u7248\u5e8f
+document_updateVersion_version=\u66f4\u65b0\u7248\u672c
+document_name=\u540d\u7a31
+document_description=\u63cf\u8ff0
+document_version=\u7248\u672c
+document_create=\u5efa\u7acb
+document_update=\u4fee\u6539
+document_document=\u6587\u4ef6
+
+folder_nameIsRequired=\u8acb\u8f38\u5165\u8cc7\u6599\u593e\u540d\u7a31!

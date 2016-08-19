@@ -1,0 +1,34 @@
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+
+# orgmgmt module
+orgmgmt.title=\u7d44\u7e54\u7ba1\u7406
+orgmgmt.title.companyimport=\u532f\u5165\u516c\u53f8
+orgmgmt.title.departmentimport=\u532f\u5165\u90e8\u9580
+orgmgmt.title.employeeimport=\u532f\u5165\u54e1\u5de5
+
+# label, table header
+orgmgmt.label.currentpath=\u76ee\u524d\u8def\u5f91
+orgmgmt.label.childrenfolder=\u5b50\u8cc7\u6599\u593e
+orgmgmt.label.emptyfolder=\u7121\u8cc7\u6599\u593e
+orgmgmt.label.company=\u516c\u53f8
+orgmgmt.label.companycode=\u516c\u53f8\u4ee3\u78bc
+orgmgmt.label.department=\u5ee0/\u90e8\u9580
+orgmgmt.label.departmentcode=\u90e8\u9580\u4ee3\u78bc
+orgmgmt.label.departmentparentcode=\u4e0a\u5c64\u90e8\u9580\u4ee3\u78bc
+orgmgmt.label.employee=\u54e1\u5de5
+orgmgmt.label.employeecode=\u54e1\u5de5\u7de8\u865f
+orgmgmt.label.email=\u96fb\u5b50\u4fe1\u7bb1
+orgmgmt.label.adaccount=\u5e33\u865f
+orgmgmt.label.activation=\u555f\u7528
+orgmgmt.label.message=\u8a0a\u606f
+orgmgmt.label.employeenamefilter=\u641c\u5c0b\u54e1\u5de5
+orgmgmt.label.employeenamefilter.tip=\u8f38\u5165\u54e1\u5de5\u59d3\u540d\u3001\u5e33\u865f\u3001\u5de5\u865f\u6216email
+
+# fieldset legend
+orgmgmt.fieldset.employeelist=\u54e1\u5de5\u6e05\u55ae (\u542b\u5b50\u8cc7\u6599\u593e)
+orgmgmt.fieldset.importresult=\u532f\u5165\u7d50\u679c
+
+# button
+
+# error message

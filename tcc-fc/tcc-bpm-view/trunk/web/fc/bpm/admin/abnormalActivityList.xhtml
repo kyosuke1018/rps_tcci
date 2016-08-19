@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:tcci="http://java.sun.com/jsf/composite/tcci"
+                template="/templates/generalPageTemplate.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="title">
+        Worklist Management
+    </ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+    <f:loadBundle basename="bpm_messages" var="msg"/>        
+        <h:form prependId="false">
+            <p:fieldset legend="${msg['common.query_criteria_setting']}">
+                <table border="0">
+                    <tr>
+                        <td><h:outputText value="#{msg['taskmgn.abnormaltaskmgn.process_def_id']}"/>:</td>
+                        <td>
+                            <p:inputText id="processDefId" value="#{abnormalActivityMgnController.processDefId}" size="15"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h:outputText value="#{msg['taskmgn.abnormaltaskmgn.form_id']}"/>:</td>
+                        <td>
+                            <p:inputText id="formId" value="#{abnormalActivityMgnController.formId}" size="15"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h:outputText value="#{msg['taskmgn.abnormaltaskmgn.create_date']}"/>:</td>
+                        <td>
+                            <p:calendar id="createBegin" value="#{abnormalActivityMgnController.createDateBegin}" size="12" maxlength="10" navigator="true"
+                                        readOnlyInputText="false" mindate="2000/01/01" maxdate="2200/12/31" pattern="yyyy/MM/dd" effect="slideDown"
+                                        converterMessage="#{msg['taskmgn.abnormaltaskmgn.create_date']} From: #{msg['common.calendar_convert_error']} "/>
+                            ~
+                            <p:calendar id="createEnd" value="#{abnormalActivityMgnController.createDateEnd}" size="12" maxlength="10" navigator="true"
+                                        readOnlyInputText="false" mindate="2000/01/01" maxdate="2200/12/31" pattern="yyyy/MM/dd" effect="slideDown"
+                                        converterMessage="#{msg['taskmgn.abnormaltaskmgn.create_date']} End: #{msg['common.calendar_convert_error']} "/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:commandButton value="#{msg['common.button.query']}"
+                                             action="#{abnormalActivityMgnController.reloadTasks}"
+                                             update="taskList actionMsg" /></td>
+                    </tr>
+                </table>
+            </p:fieldset>
+            <p:spacer height="10"/>
+
+            <p:spacer height="10"/>
+            <div><p:messages id="actionMsg"/></div>
+            <div>
+                <div style="display: inline; width: 50%" align="left">
+                    <p:commandButton value="#{msg['taskmgn.abnormaltaskmgn.resend']}"
+                                     action="#{abnormalActivityMgnController.resendTask}"
+                                     update="taskList actionMsg"
+                                     image="ui-icon-arrowrefresh-1-e" />
+<!--                    <p:commandButton value="#{msg['taskmgn.abnormaltaskmgn.batch_forcecomplete']}"
+                                     action="#{abnormalActivityMgnController.forceCompleteTask}"
+                                     update="taskList actionMsg"
+                                     image="ui-icon-circle-check" />-->
+                </div>
+            </div>
+            <p:spacer height="10"/>
+            <div>
+                <p:dataTable id="taskList" var="task" value="#{abnormalActivityMgnController.abnormalActivities}" selection="#{abnormalActivityMgnController.selectedActivity}"
+                             paginator="true" rows="10" paginatorTemplate="{PageLinks}{RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" >
+                    <f:facet name="header"><h:outputText value="#{msg['taskmgn.worklist.worklist']}"/></f:facet>
+                    <p:column selectionMode="single" />
+                    <p:column headerText="#{msg['taskmgn.abnormaltaskmgn.process_def_id']}">
+                        <h:outputText value="#{task.processDefId}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['taskmgn.abnormaltaskmgn.process_id']}">
+                        <h:outputText value="#{task.processId}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['taskmgn.abnormaltaskmgn.activity_name']}">
+                        <h:outputText value="#{task.name}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['taskmgn.abnormaltaskmgn.activity_status']}">
+                        <h:outputText value="#{task.status}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['taskmgn.abnormaltaskmgn.create_date']}" sortBy="#{task.createDate}">
+                        <h:outputText value="#{task.createDate}">
+                            <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['taskmgn.abnormaltaskmgn.form_id']}">
+                        <h:outputText value="#{task.formId}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['taskmgn.abnormaltaskmgn.view']}">
+                        <h:outputLink target="leaveApp" value="#{task.formURL}">
+                            <h:graphicImage title="#{msg['taskmgn.abnormaltaskmgn.view_form']}" library="images" name="page_view.png" style="border-style: none;"/>
+                        </h:outputLink>
+                    </p:column>
+                </p:dataTable>
+            </div>
+        </h:form>
+        <ui:include src="/jsff/ajaxStatusDlg.xhtml"/>
+    </ui:define>
+</ui:composition>

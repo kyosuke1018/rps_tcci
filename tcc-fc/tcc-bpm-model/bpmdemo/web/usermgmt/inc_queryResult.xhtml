@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:panelGroup id="listUser">
+        <p:dataTable value="#{usermgmtController.listUser}"
+                     var="row"
+                     rowStyleClass="#{row.disabled ? 'disabled_user' : ''}"
+                     rows="10"
+                     paginator="true">
+            <p:column sortBy="#{row.id}">
+                <f:facet name="header">ID</f:facet>
+                <h:outputText value="#{row.id}"/>
+            </p:column>
+            <p:column sortBy="#{row.loginAccount}">
+                <f:facet name="header">#{msgUsermgmt['usermgmt.label.loginaccount']}</f:facet>
+                <h:outputText value="#{row.loginAccount}"/>
+            </p:column>
+            <p:column sortBy="#{row.empId}">
+                <f:facet name="header">#{msgUsermgmt['usermgmt.label.empid']}</f:facet>
+                <h:outputText value="#{row.empId}"/>
+            </p:column>
+            <p:column sortBy="#{row.cname}">
+                <f:facet name="header">#{msgUsermgmt['usermgmt.label.cname']}</f:facet>
+                <h:outputText value="#{row.cname}"/>
+            </p:column>
+            <p:column sortBy="#{row.email}">
+                <f:facet name="header">#{msgUsermgmt['usermgmt.label.email']}</f:facet>
+                <h:outputText value="#{row.email}"/>
+            </p:column>
+            <p:column sortBy="#{row.creator.loginAccount}">
+                <f:facet name="header">#{msgUsermgmt['usermgmt.label.creator']}</f:facet>
+                <h:outputText value="#{row.creator.loginAccount}"/>
+            </p:column>
+            <p:column sortBy="#{row.createtimestamp}">
+                <f:facet name="header">#{msgUsermgmt['usermgmt.label.createtimestamp']}</f:facet>
+                <h:outputText value="#{row.createtimestamp}">
+                    <f:convertDateTime type="date" pattern="yyyy/MM/dd HH:mm"/>
+                </h:outputText>
+            </p:column>
+            <p:column>
+                <f:facet name="header">#{msgApp['app.label.action']}</f:facet>
+                <p:commandLink action="#{usermgmtController.editUser(row)}"
+                               update=":formEditUser:editUserGroup"
+                               oncomplete="PF('editUserDlg').show()"
+                               rendered="#{!usermgmtController.isAdmin(row)}">
+                    <h:graphicImage title="#{msgUsermgmt['usermgmt.button.edituser']}"
+                                    library="images"
+                                    name="page_edit.png"/>
+                </p:commandLink>
+                <p:commandLink action="#{usermgmtController.disableUser(row)}"
+                               onstart="return confirm('確認要停用使用者 #{row.loginAccount} ? (相關群組將自動清除)')"
+                               update=":form:listUser"
+                               rendered="#{!usermgmtController.isAdmin(row) and !row.disabled}">
+                    <h:graphicImage title="#{msgUsermgmt['usermgmt.button.disableuser']}"
+                                    library="images"
+                                    name="stop.png"/>
+                </p:commandLink>
+            </p:column>
+        </p:dataTable>
+    </h:panelGroup>
+</ui:composition>

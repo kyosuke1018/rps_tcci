@@ -1,0 +1,115 @@
+/*
+*
+*/
+body {
+    font-size: 12px;  
+    background: #FFFFFF;
+}
+
+table {
+    font-size: 12px;    
+}
+.page {
+    margin-left: 36px;
+    margin-right: 36px;
+    
+}
+.header {
+    margin: 0 0 0 0;
+    width: 100%;
+    height:16px;
+}
+.content {
+    width: 100%        
+}
+
+.footer {
+    background-color: #FFFFFF;
+    clear: left;
+    color: #82786F;
+    font-size: 11px;
+    text-align: center;
+    width: 100%;
+}
+
+.footer a:link, a:hover, a:visited {
+/*    color: #82786F;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    text-decoration: none;*/
+}
+
+a:link, a:hover {
+/*    color: #005790;
+    font-size:12px;
+    font-family: Arial,Helvetica,sans-serif;
+    text-decoration: none;*/
+}
+
+a:visited {
+    color: #8FA1B0;
+    font-size:12px;
+    font-family: Arial,Helvetica,sans-serif;
+    text-decoration: none;
+}
+
+a.visitedlink_gray:visited{
+    color: #005790;
+    font-size:12px;
+    font-family: Arial,Helvetica,sans-serif;
+    text-decoration: none;
+}
+
+a.visitedlink_gray:hover{
+/*    color: #005790;
+    text-decoration: underline;*/
+}
+
+a.visitedlink_red:visited, a.visitedlink_red:hover, a.visitedlink_red:link{
+/*    color: red;
+    font-size:12px;
+    font-family: Arial,Helvetica,sans-serif;
+    text-decoration: none;*/
+}
+
+a:hover {
+/*    text-decoration: underline;*/
+}
+
+a.visitedlink_red:hover{
+/*    text-decoration: underline;*/
+}
+
+.label3b {
+    color: #82786F;
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.ui-datepickers-calendar {
+        display: none;
+ }
+.systemname {
+    color: #82786F;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 28px;
+    font-weight: normal;
+    line-height: normal;
+    margin: 10px 220px 10px 30px;
+    padding-top: 2px;
+}
+/* theme */
+
+.ui-fieldset .ui-fieldset-legend {
+    font-size: 1.1em;
+    padding: 0.5em 1em;
+    border: none;
+    background: inherit;
+}
+label.required {
+    background-image:url("#{resource['images:required_field.png']}");
+    background-position:right center;
+    background-repeat:no-repeat;
+    padding-right:15px;
+}

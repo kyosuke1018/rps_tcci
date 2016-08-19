@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.prime.com.tr/ui">
+    <p:dialog header="Create Folder"
+              widgetVar="createFolderDlg"                
+              resizable="false"
+              width="300"
+              height="120"> 
+        <h:form>
+            <h:panelGrid columns="2" style="margin-bottom:10px">  
+                <h:outputLabel for="folderName" value="Folder Name : " />  
+                <p:inputText id="folderName" value="#{folderController.folderName}" />  
+            </h:panelGrid>             
+            <p:commandButton value="Submit" update="folderTree listTable" oncomplete="createFolderDlg.hide();" action="#{folderController.createFolder}"/>
+        </h:form>                    
+    </p:dialog>
+</ui:composition>

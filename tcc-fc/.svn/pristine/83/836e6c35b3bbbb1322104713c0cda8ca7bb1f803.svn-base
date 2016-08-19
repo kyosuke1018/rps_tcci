@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <!--<link href="#{request.contextPath}/resources/css/stylesheet.css" rel="stylesheet" type="text/css" />-->
+
+            <h:outputStylesheet library="css" name="stylesheet.css"/>
+
+            <title><ui:insert name="title"/></title>
+            <ui:insert name="head"></ui:insert>
+        </h:head>
+        <h:body>
+            <div class="page">
+                <div class="header">
+                    <ui:include src="../jsff/pageHeader.xhtml"/>
+                </div>
+                <p:spacer width="500" height="25"/>
+                <div class="content">
+                    <ui:insert name="content">
+                        Default Content
+                    </ui:insert>
+                </div>
+                <div class="footer">
+                    <ui:include src="../jsff/pageFooter.xhtml"/>
+                </div>
+            </div>
+        </h:body>
+    </f:view>
+</html>

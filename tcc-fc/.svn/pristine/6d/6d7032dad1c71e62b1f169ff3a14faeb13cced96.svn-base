@@ -1,0 +1,50 @@
+# 匯出 tcc-fc-view.51
+svn export http://tcci-svn/svn/src/tcc-fc/tcc-fc-view/branches/pf5.1	tcc-fc-view.51
+
+# 建立新的 web app
+Netbeans
+New project...
+	Java Web > Web Application
+	Project Name: tccidemo
+	Enable Contexts and Dependency Injection
+	Context Path: /tccidemo
+	check-on JavaServer Faces, Components: Primefaces
+	Finish
+
+# 複製檔案(複製並取代所有檔案)
+tcc-fc-view.51\base.theme1\* -> tccidemo\
+
+# 調整 project libraries
+移除 Netbeans 提供的 Primefaces Lib
+加上所有 tccidemo\lib\*.jar (請注意 primefaces jar 版本是否需更新)
+lib\cas-client-core-3.2.0.jar Package不要打勾(不加入war中)
+
+# 建立 tccidemo_user DB
+# 測試機已存在, 自建 DB 請執行下列 sql
+# tccidemo\db-schema\install_fc.sql
+# tccidemo\db-schema\install_postConfig.sql
+
+# 換掉 sources 中 fcview -> tccidemo
+Edit > Replace in Projects
+	Containing Text: fcview
+	Replace with: tccidemo
+	Replace 51 matches
+	
+	# SAM_tccidemo 改成全大寫
+	Containing Text: SAM_tccidemo
+	Replace with: SAM_TCCIDEMO
+	Replace 9 matches
+
+# 修改 Server Resource\resources-local.conf (讓別人能連上你的AP)
+# serverName="localhost\:8080" -> serverName="<your_ip>\:8080"
+
+# deploy resources
+啟動本機 glassfish
+exec cmd, goto tccidemo\setup 目錄
+開啟 Server Resource\resources-local.conf
+複製第一行指令(不含#), 貼至 cmd
+asadmin --host localhost multimode --file resources-local.conf
+
+# Deploy & Run
+Netbeans deploy
+http://localhost:8080/tccidemo/
