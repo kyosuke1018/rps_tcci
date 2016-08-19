@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html class="ui-mobile-rendering">
+<head>
+    <title>MyGUI Mini</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <link rel="stylesheet" href="css/jquery.mobile-1.0.1.min.css"/>
+    <link rel="stylesheet" href="css/mobile.css?v=50"/>
+
+    <!-- The Templates -->
+    <script type="text/template" id="pgLogin">
+
+        <div data-role="header">
+            <h1>登入</h1>
+        </div>
+
+        <div data-role="content">
+            <div id="logingroup" data-role="fieldcontain">
+                <label for="account">帳號:</label>
+                <input name="account" id="account" placeholder="請輸入帳號" type="text">
+                <label for="password">密碼:</label>
+                <input name="password" id="password" placeholder="請輸入密碼" type="password">
+                <fieldset data-role="controlgroup" data-type="vertical">
+                    <legend/>
+                    <input id="remember" name="remember" type="checkbox" checked>
+                    <label for="remember">儲存帳號密碼</label>
+                </fieldset>
+                <input id="btnLogin" data-inline="true" data-icon="check" data-iconpos="left" data-theme="b" value="登入" type="submit">
+            </div>
+        </div>
+        
+        <div data-role="footer" data-theme="a" style="text-align:center;">
+            版本: <span id="app_version"/>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgMain">
+
+        <div data-role="header">
+            <h1>MyGUI Mini Web</h1>
+            <a href="#" data-icon="grid" class="logout ui-btn-right">登出</a>
+        </div>
+
+        <div data-role="content">
+            <select id="tag"/>
+            <ul id="preferences" data-role="listview" data-inset="true"></ul>
+            <a href="http://app.taiwancement.com/" data-role="button" data-icon="home" data-inline="true" data-theme="b">台泥企業團APP</a>            
+        </div>
+        
+        <div data-role="footer" data-theme="a" style="text-align:center;">
+            版本: <span id="app_version"/>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgCementsales">
+        <style>
+        .col3 {width:70px; text-align:right;}
+        </style>
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>台泥業務銷售</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+
+        <div data-role="content">
+            更新時間: <span id="updateTime"/><br/>
+            <select name="choice" id="choice">
+                <option value="today" selected>今日</option>
+                <option value="yesterday">昨日</option>
+                <option value="month">當月</option>
+                <option value="lastmonth">上月</option>
+            </select>
+            <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+
+    </script>
+
+    <script type="text/template" id="pgCementsales2">
+        <style>
+        .col2 {width:110px; text-align:right;}
+        </style>
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>台泥業務銷售</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+
+        <div data-role="content">
+            <span id="path"/><br/>
+            <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+
+    </script>
+
+    <script type="text/template" id="pgPdapatrol">
+        <style>
+        .ui-btn-inner {padding: .6em 12px;}
+        </style>
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>PDA巡檢資訊</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+
+        <div data-role="content">
+            <input type="date" id="dataDate"/>
+            <div id="itemtabs"></div>
+            <div id="datalist" data-role="collapsible-set"></div>
+        </div>
+
+    </script>
+
+    <script type="text/template" id="pgPdapatrol2">
+
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>PDA巡檢資訊</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+
+        <div data-role="content">
+            資料時間:<span id="date"/><br/>
+            <span id="plant"/>-<span id="parentDept"/><br/>
+            <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+
+    </script>
+    
+    <script type="text/template" id="pgPdapatrol3">
+
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>PDA巡檢資訊</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+
+        <div data-role="content">
+            資料時間:<span id="date"/><br/>
+            <span id="plant"/>-<span id="parentDept"/><br/>
+            <span id="dept"/></br>
+            <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+
+    </script>
+
+    <script type="text/template" id="pgPdapatrol4">
+
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>PDA巡檢資訊</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+
+        <div data-role="content">
+            資料時間:<span id="date"/><br/>
+            <span id="plant"/>-<span id="parentDept"/><br/>
+            <span id="dept"/></br>
+            <span id="areashift"/><br/>
+            <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+
+    </script>
+
+    <script type="text/template" id="pgVpphour">
+
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>窯磨運轉</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+
+        <div data-role="content">
+            資料時間: 前一小時<br/>
+            更新時間: <span id="updateTime"/><br/>
+            <div id="datalist" data-role="collapsible-set"></div>
+        </div>
+
+    </script>
+
+    <script type="text/template" id="pgPpmonitor">
+        <style>
+        .ui-btn-inner {padding: .6em 6px;}
+        .col3 {width:80px; text-align: right;}
+        </style>
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>台泥採購預警</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+
+        <div data-role="content">
+            更新時間: <span id="updateTime"/><br/>
+            <input type="date" id="dataDate"/>
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <input type="radio" name="choice" id="choice1" value="coal" checked="checked"/>
+                <label for="choice1">煤炭庫存水位</label>
+                <input type="radio" name="choice" id="choice2" value="matl" />
+                <label for="choice2">輔料庫存水位</label>
+            </fieldset>
+            <select name="factory" id="factory">
+            </select>
+            <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+
+    </script>
+
+    <script type="text/template" id="pgOnsitemonitor">
+        <style>
+        .col3 {width:60px; text-align: right;}
+        </style>
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>出貨車船監控</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+
+        <div data-role="content">
+            更新時間: <span id="updateTime"/><br/>
+            <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+
+    </script>
+
+    <script type="text/template" id="pgOnsitemonitor2">
+        <style>
+        .col3 {width:150px; text-align:right;}
+        </style>
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>出貨車船監控 - <span id="plant"/></h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+            更新時間: <span id="updateTime"/><br/>
+            出貨合計: <span id="total"/><br/>
+            在廠車/船數: <span id="carShip"/><br/>
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <input type="radio" name="choice" id="choice1" value="1" checked="checked"/>
+                <label for="choice1">車船合計</label>
+                <input type="radio" name="choice" id="choice2" value="2" />
+                <label for="choice2">出貨合計</label>
+            </fieldset>
+            <div id="datalist1" data-role="collapsible-set"></div>
+            <ul id="datalist2" data-role="listview" data-inset="true"></ul>
+        </div>
+
+    </script>
+
+    <script type="text/template" id="pgDistributionportal">
+
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>物流運力資訊</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+            更新時間: <span id="updateTime"></span>
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <input type="radio" name="choice" id="choice1" value="1" checked="checked"/>
+                <label for="choice1">當日</label>
+                <input type="radio" name="choice" id="choice2" value="2" />
+                <label for="choice2">當月</label>
+            </fieldset>
+            <ul id="datalist1" data-role="listview" data-inset="true"></ul>
+            <ul id="datalist2" data-role="listview" data-inset="true" style="display:none;"></ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgDistributionportal2">
+
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>物流運力資訊</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+            更新時間: <span id="updateTime"/><br/>
+            <span id="path"/><br/>
+            <ul id="datalist1" data-role="listview" data-inset="true"></ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgDistributionportal4">
+
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>物流運力資訊</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+            <span id="path"/><br/>
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <input type="radio" name="choice" id="choice0" value="0" checked="checked"/>
+                <label for="choice0">在途</label>
+                <input type="radio" name="choice" id="choice1" value="1"/>
+                <label for="choice1">待卸</label>
+                <input type="radio" name="choice" id="choice2" value="2"/>
+                <label for="choice2">在卸</label>
+            </fieldset>
+            <ul id="datalist0" data-role="listview" data-inset="true"></ul>
+            <ul id="datalist1" data-role="listview" data-inset="true" style="display:none;"></ul>
+            <ul id="datalist2" data-role="listview" data-inset="true" style="display:none;"></ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgCementprod">
+        <style>
+        .col3 {width:70px; text-align:right;}
+        </style>
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>台泥生產資訊</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+            更新時間: <span id="updateTime"/><br/>
+            <select name="choice" id="choice">
+                <option value="yesterday">昨日</option>
+                <option value="month">當月</option>
+                <option value="lastmonth">上月</option>
+            </select>
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <input type="radio" name="category" id="category0" value="0" checked="checked"/>
+                <label for="category0">生產</label>
+                <input type="radio" name="category" id="category1" value="1" />
+                <label for="category1">電耗</label>
+            </fieldset>
+            <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgSalesperformance">
+        <style>
+        .ui-btn-inner {padding: .6em 12px;}
+        </style>
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>台泥業務業績預警</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+            更新時間: <span id="updateTime"/>
+            <input type="month" id="yearmon">
+            <div id="itemtabs"></div>
+            <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgIcsmonitor">
+
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>內控預警</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+            <input type="date" id="dataDate"/>
+            本頁顯示燈號依個人內控規則權限，顯示不同燈號
+            <select name="companys" id="companys">
+            </select>
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <input type="radio" name="type" id="type_Rule" value="Rule"/>
+                <label for="type_Rule">異常預警</label>
+                <input type="radio" name="type" id="type_Feedback" value="Feedback"/>
+                <label for="type_Feedback">回饋率</label>
+                <input type="radio" name="type" id="type_Close" value="Close"/>
+                <label for="type_Close">結案率</label>
+            </fieldset>
+            <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgIcsmonitor2">
+        <style>
+        .ui-btn-inner {padding: .6em 12px;}
+        </style>
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>內控預警</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+            <input type="date" id="dataDate"/>
+            <select name="type" id="type">
+                <option value="Rule">異常預警</option>
+                <option value="Feedback">回饋率</option>
+                <option value="Close">結案率</option>
+            </select>
+            廠:<span id="plant"/><br/>
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <input type="radio" name="module" id="module_FI" value="FI"/>
+                <label for="module_FI">財務</label>
+                <input type="radio" name="module" id="module_SD" value="SD" />
+                <label for="module_SD">業務</label>
+                <input type="radio" name="module" id="module_MM" value="MM" />
+                <label for="module_MM">物料</label>
+                <input type="radio" name="module" id="module_PM" value="PM" />
+                <label for="module_PM">工務</label>
+            </fieldset>
+            (點燈號顯示說明)
+            <ul id="datalist_FI" data-role="listview" data-inset="true"></ul>
+            <ul id="datalist_SD" data-role="listview" data-inset="true"></ul>
+            <ul id="datalist_MM" data-role="listview" data-inset="true"></ul>
+            <ul id="datalist_PM" data-role="listview" data-inset="true"></ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgIcsmonitor3">
+        <style>
+        .ui-li .ui-btn-text a.ui-link-inherit {text-overflow:inherit;white-space: pre-wrap;}
+        </style>
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>內控預警</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+            資料日期: <span id="date"/><br/>
+            資料類型: <span id="type"/><br/>
+            廠: <span id="factory"/><br/>
+            燈號說明: <span id="lightDesc"/><br/>
+            <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgEnvmonitor">
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>環保資料預警</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+            <input type="date" id="dataDate"/>
+            <span id="path"/><br/>
+            <div id="divHideGreen" style="display:none;">
+                <input id="chkHideGreen" name="chkHideGreen" type="checkbox">
+                <label for="chkHideGreen">隱藏綠燈</label>
+            </div>
+            <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgSkspmonitor">
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>景德業績預警</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+            <input type="month" id="yearmon">
+            <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgCsrcprod">
+        <div data-role="header">
+        <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+        <h1>中橡生產資訊</h1>
+        <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+        <input type="date" id="dataDate"/>
+        更新時間:<span id="syncTime"/>
+        <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgCsrcprodL2">
+        <style>
+        .ui-btn-inner {padding: .6em 6px;}
+        </style>            
+        <div data-role="header">
+        <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+        <h1>中橡生產資訊</h1>
+        <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+        資料時間: <span id="dt"/><br/>
+        更新時間: <span id="syncTime"/><br/>
+        <span id="path"/><br/>
+        <fieldset data-role="controlgroup" data-type="horizontal">
+            <input type="radio" name="area" id="area-RA" value="RA"/>
+            <label for="area-RA">反應區</label>
+            <input type="radio" name="area" id="area-CA" value="CA"/>
+            <label for="area-CA">收集區</label>
+            <input type="radio" name="area" id="area-WA" value="WA"/>
+            <label for="area-WA">造粒區</label>
+            <input type="radio" name="area" id="area-NA" value="NA"/>
+            <label for="area-NA">未定義</label>
+        </fieldset>
+        <ul id="datalist-RA" data-role="listview" data-inset="true"></ul>
+        <ul id="datalist-CA" data-role="listview" data-inset="true"></ul>
+        <ul id="datalist-WA" data-role="listview" data-inset="true"></ul>
+        <ul id="datalist-NA" data-role="listview" data-inset="true"></ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgCsrcprodL3">
+        <style>
+        .label {text-align:right;}
+        .value {width:6em; text-align:right;}
+        </style>            
+        <div data-role="header">
+        <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+        <h1>中橡生產資訊</h1>
+        <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+        資料時間:<span id="dt"/><br/>
+        更新時間:<span id="syncTime"/><br/>
+        <span id="path"/><br/>
+        <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgCsrcprodL4">
+        <style>
+        .label {text-align:right;}
+        .value {width:6em; text-align:right;}
+        </style>            
+        <div data-role="header">
+        <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+        <h1>中橡生產資訊</h1>
+        <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+        資料時間:<span id="dt"/><br/>
+        更新時間:<span id="syncTime"/><br/>
+        <span id="path"/><br/>
+        <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgLms">
+        <div data-role="header">
+        <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+        <h1>證照預警</h1>
+        <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+        更新時間: <span id="syncTime"/><br/>
+        <a id="lightLink" href="#" onclick="$('#lightLink').toggle();$('#lightDesc').toggle();return false;"><span class="lightDesc32"/>點此顯示燈號說明</a>
+        <div id="lightDesc" class="ui-body ui-body-e" onclick="$('#lightLink').toggle();$('#lightDesc').toggle();return false;" style="display:none;">
+            燈號說明:<br/>
+            <span class="greenlight32"/> 正常有效<br/>
+            <span class="yellowlight32"/> 提醒辦理(可辦理展期日前15天起)<br/>
+            <span class="yellowalertlight32"/> 進入申辦期(可辦理展期日起)"<br/>
+            <span class="yellowworklight32"/> 辦理展期中(已提交文件辦理展期作業起)<br/>
+            <span class="redlight32"/> 即將到期(到期日前30天起)<br/>
+            <span class="redalertlight32"/> 已過期<br/>
+            <span class="graylight32"/> 無證照<br/>
+            負責人說明:<br/>
+            <span class="greenlight32"/> 有負責人<br/>
+            <span class="redlight32"/> 無負責人<br/>
+        </div>
+        <select name="choice" id="choice"/>
+        <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+    </script>
+
+    <script type="text/template" id="pgLms2">
+        <div data-role="header">
+        <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+        <h1>證照預警</h1>
+        <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+        更新時間: <span id="syncTime"/><br/>
+        <span id="path"/><br/>
+        <a id="lightLink" href="#" onclick="$('#lightLink').toggle();$('#lightDesc').toggle();return false;"><span class="lightDesc32"/>點此顯示燈號說明</a>
+        <div id="lightDesc" class="ui-body ui-body-e" onclick="$('#lightLink').toggle();$('#lightDesc').toggle();return false;" style="display:none;">
+            燈號說明:<br/>
+            <span class="greenlight32"/> 正常有效<br/>
+            <span class="yellowlight32"/> 提醒辦理(可辦理展期日前15天起)<br/>
+            <span class="yellowalertlight32"/> 進入申辦期(可辦理展期日起)"<br/>
+            <span class="yellowworklight32"/> 辦理展期中(已提交文件辦理展期作業起)<br/>
+            <span class="redlight32"/> 即將到期(到期日前30天起)<br/>
+            <span class="redalertlight32"/> 已過期<br/>
+            <span class="graylight32"/> 無證照<br/>
+            負責人說明:<br/>
+            <span class="greenlight32"/> 有負責人<br/>
+            <span class="redlight32"/> 無負責人<br/>
+        </div>
+        <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+    </script>
+    
+    <script type="text/template" id="pgWrmonitor">
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>軸瓦預警</h1>
+            <a href="#" data-icon="home" class="home ui-btn-right">首頁</a>
+        </div>
+        <div data-role="content">
+        更新時間: <span id="syncTime"/><br/>
+            <span id="path"/><br/>
+            <ul id="datalist" data-role="listview" data-inset="true"></ul>
+        </div>
+    </script>
+
+    <!-- The Scripts -->
+    <script src="lib/jquery-1.7.1.min.js"></script>
+    <script src="js/jqm-config.js"></script>
+    <script src="lib/jquery.mobile-1.0.1.min.js"></script>
+    <script src="lib/underscore-min.js"></script>
+    <script src="lib/backbone-min.js"></script>
+    <script src="lib/base64.js"></script>
+    <script type="text/javascript">
+        var app_version = 13;
+    </script>
+    <script src="js/base.js?v=1"></script>
+    <script src="js/main.js?v=9"></script>
+    <!-- widgets -->
+    <script src="js/cement.js?v=5"></script>
+    <script src="js/ship.js?v=6"></script>
+    <script src="js/ppmonitor.js?v=5"></script>
+    <script src="js/pda.js?v=5"></script>
+    <script src="js/sales.js?v=5"></script>
+    <script src="js/icsmonitor.js?v=7"></script>
+    <script src="js/envmonitor.js?v=6"></script>
+    <script src="js/sk.js?v=7"></script>
+    <script src="js/csrc.js?v=5"></script>
+    <script src="js/lms.js?v=5"></script>
+    <script src="js/wrmonitor.js?v=1"></script>
+</head>
+<body></body>
+</html>

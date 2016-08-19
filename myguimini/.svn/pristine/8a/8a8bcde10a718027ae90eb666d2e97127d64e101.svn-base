@@ -1,0 +1,19 @@
+# asadmin --host 192.168.204.48 multimode --file resources-prod.conf
+# asadmin --host 192.168.204.49 multimode --file resources-prod.conf
+
+# undeploy war
+#undeploy myguimini
+
+# jdbc, jndi config
+#delete-jdbc-resource jdbc/myguimini
+#delete-jdbc-connection-pool myguiminiPool
+delete-custom-resource jndi/myguimini.config
+add-resources glassfish-resources-prod.xml
+
+# SAM config
+# MUST CHANGE app.taiwancement.com to real domain name
+delete-message-security-provider --layer HttpServlet SAM_MYGUIMINI
+create-message-security-provider --layer HttpServlet --classname com.tcci.cas.sam.CasServerAuthModule --providertype server --property defaultGroup="Authenticated":casServerLoginUrl="${com.taiwancement.sso.loginUrl}":casServerUrlPrefix="${com.taiwancement.sso.serverUrlPrefix}":jaas-context="casRealm":jndi-dataSource="jdbc/myguimini":query-group="select g.code from TC_User u, TC_USERGROUP gu,TC_GROUP g where u.login_account\=? and u.id\=gu.user_id and gu.GROUP_ID\=g.id":serverName="myguimini.taiwancement.com" SAM_MYGUIMINI
+
+# deploy war
+#deploy ../dist/myguimini.war

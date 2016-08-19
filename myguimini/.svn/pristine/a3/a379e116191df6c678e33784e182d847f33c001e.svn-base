@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <h:panelGrid columns="2">
+        <p:fileUpload rendered="#{!attachmentController.readonly}"
+                      label="#{msgApp['app.label.upload']}"
+                      multiple="true" 
+                      auto="true"
+                      update=":form:uploadFilesGroup"
+                      fileUploadListener="#{attachmentController.handleFileUpload}"
+                      oncomplete="$('div.fileupload-content tr.template-upload.ui-state-error').remove()"/>
+        <h:panelGroup id="uploadFilesGroup">
+            <table>
+                <ui:repeat value="#{attachmentController.attachmentVOList}" var="attachmentVO">
+                    <tr>
+                        <td><h:graphicImage library="images" name="attach.png"/></td>
+                        <td style="padding-left:4px;padding-right:4px;">
+                            <h:commandLink value="#{attachmentVO.fileName}"
+                                           actionListener="#{attachmentController.downloadAction(attachmentVO)}"
+                                           immediate="true"
+                                           onclick="monitorDownload()">
+                                <p:fileDownload value="#{attachmentController.downloadFile}"/>
+                            </h:commandLink>
+                        </td>
+                        <td align="right">
+                            <h:outputText value="#{attachmentVO.size}">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+                            <h:outputText value=" bytes "/>
+                        </td>
+                        <td>
+                            <p:commandLink actionListener="#{attachmentController.remove(attachmentVO)}"
+                                           immediate="true"
+                                           rendered="#{!attachmentController.readonly}"
+                                           update=":form:uploadFilesGroup">
+                                <h:graphicImage title="#{msgApp['app.button.remove']}" library="images" name="delete.png"/>
+                            </p:commandLink>
+                        </td>
+                    </tr>
+                </ui:repeat>
+            </table>
+        </h:panelGroup>
+    </h:panelGrid>
+</ui:composition>

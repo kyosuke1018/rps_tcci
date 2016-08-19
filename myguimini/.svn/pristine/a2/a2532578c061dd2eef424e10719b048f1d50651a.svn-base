@@ -1,0 +1,17 @@
+# asadmin --host localhost multimode --file resources-local.conf
+
+# undeploy war
+#undeploy myguimini
+
+# jdbc, jndi config
+#delete-jdbc-resource jdbc/myguimini
+#delete-jdbc-connection-pool myguiminiPool
+delete-custom-resource jndi/myguimini.config
+add-resources glassfish-resources.xml
+
+# SAM config
+delete-message-security-provider --layer HttpServlet SAM_MYGUIMINI
+create-message-security-provider --layer HttpServlet --classname com.tcci.cas.sam.CasServerAuthModule --providertype server --property defaultGroup="Authenticated":casServerLoginUrl="${com.taiwancement.sso.loginUrl}":casServerUrlPrefix="${com.taiwancement.sso.serverUrlPrefix}":jaas-context="casRealm":jndi-dataSource="jdbc/myguimini":query-group="select g.code from TC_User u, TC_USERGROUP gu,TC_GROUP g where u.login_account\=? and u.id\=gu.user_id and gu.GROUP_ID\=g.id":serverName="localhost\:8080" SAM_MYGUIMINI
+
+# deploy war
+#deploy ../dist/myguimini.war

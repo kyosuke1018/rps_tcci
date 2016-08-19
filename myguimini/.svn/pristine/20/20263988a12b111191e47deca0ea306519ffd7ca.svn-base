@@ -1,0 +1,296 @@
+img.ui-li-thumb {
+    padding-top: 5px;
+}
+.plantName {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.inlinebox {
+    display: inline-block;
+    vertical-align: middle;
+}
+.alertRed {
+    color: red;
+}
+.alertYellow {
+    color: darkorange;
+}
+.alertSafe {
+    color: blue;
+}
+.greenlight32 {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: url("../img/green_light32.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.greenlight48 {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    background: url("../img/green_light48.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.greenlight64 {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    background: url("../img/green_light64.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.yellowlight32 {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: url("../img/yellow_light32.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.yellowlight48 {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    background: url("../img/yellow_light48.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.yellowlight64 {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    background: url("../img/yellow_light64.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.redlight32 {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: url("../img/red_light32.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.redlight48 {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    background: url("../img/red_light48.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.redlight64 {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    background: url("../img/red_light64.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.graylight32 {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: url("../img/gray_light32.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.graylight48 {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    background: url("../img/gray_light48.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.graylight64 {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    background: url("../img/gray_light64.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+
+/* cementsales */
+.cecol1 {
+    display: inline-block;
+    width: 90px;
+}
+.cecol2 {
+    display: inline-block;
+    width: 60px;
+    text-align: right;
+}
+.cecol3 {
+    display: inline-block;
+    width: 60px;
+}
+
+/* pdapatrol */
+.pdreason {
+    white-space: normal !important;
+}
+.pdemp {
+    font-size: 1.1em;
+    white-space: normal !important;
+}
+.notfeasible {
+    background:url("../img/red_light16.png") center left no-repeat;
+    padding-left:20px;
+    color: red;
+}
+
+/* vpphour */
+.vpplant {
+    display: inline-block;
+    width: 70px;
+    font-size: 1.2em;
+}
+.vpyaumo {
+    display: inline-block;
+    width: 40px;
+    text-align: right;
+}
+.vpmachine {
+    display: inline-block;
+    width: 95px;
+    text-align: right;
+}
+.vpmins {
+    display: inline-block;
+    width: 20px;
+    text-align: right;
+}
+
+/* ppmonitor */
+.ppcol1 {
+    display: inline-block;
+    width: 60px;
+}
+.ppcol2 {
+    display: inline-block;
+    width: 90px;
+    text-align: right;
+}
+
+/* onsitemonitor */
+.oscol1 {
+    display: inline-block;
+    width: 90px;
+}
+.oscol2 {
+    display: inline-block;
+    width: 60px;
+    text-align: right;
+}
+#datalist1 img.ui-li-thumb {
+    padding-top: 16px;
+}
+#datalist1 li.ui-li-has-thumb {
+    padding-left: 64px;
+}
+
+/* distributionportal */
+.dstable {
+    width: 100%;
+    border-collapse: collapse;
+}
+.dstitle {
+    text-align: center;
+    padding-top: 1em;
+}
+.dscol {
+    width: 25%;
+    text-align: center;
+    border: black solid 1px;
+}
+
+/* cementprod */
+.cpcol1 {
+    display: inline-block;
+    width: 90px;
+}
+.cpcol2 {
+    display: inline-block;
+    width: 60px;
+    text-align: right;
+}
+
+
+/*csrcprod*/
+table.csrcprod{
+    margin: 0px;padding: 0px;
+}
+
+table.csrcprod tr td{
+    /*padding-right: 20px;*/
+    overflow: hiden;
+}
+
+table tr td.ct{
+    text-align:center;
+}
+
+/* lms */
+.yellowalertlight32 {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: url("../img/yellowalert_light32.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.yellowalertlight48 {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    background: url("../img/yellowalert_light48.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+
+.yellowworklight32 {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: url("../img/yellowwork_light32.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.yellowworklight48 {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    background: url("../img/yellowwork_light48.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+
+.redalertlight32 {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: url("../img/redalert_light32.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.redalertlight48 {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    background: url("../img/redalert_light48.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+.lightDesc32 {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: url("../img/lightDesc32.png") left no-repeat;
+    vertical-align: middle;
+    padding-right: 4px;
+}
