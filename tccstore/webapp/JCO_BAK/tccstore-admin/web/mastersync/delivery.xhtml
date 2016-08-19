@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">送達地點同步</ui:define>
+    <ui:define name="content">
+        <p:panel header="送達地點同步">
+            <h:form id="form" prependId="false">
+                <h:panelGrid columns="4">
+                    <h:outputLabel value="資料源:" for="srcfrom"/>
+                    <h:selectOneRadio id="srcfrom"
+                                      value="#{deliverySync.fromSap}">
+                        <f:selectItem itemLabel="SAP" itemValue="#{true}"/>
+                        <f:selectItem itemLabel="CSV" itemValue="#{false}"/>
+                    </h:selectOneRadio>
+                    <p:commandButton value="比對"
+                                     icon="ui-icon-search"
+                                     action="#{deliverySync.sync()}"
+                                     update="#{p:component('syncResult')}"/>
+                    <p:commandButton value="儲存"
+                                     icon="ui-icon-disk"
+                                     action="#{deliverySync.save()}"
+                                     update="#{p:component('syncResult')}"/>
+                </h:panelGrid>
+                <hr/>
+                <p:tabView id="syncResult">
+                    <p:tab title="送達地點(#{empty deliverySync.result ? 0:deliverySync.result.size()}筆)">
+                        <ui:include src="inc_delivery.xhtml"/>
+                    </p:tab>
+                    <p:tab title="送達地點銷售組織(#{empty deliverySync.result2 ? 0:deliverySync.result2.size()}筆)">
+                        <ui:include src="inc_deliveryVkorg.xhtml"/>
+                    </p:tab>
+                </p:tabView>
+            </h:form>
+        </p:panel>            
+    </ui:define>
+</ui:composition>

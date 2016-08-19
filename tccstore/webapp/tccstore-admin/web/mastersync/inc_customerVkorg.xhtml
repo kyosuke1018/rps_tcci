@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dataTable value="#{customerSalesSync.syncData.result4}"
+                 var="cuvk"
+                 paginator="true" paginatorPosition="bottom" rows="10"
+                 rowStyleClass="#{cuvk.valid ? '' : 'ui-state-error'}">
+        <p:column headerText="客戶代碼">
+            <h:outputText value="#{cuvk.customer}"/>
+        </p:column>
+        <p:column headerText="銷售組織">
+            <h:outputText value="#{cuvk.vkorg}"/>
+        </p:column>
+        <p:column headerText="訊息">
+            <h:outputText value="#{cuvk.message}"/>
+        </p:column>
+    </p:dataTable>
+</ui:composition>

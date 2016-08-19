@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <div class="ui-panel-titlebar ui-widget-header ui-helper-clearfix ui-corner-top">
+        <h:outputLabel value="帳號filter: "/>
+        <p:inputText id="filter"
+                     value="#{rewardController.accountFilter}"
+                     size="30">
+        </p:inputText>
+        <p:remoteCommand name="remoteFilterChange"
+                         action="#{rewardController.accountFilterChange}"
+                         update=":form:result"
+                         global="false"/>
+        <script>textDelayChange('#filter', remoteFilterChange);</script>
+        <p:commandButton value="重新整理"
+                         icon="ui-icon-refresh"
+                         action="#{rewardController.query}"
+                         update=":form:result"/>&nbsp;
+        <p:commandButton value="點數調整..."
+                         action="#{rewardController.addValueInit}"
+                         oncomplete="PF('wvFormEdit').show()"
+                         update=":formEdit"/>
+    </div>
+    <p:dataTable id="result"
+                 value="#{rewardController.members}"
+                 var="row"
+                 paginator="true"
+                 paginatorPosition="bottom"
+                 rows="10"
+                 tableStyle="table-layout: auto;">
+        <p:column headerText="帳號">
+            <h:outputText value="#{row.loginAccount}"/>
+        </p:column>
+        <p:column headerText="紅利" style="text-align: right;">
+            <h:outputText value="#{rewardController.getBonus(row).points} "/>
+            <p:commandLink action="#{rewardController.bonusHistory(row)}"
+                           update=":form:group2"
+                           oncomplete="$('#group1').hide();$('#group2').show();">
+                <h:graphicImage title="紅利記錄" library="images" name="page_view.png"/>
+            </p:commandLink>
+        </p:column>
+        <p:column headerText="紅利最後異動時間">
+            <h:outputText value="#{rewardController.getBonus(row).modifytime}">
+                <f:convertDateTime type="date" pattern="yyyy/MM/dd HH:mm"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="金幣" style="text-align: right;">
+            <h:outputText value="#{rewardController.getGold(row).points} "/>
+            <p:commandLink action="#{rewardController.goldHistory(row)}"
+                           update=":form:group2"
+                           oncomplete="$('#group1').hide();$('#group2').show();">
+                <h:graphicImage title="金幣記錄" library="images" name="page_view.png"/>
+            </p:commandLink>
+        </p:column>
+        <p:column headerText="金幣最後異動時間">
+            <h:outputText value="#{rewardController.getGold(row).modifytime}">
+                <f:convertDateTime type="date" pattern="yyyy/MM/dd HH:mm"/>
+            </h:outputText>
+        </p:column>
+    </p:dataTable>
+</ui:composition>

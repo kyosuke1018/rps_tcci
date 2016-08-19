@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>新增订单待审核</title>
+    <style type="text/css">
+      <!--
+      body {
+        font-size: 14px;
+        font-family: "Microsoft JhengHei", PMingLiU, sans-serif;
+        line-height: 1.5em;
+      }
+      .mailbody {width:800px;}
+      .rptTable {font-size: 14px;}
+      .rptLabel {
+        background-color:#DFEFFF; 
+        font-weight:bold;
+        text-align: right;
+        width:15%;
+      }
+      .rptValue {
+        background-color:#F2F2F2; 
+      }
+      -->
+    </style>
+  </head>
+  <body>
+    <div class="mailbody">
+      <p>您好:</p>
+      <p>新增订单待审核，订单资讯如下，请点<a href="$orderLink">此连结</a>审核订单。</p>
+      <table class="rptTable" width="800" border="0" cellpadding="5" cellspacing="1">
+        <tr>
+          <td class="rptLabel">开单人帐号</td>
+          <td class="rptValue">$!ecOrder.memberId.loginAccount</td>
+        </tr>
+        <tr>
+          <td class="rptLabel">订单编号</td>
+          <td class="rptValue">$!ecOrder.id</td>
+        </tr>
+        <tr>
+          <td class="rptLabel">提货日期</td>
+          <td class="rptValue">$!ecOrder.deliveryDate</td>
+        </tr>
+        <tr>
+          <td class="rptLabel">下单客户</td>
+          <td class="rptValue">$!ecOrder.customerId.name ($!ecOrder.customerId.code)</td>
+        </tr>
+        <tr>
+          <td class="rptLabel">出货工厂</td>
+          <td class="rptValue">$!ecOrder.plantId.name</td>
+        </tr>
+#if ($ecOrder.contractId)
+        <tr>
+          <td class="rptLabel">合约</td>
+          <td class="rptValue">$!ecOrder.contractId.name ($!ecOrder.contractId.code)</td>
+        </tr>
+#end
+#if ($ecOrder.deliveryId)
+        <tr>
+          <td class="rptLabel">送达地点</td>
+          <td class="rptValue">$!ecOrder.deliveryId.name ($!ecOrder.deliveryId.code)</td>
+        </tr>
+#end
+        <tr>
+          <td class="rptLabel">业务员</td>
+          <td class="rptValue">$!ecOrder.salesId.name ($!ecOrder.salesId.code)</td>
+        </tr>
+        <tr>
+          <td class="rptLabel">产品</td>
+          <td class="rptValue">$!ecOrder.productId.name ($!ecOrder.productId.code)</td>
+        </tr>
+        <tr>
+          <td class="rptLabel">数量</td>
+          <td class="rptValue">$!ecOrder.quantity (吨)</td>
+        </tr>
+        <tr>
+          <td class="rptLabel">提货方式</td>
+          <td class="rptValue">
+#if ($ecOrder.method=="EXW")
+厂交自提
+#end
+#if ($ecOrder.method=="FCA")
+工地交自提
+#end
+($!ecOrder.method)
+          </td>
+        </tr>
+        <tr>
+          <td class="rptLabel">车号</td>
+          <td class="rptValue">$!ecOrder.vehicle</td>
+        </tr>
+        <tr>
+          <td class="rptLabel">建立时间</td>
+          <td class="rptValue">$vmformat.dateFormat("yyyy/MM/dd HH:mm:ss", $ecOrder.createtime)</td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

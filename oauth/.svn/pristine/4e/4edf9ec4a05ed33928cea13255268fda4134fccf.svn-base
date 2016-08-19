@@ -1,0 +1,302 @@
+/*
+ * Licensed to Apereo under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work
+ * for additional information regarding copyright ownership.
+ * Apereo licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file
+ * except in compliance with the License.  You may obtain a
+ * copy of the License at the following location:
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+input{
+    outline: 0;
+}
+
+a{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;	
+}
+
+img{
+    border: 0;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: "微軟正黑體", "新細明體", Arial, Microsoft JhengHei, sans-serif, serif, cursive, fantasy, monospace;
+    background: url(img/bodyBG.jpg);
+}
+
+.clear{
+    height: 0;
+    margin: 0;
+    padding: 0;
+    _line-height: 0;
+    _font-size: 0;
+    clear: both;
+}
+
+#header{
+    padding: 35px 0; 
+    text-align: center;
+    background: #c00000;	
+}
+
+#header img{
+    width: 50px;
+    margin-right: 20px;
+    vertical-align: middle;
+}
+
+#header .title{
+    vertical-align: middle;
+    font-size: 30px;
+    color: #f0f0f0;	
+}
+
+#container{
+    max-width: 520px;	
+    margin: 30px auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#container ul{
+    width: 34%;
+    margin: 0;
+    padding: 0;
+    float: left;
+    display: inline-block;
+}
+
+#container ul li{
+    width: 100%;
+    height: 120px;
+    padding: 20px 0;
+    list-style: none;
+    box-sizing: border-box;
+    border: solid 1px #c0c0c0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    text-align: center;
+    font-size: 14px;
+    color: #b0b0b0;
+    background: #e0e0e0;
+    cursor: pointer;
+}
+
+#container ul .active{
+    border: solid 1px #a0a0a0;
+    border-right: solid 1px #fff;
+    color: #505050;
+    background: #fff;
+}
+
+#container ul li a{	
+    color: #b0b0b0;	
+}
+
+#container ul li img{
+    width: 50px;
+    margin-bottom: 5px;	
+}
+
+#container .login{
+    width: 100%;
+    *width: 45%;
+    height: 360px;
+    height: 358px \9;
+    *height: 243px;
+    padding: 50px 80px;	
+    display: inline-block;
+    box-sizing: border-box;
+    border: solid 1px #a0a0a0;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 5px 5px 7px #e0e0e0;
+}
+
+#container .login .caption{
+    font-size: 25px;
+    font-weight: bold;
+    color: #808080;
+}
+
+#container .login .iconCont{
+    width: 18px;
+    margin-top: 5px;	
+    float: left;
+}
+
+#container .login .iconCont img{
+    width: 18px;
+    *margin-top: 35px;
+    vertical-align: middle;	
+}
+
+#container .login .inputCont{
+    width: auto;	
+    margin: 30px 0 0 27px;	
+}
+
+#container .login .inputCont .input{
+    width: 100%;
+    *width: 90%;
+    padding: 8px;	
+    box-sizing: border-box;
+    border: solid 1px #e0e0e0;
+    border-radius: 3px;
+    font-size: 16px;
+    color: #505050;
+    background: #f0f0f0;
+    box-shadow: 1px 1px 1px #e8e8e8 inset, -1px -1px 1px #e8e8e8 inset
+}
+
+#container .login .inputCont .input_error{
+    width: 100%;
+    padding: 8px;	
+    box-sizing: border-box;
+    border: solid 1px #ee0000;
+    border-radius: 3px;
+    font-size: 16px;
+    color: #505050;
+    background: #f0f0f0;
+    box-shadow: 1px 1px 1px #e8e8e8 inset, -1px -1px 1px #e8e8e8 inset
+}
+
+
+#container .login .input:focus{
+    border: solid 1px #808080;
+}
+
+#container .login .forgetCont{
+    width: 49%;
+    margin-top: 65px;
+    display: inline-block;
+    text-align: left;
+}
+
+#container .login .forget{	
+    text-decoration: underline;
+    font-size: 14px;
+    color: #c00000;	
+}
+
+#container .login .btnCont{
+    width: 49%;
+    *width: 100%;
+    margin-top: 60px;
+    *margin-top: -40px;
+    display: inline-block;
+    text-align: right;
+}
+
+#container .login .loginBtn{	
+    padding: 7px 12px;
+    box-sizing: border-box;
+    border: solid 1px #c0c0c0;
+    border-radius: 5px;
+    color: #fff;
+    background: #c00000;
+    cursor:  pointer;
+}
+
+#container .login .loginBtn:hover{
+    background: #e00000;
+}
+
+#container .login .loginBtn:active{	
+    background: #ff6363;
+    box-shadow: 2px 2px 5px #800000 inset;
+}
+
+
+/*----------------------------------- RWD (cellphone) -----------------------------------*/
+@media screen and (max-width: 768px){
+    #header{		
+        padding: 15px 0;
+    }
+
+    #header img{
+        width: 35px;
+        margin-right: 10px;
+    }
+
+    #header .title{		
+        font-size: 20px;		
+    }
+
+    #container{
+        margin: 15px auto;
+        padding: 15px;
+    }
+
+    #container ul{	
+        width: auto;
+        float: none;
+        display: block;
+    }
+
+    #container ul li{
+        width: 33.3%;
+        padding: 12px 0;
+        float: left;
+        border: solid 1px #c0c0c0;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        font-size: 12px;
+    }
+
+    #container ul .active{
+        border: solid 1px #a0a0a0;
+        border-bottom: solid 1px #fff;
+    }
+
+    #container ul li img{
+        width: 35px;
+        margin-bottom: 1px;
+    }
+
+    #container .login{
+        width: auto;		
+        height: auto;
+        padding: 50px 40px 30px;		
+        display: block;
+        border: solid 1px #a0a0a0;
+        border-radius: 5px;		
+    }
+    #msg.errors { 
+        color: #BB0000; 
+        width: 90%;
+        margin: 15px auto;
+        padding: 15px;
+        border: 1px solid;
+        border-color: #ee0000;
+        box-sizing: border-box;
+        border-radius: 5px;
+    }
+}
+
+
+#msg.errors { 
+    color: #BB0000; 
+    max-width: 750px;	
+    margin: 20px auto;
+    border: 1px solid;
+    border-color: #ee0000;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+}    

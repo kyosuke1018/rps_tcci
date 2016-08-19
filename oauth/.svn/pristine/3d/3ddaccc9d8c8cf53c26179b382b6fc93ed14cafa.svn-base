@@ -1,0 +1,12 @@
+1.download pac4j project from GitHub (consider which version that cas used, for cas-4.1.5 is 1.7.1).
+  https://github.com/pac4j/pac4j
+2.open pac4j-oauth module from pack4j project.
+3.copy org.pac4j.oauth.profile.OAuthAttributesDefinitions.java (should keep original package name) to cas-server-webapp project.
+4.create attribute definition (for example: org.pac4j.oauth.profile.qq.QqAttributeDefinition.java).
+5.regist attribute definition on org.pac4j.oauth.profile.OAuthAttributesDefinitions.java by below statement.
+  public final static AttributesDefinition qqDefinition = new QqAttributesDefinition();
+6.create profile (for example: org.pack4j.oauth.profile.QqProfile.java) and set getter for every attribute define by previous step.
+7.find api (org.scribe.builder.api package) or create one for client next step need.
+8.create clinet for provider.
+
+

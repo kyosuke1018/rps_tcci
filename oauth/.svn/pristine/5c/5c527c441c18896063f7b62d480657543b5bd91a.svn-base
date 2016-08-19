@@ -1,0 +1,391 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">當天客戶餘額/出貨資料查詢</ui:define>
+    <ui:define name="content">
+        <p:panel header="當天客戶餘額/出貨資料查詢" >
+            <h:form id="form" prependId="false">
+                <p:fieldset legend="#{msgApp['app.fieldset.queryfilter']}">    
+                    <h:panelGrid columns="4" width="100%">
+                        <h:outputLabel value="#{msgApp['app.label.customerCode']}" /> 
+<!--                        <p:autoComplete 
+                            id="code"                                    
+                            minQueryLength="3"   
+                            value="#{zorderCnController.code}"
+                            var="code"
+                            itemLabel="#{code}"
+                            itemValue="#{code}"
+                            completeMethod="#{zorderCnController.completeMethod}"
+                            maxResults="9"
+                            >
+                            <p:column>
+                                #{code} - #{zorderCnController.getCustomerName(code)}
+                            </p:column>
+                            <p:ajax event="itemSelect" 
+                                    listener="#{zorderCnController.handleSelect}"
+                                    update=":form:code :form:name"
+                                    />
+                        </p:autoComplete>
+                        <h:outputLabel value="#{msgApp['app.label.kuntx']}" />-->
+                        <!--<h:outputLabel id="name" value="#{zorderCnController.name}" />-->                                
+                         <h:selectOneMenu  value="#{zorderCnController.code}">
+                            <f:selectItems  value="#{zorderCnController.customerList}" 
+                                            var="ec"  itemLabel="#{ec.name}" itemValue="#{ec.code}" />
+                        </h:selectOneMenu>               
+                        <h:outputLabel value="#{msgApp['app.label.plants']}" />
+                        <h:selectOneMenu  value="#{zorderCnController.plantId}">
+                            <f:selectItems  value="#{zorderCnController.companys}" 
+                                            var="zc"  itemLabel="#{zc.name}" itemValue="#{zc.code}" />
+                        </h:selectOneMenu> 
+                        <h:outputLabel value="#{msgApp['app.label.werks']}"  />
+                        <h:selectOneMenu  value="#{zorderCnController.werks}">
+                            <f:selectItem itemValue="ALL" itemLabel="#{msgApp['app.label.selectAll']}"/>
+                            <f:selectItems  value="#{zorderCnController.zt001wCnList}" var="ztc"  itemLabel="#{ztc.name1}" itemValue="#{ztc.werks}" />
+                        </h:selectOneMenu>
+                        <h:outputLabel value="#{msgApp['app.label.bzirk']}"  />
+                        <h:selectOneMenu  value="#{zorderCnController.bzirk}">
+                            <f:selectItem itemValue="ALL" itemLabel="#{msgApp['app.label.selectAll']}"/>
+                            <f:selectItems  value="#{zorderCnController.zt171CnList}" var="zt1"  itemLabel="#{zt1.bztxt}" itemValue="#{zt1.bzirk}" />
+                        </h:selectOneMenu>             
+                        <h:outputLabel value="#{msgApp['app.label.xblnr']}"  />      
+                        <p:inputText  value="#{zorderCnController.xblnr}"/>
+                        <h:outputLabel value="#{msgApp['app.label.bezei']}"  /> 
+                        <h:selectOneMenu id="saleArea" value="#{zorderCnController.bezei}"  >
+                            <f:selectItem itemLabel="ALL" itemValue="ALL" />  
+                            <f:selectItem itemLabel="卡車" itemValue="01" />  
+                            <f:selectItem itemLabel="郵件" itemValue="02" />  
+                            <f:selectItem itemLabel="火車" itemValue="03" />  
+                            <f:selectItem itemLabel="海運" itemValue="04" />  
+                            <f:selectItem itemLabel="卡車+船運" itemValue="05" />  
+                        </h:selectOneMenu>   
+                        <h:outputLabel value="#{msgApp['app.label.inco1Tx']}"  /> 
+                        <p:inputText  value="#{zorderCnController.inco1}"/>
+                     </h:panelGrid>    
+                       <p:commandButton value="#{msgApp['app.button.query']}"
+                                         action="#{zorderCnController.prepareSapRfcCall}"
+                                         icon="ui-icon-search"
+                                         ajax="true"
+                                         update=":form:sapOutput :form:panel :form:sopanel"
+                                         disabled="#{empty zorderCnController.customerList}"/>
+                </p:fieldset>
+                <p:fieldset legend="#{msgApp['app.fieldset.queryresult']} (非即时资料，资料统计于前一整点时间)"> 
+                    <p:fieldset legend="#{msgApp['app.fieldset.queryBalanceResult']}"> 
+                        <h:panelGroup id="sapOutput" >
+                            <p:panelGrid style="width:98%;margin:0px;"   id="grid" >
+                                <f:facet name="header">  
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputLabel value="#{msgApp['app.label.oblig']}"/> 
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputLabel value="#{msgApp['app.label.ssobl']}"/>                             
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputLabel  value="#{msgApp['app.label.sauft']}"/>        
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputLabel value="#{msgApp['app.label.skfor']}"/>                             
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputLabel value="#{msgApp['app.label.ssoblIn']}"/>                             
+                                        </p:column>
+                                    </p:row> 
+                                </f:facet>  
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText id="OBLIGext"  rendered="#{zorderCnController.OBLIG eq BigDecimal.ZERO ?  false : true}"
+                                                      value="#{(zorderCnController.OBLIG lt 0 ) ?  msgApp['app.label.Label_OverFlow'] : msgApp['app.label.Label_UnderFlow']}"  >
+                                        </h:outputText>
+
+                                        <h:outputText style="float: right;" value="#{zorderCnController.OBLIG.abs()}" >
+                                            <f:convertNumber type="currency" pattern="#,##0.00" currencySymbol="¥" locale="zh_CN"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText style="float: right;" value="#{zorderCnController.SSOBL.abs()}">
+                                            <f:convertNumber type="currency" pattern="#,##0.00" currencySymbol="¥" locale="zh_CN"/>
+                                        </h:outputText>    
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText style="float: right;" value="#{zorderCnController.SAUFT.abs()}">
+                                            <f:convertNumber type="currency" pattern="#,##0.00"  currencySymbol="¥" locale="zh_CN"/>
+                                        </h:outputText>     
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText style="float: right;" value="#{zorderCnController.SKFOR}">
+                                            <f:convertNumber type="currency" pattern="#,##0.00" currencySymbol="¥"  locale="zh_CN"/>
+                                        </h:outputText>     
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText style="float: right;" value="#{zorderCnController.SSOBL_IN}">
+                                            <f:convertNumber type="currency" pattern="#,##0.00" currencySymbol="¥"  locale="zh_CN"/>
+                                        </h:outputText>     
+                                    </p:column>
+                                </p:row>                                
+                            </p:panelGrid> 
+                        </h:panelGroup>    
+                    </p:fieldset>      
+                    
+                        <p:fieldset legend="#{msgApp['app.fieldset.querySDResult']}"> 
+                        <h:panelGroup id="panel">
+                            <p:dataTable id="dataTable" value="#{zorderCnController.items}" 
+                                         var="item"
+                                         paginator="true" rows="10"  
+                                         paginatorPosition="bottom">
+                                <f:facet name="header">  
+                                    <h:commandLink>
+                                        <h:graphicImage library="images" name="excel_exports.png" />
+                                        <p:dataExporter type="xls" target="dataTable" fileName="zOrderCn" postProcessor="#{zorderCnController.postProcessXLSZorderCn}"/>
+                                        <h:outputText value="#{msgApp['app.label.export']}"/>
+                                    </h:commandLink>
+                                </f:facet>  
+                                <p:column>
+                                    <f:facet name="header">
+                                         <h:outputText value="#{msgApp['app.label.kunnr']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.kunnr}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                    <f:facet name="footer">
+                                        <h:outputText  value="#{zorderCnController.items.size() gt 0 ? msgZvSD['Label_sum']  : ''}" style="color: blue;font-size: 12pt;font-weight: bolder"/>
+                                    </f:facet>                                    
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.kunnrTx']}"/>
+                                    </f:facet>                                   
+                                    <h:outputText value="#{item.kunnrTx}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>                                
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.plant']}"/> 
+                                    </f:facet>
+                                    <h:outputText value="#{item.werksTx != null ? item.werksTx : item.werks}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                         <h:outputText value="#{msgApp['app.label.bztxt']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.bztxt}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.salesMember']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.ename}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.audat']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.audat}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.fkdat']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.fkdat}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                         <h:outputText value="#{msgApp['app.label.aubel']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.aubel}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                       <h:outputText value="#{msgApp['app.label.arktx']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.arktx}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                       <h:outputText value="#{msgApp['app.label.inco1Tx']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.inco1Tx}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                         <h:outputText value="#{msgApp['app.label.fkimg']}"/>
+                                    </f:facet>
+                                    <h:outputText style="float: right;font-size: 8pt"  value="#{item.fkimg}">
+                                        <f:convertNumber pattern="#,##0.00"/>
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText  value="#{zorderCnController.items.size() gt 0 ? zorderCnController.sum_fkimg  : ''}"  
+                                                       style="text-align: right; width: 100%; color: blue;font-weight: bolder;font-size: 8pt">
+                                            <f:convertNumber pattern="#,##0.00"/>
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.bezei']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.bezei}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>           
+                                <p:column>
+                                    <f:facet name="header">
+                                       <h:outputText value="#{msgApp['app.label.xblnr']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.xblnr}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                       <h:outputText value="#{msgApp['app.label.vgbel']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.vgbel}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                         <h:outputText value="#{msgApp['app.label.z4Desc']}"  /> 
+                                    </f:facet>
+                                    <h:outputText value="#{item.z4Desc}" style="text-align: center; 
+                                                  width: 100%;font-size: 8pt"/>
+                                </p:column>                                
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.changmat2']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.changmat2}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.uatbg']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.uatbg}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>      
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.ktext']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.ktext}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGroup>
+                    </p:fieldset>      
+                    <p:fieldset legend="#{msgApp['app.fieldset.querySOResult']}"> 
+                        <h:panelGroup id="sopanel">
+                            <p:dataTable id="dataTableSo" value="#{zorderCnController.itemsSo}" 
+                                         var="itemSo"
+                                         paginator="true" rows="10"  
+                                         paginatorPosition="bottom">
+                                <f:facet name="header">  
+                                    <h:commandLink>
+                                        <h:graphicImage library="images" name="excel_exports.png" />
+                                        <p:dataExporter type="xls" target="dataTableSo" fileName="zOrderCnSo" postProcessor="#{zorderCnController.postProcessXLSZorderCnSo}"/>
+                                        <h:outputText value="#{msgApp['app.label.export']}"/>
+                                    </h:commandLink>
+                                </f:facet>  
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.kunnr']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemSo.kunnr}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                    <f:facet name="footer">
+                                        <h:outputText  value="#{zorderCnController.itemsSo.size() gt 0 ? msgZvSD['Label_sum']  : ''}" style="color: blue;font-size: 12pt;font-weight: bolder"/>
+                                    </f:facet>   
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                         <h:outputText value="#{msgApp['app.label.kunnrTx']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemSo.kunnrTx}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>                
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.plant']}"/> 
+                                    </f:facet>
+                                    <h:outputText value="#{itemSo.werksTx != null ? itemSo.werksTx : itemSo.werks}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                         <h:outputText value="#{msgApp['app.label.bztxt']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemSo.bztxt}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.salesMember']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemSo.ename}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.vbeln']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemSo.vbeln}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.arktx']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemSo.arktx}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.inco1Tx']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemSo.inco1Tx}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.kwmeng']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemSo.kwmeng}" style="float: right;font-size: 8pt">
+                                        <f:convertNumber pattern="#,##0.00"/>
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText  value="#{zorderCnController.itemsSo.size() gt 0 ? zorderCnController.sum_kwmeng  : ''}"  
+                                                       style="text-align: right; width: 100%; color: blue;font-weight: bolder;font-size: 8pt">
+                                            <f:convertNumber pattern="#,##0.00"/>
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>     
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.bezei']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemSo.bezei}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.bstkd']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemSo.bstkd}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.vgbel']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemSo.vgbel}" style="text-align: center; width: 100%;font-size: 8pt"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.z4Desc']}"  /> 
+                                    </f:facet>
+                                    <h:outputText value="#{itemSo.z4Desc}" style="text-align: center; 
+                                                  width: 100%;font-size: 8pt"/>
+                                </p:column>                                
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgApp['app.label.gbstk']}"/>
+                                    </f:facet>
+                                    <h:outputText rendered="#{itemSo.gbstk == 'C'}" value="#{msgApp['app.label.gbstkC']}"/>
+                                    <h:outputText rendered="#{itemSo.gbstk == 'O'}" value="#{msgApp['app.label.gbstkO']}"/>
+                                </p:column>
+
+                            </p:dataTable>        
+                        </h:panelGroup>    
+                    </p:fieldset>  
+                </p:fieldset>
+            </h:form>
+        </p:panel>
+        <ui:include src="/jsff/ajaxStatusDlg.xhtml"/>
+    </ui:define>
+</ui:composition>

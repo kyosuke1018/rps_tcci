@@ -1,0 +1,198 @@
+@media screen and (-webkit-max-device-pixel-ratio: 0.5){
+	*:facus{
+		outline: 0;
+	}
+
+	html, body{	
+		min-width: 980px;
+		margin: 0px auto;
+		padding: 0px;
+
+		font-family: 微軟正黑體, 新細明體, Microsoft JhengHei, Arial, sans-serif, serif, cursive, fantasy, monospace;
+		font-smoothing: subpixel-antialiased;
+		cursor: default;
+	}
+
+	a{
+		margin: 0px;
+		padding: 0px;
+		text-decoration: none;	
+	}
+
+	img{
+		border: 0px;
+	}
+
+	.clear{
+		height: 0px;
+		margin: 0px;
+		padding: 0px;
+		_line-height: 0px;
+		_font-size: 0px;
+		clear: both;
+	}
+	
+	/*---------- header (start) ----------*/	
+	#headerField{
+		width: 100%;
+		padding: 20px 0px;				
+		background: #b40000;
+	}
+	
+	#headerField .header{		
+		text-align: center;
+		font-size: 24px;		
+		color: #ffffff;		
+	}
+	/*---------- header (end) ----------*/
+}
+
+
+
+@media screen and (-webkit-min-device-pixel-ratio: 1){
+/*@media screen and (max-device-width: 799px){*/
+	html, body{
+		width: 100%;
+		margin: 0;
+		font-family: 微軟正黑體, 新細明體, Microsoft JhengHei, Arial, sans-serif, serif, cursive, fantasy, monospace;				
+	}
+	
+	.clear{
+		height: 0px;
+		margin: 0px;
+		padding: 0px;
+		_line-height: 0px;
+		_font-size: 0px;
+		clear: both;
+	}
+	
+	#building{
+		width: 100%;
+	}
+	
+	/*---------- header (start) ----------*/	
+	#headerField{
+		width: 100%;
+		padding: 15px 0px;	
+		box-shadow: 0px 3px 5px #808080;
+		background: #b40000;
+	}
+	
+	#headerField .header{		
+		text-align: center;
+		font-size: 24px;		
+		color: #ffffff;		
+	}
+	/*---------- header (end) ----------*/
+
+	/*---------- footer (start) ----------*/
+
+	/*---------- footer (end) ----------*/
+
+	/*---------- container (start) ----------*/
+	#contentField{
+		width: 100%;
+		padding: 10px 0px;
+		font-size: 20px;
+	}
+	
+	#contentField .contentCaption{		
+		padding: 5px 10px;
+		font-weight: bold;		 
+		color: #b40000;
+	}
+	
+	#contentField .contentText{		
+		padding: 0px 10px 10px 30px;		
+		color: #333333;
+	}
+
+	#contentField .tableCollapse{
+		border-collapse: collapse;
+	}
+	
+	#contentField .explainTable{
+		padding: 5px 10px 5px 30px;				
+	}
+	
+	#contentField .explainTable .numItem{		
+		vertical-align: top;		
+	}
+	
+	#contentField .explainTable .numItem .num{		
+		width: 20px;
+		height: 20px;
+		padding: 3px;
+		display: inline-block;
+		border-radius: 50px;
+		text-align: center;		
+		font-size: 14px;
+		color: #fff;
+		background: #808080;
+	}
+	
+	#contentField .explainTable .text{
+		padding: 0px 0px 15px 5px;
+		line-height: 1.15em;
+		color: #333333;
+	}
+	
+	#contentField .cementMixTable{
+		margin: 0px 15px 25px;
+		border: solid 1px #cccccc;
+		border-radius: 5px;
+		box-shadow: 3px 3px 5px #cccccc;
+	}
+	
+	#contentField .cementMixTable .cementName{		
+		padding: 5px 15px;		
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+		color: #ffffff;
+		background: #800000;
+	}
+	
+	#contentField .cementMixTable .mixInfo{		
+		padding: 10px 5px;
+	}
+
+	#contentField .cementMixTable .mixInfo table{
+		width: 100%;
+		text-align: center;
+		font-size: 18px;
+		color: #333333;
+	}
+	
+	#contentField .cementMixTable .mixInfo table td{
+		padding: 0px 5px;
+	}
+	
+	#contentField .cementMixTable .mixInfo table .txtLeft{
+		text-align: left;
+	}
+	
+	#contentField .cementMixTable .mixInfo table .txtTop{
+		vertical-align: top;
+	}
+	
+	#contentField .cementMixTable .mixInfo table .title{
+		font-weight: bold;
+		color: #b40000;
+	}
+	
+	#contentField .cementMixTable .mixInfo table .element{
+		font-size: 16px;
+		color: #808080;
+	}
+
+	#contentField .cementMixTable .mixInfo table .divLine{
+		margin: 5px;
+		border-top: dotted 2px #cccccc;
+	}
+	
+	#contentField .divideLine{		
+		margin: 10px;
+		border-top: dotted 2px #808080;
+	}
+	/*---------- container (end) ----------*/
+}

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog header="#{msgPartner['partner.label.rejectPartner']}"
+              resizable="false"
+              width="600"
+              modal="true"
+              id="rejectPartnerDialog"
+              widgetVar="rejectPartnerDialogVar">
+        <h:form id="rejectPartnerForm" prependId="false">
+            <h:panelGrid columns="2" style="width:100%">
+                <p:outputLabel value="#{msgPartner['partner.label.message']}"
+                               for="rejectPartnerDialog_message"
+                               style="white-space: nowrap;"/>
+
+                <p:inputTextarea id="rejectPartnerDialog_message"
+                                 value="#{partnerController.selected.message}"
+                                 rows="3"
+                                 cols="80"
+                                 required="true"
+                                 requiredMessage="#{msgPartner['partner.err.messageIsRequired']}"/>
+            </h:panelGrid>
+            <h:panelGroup style="display:block; text-align:center;">
+                <p:commandButton value="#{msgApp['app.button.ok']}"
+                                 icon="ui-icon-circle-check"
+                                 action="#{partnerController.reject}"
+                                 update=":form:datalist :growl :messages"
+                                 onsuccess="PF('rejectPartnerDialogVar').hide();"
+                                 />
+                <p:spacer width="4" />
+                <p:commandButton value="#{msgApp['app.button.cancel']}"
+                                 icon="ui-icon-circle-close"
+                                 onclick="PF('rejectPartnerDialogVar').hide();
+                                         return false;"/>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+</ui:composition>

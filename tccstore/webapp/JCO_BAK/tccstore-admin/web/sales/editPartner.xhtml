@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog header="#{msgPartner['partner.label.editPartner']}"
+              resizable="false"
+              width="400"
+              modal="true"
+              id="editPartnerDialog"
+              widgetVar="editPartnerDialogVar">
+        <h:form id="editPartnerForm" prependId="false">
+            <h:panelGrid columns="2" style="width:100%">
+                <p:outputLabel value="#{msgPartner['partner.label.id']}"
+                               for="editPartnerDialog_id"
+                               style="white-space: nowrap;"/>
+                <h:outputText id="editPartnerDialog_id"
+                              value="#{partnerController.selected.id}"/>
+
+                <p:outputLabel value="#{msgPartner['partner.label.name']}"
+                               for="editPartnerDialog_name"/>
+                <p:inputText id="editPartnerDialog_name"
+                             value="#{partnerController.selected.name}"/>
+
+<!--                <p:outputLabel value="#{msgPartner['partner.label.description']}"
+                               for="editPartnerDialog_description"/>
+                <p:inputText id="editPartnerDialog_description"
+                             value="#{partnerController.selected.description}"/>-->
+
+                <p:outputLabel value="連絡人"
+                               for="editPartnerDialog_contact"/>
+                <p:inputText id="editPartnerDialog_contact"
+                             value="#{partnerController.selected.contact}"/>
+
+                <p:outputLabel value="#{msgPartner['partner.label.phone']}"
+                               for="editPartnerDialog_phone"/>
+                <p:inputText id="editPartnerDialog_phone"
+                             value="#{partnerController.selected.phone}"/>
+
+                <p:outputLabel value="#{msgPartner['partner.label.social']}"
+                               for="editPartnerDialog_social"/>
+                <p:inputText id="editPartnerDialog_social"
+                             value="#{partnerController.selected.social}"/>
+
+                <p:outputLabel value="#{msgPartner['partner.label.province']}"
+                               for="editPartnerDialog_province"/>
+                <p:inputText id="editPartnerDialog_province"
+                             value="#{partnerController.selected.province}"/>
+
+                <p:outputLabel value="#{msgPartner['partner.label.city']}"
+                               for="editPartnerDialog_city"/>
+                <p:inputText id="editPartnerDialog_city"
+                             value="#{partnerController.selected.city}"/>
+
+                <p:outputLabel value="區"
+                               for="editPartnerDialog_district"/>
+                <p:inputText id="editPartnerDialog_district"
+                             value="#{partnerController.selected.district}"/>
+
+                <p:outputLabel value="鎮"
+                               for="editPartnerDialog_town"/>
+                <p:inputText id="editPartnerDialog_town"
+                             value="#{partnerController.selected.town}"/>
+
+                <p:outputLabel value="#{msgPartner['partner.label.address']}"
+                               for="editPartnerDialog_address"/>
+                <p:inputText id="editPartnerDialog_address"
+                             value="#{partnerController.selected.address}"/>
+
+<!--                <p:outputLabel value="#{msgPartner['partner.label.theme']}"
+                               for="editPartnerDialog_theme"/>
+                <p:inputText id="editPartnerDialog_theme"
+                             value="#{partnerController.selected.theme}"/>-->
+
+                <p:outputLabel value="#{msgPartner['partner.label.active']}"
+                               for="editPartnerDialog_active"/>
+                <p:selectOneMenu id="editPartnerDialog_active"
+                                 value="#{partnerController.selected.active}">
+                    <f:selectItem itemValue="#{true}"
+                                  itemLabel="#{msgPartner['partner.label.active.active']}"/>
+                    <f:selectItem itemValue="#{false}"
+                                  itemLabel="#{msgPartner['partner.label.active.inactive']}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="#{msgPartner['partner.label.status']}"
+                               for="editPartnerDialog_status"/>
+                <h:outputText id="editPartnerDialog_status"
+                              value="#{partnerController.selected.status.displayName}"/>
+            </h:panelGrid>
+            <h:panelGroup style="display:block; text-align:center;">
+                <p:commandButton value="#{msgApp['app.button.ok']}"
+                                 icon="ui-icon-circle-check"
+                                 action="#{partnerController.save}"
+                                 update=":form:datalist :growl :messages"
+                                 onsuccess="PF('editPartnerDialogVar').hide();"
+                                 />
+                <p:spacer width="4" />
+                <p:commandButton value="#{msgApp['app.button.cancel']}"
+                                 icon="ui-icon-circle-close"
+                                 onclick="PF('editPartnerDialogVar').hide();
+                                         return false;"/>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+</ui:composition>

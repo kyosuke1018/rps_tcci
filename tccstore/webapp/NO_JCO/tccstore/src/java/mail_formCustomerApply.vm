@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>$title</title>
+    <style type="text/css">
+    <!--
+    body {
+      font-size: 14px;
+      font-family: "Microsoft JhengHei", PMingLiU, sans-serif;
+      line-height: 1.5em;
+    }
+    p {
+      font-size: 14px;
+      font-family: "Microsoft JhengHei", PMingLiU, sans-serif;
+    }
+    .mailbody {
+      width:90%;
+    }
+    #ecForm {
+      font-size: 14px;
+      font-family: "Microsoft JhengHei", PMingLiU, sans-serif;
+      border-collapse: collapse;
+    }
+    #ecForm td {
+      font-size: 1em;
+      border: 1px solid #a6c9e2;
+      padding: 3px 7px 2px 7px;
+    }
+    #ecForm th {
+      font-size: 1.1em;
+      border: 1px solid #a6c9e2;
+      text-align: left;
+      padding: 3px;
+      background-color: #dfeffc;
+      color: #2e6e9e;
+    }
+    -->
+    </style>
+  </head>
+  <body>
+    <div class="mailbody">
+      <p>您好:</p>
+      <p>使用者想申请成为签约客户，底下为使用者填写资讯。</p>
+      <table id="ecForm">
+        <tr>
+          <th>使用者帐号:</th>
+          <td>$!ecForm.ecMember.loginAccount</td>
+        </tr>
+        <tr>
+          <th>姓名:</th>
+          <td>$!ecForm.name</td>
+        </tr>
+        <tr>
+          <th>E-Mail:</th>
+          <td>$!ecForm.email</td>
+        </tr>
+        <tr>
+          <th>电话:</th>
+          <td>$!ecForm.phone</td>
+        </tr>
+        <tr>
+          <th>省:</th>
+          <td>$!province</td>
+        </tr>
+        <tr>
+          <th>送出时间:</th>
+          <td>$vmformat.dateFormat("yyyy/MM/dd HH:mm", $ecForm.createtime)</td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

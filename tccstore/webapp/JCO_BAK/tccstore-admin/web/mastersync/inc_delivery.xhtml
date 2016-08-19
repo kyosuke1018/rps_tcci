@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dataTable value="#{deliverySync.result}"
+                 var="vo"
+                 paginator="true" paginatorPosition="bottom" rows="10"
+                 rowStyleClass="#{vo.valid ? '' : 'ui-state-error'}">
+        <p:column headerText="代碼" sortBy="#{vo.code}">
+            <h:outputText value="#{vo.code}"/>
+        </p:column>
+        <p:column headerText="名稱" sortBy="#{vo.name}">
+            <h:outputText value="#{vo.name}"/>
+            <h:panelGroup rendered="#{vo.name ne vo.ecdp.name}">
+                <br/><h:outputText value="#{vo.ecdp.name}"/>
+            </h:panelGroup>
+        </p:column>
+        <p:column headerText="省" sortBy="#{vo.province}">
+            <h:outputText value="#{vo.province}"/>
+            <h:panelGroup rendered="#{vo.province ne vo.ecdp.province}">
+                <br/><h:outputText value="#{vo.ecdp.province}"/>
+            </h:panelGroup>
+        </p:column>
+        <p:column headerText="市" sortBy="#{vo.city}">
+            <h:outputText value="#{vo.city}"/>
+            <h:panelGroup rendered="#{vo.city ne vo.ecdp.city}">
+                <br/><h:outputText value="#{vo.ecdp.city}"/>
+            </h:panelGroup>
+        </p:column>
+        <p:column headerText="區" sortBy="#{vo.district}">
+            <h:outputText value="#{vo.district}"/>
+            <h:panelGroup rendered="#{vo.district ne vo.ecdp.district}">
+                <br/><h:outputText value="#{vo.ecdp.district}"/>
+            </h:panelGroup>
+        </p:column>
+        <p:column headerText="鎮" sortBy="#{vo.town}">
+            <h:outputText value="#{vo.town}"/>
+            <h:panelGroup rendered="#{vo.town ne vo.ecdp.town}">
+                <br/><h:outputText value="#{vo.ecdp.town}"/>
+            </h:panelGroup>
+        </p:column>
+        <p:column headerText="啟用" sortBy="#{vo.active}">
+            <h:outputText value="#{vo.active}"/>
+            <h:panelGroup rendered="#{vo.active ne vo.ecdp.active}">
+                <br/><h:outputText value="#{vo.ecdp.active}"/>
+            </h:panelGroup>
+        </p:column>
+        <p:column headerText="訊息" sortBy="#{vo.message}">
+            <h:outputText value="#{vo.message}"/>
+        </p:column>
+    </p:dataTable>
+</ui:composition>

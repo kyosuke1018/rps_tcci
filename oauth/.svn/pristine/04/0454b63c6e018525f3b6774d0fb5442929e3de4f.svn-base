@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width";>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+    </head>
+
+    <body>
+        <div class="title">
+            台泥新春手机摄影大赛
+            <br>
+            我的幸福中国年
+        </div>
+        
+        <div class="titlePic">
+            <img src="pic/titlePic.gif" class="img80 imgBorder">
+        </div>
+        
+        <div class="contents">
+            <p>用镜头定义你心中中国年的幸福一刻，让摄影大师为你点赞。</p>            
+            <p>把你的随手拍作品分享给我们，台泥将邀请资深媒体老师为佳作点评。</p>
+            <p>相信你的幸福感会透过镜头感染到每一个人。</p>
+        </div>        
+        <br>        
+        
+        <div class="divideLine"></div>
+        <div class="contents">
+            <div class="caption">活动简介</div>
+            <div class="lightText">转眼间</div>
+            <div class="lightText">春节的脚步渐渐走进</div>
+            <div class="lightText">拍下你最幸福的时刻</div>
+            <div class="lightText">这一次</div>
+            <div class="lightText">不仅仅是记录</div>
+            <div class="lightText">还能参加2016台泥新春摄影大赛哦！</div>
+            <div class="pic">
+                <img src="pic/contntPic1.gif" class="img80 imgBorder">
+            </div>
+            <div class="lightText">与亲友欢聚时的笑颜</div>
+            <div class="lightText">或是感恩爸妈亲手做的好饭菜</div>
+            <div class="lightText">亦或者逛庙会时的全家福</div>
+            <div class="lightText">你眼中的幸福年</div>
+            <div class="lightText">是怎样的？</div>
+            <div class="lightText">给大家分享你的幸福与喜悦</div>
+            <div class="lightText">也让大师为你最快乐的瞬间添上更美的一笔！</div>
+        </div>
+        <br>
+        
+        <div class="divideLine"></div>
+        <div class="contents">
+            <div class="caption">样片示范（摘自网络）</div>
+            <div class="lightText">（一）</div>
+            <div class="pic">
+                <img src="pic/contentPic2.jpg" class="img100 imgBorder">
+            </div>
+            <p>2010年1月28日，浙江嘉兴月河街区德勤文化园内，4名身着虎服的小朋友逗趣打闹，让人顿觉农历虎年即将来临。网易2010春节图片报道</p>
+            <div class="lightText">（二）</div>
+            <div class="pic">
+                <img src="pic/contentPic3.jpg" class="img100 imgBorder">
+            </div>
+            <p>2月20日，市民在雪中畅游地坛庙会。当日，农历大年初二，北京普降瑞雪，迎接新春。 中新社发韩海丹 摄</p>
+            <div class="lightText">（三）</div>
+            <div class="pic">
+                <img src="pic/contentPic4.jpg" class="img100 imgBorder">
+            </div>
+            <p>2月19日除夕夜，民众在峨眉山报国寺烧香祈福。当日，峨眉山景区报国寺迎来上万民众撞钟、烧香祈福迎接羊年的到来。 中新社 刘忠俊 摄</p>
+            <div class="lightText">（四）</div>
+            <div class="pic">
+                <img src="pic/contentPic5.jpg" class="img100 imgBorder">
+            </div>
+            2月18日，大年三十，笑笑迎来了人生的第一个春节。听到要和爸爸妈妈一起到奶奶家过年，笑笑露出了这样的表情。国际在线 李澎 摄</p>
+            <div class="lightText">（五）</div>
+            <div class="pic">
+                <img src="pic/contentPic6.jpg" class="img100 imgBorder">
+            </div>
+            <p>2月18日，大年三十，北京市丰台区李先生一家的年夜饭已经准备好了。去年李先生一家的年夜饭是在饭店吃的，今年李先生的妈妈执意要在家里面吃，她说这样才有过年的气氛。国际在线 李澎 摄</p>
+            <div class="lightText">（六）</div>
+            <div class="pic">
+                <img src="pic/contentPic7.jpg" class="img100 imgBorder">
+            </div>
+            <p>上海，2013年2月10日 喜迎新春 体验民俗 2月10日，一位小朋友在观看民俗艺术家制作糖画。 当日是大年初一，众多民俗艺术家齐聚上海金茂大厦，现场制作草编工艺品、捏糖人、画国画……表达对新年的祝福，也让市民和游客领略了浓浓的年味。 新华社记者 裴鑫 摄</p>
+        </div>
+
+        <div class="divideLine"></div>
+        <div class="contents">
+            <div class="caption">活动时间</div>
+            <p>2016年2月1日-2016年2月15日</p>
+            <p>活动期间有除夕夜、农历春节、初五迎财神、情人节等喜庆的日子，满满当当，实实在在，秀美食、秀红包、秀恩爱、晒宝宝、晒自拍、晒旅游，甚至是拍人山人海等等都是好主题！</p>
+        </div>
+    
+        <div class="divideLine"></div>
+        <div class="contents">
+            <div class="caption">活动方式</div>
+            <br>
+            <table>
+                <tr>
+                    <td width="20px" valign="top">✓</td>
+                    <td>拍摄的图片（原图为佳）、作者姓名及联系方式发送给台泥完成投稿。请如实填写您的个人信息，以便获奖后与您联系。</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><div class="pic"><img src="pic/contentPic8.jpg" class="img80 imgBorder"></div></td>
+                </tr>
+                <tr>
+                    <td></td>
+					<td><div class="pic"><img src="pic/contentPic9.jpg" class="img80 imgBorder"></div></td>
+                </tr>
+                <tr>
+                    <td></td>
+					<td><div class="pic"><img src="pic/contentPic10.jpg" class="img80 imgBorder"></div></td>
+                </tr>
+               <tr>
+                    <td width="20px" valign="top">✓</td>
+                    <td>作品须用手机拍摄，且为本人原创，一旦参与活动即表示同意遵守规定，且未侵犯其他人的版权、商标权、人格权、隐私等权益。<br><br></td>
+                </tr>
+               <tr>
+                    <td width="20px" valign="top">✓</td>
+                    <td>将参赛作品发布在朋友圈加注#台泥我的幸福中国年摄影比赛#和作品简述，将截图发送至台泥集团微信公众号的参与者，最终评分环节将获得额外附加分10分。<br></td>
+                </tr>
+                <tr>
+                    <td></td>
+					<td><div class="pic"><img src="pic/contentPic11.jpg" class="img80 imgBorder"></div></td>
+                </tr>
+                <tr>
+                    <td width="20px" valign="top">✓</td>
+                    <td>每个微信id最多提交3幅作品。<br><br></td>
+                </tr>
+               <tr>
+                    <td width="20px" valign="top">✓</td>
+                    <td>作品允许进行少量剪裁、调色等修改，但需注明。不得含有庸俗、暴力、色情、宗教禁忌和法律禁止的题材内容。<br><br></td>
+                </tr>
+               <tr>
+                    <td width="20px" valign="top">✓</td>
+                    <td>作品一旦提交，即视为同意被台泥集团用于展示或其他传播渠道。<br><br></td>
+                </tr>
+               <tr>
+                    <td width="20px" valign="top">✓</td>
+                    <td>最晚截稿日为2016年2月15日18：00。所有奖项均由台泥集团邀请资深媒体进行评选打分，在2月26日对外公开最终得分、获奖名单以及大师评语。<br><br></td>
+                </tr>
+               <tr>
+                    <td width="20px" valign="top">✓</td>
+                    <td>台泥集团保留解释、修改及补充本次活动方式的权利。<br><br></td>
+                </tr>
+            </table>
+            <div class="lightText">（若对参赛方式有任何疑问可在微信留言给小编哦！）</div>
+        </div>
+        <br>
+    
+        <div class="divideLine"></div>
+        <div class="contents">
+            <div class="caption">活动评委</div>
+            <br>
+            <div class="blueText">
+                <div><b>虞建华</b></div>
+                <div>《中国建材》杂志社 总编辑</div>
+                <br>
+                <div><b>路平</b></div>
+                <div>中国建材报社企业宣传部主任，中国摄影家协会会员，中国新闻摄影学会会员。</div>
+                <br>
+                <div><b>魏晋渝</b></div>
+                <div>《中国水泥》杂志社 总编辑</div>
+                <br>
+                <div><b>梁喜琴</b></div>
+                <div>中国水泥协会数字水泥网总编</div>
+                <br>
+                <div><b>武文博</b></div>
+                <div>中国水泥网主编</div>
+                <br>
+                <div><b>沈利利</b></div>
+                <div>水泥地理主编</div>                
+            </div>
+        </div>
+        <br>
+    
+        <div class="divideLine"></div>
+        <div class="contents">
+            <div class="caption">活动奖品</div>
+            <br>
+            <table>
+                <tr>
+                    <td width="30%" valign="top">一等奖1名</td>
+                    <td><b>经典款Kindle电子书</b><br><br></td>
+                </tr>
+                <tr>
+                    <td width="30%" valign="top">二等奖3名</td>
+                    <td><b>华为智能手环</b><br><br></td>
+                </tr>
+                <tr>
+                    <td width="30%" valign="top">三等奖5名</td>
+                    <td><b>飞利浦无线蓝牙音箱</b><br><br></td>
+                </tr>
+                <tr>
+                    <td width="30%" valign="top">幸运奖3名</td>
+                    <td>从所有参赛者中抽取3名幸运者，每位获赠台泥猴年扑满茶叶套装礼盒1份<br><br></td>
+                </tr>
+            </table>
+            <br>
+            <br>
+            <div class="lightText">摄影，是无声的交流</div>
+            <div class="lightText">是最美的时光</div>
+            <div class="lightText">是微观的世界</div>
+            <div class="lightText">让我们和大师们一起品一品</div>
+            <div class="lightText">关于这个</div>
+            <div class="lightText">幸福的中国年</div>
+        </div>
+        <br>
+    
+        <div class="divideLine"></div>
+        <div class="contents">
+            <div class="pic">
+                <img src="pic/wcBarcode.jpg" class="img100">
+            </div>
+        </div>    
+    </body>
+</html>

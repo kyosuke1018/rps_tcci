@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="mainMenu" prependId="false">
+        <p:menubar rendered="#{userSession.valid}">
+            <p:submenu  label="#{msgApp['app.menu.mainLandArea']}" icon="ui-icon ui-icon-document">
+                <p:menuitem  value="#{msgApp['app.menu.HistorySoQuery']}" url="/faces/zorderCn/queryHistory.xhtml"/>
+                <p:menuitem value="#{msgApp['app.menu.SAPSoQuery']}" url="/faces/zorderCn/querySap.xhtml"/>
+            </p:submenu>
+            <p:menuitem value="#{msgApp['app.menu.changePassword']}"
+                        url="/faces/changePassword.xhtml"
+                        rendered="#{not userSession.oauth}"/>
+            <p:submenu label="#{msgApp['app.menu.sysadmin']}"
+                       rendered="#{userSession.isUserInRole('ADMINISTRATORS,switch-user')}">
+                <p:menuitem value="#{msgApp['app.menu.sysadmin.switchuser']}"
+                            url="/faces/switchUser.xhtml"/>
+                <p:menuitem value="#{msgApp['app.menu.sysadmin.usermgmt']}"
+                            url="/faces/usermgmt/management.xhtml"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"/>
+<!--                <p:menuitem value="#{msgApp['app.menu.sysadmin.vaultmgmt']}"
+                            url="/faces/vaultmgmt/management.xhtml"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"/>-->
+            </p:submenu>
+        </p:menubar>
+    </h:form>
+</ui:composition>

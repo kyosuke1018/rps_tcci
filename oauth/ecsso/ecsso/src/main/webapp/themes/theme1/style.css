@@ -1,0 +1,150 @@
+/*
+ * Licensed to Apereo under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work
+ * for additional information regarding copyright ownership.
+ * Apereo licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file
+ * except in compliance with the License.  You may obtain a
+ * copy of the License at the following location:
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+input{
+	outline: 0;
+}
+
+a{
+	margin: 0px;
+	padding: 0px 4px;
+	color: white;
+	text-decoration: none;
+}
+a:hover {
+	color: yellow;
+    text-decoration: underline;
+}
+
+img{
+	border: 0px;
+}
+
+body{	
+	min-width: 1004px;
+	min-height: 100%;
+	margin: 0px;
+	padding: 0px;
+	font-family: "微軟正黑體", "新細明體", Microsoft JhengHei, Arial, sans-serif, serif, cursive, fantasy, monospace;
+	background: #FFF;
+}
+	
+#login .clear{
+	height: 0px;
+	margin: 0px;
+	padding: 0px;
+	_line-height: 0px;
+	_font-size: 0px;
+	clear: both;
+}
+
+#loginBG{
+	width: 100%;
+	height: 50px;		
+	background: url(img/loginBG.jpg);
+}
+	
+#login{
+	width: 980px;
+	height: 45px;
+	margin: 0 auto;
+	color: #fff;	
+}
+
+#login .logo{
+	margin: 5px;
+	float: left;	
+	width: 40px;
+}
+	
+#login .title{	
+	float: left;
+	margin: 7px 5px;
+	display: inline;
+	font-size: 27px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+#login .user{
+	float: right;
+	margin: 3px 0px;
+	padding-right: 5px;
+}
+
+#login .user .icon{
+	width: 15px;
+	height: 15px;
+	margin: -4px 2px -4px 10px;
+	display: inline-block;	
+}
+	
+#login .user #username{
+	width: 120px;
+	padding-left: 3px;
+	border-radius: 5px;
+	font-size: 14px;
+	background: #f8f8f8;
+}
+
+#login .user #password{
+	width: 120px;
+	padding-left: 3px;
+	border-radius: 5px;
+	font-size: 14px;
+	background: #f8f8f8;
+}
+
+#login .user .loginBtn{
+	width: 50px;
+	height: 20px;
+	margin: 6px 0px 6px 25px;
+	padding: 5px 0px;
+	display: inline-block;
+	border: solid 1px #909090;
+	border-radius: 5px;
+/*	box-shadow:  1px  1px 2px #cccccc inset,*/
+/*				-1px -1px 3px #888888 inset;*/
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	color: rgb(200, 0, 0);
+	background: white;
+}
+
+#login .user .loginBtn:hover{
+	cursor: pointer;
+}
+
+#login .user .loginBtn:active{
+	box-shadow:  1px  1px 2px #666666 inset,
+				-1px -1px 3px #bbbbbb inset;
+	cursor: pointer;
+}
+	
+#background{
+	width: 950px;
+	height: 655px;	
+	margin: 0 auto;	
+	background: url(img/background.jpg) no-repeat;
+}
+#msg { position:absolute; padding: 20px; margin-bottom: 10px; }
+#msg h2 { font-size: 1.4em; margin-bottom: 0.5em; }
+#msg.errors { color: #BB0000; padding-left: 100px; background: url(img/error.gif) no-repeat 20px center; }
+#msg.success { color: #390; padding-left: 100px; background: url(img/confirm.gif) no-repeat 20px center; }
+#msg.info { color: #008; padding-left: 100px; background: url(img/info.gif) no-repeat 20px center; }

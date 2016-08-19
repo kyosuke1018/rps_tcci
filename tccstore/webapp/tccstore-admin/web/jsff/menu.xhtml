@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="mainMenu" prependId="false">
+        <p:menubar rendered="#{userSession.valid}">
+            <p:menuitem value="#{msgApp['app.menu.reviewOrder']}"
+                        url="/faces/sales/order.xhtml"
+                        rendered="#{not empty userSession.plantGroups}"/>
+            <p:submenu label="#{msgApp['app.menu.partner']}">
+                <p:menuitem value="#{msgApp['app.menu.partner.reviewPartner']}"
+                            url="/faces/sales/partner.xhtml"/>
+                <p:menuitem value="#{msgApp['app.menu.partner.reviewPartnerComment']}"
+                            url="/faces/sales/partnerComment.xhtml"/>
+            </p:submenu>
+            <p:submenu label="#{msgApp['app.menu.masterquery']}">
+                <p:menuitem value="#{msgApp['app.menu.masterquery.delivery']}"
+                            url="/faces/master/delivery.xhtml"/>
+                <p:menuitem value="#{msgApp['app.menu.masterquery.plantSalesarea']}"
+                            url="/faces/master/plantSalesarea.xhtml"/>
+            </p:submenu>
+            <ui:include src="menu_content.xhtml"/>
+            <p:submenu label="#{msgApp['app.menu.sysadmin']}"
+                       rendered="#{userSession.isUserInRole('ADMINISTRATORS,switch-user')}">
+                <p:menuitem value="#{msgApp['app.menu.sysadmin.switchuser']}"
+                            url="/faces/switchUser.xhtml"/>
+                <p:menuitem value="#{msgApp['app.menu.sysadmin.usermgmt']}"
+                            url="/faces/usermgmt/management.xhtml"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"/>
+                <ui:include src="menu_mastersync.xhtml"/>
+                <ui:include src="menu_imports.xhtml"/>
+                <p:menuitem value="紅利金幣查詢"
+                            url="/faces/reward/query.xhtml"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS,REWARD_MANAGER')}"/>
+                <p:menuitem value="#{msgApp['app.menu.company']}"
+                            url="/faces/company/list.xhtml"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"/>
+            </p:submenu>
+        </p:menubar>
+    </h:form>
+</ui:composition>

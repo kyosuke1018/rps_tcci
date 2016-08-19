@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>各厂客服电话</title>
+	<link rel="icon" type="image/x-icon" href="img/icon_tcc.png"/>
+	<script src="ServiceLineTable.js"></script>
+	
+	<style>
+		body{
+			margin: 0;
+			padding: 0;
+			font-family: "Microsoft JhengHei", Arial, "sans-serif", PMingLiU;
+		}		
+		#header{
+			padding: 35px 0; 
+			text-align: center;
+			background: #c00000;	
+		}
+		#header .title{
+			vertical-align: middle;
+			font-size: 30px;
+			color: #f0f0f0;	
+		}
+		
+		@media screen and (max-width: 768px){
+			#header{		
+				padding: 18px 0;
+			}
+			#header .title{		
+				font-size: 20px;
+			}
+		}
+	</style>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			new ServiceLineTable("phoneNumber.csv");
+		}
+	</script>	
+</head>
+
+<body>
+	<div id="header">
+		<span class="title">各厂客服电话</span>
+	</div>
+</body>
+</html>

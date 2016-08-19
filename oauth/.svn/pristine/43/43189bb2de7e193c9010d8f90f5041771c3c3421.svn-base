@@ -1,0 +1,17 @@
+# asadmin --host localhost multimode --file resources-local.conf
+
+# undeploy war
+#undeploy tccstore
+
+# jdbc, jndi config
+# delete-jdbc-resource jdbc/tccstore
+# delete-jdbc-connection-pool tccstorePool
+delete-custom-resource jndi/tccstore.config
+add-resources glassfish-resources.xml
+
+# SAM config
+delete-message-security-provider --layer HttpServlet SAM_TCCSTORE
+create-message-security-provider --layer HttpServlet --classname com.tcci.cas.sam.CasServerAuthModule --providertype server --property defaultGroup="Authenticated":casServerLoginUrl="http\://192.168.203.45/ecsso/login":casServerUrlPrefix="http\://192.168.203.45/ecsso":jaas-context="ecssoRealm":jndi-dataSource="jdbc/tccstore":query-group="select g.code from TC_User u, TC_USERGROUP gu,TC_GROUP g where u.login_account\=? and u.id\=gu.user_id and gu.GROUP_ID\=g.id":serverName="localhost\:8080" SAM_TCCSTORE
+
+# deploy war
+#deploy ../dist/tccstore.war

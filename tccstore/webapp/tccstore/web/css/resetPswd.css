@@ -1,0 +1,163 @@
+input{
+	outline: 0;
+}
+
+a{
+	margin: 0;
+	padding: 0;
+	text-decoration: none;	
+}
+
+img{
+	border: 0;
+}
+
+body{
+	margin: 0;
+	padding: 0;
+	font-family: "微軟正黑體", "新細明體", Arial, Microsoft JhengHei, sans-serif, serif, cursive, fantasy, monospace;
+}
+	
+.clear{
+	height: 0;
+	margin: 0;
+	padding: 0;
+	_line-height: 0;
+	_font-size: 0;
+	clear: both;
+}
+
+#header{
+	padding: 35px 0; 
+	text-align: center;
+	background: #c00000;	
+}
+	
+#header img{
+	width: 50px;
+	margin-right: 20px;
+	vertical-align: middle;
+}
+
+#header .title{
+	vertical-align: middle;
+	font-size: 30px;
+	color: #f0f0f0;	
+}
+
+#container{
+	max-width: 800px;
+	margin: 30px auto;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+#container .resetPswd{	
+	width: 520px;
+	height: 320px;
+	margin: 0px auto;
+	padding: 50px 80px;
+	box-sizing: border-box;
+	border: solid 1px #a0a0a0;	
+	border-radius: 5px;
+	border-bottom-right-radius: 5px;
+	background: #fff;
+	box-shadow: 5px 5px 7px #e0e0e0;
+}
+
+#container .resetPswd .caption{
+	text-align: center;
+	font-size: 25px;
+	font-weight: bold;
+	color: #808080;
+}
+
+#container .resetPswd .input{
+	width: 100%;
+	margin-top: 20px;
+	padding: 8px;
+	box-sizing: border-box;
+	border: solid 1px #e0e0e0;
+	border-radius: 3px;
+	font-size: 16px;
+	color: #505050;
+	background: #f0f0f0;
+	box-shadow: 1px 1px 1px #e8e8e8 inset, -1px -1px 1px #e8e8e8 inset
+}
+
+#container .resetPswd .input:focus{
+	border: solid 1px #808080;
+}
+
+#container .resetPswd .cont{
+	height:40px;
+	margin-top: 40px;
+}
+	
+#container .resetPswd .cont a{
+	margin-top: 7px;
+	float: left;
+	text-decoration: underline;
+	font-size: 14px;
+	color: #c00000;
+	cursor: pointer;
+}
+
+#container .resetPswd .cont .forgetBtn{
+	padding: 7px 12px;
+	float: right;	
+	box-sizing: border-box;
+	border: solid 1px #c0c0c0;
+	border-radius: 5px;	
+	color: #fff;
+	background: #c00000;
+	cursor:  pointer;
+}
+
+#container .resetPswd .cont .forgetBtn:hover{
+	background: #e00000;
+}
+
+#container .resetPswd .cont .forgetBtn:active{	
+	background: #ff6363;
+	box-shadow: 2px 2px 5px #800000 inset;
+}
+
+#container .resetPswd .note{
+	margin-top: 5px;
+	text-align: justify;
+	font-size: 14px;
+	color: #808080;
+}
+
+#container .resetPswd .note b{	
+	color: #303030;
+}
+
+/*----------------------------------- RWD (cellphone) -----------------------------------*/
+@media screen and (max-width: 768px){
+	#header{		
+		padding: 15px 0;
+	}
+	
+	#header img{
+		width: 35px;
+		margin-right: 10px;
+	}
+
+	#header .title{		
+		font-size: 20px;		
+	}
+	
+	#container{
+		margin: 15px auto;
+		padding: 15px;
+	}
+	
+	#container .resetPswd{
+		width: auto;
+		max-width: 400px;
+		height: auto;
+		padding: 40px 40px 30px;
+	}
+}

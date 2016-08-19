@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+            <p:submenu label="資料匯入"
+                       rendered="#{userSession.isUserInRole('ADMINISTRATORS')}">
+                <p:menuitem value="會員" url="/faces/imports/memberImport.xhtml"/>
+                <p:menuitem value="客戶" url="/faces/imports/customerImport.xhtml"/>
+                <p:menuitem value="會員客戶" url="/faces/imports/memberCustomerImport.xhtml"/>
+                <p:menuitem value="業務員" url="/faces/imports/salesImport.xhtml"/>
+                <p:menuitem value="客戶業務員" url="/faces/imports/customerSalesImport.xhtml"/>
+                <p:menuitem value="出貨工廠" url="/faces/imports/plantImport.xhtml"/>
+                <p:menuitem value="銷售區域" url="/faces/imports/salesareaImport.xhtml"/>
+                <p:menuitem value="送達地點" url="/faces/imports/deliveryImport.xhtml"/>
+                <p:menuitem value="工廠銷售區域" url="/faces/imports/plantSalesareaImport.xhtml"/>
+                <p:menuitem value="商品" url="/faces/imports/productImport.xhtml"/>
+                <p:menuitem value="工廠商品" url="/faces/imports/plantProductImport.xhtml"/>
+                <p:menuitem value="合約" url="/faces/imports/contractImport.xhtml"/>
+                <p:menuitem value="合約商品" url="/faces/imports/contractProductImport.xhtml"/>
+                <p:menuitem value="台泥夥伴" url="/faces/imports/partnerImport.xhtml"/>
+            </p:submenu>
+</ui:composition>

@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>$title</title>
+    <style type="text/css">
+      <!--
+      body {
+        font-size: 14px;
+        font-family: "Microsoft JhengHei", PMingLiU, sans-serif;
+        line-height: 1.5em;
+      }
+      .mailbody {width:800px;}
+      .account {color:blue; font-weight: bold;}
+      .pwd {color:blue; font-weight: bold;}
+      -->
+    </style>
+  </head>
+  <body>
+    <div class="mailbody">
+      <p>您好:</p>
+      <p>台泥电商注册成功! 帐号即为您注册的邮箱地址(<span class="account">$to</span>)。</p>
+      <p>您的密码为 <span class="pwd">$newPassword<span></p>
+      <p>请使用此新密码登入<a href="http://tccstore.taiwancement.com/">台泥电商网站</a>或台泥电商APP</p>
+    </div>
+  </body>
+</html>

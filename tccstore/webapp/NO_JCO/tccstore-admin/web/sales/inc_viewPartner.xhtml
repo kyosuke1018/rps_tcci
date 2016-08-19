@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="formViewPartner" prependId="false">
+        <p:dialog id="viewPartnerDialog"
+                  header="檢視台泥伙伴"
+                  resizable="false"
+                  modal="true"
+                  widgetVar="wvPartnerDialog">
+            <h:panelGrid columns="2" style="width:100%">
+                <h:panelGroup>
+                    <img src="/tccstore/service/image?oid=partner:#{partnerController.selected.id}"
+                         width="240"
+                         height="180"/>
+                </h:panelGroup>
+                <h:panelGrid columns="2" style="width:100%">
+                    <h:outputLabel value="#{msgPartner['partner.label.id']}:"/>
+                    <h:outputText value="#{partnerController.selected.id}"/>
+                    <h:outputLabel value="#{msgPartner['partner.label.name']}:"/>
+                    <h:outputText value="#{partnerController.selected.name}"/>
+                    <h:outputLabel value="#{msgPartner['partner.label.contact']}:"/>
+                    <h:outputText value="#{partnerController.selected.contact}"/>
+                    <h:outputLabel value="#{msgPartner['partner.label.phone']}:"/>
+                    <h:outputText value="#{partnerController.selected.phone}"/>
+                    <h:outputLabel value="#{msgPartner['partner.label.social']}:"/>
+                    <h:outputText value="#{partnerController.selected.social}"/>
+                    <h:outputLabel value="#{msgPartner['partner.label.province']}:"/>
+                    <h:outputText value="#{partnerController.selected.province}"/>
+                    <h:outputLabel value="#{msgPartner['partner.label.city']}:"/>
+                    <h:outputText value="#{partnerController.selected.city}"/>
+                    <h:outputLabel value="#{msgPartner['partner.label.district']}:"/>
+                    <h:outputText value="#{partnerController.selected.district}"/>
+                    <h:outputLabel value="#{msgPartner['partner.label.town']}:"/>
+                    <h:outputText value="#{partnerController.selected.town}"/>
+                    <h:outputLabel value="#{msgPartner['partner.label.address']}:"/>
+                    <h:outputText value="#{partnerController.selected.address}"/>
+                    <h:outputText value="#{msgPartner['partner.label.createtime']}:"/>
+                    <h:outputText value="#{partnerController.selected.createtime}">
+                        <f:convertDateTime type="date" pattern="yyyy/MM/dd HH:mm"/>
+                    </h:outputText>
+                    <h:outputText value="#{msgPartner['partner.label.owner']}:"/>
+                    <h:outputText value="#{partnerController.selected.owner.loginAccount}"/>
+                    <h:outputText value="#{msgPartner['partner.label.averageRate']}:"/>
+                    <h:outputText value="#{partnerController.selected.averageRate}"/>
+                </h:panelGrid>
+            </h:panelGrid>
+            <hr/>
+            <div style="text-align:center;">
+                <p:commandButton value="关闭"
+                                 icon="ui-icon-close"
+                                 onclick="PF('wvPartnerDialog').hide();return false;"/>                    
+            </div>
+        </p:dialog>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>$title</title>
+    <style type="text/css">
+    <!--
+    body {
+      font-size: 14px;
+      font-family: "Microsoft JhengHei", PMingLiU, sans-serif;
+      line-height: 1.5em;
+    }
+    p {
+      font-size: 14px;
+      font-family: "Microsoft JhengHei", PMingLiU, sans-serif;
+    }
+    .mailbody {
+      width:90%;
+    }
+    #commentInfo {
+      font-size: 14px;
+      font-family: "Microsoft JhengHei", PMingLiU, sans-serif;
+      border-collapse: collapse;
+    }
+    #commentInfo td {
+      font-size: 1em;
+      border: 1px solid #a6c9e2;
+      padding: 3px 7px 2px 7px;
+    }
+    #commentInfo th {
+      font-size: 1.1em;
+      border: 1px solid #a6c9e2;
+      text-align: left;
+      padding: 3px;
+      background-color: #dfeffc;
+      color: #2e6e9e;
+    }
+    -->
+    </style>
+  </head>
+  <body>
+    <div class="mailbody">
+      <p>您好:</p>
+      <p>新增伙伴评语，请点<a href="$approveLink">此连结</a>审核伙伴评语。</p>
+      <table id="commentInfo">
+        <tr>
+          <th>评分者帐号:</th>
+          <td>$!comment.ecMember.loginAccount</td>
+        </tr>
+        <tr>
+          <th>评分:</th>
+          <td>$!comment.rate</td>
+        </tr>
+        <tr>
+          <th>评语:</th>
+          <td>$!comment.message</td>
+        </tr>
+        <tr>
+          <th>受评伙伴名称:</th>
+          <td>$!comment.ecPartner.name</td>
+        </tr>
+        <tr>
+          <th>受评伙伴省:</th>
+          <td>$!comment.ecPartner.province</td>
+        </tr>
+        <tr>
+          <th>受评伙伴市:</th>
+          <td>$!comment.ecPartner.city</td>
+        </tr>
+        <tr>
+          <th>受评伙伴区:</th>
+          <td>$!comment.ecPartner.district</td>
+        </tr>
+        <tr>
+          <th>受评伙伴镇:</th>
+          <td>$!comment.ecPartner.town</td>
+        </tr>
+        <tr>
+          <th>受评伙伴地址:</th>
+          <td>$!comment.ecPartner.address</td>
+        </tr>
+        <tr>
+          <th>受评伙伴连络人:</th>
+          <td>$!comment.ecPartner.contact</td>
+        </tr>
+        <tr>
+          <th>受评伙伴电话:</th>
+          <td>$!comment.ecPartner.phone</td>
+        </tr>
+        <tr>
+          <th>送出时间:</th>
+          <td>$vmformat.dateFormat("yyyy/MM/dd HH:mm", $comment.createtime)</td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

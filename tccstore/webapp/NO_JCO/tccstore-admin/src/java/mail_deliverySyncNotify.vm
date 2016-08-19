@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>$subject</title>
+    <style type="text/css">
+    <!--
+    body {
+      font-size: 14px;
+      font-family: "Microsoft JhengHei", PMingLiU, sans-serif;
+      line-height: 1.5em;
+    }
+    p {
+      font-size: 14px;
+      font-family: "Microsoft JhengHei", PMingLiU, sans-serif;
+    }
+    .mailbody {
+      width:90%;
+    }
+    .alert {
+      color: red;
+    }
+    .dataTable {
+      font-size: 14px;
+      font-family: "Microsoft JhengHei", PMingLiU, sans-serif;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .dataTable td {
+      font-size: 1em;
+      border: 1px solid #a6c9e2;
+      padding: 3px 7px 2px 7px;
+    }
+    .dataTable th {
+      font-size: 1.1em;
+      border: 1px solid #a6c9e2;
+      text-align: left;
+      padding: 3px;
+      background-color: #dfeffc;
+      color: #2e6e9e;
+    }
+    -->
+    </style>
+  </head>
+  <body>
+    <div class="mailbody">
+      <p>您好:</p>
+      <p>送达地点同步结果:</p>
+#if ("$syncError" != "")
+      <p class="alert">同步失败, transaction will be rollback!, $syncError</p>
+#end
+
+      <table id="result1" class="dataTable">
+        <tr>
+          <th colspan="8">送达地点</th>
+        </tr>
+        <tr>
+          <th>代码</th>
+          <th>名称</th>
+          <th>省</th>
+          <th>市</th>
+          <th>区</th>
+          <th>镇</th>
+          <th>启用</th>
+          <th>讯息</th>
+        </tr>
+#foreach ($vo1 in $syncData.result1)
+#if ($vo1.valid)
+        <tr>
+#else
+        <tr class="alert">
+#end
+          <td>$!vo1.code</td>
+          <td>$!vo1.name</td>
+          <td>$!vo1.province</td>
+          <td>$!vo1.city</td>
+          <td>$!vo1.district</td>
+          <td>$!vo1.town</td>
+          <td>$!vo1.active</td>
+          <td>$!vo1.message</td>
+        </tr>
+#end        
+      </table>
+<br/>
+      <table id="result2" class="dataTable">
+        <tr>
+          <th colspan="4">销售组织销售区域</th>
+        </tr>
+        <tr>
+          <th>送达地点代码</th>
+          <th>销售组织</th>
+          <th>销售区域</th>
+          <th>讯息</th>
+        </tr>
+#foreach ($vo2 in $syncData.result2)
+#if ($vo2.valid)
+        <tr>
+#else
+        <tr class="alert">
+#end
+          <td>$!vo2.delivery</td>
+          <td>$!vo2.vkorg</td>
+          <td>$!vo2.salesarea</td>
+          <td>$!vo2.message</td>
+        </tr>
+#end        
+      </table>
+    </div>
+  </body>
+</html>

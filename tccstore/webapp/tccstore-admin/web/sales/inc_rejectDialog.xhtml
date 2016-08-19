@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="formReject" prependId="false">
+        <p:dialog id="rejectDialog"
+                  header="确认取消订单"
+                  resizable="false"
+                  modal="true"
+                  widgetVar="wvRejectDialog">
+            <h:panelGrid columns="2">
+                <h:outputText value="#{msgOrder['order.label.id']}:"/>
+                <h:outputText value="#{orderController.selected.id}"/>
+                <h:outputText value="#{msgOrder['order.label.customer']}:"/>
+                <h:outputText value="#{orderController.selected.customerId.name} (#{orderController.selected.customerId.code})"/>
+                <h:outputText value="#{msgOrder['order.label.quantity']}:"/>
+                <h:outputText value="#{orderController.selected.quantity}">
+                    <f:convertNumber pattern="#{msgApp['quantityFormat']}"/>
+                </h:outputText>
+                <h:outputText value="#{msgOrder['order.label.vehicle']}:"/>
+                <h:outputText value="#{orderController.selected.vehicle}"/>
+            </h:panelGrid>
+            <hr/>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="通知讯息:"/>
+                <h:panelGroup>
+                    <h:outputText value="#{orderController.msgPrefix}"/><br/>
+                    <p:inputText value="#{orderController.msgInput}"
+                                 size="40"
+                                 maxlength="100"/>
+                </h:panelGroup>
+            </h:panelGrid>
+            <div style="text-align:center;">
+                <p:commandButton value="确认取消"
+                                 icon="ui-icon-circle-check"
+                                 action="#{orderController.cancel()}"
+                                 update=":growl :messages :form:datalist"
+                                 oncomplete="PF('wvRejectDialog').hide();return false;"/>&nbsp;
+                <p:commandButton value="关闭"
+                                 icon="ui-icon-close"
+                                 onclick="PF('wvRejectDialog').hide();return false;"/>                    
+            </div>
+        </p:dialog>
+    </h:form>
+</ui:composition>

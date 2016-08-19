@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+    <jdbc-connection-pool name="ecdemoPool"
+                          res-type="javax.sql.DataSource"
+                          datasource-classname="oracle.jdbc.pool.OracleDataSource"
+                          connection-validation-method="auto-commit"
+                          is-connection-validation-required="true"
+                          fail-all-connections="true">
+        <property name="serverName" value="192.168.203.81"/>
+        <property name="portNumber" value="1521"/>
+        <property name="databaseName" value="orcl"/>
+        <property name="User" value="ecdemo_user"/>
+        <property name="Password" value="abcd1234"/>
+        <property name="URL" value="jdbc:oracle:thin:@192.168.203.81:1521:orcl"/>
+    </jdbc-connection-pool>
+    <jdbc-resource jndi-name="jdbc/ecdemo" pool-name="ecdemoPool"/>
+    <jdbc-connection-pool name="datawarehousePool"
+                          res-type="javax.sql.DataSource"
+                          datasource-classname="oracle.jdbc.pool.OracleDataSource"
+                          connection-validation-method="auto-commit"
+                          is-connection-validation-required="true"
+                          fail-all-connections="true">
+        <property name="serverName" value="192.168.203.81"/>
+        <property name="portNumber" value="1521"/>
+        <property name="databaseName" value="orcl"/>
+        <property name="User" value="warehouse"/>
+        <property name="Password" value="abcd1234"/>
+        <property name="URL" value="jdbc:oracle:thin:@192.168.203.81:1521:orcl"/>
+    </jdbc-connection-pool>
+    <jdbc-resource jndi-name="jdbc/datawarehouse" pool-name="datawarehousePool"/>
+    <!-- automail -->
+    <mail-resource jndi-name="mail/automail"
+                   host="192.168.203.81"
+                   from="automail@taiwancement.com"
+                   user="automail"/>
+
+    <custom-resource jndi-name="jndi/global.config"
+                     res-type="java.util.Properties"
+                     factory-class="org.glassfish.resources.custom.factory.PropertiesFactory">
+        <property name="CAS_LOGOUT_URL" value="http://192.168.203.81/cas-server/logout"/>
+    </custom-resource>
+
+    <!-- app level configuration -->
+<!--    <custom-resource jndi-name="jndi/ecdemo.config"
+                     res-type="java.util.Properties"
+                     factory-class="org.glassfish.resources.custom.factory.PropertiesFactory">
+        <property name="appURL" value="http://192.168.203.81/ecdemo"/>
+    </custom-resource>-->
+</resources>
