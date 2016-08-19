@@ -1,0 +1,18 @@
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+
+error.processisrunning=\u6d41\u7a0b\u5df2\u5728\u57f7\u884c\u4e2d!
+error.processisnotrunning=\u6d41\u7a0b\u4e26\u975e\u5728\u57f7\u884c\u4e2d!
+error.anotherprocessisrunning=\u5c1a\u6709\u5176\u5b83\u6d41\u7a0b\u9084\u5728\u57f7\u884c\u4e2d!
+error.processtemplatenotfound=\u6d41\u7a0b\u6a23\u7248:{0}\u4e0d\u5b58\u5728!
+error.processtemplateduplicate=\u6d41\u7a0b\u6a23\u7248:{0}\u91cd\u8907!
+error.processtemplateempty=\u6d41\u7a0b\u6c92\u6709\u4efb\u4f55Activity!
+error.roletypenotsupport=\u89d2\u8272\u985e\u5225:{0}\u4e26\u672a\u652f\u63f4!
+error.nostartactivity=\u6d41\u7a0b{0}\u4e2d\u6c92\u6709START Activity!
+error.activityisrunning=\u7c3d\u6838\u9805\u76ee:{0}\u5df2\u5728\u57f7\u884c\u4e2d!
+error.activityisnotrunning=\u7c3d\u6838\u9805\u76ee:{0}\u4e26\u975e\u5728\u57f7\u884c\u4e2d!
+error.activityisnottask=\u7c3d\u6838\u9805\u76ee:{0}\u4e0d\u662fTASK!
+error.activitytypenotsupport=Activity\u985e\u578b:{0}\u4e26\u672a\u652f\u63f4!
+error.workitemisnotrunning=\u7c3d\u6838\u9805\u76ee:{0}\u4e26\u975e\u5728\u5f85\u7c3d\u6838\u72c0\u614b!
+error.notworkitemowner=\u975e\u7c3d\u6838\u9805\u76ee:{0}\u7c3d\u6838\u4eba!
+error.otherworkitemiscompleted=\u7c3d\u6838\u9805\u76ee:{0}\u5df2\u6709\u4eba\u7c3d\u6838!
