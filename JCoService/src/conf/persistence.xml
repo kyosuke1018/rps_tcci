@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="datawarehousePU" transaction-type="JTA">
+    <jta-data-source>jdbc/datawarehouse</jta-data-source>
+
+    <class>com.tcci.sap.jco.entity.JcoServiceLog</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <validation-mode>NONE</validation-mode>
+    <properties>
+      <property name="eclipselink.cache.shared.default" value="false"/>
+        <!--     show sql statement           
+            <property name="eclipselink.weaving" value="static" />
+            <property name="eclipselink.logging.level.sql" value="FINE" />
+            <property name="eclipselink.logging.level" value="FINE" />
+            <property name="eclipselink.logging.level.cache" value="FINE" />
+        -->
+    </properties>
+  </persistence-unit>
+</persistence>

@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="title">
+        <h:outputText value="JCoService Home" />
+    </ui:define>
+    <ui:define name="head">
+        <style type="text/css" >
+            .col1 {
+                vertical-align: top;
+            }
+            .col2 {
+                vertical-align: top;
+            }
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        <p:panel header="JCoService Admin Console (#{indexController.serverIp})" >
+            <h:form id="fmMain" prependId="fasle" >
+                <h:panelGroup >
+                    <p:spacer width="1" />
+                    <h:panelGroup id="pgTime" >
+                        <p:outputLabel value="頁面最近更新Server時間:" />
+                        <h:outputText value="#{indexController.entryTime}" >
+                            <f:convertDateTime pattern="yyyy/MM/dd HH:mm:dd"/>
+                        </h:outputText>
+                    </h:panelGroup>
+                    
+                    <p:spacer width="10" />
+                    <p:selectOneMenu value="#{indexController.condVO.queueName}" >
+                        <f:selectItem itemValue="#{indexController.defQueueName}" itemLabel="最新記錄" />
+                        <f:selectItem itemValue="#{indexController.errQueueName}" itemLabel="錯誤記錄" />
+                        <p:ajax event="change" listener="#{indexController.changeQueue()}" update=":fmMain:pgMain :fmMain:pgTime" />
+                    </p:selectOneMenu>
+                    
+                    <p:spacer width="10" />
+                    <p:outputLabel value="關鍵字查詢：" />
+                    <p:inputText value="#{indexController.condVO.keywork}" size="40" placeholder="AP, IP, Operator, RFC, SapClientCode" />
+                    <p:spacer width="10" />
+                    <p:commandLink title="立即更新" id="clReload" process=":fmMain" 
+                                   actionListener="#{indexController.refresh()}" update=":fmMain:pgMain :fmMain:pgTime" >
+                        <h:graphicImage library="images" name="agt_reload.png" styleClass="iconsBig" />
+                    </p:commandLink>
+                    
+                    <!-- update 10 min -->
+                    <p:poll autoStart="true" async="true" delay="10000" interval="600" 
+                            listener="#{indexController.refresh()}" update=":fmMain:pgMain :fmMain:pgTime" />
+                </h:panelGroup>
+                
+                <h:panelGrid id="pgMain" columns="2" columnClasses="col1, col2" >
+                    <p:fieldset legend="jndi/sapclient.config" >
+                        <p:dataList value="#{indexController.sapClientCodes}" var="client" >
+                            <p:outputLabel value="#{client}" ></p:outputLabel>
+                        </p:dataList>
+                        
+                        <p:separator />
+                        <p:commandButton value="Repository Clear"
+                                    actionListener="#{indexController.clearRepository()}" 
+                                    update=":fmMain:pgTime" />
+                    </p:fieldset>
+                    
+                    <p:fieldset legend="代理 RFC 執行記錄(近100筆)" >
+                        <p:dataTable value="#{indexController.queueInfo}" var="row" scrollable="true" scrollHeight="400" >
+                            <p:column headerText="ID" width="100" >
+                                <h:outputText value="#{row.id}" />
+                            </p:column>
+                            <p:column headerText="Time" width="130" >
+                                <h:outputText value="#{row.runTime}" >
+                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="AP" >
+                                <h:outputText value="#{row.clientCode}" />
+                            </p:column>
+                            <p:column headerText="IP" width="90" >
+                                <h:outputText value="#{row.clientIP}" />
+                            </p:column>
+                            <p:column headerText="Operator" >
+                                <h:outputText value="#{row.operator}" />
+                            </p:column>
+                            <p:column headerText="RFC" width="250" >
+                                <h:outputText value="#{row.functionName}" />
+                            </p:column>
+                            <p:column headerText="SapClientCode" width="90" >
+                                <h:outputText value="#{row.sapClientcode}" />
+                            </p:column>
+                            <p:column headerText="Result" width="60" >
+                                <h:outputText value="#{row.success?'SUCCESS':'FAIL'}" style="color:#{row.success?'green':'red'};font-weight:bolder;" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:fieldset>
+                </h:panelGrid>
+            </h:form>
+        </p:panel>
+
+    </ui:define>
+</ui:composition>

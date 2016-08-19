@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+    <jdbc-connection-pool connection-validation-method="auto-commit" datasource-classname="oracle.jdbc.pool.OracleDataSource" res-type="javax.sql.DataSource"  is-connection-validation-required="true" fail-all-connections="true" name="datawarehousePool">
+      <property name="URL" value="jdbc:oracle:thin:@192.168.204.25:1521:orcl"></property>
+      <property name="user" value="warehouse"></property>
+      <property name="password" value="${db_pw_warehouse}"></property>
+    </jdbc-connection-pool>
+    <jdbc-resource pool-name="datawarehousePool" jndi-name="jdbc/datawarehouse"></jdbc-resource>
+    <custom-resource res-type="java.util.Properties" jndi-name="jndi/global.config" factory-class="org.glassfish.resources.custom.factory.PropertiesFactory">
+      <property name="CAS_LOGOUT_URL" value="${com.taiwancement.sso.logoutUrl}"></property>
+      <property name="SAP_REST_ROOT" value="http://jcoservice.taiwancement.com/JCoService/resources"></property>
+    </custom-resource>
+</resources>
