@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5"
+         metadata-complete="true"
+>
+-->
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Production</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>server</param-value>
+    </context-param>
+    <context-param>
+        <description>get default timezone from OS</description>
+        <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>home</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>RESOURCE_VERSION</param-name>
+        <param-value>1</param-value>
+    </context-param>    
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Resource Servlet</servlet-name>
+        <servlet-class>org.primefaces.resource.ResourceServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Resource Servlet</servlet-name>
+        <url-pattern>/primefaces_resource/*</url-pattern>
+    </servlet-mapping>
+        
+    <!-- Uncomment if you are trying to use a Resin version before 3.0.19.
+        Their XML implementation isn't entirely compatible with Xerces.
+        Below are the implementations to use with Sun's JVM.
+        <system-property javax.xml.xpath.XPathFactory=
+                 "com.sun.org.apache.xpath.internal.jaxp.XPathFactoryImpl"/>
+        <system-property javax.xml.parsers.DocumentBuilderFactory=
+                 "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl"/>
+        <system-property javax.xml.parsers.SAXParserFactory=
+                 "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl"/>
+    -->
+    <!-- People who want to hardcode their "Solr Home" directly into the
+        WAR File can set the JNDI property here...
+    -->
+    <!--
+    <env-entry>
+        <env-entry-name>solr/home</env-entry-name>
+        <env-entry-value>D:/Server/solr-4.7.2/root/solr</env-entry-value>
+    </env-entry>
+    -->
+    <!--
+    <listener>
+        <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+    </listener>
+    <filter>
+        <filter-name>CASSingle Sign Out Filter</filter-name>
+        <filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>CASFilter</filter-name>
+        <filter-class>edu.yale.its.tp.cas.client.filter.CASFilter</filter-class>
+        <init-param>
+               <param-name>edu.yale.its.tp.cas.client.filter.loginUrl</param-name>
+               <param-value>http://192.168.203.81/cas-server/login</param-value>
+        </init-param>
+        <init-param>
+               <param-name>edu.yale.its.tp.cas.client.filter.validateUrl</param-name>
+               <param-value>http://192.168.203.81/cas-server/proxyValidate</param-value>
+        </init-param>
+        <init-param>
+               <param-name>edu.yale.its.tp.cas.client.filter.serverName</param-name>
+               <param-value>localhost:8080</param-value>
+        </init-param>
+    </filter>
+    -->
+    <filter>
+        <filter-name>IpRestrictFilter</filter-name>
+        <filter-class>com.tcci.solr.server.filter.IpRestrictFilter</filter-class>
+        <init-param>
+          <param-name>ip</param-name>
+          <param-value>127.0.0.1</param-value><!-- allow access ip (delimiter ",") -->
+        </init-param>
+    </filter>
+    
+    <!-- Any path (name) registered in solrconfig.xml will be sent to that filter -->
+    <filter>
+        <filter-name>SolrRequestFilter</filter-name>
+        <filter-class>org.apache.solr.servlet.SolrDispatchFilter</filter-class>
+        <!-- If you are wiring Solr into a larger web application which controls
+         the web context root, you will probably want to mount Solr under
+         a path prefix (app.war with /app/solr mounted into it, for example).
+         You will need to put this prefix in front of the SolrDispatchFilter
+         url-pattern mapping too (/solr/*), and also on any paths for
+         legacy Solr servlet mappings you may be using.
+         For the Admin UI to work properly in a path-prefixed configuration,
+         the admin folder containing the resources needs to be under the app context root
+         named to match the path-prefix.  For example:
+
+            .war
+               xxx
+                 js
+                   main.js
+        -->
+        <!--
+        <init-param>
+          <param-name>path-prefix</param-name>
+          <param-value>/xxx</param-value>
+        </init-param>
+        -->
+    </filter>
+
+<!--
+    <filter-mapping>
+           <filter-name>CASSingle Sign Out Filter</filter-name>
+           <url-pattern>/browse</url-pattern>
+           <url-pattern>/#</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+           <filter-name>CASFilter</filter-name>
+           <url-pattern>/browse</url-pattern>
+           <url-pattern>/#</url-pattern>
+    </filter-mapping>
+-->
+    <filter-mapping>
+        <filter-name>IpRestrictFilter</filter-name>
+        <url-pattern>/update</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <!--
+          NOTE: When using multicore, /admin JSP URLs with a core specified
+          such as /solr/coreName/admin/stats.jsp get forwarded by a
+          RequestDispatcher to /solr/admin/stats.jsp with the specified core
+          put into request scope keyed as "org.apache.solr.SolrCore".
+
+          It is unnecessary, and potentially problematic, to have the SolrDispatchFilter
+          configured to also filter on forwards.  Do not configure
+          this dispatcher as <dispatcher>FORWARD</dispatcher>.
+        -->
+        <filter-name>SolrRequestFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>Zookeeper</servlet-name>
+        <servlet-class>org.apache.solr.servlet.ZookeeperInfoServlet</servlet-class>
+    </servlet>
+  
+    <servlet>
+        <servlet-name>LoadAdminUI</servlet-name>
+        <servlet-class>org.apache.solr.servlet.LoadAdminUiServlet</servlet-class>
+    </servlet>
+  
+    <!-- Remove in Solr 5.0 -->
+    <!-- This sends SC_MOVED_PERMANENTLY (301) for resources that changed in 4.0 -->
+    <servlet>
+        <servlet-name>RedirectOldAdminUI</servlet-name>
+        <servlet-class>org.apache.solr.servlet.RedirectServlet</servlet-class>
+        <init-param>
+            <param-name>destination</param-name>
+            <param-value>${context}/#/</param-value>
+        </init-param>
+    </servlet>
+  
+    <servlet>
+        <servlet-name>RedirectOldZookeeper</servlet-name>
+        <servlet-class>org.apache.solr.servlet.RedirectServlet</servlet-class>
+        <init-param>
+            <param-name>destination</param-name>
+            <param-value>${context}/zookeeper</param-value>
+        </init-param>
+    </servlet>
+  
+    <servlet>
+        <servlet-name>RedirectLogging</servlet-name>
+        <servlet-class>org.apache.solr.servlet.RedirectServlet</servlet-class>
+        <init-param>
+            <param-name>destination</param-name>
+            <param-value>${context}/#/~logging</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet>
+        <servlet-name>SolrRestApi</servlet-name>
+        <servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+        <init-param>
+            <param-name>org.restlet.application</param-name>
+            <param-value>org.apache.solr.rest.SolrRestApi</param-value>
+        </init-param>
+    </servlet>
+  
+    <servlet-mapping>
+        <servlet-name>RedirectOldAdminUI</servlet-name>
+        <url-pattern>/admin/</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RedirectOldAdminUI</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RedirectOldZookeeper</servlet-name>
+        <url-pattern>/zookeeper.jsp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RedirectLogging</servlet-name>
+        <url-pattern>/logging</url-pattern>
+    </servlet-mapping>
+
+    <!-- Servlet Mapping -->
+    <servlet-mapping>
+        <servlet-name>Zookeeper</servlet-name>
+        <url-pattern>/zookeeper</url-pattern>
+    </servlet-mapping>
+  
+    <servlet-mapping>
+        <servlet-name>LoadAdminUI</servlet-name>
+        <url-pattern>/admin.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>SolrRestApi</servlet-name>
+        <url-pattern>/schema/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- BEGIN : for security -->
+    <security-role>
+        <role-name>valid-users</role-name>
+    </security-role>    
+    <security-role>
+        <role-name>Administrators</role-name>
+    </security-role>
+     
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>All</web-resource-name>
+            <url-pattern>*.html</url-pattern>
+            <url-pattern>*.xhtml</url-pattern>
+            <url-pattern>/admin/*</url-pattern>
+            <url-pattern>/select</url-pattern>
+            <url-pattern>/query</url-pattern>
+            <url-pattern>/browse</url-pattern>
+            <url-pattern>/lazyExtract</url-pattern>
+            <url-pattern>/safeDelete</url-pattern>
+            <url-pattern>/reindex</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrators</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <!-- END : for security -->
+    
+    <mime-mapping>
+        <extension>.xsl</extension>
+        <!-- per http://www.w3.org/TR/2006/PR-xslt20-20061121/ -->
+        <mime-type>application/xslt+xml</mime-type>
+    </mime-mapping>
+
+    <welcome-file-list>
+        <!--
+        <welcome-file>admin.html</welcome-file>
+        -->
+        <welcome-file>faces/index.xhtml</welcome-file>
+    </welcome-file-list>
+
+</web-app>

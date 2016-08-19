@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Solr Admin Console</title>
+            <style  type="text/css">
+            </style>
+        </h:head>
+        <h:body>
+            <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{applicationScopeManager.preRenderView}"/>
+            <h:form id="fmMain">
+                <h:panelGroup >
+                    <p:outputLabel value="現在時間：#{indexController.entryPageTime}" />
+                </h:panelGroup>
+            </h:form>
+        </h:body>
+        <script type="text/javascript">               
+        //<![CDATA[
+        var login = #{indexController.sessionController.login};
+        if( login ){
+            alert("#{indexController.sessionController.loginAccount} 登入 Solr Admmin Console");
+            self.location.href = "#{facesContext.externalContext.request.contextPath}/admin.html";
+        }else{
+            alert("#{indexController.sessionController.loginAccount} 無 Solr Admmin Console 使用權限!");
+        }
+        //]]>
+        </script>
+    </f:view>
+ </html>

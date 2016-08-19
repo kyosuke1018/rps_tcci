@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+    <connector-connection-pool name="jms/SolrQueueConnetionPool" resource-adapter-name="jmsra" connection-definition-name="javax.jms.QueueConnectionFactory">
+      <property name="AddressList" value="localhost"></property>
+      <property name="Password" value="guest"></property>
+      <property name="UserName" value="guest"></property>
+    </connector-connection-pool>
+    <connector-resource pool-name="jms/SolrQueueConnetionPool" jndi-name="jms/SolrQueueConnectionFactory"></connector-resource>
+    <admin-object-resource res-adapter="jmsra" res-type="javax.jms.Queue" jndi-name="jms/Solr.Queue.1" class-name="com.sun.messaging.Queue">
+      <property name="Name" value="SOLR.QUEUE"></property>
+      <property name="Description" value="Queue for Solr"></property>
+    </admin-object-resource>
+    
+    <custom-resource res-type="java.util.Properties" jndi-name="jndi/solrClient.config" factory-class="org.glassfish.resources.custom.factory.PropertiesFactory">
+      <property name="solrURL" value="http://localhost:8080/solr"></property>
+    </custom-resource>
+    <custom-resource res-type="java.util.Properties" jndi-name="jndi/solrServer.config" factory-class="org.glassfish.resources.custom.factory.PropertiesFactory">
+      <property name="file.dir.pmis" value="D:/temp"></property>
+      <property name="file.dir.SolrWebDemo" value="D:/BAK/solr/SolrWebDemo"></property>
+    </custom-resource>
+    
+    <jdbc-connection-pool name="datawarehousePool" driver-classname="" datasource-classname="oracle.jdbc.pool.OracleDataSource" res-type="javax.sql.DataSource" >
+        <property name="User" value="warehouse"></property>
+        <property name="Password" value="abcd1234"></property>
+        <property name="DataSourceName" value="OracleDataSource"></property>
+        <property name="ExplicitCachingEnabled" value="false"></property>
+        <property name="MaxStatements" value="0"></property>
+        <property name="NetworkProtocol" value="tcp"></property>
+        <property name="ImplicitCachingEnabled" value="false"></property>
+        <property name="URL" value="jdbc:oracle:thin:@192.168.203.81:1521:orcl"></property>
+        <property name="PortNumber" value="0"></property>
+        <property name="LoginTimeout" value="0"></property>
+    </jdbc-connection-pool>
+    <jdbc-resource enabled="true" jndi-name="jdbc/datawarehouse" object-type="user" pool-name="datawarehousePool"/>
+</resources>

@@ -1,0 +1,9 @@
+<FindBugsFilter>
+    <Match>
+        <Bug code="EI,EI2"/>
+    </Match>
+    <Match>
+        <!-- bypass EclipseLink generated -->
+        <Class name="~.*_"/>
+    </Match>
+</FindBugsFilter>

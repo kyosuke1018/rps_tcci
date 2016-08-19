@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!-- Document View & Edit Dialog -->
+    <h:form id="documentForm" enctype="multipart/form-data" prependId="false" >
+        <p:dialog header="文件上傳" id="dlgDocumentEditWidget" widgetVar="wvDocumentEditWidgetDlg" 
+                  modal="true" draggable="false" resizable="false" showEffect="clip" hideEffect="clip" >
+            <p:panelGrid id="pgDocument" columns="2" style="width:100%;" >
+                <p:outputLabel value="上傳檔：" />
+                <h:panelGroup >
+                    <p:fileUpload fileUploadListener="#{indexController.handleFileUpload}"
+                                  mode="advanced"
+                                  update="olName cbDocumentEditSave"
+                                  multiple="true"
+                                  sizeLimit="5242880"
+                                  auto="true"
+                                  label="選取上傳檔案"
+                                  onstart="ajaxStatusShow=false"
+                                  oncomplete="ajaxStatusShow=true" />
+                    <!-- allowTypes="/(\.|\/)(pdf|doc|xls)$/" -->
+                    <p:outputLabel id="olName" value="上傳檔名：#{indexController.filename}" styleClass="info" /><p:spacer height="18" />
+                </h:panelGroup>              
+                <p:outputLabel value="標題：" />
+                <h:panelGroup >
+                    <p:inputTextarea id="itaName" value="#{indexController.title}" cols="40" rows="2" ></p:inputTextarea>
+                    <p:watermark value="若未輸入，預設將帶入上傳檔案名稱。" for="itaName" />
+                </h:panelGroup>
+            </p:panelGrid>
+            <p:separator /> 
+            <h:graphicImage library="images" name="info.png" width="16px" height="16px" style="vertical-align: middle; border-style: none" />
+            <p:spacer width="2px" /><p:outputLabel value="(上傳檔案大小不可超過 5MB)" styleClass="info" />
+            <p:separator /> 
+            <p:panelGrid columns="1" style="width:100%; text-align: center" >
+                <h:panelGroup id="pgDocumentEditSubmit" >
+                    <p:commandButton id="cbDocumentEditSave" value="儲存" 
+                                     disabled="#{indexController.filename==null}" 
+                                     action="#{indexController.saveDocument()}" update="@(form)" 
+                                     oncomplete="closeDocumentEditDlg();" icon="ui-icon-disk" ></p:commandButton>
+                    <p:spacer width="5" />
+                    <p:commandButton id="cbDocumentEditClose" value="取消" 
+                                     type="button"  
+                                     onclick="closeDocumentEditDlg();" 
+                                     icon="ui-icon-circle-close" ></p:commandButton>
+                </h:panelGroup>
+            </p:panelGrid>
+        </p:dialog>
+    </h:form>
+                
+    <script type="text/javascript">
+        //<![CDATA[
+        function openDocumentEditDlg(){
+            wvDocumentEditWidgetDlg.show();
+        }
+        function closeDocumentEditDlg(){
+            wvDocumentEditWidgetDlg.hide();
+        }
+        //]]>
+    </script>
+</ui:composition>

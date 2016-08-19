@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>            
+            <title>Solr Demo</title>
+            
+            <style  type="text/css">
+                B {
+                    color: brown; 
+                }
+                .panelCol {
+                    text-align: center;
+                }
+            </style>
+        </h:head>
+        <h:body>
+            <h:form id="fmMain" >
+                <p:messages id="messages" showDetail="false" autoUpdate="true" /> 
+                
+                <p:panelGrid columns="1" columnClasses="panelCol" style="width: 100%" >
+                    
+                    <p:outputLabel value="TC Google" rendered="#{indexController.firstTime}"
+                                   style="font-size:80px; font-weight: bold; line-height: 300px" ></p:outputLabel>
+                    
+                    <h:panelGroup >
+                        <!--
+                        <p:inputText value="#{indexController.keyword}" size="50" ></p:inputText>
+                        -->
+                        <p:autoComplete size="50" value="#{indexController.keyword}" required="true" requiredMessage="請輸入查詢關鍵字!" 
+                                completeMethod="#{indexController.autoCompleteKeyword}" 
+                                onkeypress="ajaxStatusShow=false" onblur="ajaxStatusShow=true" 
+                                dropdown="true" scrollHeight="240" 
+                                ></p:autoComplete>
+                        
+                        <h:panelGroup rendered="#{!indexController.firstTime}">
+                            <p:commandButton value="查詢" 
+                                             actionListener="#{indexController.doQuery()}"
+                                             update="@(form)" ></p:commandButton>
+                            <p:commandButton value="回上頁" actionListener="#{indexController.init()}" update="@(form)" ></p:commandButton>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup id="pgResult" rendered="#{indexController.firstTime}" >
+                        <p:commandButton value="查詢" 
+                                         actionListener="#{indexController.doQuery()}"
+                                         update="@(form)" ></p:commandButton>
+                        <p:spacer width="5" />
+                        <p:commandButton value="清除" type="reset" ></p:commandButton>
+                        <p:spacer width="5" />
+                        <p:commandButton value="上傳" immediate="true" 
+                                         actionListener="#{indexController.openUploadDlg()}"
+                                         oncomplete="openDocumentEditDlg();" 
+                                         update="@(form)" ></p:commandButton>
+                        <p:spacer width="5" />
+                    </h:panelGroup>
+                    
+                    <h:panelGroup rendered="#{!indexController.firstTime}" >
+                        <p:outputLabel value="約有 #{indexController.resultList.size()} 項結果 (搜尋時間：#{indexController.qtime} 秒)" ></p:outputLabel> 
+                    </h:panelGroup>
+                    
+                    <p:dataGrid id="dgResult" var="row" columns="1" style="width:300px"  
+                                paginatorPosition="bottom" 
+                                value="#{indexController.resultList}"
+                                rendered="#{!indexController.firstTime}"          
+                                rows="12" 
+                                paginator="true" 
+                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="6,12,16">
+                        
+                        <f:facet name="header">
+                            查詢結果
+                        </f:facet>
+                        
+                        <p:panel header="#{row.title}" style="text-align: left" >
+                            <h:outputText value="#{indexController.formatHighlightSnippet(row)}" escape="false" />
+                            <p:commandLink actionListener="#{indexController.removeFromSolr(row)}" update=":fmMain:pgResult" >
+                                <p:outputLabel value="(自Solr移除)" style="cursor: pointer" />
+                            </p:commandLink>
+                        </p:panel>
+                    </p:dataGrid>
+                    
+                </p:panelGrid>
+            </h:form>
+            
+            <!-- Document Edit Dialog -->
+            <ui:include src="/inc/inc_projectDocumentEditDlg.xhtml"></ui:include>
+
+            <ui:include src="/inc/inc_ajaxStatusDlg.xhtml"></ui:include>
+            <ui:include src="/inc/inc_statusDlgBlockUI.xhtml"></ui:include>
+
+        </h:body>
+    </f:view>
+</html>
+
