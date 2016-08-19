@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+    template="/templates/generalPageTemplate.xhtml">
+         <ui:define name="title">#{msgApp['app.menu.exchangeRate']}</ui:define>
+         <ui:define name="content">
+             <p:panel header="#{msgApp['app.menu.exchangeRate']}">
+                 <h:form id="form" prependId="false">
+                     <h:panelGrid columns="2" >
+                         <h:outputLabel value="#{msgApp['exchangeRate.msg.txt1']}:"/>
+                         <!--20151116修改 匯率報價年月選單 admin才可切換 一般總財user只能維護該報價月份-->
+<!--                         <h:outputText value="#{exchangeRateController.editQuoteYM}" styleClass="rptYearMonth"
+                                       rendered="#{!userSession.isUserInRole('ADMINISTRATORS')}"/>-->
+                         <!--rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"-->
+                         <h:panelGroup >
+                             <p:selectOneMenu id="somGroup" value="#{exchangeRateController.editQuoteYM}">
+                                 <f:selectItems value="#{exchangeRateController.ymOptions}"/>
+                                 <p:ajax oncomplete="doChangeYm()" />
+                             </p:selectOneMenu>
+                             <p:remoteCommand name="doChangeYm"
+                                 actionListener="#{exchangeRateController.changeYm()}"
+                                 update=":form"/>
+                             <!--20151013不採用台銀公告 由user自行輸入會計師提供匯率-->
+<!--                             <p:spacer width="5" />
+                             <h:outputLink value="http://rate.bot.com.tw/Pages/UIP008/UIP008.aspx?lang=zh-TW"
+                                           title="臺灣銀行外幣結帳價格表"
+                                           target="_blank">
+                                 <h:graphicImage library="images" name="link_go.png"/>
+                                 <h:outputText value="參考連結"/>
+                             </h:outputLink>-->
+                         </h:panelGroup>
+                         <!--20151013不採用台銀公告 由user自行輸入會計師提供匯率-->
+<!--                         <p:commandButton value="匯率同步"
+                                          icon="ui-icon-refresh"
+                                          title="同步更新臺銀外幣結帳匯率"
+                                          action="#{exchangeRateController.updateMonthlyRate()}"
+                                          update="monthlyRateList"/>
+                         <p:spacer width="5" />-->
+                     </h:panelGrid>
+                     
+<!--                     <h:outputText value="系統僅提供每月參考值，請自行斟酌修改。" 
+                                           style="color: red;font-size: 0.9em;" />
+                     <br/>-->
+                     <h:outputText value="#{msgApp['exchangeRate.msg.txt2']}" 
+                                           style="color: red;font-size: 0.9em;" />
+                     <p:dataTable id="monthlyRateList"
+                                  value="#{exchangeRateController.editMonthlyExchangeRateList}"
+                                  var="row"
+                                  rows="20"
+                                  paginator="true" emptyMessage="No records found. 請執行匯率同步">
+                         <p:column headerText="#{msgApp['exchangeRate.msg.txt8']}" width="250">
+                             <h:panelGroup rendered="#{exchangeRateController.canEditRate(row)}">
+                                 <p:commandLink title="#{msgApp['exchangeRate.msg.txt3']}"
+                                                action="#{exchangeRateController.editMonthlyRate(row)}"
+                                                update=":editRateForm:editRateGroup"
+                                                oncomplete="PF('editRateDlg').show();">
+                                     <h:graphicImage library="images" name="page_edit.png"/>
+                                     <h:outputText value="#{row.currency.name}(#{row.currency.code})"/>
+                                     <h:outputText value=" to "/>
+                                     <h:outputText value="#{row.toCurrency.name}(#{row.toCurrency.code})"/>
+                                 </p:commandLink>
+                             </h:panelGroup>
+                             <h:panelGroup rendered="#{!exchangeRateController.canEditRate(row)}">
+                                 <h:outputText value="#{row.currency.name}(#{row.currency.code})" title="#{msgApp['app.button.readonly']}"/>
+                                 <h:outputText value=" to "/>
+                                 <h:outputText value="#{row.toCurrency.name}(#{row.toCurrency.code})"/>
+                             </h:panelGroup>
+                         </p:column>
+                         <p:column headerText="#{msgApp['exchangeRate.msg.txt4']}(TWD)" width="80">
+                             <h:outputText value="#{row.rate}">
+                                 <f:convertNumber pattern="#,##0.######"/>
+                             </h:outputText>
+                         </p:column>
+                         <p:column headerText="#{msgApp['exchangeRate.msg.txt5']}(TWD)" width="80">
+                             <h:outputText value="#{row.avgRate}">
+                                 <f:convertNumber pattern="#,##0.######"/>
+                             </h:outputText>
+                         </p:column>
+                         <p:column headerText="#{msgApp['exchangeRate.msg.txt9']}" width="80" sortBy="#{row.toCurrency.id}">
+                             <h:outputText value="#{row.toCurrency.name}(#{row.toCurrency.code})"/>
+                         </p:column>
+                         <p:column headerText="#{msgApp['app.label.modifier']}" width="80">
+                             <h:outputText value="#{row.modifier.displayIdentifier}"/>
+                         </p:column>
+                         <p:column headerText="#{msgApp['app.label.modifytimestamp']}" width="80">
+                             <h:outputText value="#{row.modifytimestamp}">
+                                 <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                             </h:outputText>
+                         </p:column>
+                     </p:dataTable>
+                 </h:form>
+                 <h:form id="editRateForm" prependId="false">
+                     <ui:include src="inc_editRateDlg.xhtml"/>
+                 </h:form>
+             </p:panel>
+         </ui:define>
+</ui:composition>

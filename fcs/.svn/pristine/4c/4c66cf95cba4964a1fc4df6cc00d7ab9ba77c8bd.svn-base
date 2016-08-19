@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+<h:panelGrid columns="2" width="100%" columnClasses="colStyle, colStle">
+<h:outputLabel  value="公司" escape="false" class="required" />
+<p:selectOneMenu 
+    converter="fcCompanyConverter"
+    value="#{queryAttachmentController.company}">
+    <f:selectItems value="#{queryAttachmentController.companyOptions}" />
+</p:selectOneMenu>
+<!--<h:outputLabel  value="pageCode" escape="false" class="required" />
+<h:outputText  value="#{queryAttachmentController.condVO.pageCode}" />-->
+<h:outputLabel class="required" value="年" escape="false" />
+<p:inputText required="true" requiredMessage="年必填!" value="#{queryAttachmentController.condVO.yearMonth}" size="12" maxlength="4" />
+</h:panelGrid>
+</ui:composition>

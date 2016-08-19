@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!--<p:column
+    >
+        <f:facet name="header">
+            <h:outputLabel  value="個體公司" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.company.toString()}" />
+    </p:column>-->
+<!--    <p:column>
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['company.msg.txt6']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.group.name}" />
+    </p:column>-->
+    <p:column width="60" style="text-align: center;">
+        <f:facet name="header">
+            <h:outputLabel   value="#{msgApp['app.label.report.ym']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.yearMonth}" />
+    </p:column>
+    <p:column width="100" style="text-align: center;">
+        <f:facet name="header">
+            <h:outputLabel   value="#{msgApp['irs.msg.txt5']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.stopUpload}" />
+    </p:column>
+    <p:column width="100" style="text-align: center;">
+        <f:facet name="header">
+            <h:outputLabel   value="#{msgApp['irs.msg.txt6']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.editLock}" />
+    </p:column> 
+    <p:column width="100">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['app.label.modifier']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.creator.displayIdentifier}" />
+    </p:column>
+    <p:column width="100" style="text-align: center;">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['app.label.modifytimestamp']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.createtimestamp}" >
+            <f:convertDateTime pattern="yyyy/MM/dd hh:mm:ss"/>
+        </h:outputText>
+    </p:column>
+    <!--待補-->
+</ui:composition>

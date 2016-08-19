@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{msgApp['irs.msg.txt55']}</ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <p:panel header="#{msgApp['irs.msg.txt55']}">
+            <h:form id="form" prependId="false">
+                <h:panelGroup>
+                <p:selectOneMenu value="#{irsReportController.group}">
+                    <f:selectItems value="#{irsReportController.groups}"/>
+		    <p:ajax oncomplete="doChangeGroup()" />
+                </p:selectOneMenu>
+		<p:remoteCommand name="doChangeGroup"
+                                 actionListener="#{irsReportController.changeGroup()}"
+                                 update=":form"/>
+                </h:panelGroup>
+                <h:outputLabel  value="#{msgApp['irs.msg.txt7']}:" escape="false" />
+                <h:panelGroup>
+                    <p:selectOneMenu converter="fcCompanyConverter"
+                                     value="#{irsReportController.reCompany}">
+                        <f:selectItems value="#{irsReportController.reCompanyOptions}" />
+                        <p:ajax oncomplete="doChangeReCompany()" />
+                    </p:selectOneMenu>
+                    <p:remoteCommand name="doChangeReCompany"
+                                     actionListener="#{irsReportController.changeReCompany()}"/>
+                </h:panelGroup>
+                <h:outputLabel  value="#{msgApp['app.label.report.ym']}:" escape="false" />
+                <h:panelGroup>
+                    <p:selectOneMenu value="#{irsReportController.yearmonth}">
+                        <f:selectItems value="#{irsReportController.ymOptions}" />
+                        <p:ajax oncomplete="doChangeYM()" />
+                    </p:selectOneMenu>
+                    <p:remoteCommand name="doChangeYM"
+                                     actionListener="#{irsReportController.changeYM()}"/>
+                </h:panelGroup>
+                
+                
+<!--                <h:outputLabel value="#{msgApp['app.label.report.ym']}:"/>
+                <h:outputText value="#{irsReportController.yearmonth}" styleClass="rptYearMonth"/>
+		<h:outputLabel value=" | "/>
+                <h:commandLink title="#{msgApp['irs.msg.txt55']}"
+                               actionListener="#{irsReportController.export1}"
+                               immediate="true"
+                               onclick="monitorDownload();"
+                               rendered="#{!irsReportController.noPermission}">
+                    <p:fileDownload value="#{irsReportController.exportFile}"/>
+                    <h:graphicImage library="images" name="excel.png"/>
+                    <h:outputText value="#{msgApp['app.label.download2']}"/>
+                </h:commandLink>-->
+                
+                <h:outputLabel value=" | "/>
+                <h:commandLink title="#{msgApp['consolidationRpt.msg.txt3']}"
+                               actionListener="#{irsReportController.export('BS')}"
+                               immediate="true"
+                               onclick="monitorDownload();update:'form:dataList'"
+                               rendered="#{!irsReportController.noPermission}">
+                    <h:graphicImage library="images" name="excel.png"/>
+                    <h:outputText value="#{msgApp['consolidationRpt.msg.txt3']}"/>
+                    <p:dataExporter type="xls" target="form:dataList" 
+                                    fileName="irsReport_BS_#{irsReportController.reCompany.code}_#{irsReportController.yearmonth}" 
+                                    postProcessor="#{irsReportController.postProcessXLS}" 
+                                    />
+                </h:commandLink>
+                <h:outputLabel value=" | "/>
+                <h:commandLink title="#{msgApp['consolidationRevenue.msg.txt3']}"
+                               actionListener="#{irsReportController.export('IS')}"
+                               immediate="true"
+                               onclick="monitorDownload();update:'form:dataList'"
+                               rendered="#{!irsReportController.noPermission}">
+                    <h:graphicImage library="images" name="excel.png"/>
+                    <h:outputText value="#{msgApp['consolidationRevenue.msg.txt3']}"/>
+                    <p:dataExporter type="xls" target="form:dataList" 
+                                    fileName="irsReport_IS_#{irsReportController.reCompany.code}_#{irsReportController.yearmonth}" 
+                                    postProcessor="#{irsReportController.postProcessXLS}" 
+                                    />
+                </h:commandLink>
+                
+                
+                <br/>
+<!--                <p:commandButton value="#{msgApp['app.button.query']}" icon="ui-icon-search"
+                                     actionListener="#{irsReportController.query()}"
+                                     update=":qryForm:fieldsetResult"
+                                     rendered="#{!irsReportController.noPermission}"
+                                     />-->
+                
+                <div style="overflow-x:scroll;">
+                    <p:dataTable id="dataList" var="row" value="#{irsReportController.reportVOList}"
+                                 styleClass="ui-datatable-hor-scroll"
+                                 widgetVar="wvDataTable"
+                                 rendered="#{!empty irsReportController.reportVOList}">
+                        <!--company1-->
+                        <p:column headerText="#{msgApp['company.msg.txt2']}" width="60">
+                            <h:outputText value="#{row.compCode}#{row.compName}"/>
+                            <h:panelGroup rendered="#{irsReportController.showMultiCurr and !empty row.compCurrCode}">
+                                <br/>
+                                <h:outputText value="(#{row.compCurrCode})"/>
+                            </h:panelGroup>
+                        </p:column>
+                        <!--RE BS-->
+                        <p:column headerText="應收帳款" rendered="#{irsReportController.bsisType eq 'BS'}">
+                            <h:outputText value="#{row.amountReARAP}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                            <!--20160321 多幣別顯示 原公司幣別金額 先不提供-->
+<!--                            <h:panelGroup rendered="#{irsReportController.showMultiCurr and !empty row.compCurrCode}">
+                                <br/>
+                                <h:outputText value="(#{row.amountReARAP_Ori})" style="color: mediumturquoise">
+                                    <f:convertNumber pattern="#,##0"/>
+                                </h:outputText>
+                            </h:panelGroup>-->
+                        </p:column>
+                        <p:column headerText="暫估應收款" rendered="#{irsReportController.bsisType eq 'BS'}">
+                            <h:outputText value="#{row.amountReGLBS}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="其他應收款	" rendered="#{irsReportController.bsisType eq 'BS'}">
+                            <h:outputText value="#{row.amountReGLOT}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="其他負債" rendered="#{irsReportController.bsisType eq 'BS'}">
+                            <h:outputText value="#{row.amountReSGLI}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <!--RE IS-->
+                        <p:column headerText="營業收入" rendered="#{irsReportController.bsisType eq 'IS'}">
+                            <h:outputText value="#{row.amountReSACO}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="業外收入" rendered="#{irsReportController.bsisType eq 'IS'}">
+                            <h:outputText value="#{row.amountReOTHE}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="合計數">
+                            <h:outputText value="#{row.getTotalRe()}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        
+                        <!--company2-->
+                        <p:column headerText="#{msgApp['company.msg.txt2']}" width="60">
+                            <h:outputText value="#{row.comp2Code}#{row.comp2Name}"/>
+                            <h:panelGroup rendered="#{irsReportController.showMultiCurr and !empty row.comp2CurrCode}">
+                                <br/>
+                                <h:outputText value="(#{row.comp2CurrCode})"/>
+                            </h:panelGroup>
+                        </p:column>
+                        <!--PA BS-->
+                        <p:column headerText="應付帳款" rendered="#{irsReportController.bsisType eq 'BS'}">
+                            <h:outputText value="#{row.amountPaARAP}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="固定資產-累計" rendered="#{irsReportController.bsisType eq 'BS'}">
+                            <h:outputText value="#{row.amountPaASET}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="暫估應付款" rendered="#{irsReportController.bsisType eq 'BS'}">
+                            <h:outputText value="#{row.amountPaGLBS}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="其他應付款" rendered="#{irsReportController.bsisType eq 'BS'}">
+                            <h:outputText value="#{row.amountPaGLOT}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="其他資產" rendered="#{irsReportController.bsisType eq 'BS'}">
+                            <h:outputText value="#{row.amountPaSGLI}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <!--PA IS-->
+                        <p:column headerText="營業成本" rendered="#{irsReportController.bsisType eq 'IS'}">
+                            <h:outputText value="#{row.amountPaSACO}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="營業費用" rendered="#{irsReportController.bsisType eq 'IS'}">
+                            <h:outputText value="#{row.amountPaGLPL}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="業外支出" rendered="#{irsReportController.bsisType eq 'IS'}">
+                            <h:outputText value="#{row.amountPaOTHE}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="合計數">
+                            <h:outputText value="#{row.getTotalPa()}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column headerText="差異數">
+                            <h:outputText value="#{row.getDiff()}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

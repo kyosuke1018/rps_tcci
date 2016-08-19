@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:panelGroup rendered="#{empty reportHome.reportTemplate}">
+        <h:outputText value="#{msgApp['app.error.template']}" style="color: red; font-size: 1.2em;"/>
+        <br/>
+    </h:panelGroup>
+    <h:panelGrid columns="2" rendered="#{not empty reportHome.reportTemplate}">
+        <h:outputLabel value="#{msgApp['app.label.template.ym']}:"/>
+        <h:panelGroup>
+            <h:outputText value="#{reportHome.yearmonth}" styleClass="rptYearMonth"/>
+<!--            <h:commandLink actionListener="#{reportHome.downloadTemplate}"
+                           immediate="true"
+                           onclick="monitorDownload()"
+                           rendered="#{not empty reportHome.reportTemplate}">
+                <p:fileDownload value="#{reportHome.downloadFile}"/>
+                <h:graphicImage library="images" name="excel.png"/>
+                <h:outputText value="#{msgApp['app.label.template.download']}"/>
+            </h:commandLink>-->
+        </h:panelGroup>
+        <h:outputText value="#{msgApp['app.label.template.download']}:"/>
+        <h:panelGroup>
+            <ui:repeat value="#{reportHome.templateFileList}" var="appdata"
+                       rendered="#{not empty reportHome.reportTemplate}">
+                <h:commandLink actionListener="#{reportHome.downloadTemplate(appdata)}"
+                               immediate="true"
+                               onclick="monitorDownload()"
+                               rendered="#{not empty reportHome.reportTemplate}">
+                    <p:fileDownload value="#{reportHome.downloadFile}"/>
+                    <h:graphicImage library="images" name="excel.png"/>
+                    <h:outputText value="#{appdata.fvitem.name}"/>
+                </h:commandLink>
+                <p:spacer width="8"/>
+            </ui:repeat>
+        </h:panelGroup>
+        <h:outputLabel value="#{msgApp['app.label.modify']}:"/>
+        <h:panelGroup>
+            <h:outputText value="#{reportHome.reportTemplate.modifier.displayIdentifier}, "/>
+            <h:outputText value="#{reportHome.reportTemplate.modifytimestamp}">
+                <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+            </h:outputText>
+        </h:panelGroup>
+        <h:outputLabel value="#{msgApp['app.label.note']}:"/>
+        <h:outputText value="#{reportHome.reportTemplate.note}"
+                      style="white-space: pre;"/>
+    </h:panelGrid>
+    <h:panelGroup rendered="#{userSession.isUserInRole('ADMINISTRATORS,FINANCIAL_HQ')}">
+        <p:button value="#{msgApp['app.label.template.add']}"
+                  outcome="templateUpload.xhtml?groupCode=#{reportHome.group}"/>&nbsp;
+        <p:button value="#{msgApp['app.label.template.edit']}"
+                  outcome="templateUpload.xhtml?id=#{reportHome.reportTemplate.id}"
+                  rendered="#{not empty reportHome.reportTemplate}"/>&nbsp;
+        <p:commandButton id="btnStopUpload"
+                         value="#{msgApp['app.button.stopUpload']} #{reportHome.stopUpload ? msgApp['app.button.cancel']:msgApp['app.button.on']}"
+                         icon="ui-icon-power"
+                         action="#{reportHome.stopUploadChange}"
+                         onstart="return confirm('#{msgApp['app.confirm.edit']}');"
+                         update="@this :form:stopSign :form:voList"/>
+    </h:panelGroup>
+</ui:composition>

@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{msgApp['consolidationRevenue.msg.txt1']}</ui:define>
+    <ui:define name="content">
+        <p:panel header="#{msgApp['consolidationRevenue.msg.txt1']}">
+            <h:form id="form" prependId="false">
+                <p:selectOneMenu  id="sorGroup" value="#{reportCompare.group}" required="true">
+                    <f:selectItems value="#{reportCompare.groups}"/>
+                    <p:ajax oncomplete="doChangeGroup()" />
+                </p:selectOneMenu>
+                <p:remoteCommand name="doChangeGroup"
+                                 actionListener="#{reportCompare.changeGroup()}"
+                                 update="form :fixed_hdr"/>
+                
+                <h:outputLabel value="#{msgApp['consolidationRevenue.msg.txt1']}:"/>
+                <h:outputText value="#{reportCompare.yearmonth}" styleClass="rptYearMonth"/>
+                <h:outputLabel value=" | "/>
+                <h:commandLink title="#{msgApp['consolidationRevenue.msg.txt3']}"
+                               actionListener="#{reportCompare.export}"
+                               immediate="true"
+                               onclick="monitorDownload();"
+                               rendered="#{not empty reportCompare.list}">
+                    <p:fileDownload value="#{reportCompare.exportFile}"/>
+                    <h:graphicImage library="images" name="excel.png"/>
+                    <h:outputText value="#{msgApp['consolidationRevenue.msg.txt3']}"/>
+                </h:commandLink>
+                <h:panelGroup rendered="#{userSession.isUserInRole('ADMINISTRATORS,FINANCIAL_HQ')}">
+                    <h:outputLabel value=" | "/>
+                    <p:commandButton
+                        value="#{msgApp['app.button.edit']} #{reportCompare.editLock ? msgApp['app.button.editLock']:msgApp['app.button.cancel']}"
+                        icon="ui-icon-power"
+                        action="#{reportCompare.editLockChange}"
+                        onstart="return confirm('#{msgApp['app.confirm.edit']}');"
+                        update="@this :form:pgEditLock :fixed_hdr"
+                        rendered="#{!reportCompare.noPermission}"/>
+                    <h:panelGroup id="pgEditLock">
+                        <h:graphicImage library="images" name="stop_sign.png" style="vertical-align: middle;" rendered="#{reportCompare.editLock}"/>
+                        <h:outputText value=" #{msgApp['app.button.editLock.on']}" style="color: red;" rendered="#{reportCompare.editLock}"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </h:form>
+            <p:dataTable id="fixed_hdr"
+                         value="#{reportCompare.list}"
+                         scrollable="true" scrollHeight="370"
+                         var="row"
+                         style="padding-top: 4px;">
+                <p:column headerText="#{msgApp['consolidationRevenue.msg.txt4']}" width="70">
+                    <h:outputText value="#{row.coid1.code} " title="#{row.coid1.name}" styleClass="compCode"/>
+                    <h:link outcome="reportUpload.xhtml"
+                            title="#{msgApp['app.label.upload3']}"
+                            rendered="#{(not reportCompare.stopUpload) and reportCompare.isEditable(row.coid1)}">
+                        <f:param name="code" value="#{row.coid1.code}"/>
+                        <h:graphicImage library="images" name="upload.png"/>
+                    </h:link>
+                </p:column>
+                <p:column headerText="#{msgApp['company.msg.txt2']}">
+                    <h:outputText value="#{row.coid1.name}" title="#{row.coid1.name}" styleClass="compCol"/>
+                    <h:panelGroup rendered="#{row.coid1.ename ne null}">
+                        <br/>
+                        <h:outputText value="(#{row.coid1.ename})" title="#{row.coid1.ename}" styleClass="compCol"/>
+                    </h:panelGroup>
+                </p:column>
+<!--                <p:columns value="#{reportCompare.acitem1}" var="item1" styleClass="valCol">
+                    <f:facet name="header">
+                        <h:outputText value="#{item1.code}" title="#{item1.desc}"/>
+                    </f:facet>
+                    <h:outputText value="#{row.getAmount(item1.code)}" styleClass="#{row.isModified(item1.code) ? 'amountModified' : ''}"/>
+                </p:columns>-->
+                <p:column headerText="#{msgApp['consolidationRevenue.msg.txt5']}" styleClass="valCol rptSum">
+                    <h:outputText value="#{row.sum1}">
+                        <f:convertNumber pattern="#,##0.####"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msgApp['consolidationRevenue.msg.txt6']}" width="70">
+                    <h:outputText value=" #{row.coid2.code}" title="#{row.coid2.name}" styleClass="compCode"/>
+                    <h:link outcome="reportUpload.xhtml"
+                            title="#{msgApp['app.label.upload3']}"
+                            rendered="#{(not reportCompare.stopUpload) and reportCompare.isEditable(row.coid2)}">
+                        <f:param name="code" value="#{row.coid2.code}"/>
+                        <h:graphicImage library="images" name="upload.png"/>
+                    </h:link>
+                </p:column>
+                <p:column headerText="#{msgApp['company.msg.txt2']}">
+                    <h:outputText value="#{row.coid2.name}" title="#{row.coid2.name}" styleClass="compCol"/>
+                    <h:panelGroup rendered="#{row.coid2.ename ne null}">
+                        <br/>
+                        <h:outputText value="(#{row.coid2.ename})" title="#{row.coid2.ename}" styleClass="compCol"/>
+                    </h:panelGroup>
+                </p:column>
+<!--                <p:columns value="#{reportCompare.acitem2}" var="item2" styleClass="valCol">
+                    <f:facet name="header">
+                        <h:outputText value="#{item2.code}" title="#{item2.desc}"/>
+                    </f:facet>
+                    <h:outputText value="#{row.getAmount(item2.code)}" styleClass="#{row.isModified(item2.code) ? 'amountModified' : ''}"/>
+                </p:columns>-->
+                <p:column headerText="#{msgApp['consolidationRevenue.msg.txt7']}" styleClass="valCol rptSum">
+                    <h:outputText value="#{row.sum2}">
+                        <f:convertNumber pattern="#,##0.####"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msgApp['consolidationRevenue.msg.txt8']}" styleClass="valCol">
+                    <h:outputText value="#{row.diff}">
+                        <f:convertNumber pattern="#,##0.####"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msgApp['app.label.status']}" style="text-align: center;" width="30">
+                    <h:graphicImage library="images" name="#{row.flag}" title="#{row.note}"/>
+                </p:column>
+                <p:column headerText="#{msgApp['app.button.edit']}" style="text-align: center;" width="30">
+                    <p:commandLink action="#{reportCompare.edit(row)}"
+                                   update=":editForm:rptValues :editForm:rptNote"
+                                   oncomplete="PF('editDlg').show();"
+                                   rendered="#{(not reportCompare.editLock)}">
+                        <h:graphicImage library="images" name="page_edit.png"/>
+                    </p:commandLink>
+                </p:column>
+                <p:column headerText="#{msgApp['app.label.modifytimestamp1']}" style="text-align: center;" width="120">
+                    <h:outputText value="#{row.modifytimestamp}">
+                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+        <ui:include src="inc_valueEditDlg.xhtml"/>
+    </ui:define>
+</ui:composition>

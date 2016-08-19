@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <h:form id="editReconcilingDForm" prependId="false">
+        <p:dialog header="#{msgApp['irs.msg.txt38']}"
+                  id="Dialog"
+                  widgetVar="editMstDlg"
+                  resizable="false"
+                  draggable="true"
+                  width="500"
+                  modal="true">
+            <h:panelGroup id="editDetailDlgGroup">
+                <h:panelGrid columns="2">
+<!--待補-->
+<ui:include src="inc_inputTexts_dtl1.xhtml"/>
+<!--待補-->
+                </h:panelGrid>
+            </h:panelGroup>
+            <hr/>
+            <h:panelGroup style="display:block; text-align:center;">
+                <p:commandButton value="#{msgApp['app.button.save']}"
+                                 icon="ui-icon-circle-check"
+                                 ajax="true" actionListener="#{queryReconcilingController.saveDataDtl()}"
+                                 update=":qryForm:dataList :qryForm:masterdataList"
+                                 oncomplete="saveOnComplete(xhr, status, args)"
+                />
+                <!--onstart="return checkDetail()"
+                ajax="true" actionListener="#{queryReconcilingController.saveDtl1()}" update="@form"
+                oncomplete="editDetailDlg_OK(xhr, status, args)"--> 
+                <p:spacer width="4" />
+                <p:commandButton value="#{msgApp['app.button.cancel']}"
+                                 icon="ui-icon-circle-close" 
+                                 onclick="PF('editMstDlg').hide();return false;"/>
+            </h:panelGroup>
+        </p:dialog>            
+    </h:form>
+    <script type="text/javascript">
+    //<![CDATA[
+    function saveOnComplete(xhr, status, args) {
+        if (typeof args.saved !== "undefined" && args.saved) {
+            PF('editMstDlg').hide();
+        }
+    }
+
+    //]]>
+    </script>    
+</ui:composition>

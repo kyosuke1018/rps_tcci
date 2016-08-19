@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+<h:panelGrid columns="2" width="100%" columnClasses="colStyle, colStle">
+    <h:panelGrid columns="8">
+        <h:outputLabel  value="" escape="false" />
+        <h:panelGroup>
+            <p:selectOneMenu id="somGroup" value="#{querySheetdataController.group}">
+                <f:selectItems value="#{querySheetdataController.groups}"/>
+                <p:ajax oncomplete="doChangeGroup()" />
+            </p:selectOneMenu>
+            <p:remoteCommand name="doChangeGroup"
+                             actionListener="#{querySheetdataController.changeGroup()}"
+                             update=":qryForm"/>
+            <p:spacer width="20"/>
+        </h:panelGroup>
+        <h:outputLabel  value="#{msgApp['irs.msg.txt7']}:" escape="false" />
+        <h:panelGroup>
+            <p:selectOneMenu converter="fcCompanyConverter"
+                value="#{querySheetdataController.condVO.reCompany}">
+                <f:selectItems value="#{querySheetdataController.reCompanyOptions}" />
+                <p:ajax oncomplete="doChangeReCompany()" />
+            </p:selectOneMenu>
+            <p:remoteCommand name="doChangeReCompany"
+                         actionListener="#{querySheetdataController.changeReCompany()}"
+                         update=":qryForm"/>
+        </h:panelGroup>
+        <h:outputLabel  value="#{msgApp['irs.msg.txt8']}:" escape="false" />
+        <h:panelGroup>
+            <p:selectOneMenu 
+                converter="fcCompanyConverter"
+                value="#{querySheetdataController.condVO.paCompany}">
+                <f:selectItems value="#{querySheetdataController.paCompanyOptions}" />
+            </p:selectOneMenu>
+        </h:panelGroup>
+        <h:outputLabel  value="#{msgApp['app.label.data.ym']}:" escape="false" />
+        <h:panelGroup>
+            <p:selectOneMenu value="#{querySheetdataController.condVO.yearMonth}">
+                <f:selectItems value="#{querySheetdataController.ymOptions}" />
+            </p:selectOneMenu>
+        <!--    <p:inputText value="#{querySheetdataController.condVO.yearMonth}" 
+                         size="8" maxlength="6"
+            />-->
+        </h:panelGroup>
+    </h:panelGrid>
+</h:panelGrid>
+</ui:composition>

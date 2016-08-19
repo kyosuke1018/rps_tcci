@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:outputText value="#{msgApp['app.label.template.ym']}:"/>
+    <p:spacer width="5" />
+    <h:selectOneMenu id="reportYear" value="#{templateUpload.year}"
+                     styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all">
+        <f:selectItems value="#{templateUpload.years}"/>
+    </h:selectOneMenu>
+    <h:outputLabel value="#{msgApp['app.label.year']}，" for="reportYear"/>
+    <h:selectOneMenu id="reportMonth" value="#{templateUpload.month}"
+                     styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all">
+        <f:selectItems value="#{templateUpload.months}"/>
+    </h:selectOneMenu>
+    <h:outputLabel value="#{msgApp['app.label.month']}" for="reportMonth"/>
+    <br/>
+    <p:commandButton value="#{msgApp['app.label.next']} >>>"
+                     action="#{templateUpload.yearMonthConfirm}"
+                     update=":form"
+                     global="off"/>
+</ui:composition>

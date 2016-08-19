@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+    <jdbc-connection-pool connection-validation-method="auto-commit"
+                          datasource-classname="com.microsoft.sqlserver.jdbc.SQLServerDataSource"
+                          fail-all-connections="true"
+                          is-connection-validation-required="true"
+                          name="fcsPool"
+                          res-type="javax.sql.DataSource">
+        <property name="serverName" value="192.168.102.25"/>
+        <property name="portNumber" value="1433"/>
+        <property name="databaseName" value="FCSDB"/>
+        <property name="User" value="fcs_user"/>
+        <property name="Password" value="${db_pw_fcs}"/>
+        <property name="URL" value="jdbc:sqlserver://192.168.102.25:1433;databaseName=FCSDB"/>
+    </jdbc-connection-pool>
+    <jdbc-resource jndi-name="jdbc/fcs" pool-name="fcsPool"/>
+
+    <!-- automail -->
+	
+    <!-- jndi/global.config -->
+
+    <!-- app level configuration
+    <custom-resource jndi-name="jndi/fcs.config"
+                     res-type="java.util.Properties"
+                     factory-class="org.glassfish.resources.custom.factory.PropertiesFactory">
+        <property name="appURL" value="http://192.168.203.81/fcs"></property>
+    </custom-resource>
+    -->
+</resources>

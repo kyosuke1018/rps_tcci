@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:panelGrid columns="3">
+        <h:selectOneRadio value="#{reportHome.dispMode}">
+            <f:selectItem itemLabel="#{msgApp['app.option.showAll']}" itemValue="1"/>
+            <f:selectItem itemLabel="#{msgApp['app.option.showUploaded']}" itemValue="2"/>
+            <f:selectItem itemLabel="#{msgApp['app.option.showNoUpload']}" itemValue="3"/>
+            <p:ajax event="click"
+                    listener="#{reportHome.dispModeChange}"
+                    update=":form:voList"/>
+        </h:selectOneRadio>
+        <!--<p:button outcome="reportCompare.xhtml" value="對帳表..." icon="ui-icon-transferthick-e-w"/>-->
+        <h:panelGroup id="stopSign">
+            <h:graphicImage library="images" name="stop_sign.png" style="vertical-align: middle;" rendered="#{reportHome.stopUpload}"/>
+            <h:outputText value=" #{msgApp['app.button.stopUpload.on']}" style="color: red;" rendered="#{reportHome.stopUpload}"/>
+        </h:panelGroup>
+    </h:panelGrid>
+    <p:dataTable id="voList"
+                 value="#{reportHome.voList}"
+                 var="row"
+                 rows="10"
+                 paginator="true">
+        <p:column headerText="#{msgApp['company.msg.txt1']}" sortBy="#{row.company.code}" width="80">
+            <h:outputText value="#{row.company.code}"/>
+        </p:column>
+        <p:column headerText="#{msgApp['company.msg.txt2']}" sortBy="#{row.company.name}">
+            <h:outputText value="#{row.company.name}"/>
+        </p:column>
+        <p:column style="text-align: center;" width="60">
+            <f:facet name="header">
+                <h:outputText value="#{msgApp['app.label.report']} "/>
+                <h:commandLink title="#{msgApp['app.button.downloadAll']}"
+                               actionListener="#{reportHome.downloadAll}"
+                               immediate="true"
+                               onclick="monitorDownload();"
+                               rendered="#{reportHome.showDownloadAll()}">
+                    <p:fileDownload value="#{reportHome.downloadFile}"/>
+                    <h:graphicImage library="images" name="compress.png"/>
+                </h:commandLink>
+            </f:facet>
+            <h:commandLink title="#{msgApp['app.label.download']}"
+                           actionListener="#{reportHome.download(row)}"
+                           immediate="true"
+                           onclick="monitorDownload();"
+                           rendered="#{not empty row.reportUpload}">
+                <p:fileDownload value="#{reportHome.downloadFile}"/>
+                <h:graphicImage library="images" name="excel.png"/>
+            </h:commandLink>
+        </p:column>
+        <p:column headerText="#{msgApp['app.label.modifier2']}" width="150">
+            <h:outputText value="#{row.reportUpload.uploader.displayIdentifier}"/>
+        </p:column>
+        <p:column headerText="#{msgApp['app.label.modifytimestamp2']}" width="120">
+            <h:outputText value="#{row.reportUpload.modifytimestamp}"
+                          styleClass="#{reportHome.isUploadExpired(row) ? 'upload_expired':''}">
+                <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+            </h:outputText>
+            <h:graphicImage library="images"
+                            name="expired.png"
+                            style="vertical-align: middle;"
+                            rendered="#{reportHome.isUploadExpired(row)}"/>
+        </p:column>
+        <p:column headerText="#{msgApp['app.label.action']}" style="text-align: center;" width="60">
+            <h:link outcome="reportUpload.xhtml"
+                    title="#{msgApp['app.label.upload3']}"
+                    rendered="#{reportHome.uploadable}">
+                <f:param name="code" value="#{row.company.code}"/>
+                <h:graphicImage library="images" name="upload.png"/>
+            </h:link>
+        </p:column>
+    </p:dataTable>
+</ui:composition>

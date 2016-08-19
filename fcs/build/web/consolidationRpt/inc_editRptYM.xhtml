@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!--20160527 參考peter方法隱藏下層scrollbar
+    並試用draggable panel的方法-->
+    <style type="text/css">
+            .ui-draggable .ui-dialog-content {
+                cursor: move;
+            }
+    </style>
+    <script type="text/javascript">
+    //<![CDATA[
+    function hideBodyScrollY(){
+        $('body').css('overflow-y', 'hidden');
+    }
+    function showBodyScrollY(){
+        $('body').css('overflow-y', 'auto');
+    }
+    //]]>
+    </script> 
+    <h:form id="editForm" prependId="false">
+        <p:draggable for="Dialog"/>
+        <p:dialog header="#{msgApp['app.button.edit']} #{msgApp['app.label.report.ym']}"
+                  id="Dialog"
+                  widgetVar="editDlg"
+                  resizable="false"
+                  width="300"
+                  modal="true"
+                  draggable="false"
+                  onShow="hideBodyScrollY();" onHide="showBodyScrollY();">
+            <h:panelGroup id="pgEditContent">
+                <h:panelGrid columns="2">
+                    <h:outputLabel class="required" value="#{msgApp['app.label.report.ym']}" escape="false" />
+                    <p:inputText value="#{consolidationRptHome.yearmonth}" 
+                                 required="true" requiredMessage="[#{msgApp['app.label.report.ym']}]必填!"
+                                 size="6" maxlength="6" />
+                </h:panelGrid>
+            </h:panelGroup>
+            <hr/>
+            <h:panelGroup style="display:block; text-align:center;">
+                <p:commandButton value="#{msgApp['app.button.save']}"
+                                 icon="ui-icon-circle-check"
+                                 ajax="true" actionListener="#{consolidationRptHome.editRptYM()}"
+                                 update="@form"
+                                 onstart="return checkDetail()"
+                                 oncomplete="editDetailDlg_OK(xhr, status, args)"
+                                 />
+                <p:spacer width="4" />
+                <p:commandButton value="#{msgApp['app.button.cancel']}"
+                                 icon="ui-icon-circle-close" 
+                                 onclick="PF('editDlg').hide();return false;"/>
+            </h:panelGroup>
+        </p:dialog>
+    </h:form>            
+</ui:composition>

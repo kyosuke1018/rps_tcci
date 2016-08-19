@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+<!--待補-->
+<div style="overflow-x:scroll">
+<!--    lazy="true"
+    filteredValue="#{queryReconcilingController.masterfilterResultList}"-->
+    <p:dataTable id="masterdataList" var="row" value="#{queryReconcilingController.mstVOList}"
+                 styleClass="ui-datatable-hor-scroll"
+                 widgetVar="wvDataTable"
+                 rows="10" paginator="false" >
+        <f:facet name="header">
+        
+        </f:facet>
+        <!-- filter 後變更筆數, 使用 Lazy Loading 不可直接 update 會抓到上次筆數，故用 oncomplete -->
+        <!--<p:ajax event="filter" oncomplete="getRowCountAfterFiltered();" />-->
+        <!-- 待補 -->
+        <ui:include src="inc_pcolumns_master.xhtml"/>
+        <!-- 待補 -->
+    </p:dataTable>
+</div>
+<!--待補-->
+</ui:composition>

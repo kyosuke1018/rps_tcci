@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+<p:fieldset legend="備註" toggleable="true">
+    <li><span>_登入者依權限取得個體公司選單</span>.</li>
+    <li><span>_依個體公司取得對帳公司選單</span>.</li>
+    <li><span>_依個體公司取得解凍年月</span>.</li>
+    <li><span>_資料年月不為解凍年月則無法編列調節表,僅能查看</span>.</li>
+    <li><span>_會科排序原則尚未規劃</span>.</li>
+</p:fieldset>         
+</ui:composition>

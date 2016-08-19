@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog header="#{msgApp['irs.msg.txt53']}"
+              resizable="false"
+              width="400"
+              modal="true"
+              widgetVar="typeEditDlg">
+        <h:panelGroup id="typeEditGroup">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt8']}: " escape="false" />
+            <h:outputText value="#{companyTypeController.editCompanyType.company.toString()}"/>
+            <br/>
+            <h:outputLabel  value="#{msgApp['irs.msg.txt54']}: " escape="false" />
+            <p:inputText value="#{companyTypeController.editCompanyType.type}" 
+                         size="20" />
+            <br/>
+        </h:panelGroup>
+        <hr/>
+        <h:panelGroup style="display:block; text-align:center;">
+            <p:commandButton value="#{msgApp['app.button.save']}"
+                                 icon="ui-icon-circle-check"
+                                 action="#{companyTypeController.save()}"
+                                 update=":form:dtCompanyTypeList"
+                                 oncomplete="PF('typeEditDlg').hide();"/>
+            <p:commandButton value="#{msgApp['app.button.close']}"
+                             icon="ui-icon-circle-close"
+                             onclick="PF('typeEditDlg').hide();return false;"/>
+        </h:panelGroup>
+    </p:dialog>
+</ui:composition>

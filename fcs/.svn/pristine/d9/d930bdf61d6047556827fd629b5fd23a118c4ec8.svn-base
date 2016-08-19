@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{msgApp['irs.msg.txt57']}</ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <p:panel header="#{msgApp['irs.msg.txt57']}">
+            <h:form id="form" prependId="false">
+                <h:panelGroup>
+                <p:selectOneMenu value="#{irsReportB.group}">
+                    <f:selectItems value="#{irsReportB.groups}"/>
+		    <p:ajax oncomplete="doChangeGroup()" />
+                </p:selectOneMenu>
+		<p:remoteCommand name="doChangeGroup"
+                                 actionListener="#{irsReportB.changeGroup()}"
+                                 update=":form"/>
+                </h:panelGroup>
+                <h:outputLabel value="#{msgApp['app.label.report.ym']}:" escape="false" />
+                <h:panelGroup>
+                    <p:selectOneMenu value="#{irsReportB.yearmonth}">
+                        <f:selectItems value="#{irsReportB.ymOptions}" />
+                        <p:ajax oncomplete="doChangeYM()" />
+                    </p:selectOneMenu>
+                    <p:remoteCommand name="doChangeYM"
+                                     actionListener="#{irsReportB.changeYM()}"
+                                     update=":form"/>
+                </h:panelGroup>
+                
+                <!--合併聯署-->
+                <h:panelGroup rendered="#{irsReportB.isPowerUsers}">
+                    <br/>
+                    <h:outputLabel value="合併"/>
+                    <h:outputLabel value=" | "/>
+                    <h:commandLink title="#{msgApp['consolidationRpt.msg.txt3']}"
+                                   actionListener="#{irsReportB.export('BS', true)}"
+                                   immediate="true"
+                                   onclick="monitorDownload();update:'form:dataList'"
+                                   rendered="#{!irsReportB.noPermission}">
+                        <h:graphicImage library="images" name="excel.png"/>
+                        <h:outputText value="#{msgApp['consolidationRpt.msg.txt3']}"/>
+                        <p:dataExporter type="xls" target="form:dataList" 
+                                        fileName="irsReport_BS_#{irsReportB.group.code}_#{irsReportB.yearmonth}" 
+                                        postProcessor="#{irsReportB.postProcessXLS}" 
+                                        />
+                    </h:commandLink>
+                    <h:outputLabel value=" | "/>
+                    <h:commandLink title="#{msgApp['consolidationRevenue.msg.txt3']}"
+                                   actionListener="#{irsReportB.export('IS', true)}"
+                                   immediate="true"
+                                   onclick="monitorDownload();update:'form:dataList'"
+                                   rendered="#{!irsReportB.noPermission}">
+                        <h:graphicImage library="images" name="excel.png"/>
+                        <h:outputText value="#{msgApp['consolidationRevenue.msg.txt3']}"/>
+                        <p:dataExporter type="xls" target="form:dataList" 
+                                        fileName="irsReport_IS_#{irsReportB.group.code}_#{irsReportB.yearmonth}" 
+                                        postProcessor="#{irsReportB.postProcessXLS}" 
+                                        />
+                    </h:commandLink>
+                    <h:outputLabel value=" | "/>
+                    <h:commandLink title="#{msgApp['irs.msg.txt58']}"
+                                   actionListener="#{irsReportB.exportCheck(true)}"
+                                   immediate="true"
+                                   onclick="monitorDownload();update:'form:dtTranDetailList'"
+                                   rendered="#{!irsReportB.noPermission}">
+                        <h:graphicImage library="images" name="excel.png"/>
+                        <h:outputText value="#{msgApp['irs.msg.txt58']}(#{irsReportB.checkCount})"/>
+                        <p:dataExporter type="xls" target="form:dtTranDetailList" 
+                                        fileName="irsReport_check_#{irsReportB.group.code}_#{irsReportB.yearmonth}" 
+                                        postProcessor="#{irsReportB.postProcessXLS}" 
+                                        />
+                    </h:commandLink>
+                </h:panelGroup>
+                
+                <!--非合併聯署 停用-->
+                 <!--20160815台泥以關係人彙總表取代 {irsReportB.group eq 'TCC' and irsReportB.isPowerUsers}-->
+                <h:panelGroup rendered="false">
+                    <br/>
+                    <!--<p:spacer width="125" height="1"/>-->
+                    <h:outputLabel value="非合併"/>
+                    <h:outputLabel value=" | "/>
+                    <h:commandLink title="#{msgApp['consolidationRpt.msg.txt3']}"
+                                   actionListener="#{irsReportB.export('BS', false)}"
+                                   immediate="true"
+                                   onclick="monitorDownload();update:'form:dataList'"
+                                   rendered="#{!irsReportB.noPermission}">
+                        <h:graphicImage library="images" name="excel.png"/>
+                        <h:outputText value="#{msgApp['consolidationRpt.msg.txt3']}"/>
+                        <p:dataExporter type="xls" target="form:dataList" 
+                                        fileName="nonConsolidation_BS_#{irsReportB.group.code}_#{irsReportB.yearmonth}" 
+                                        postProcessor="#{irsReportB.postProcessXLS}" 
+                                        />
+                    </h:commandLink>
+                    <h:outputLabel value=" | "/>
+                    <h:commandLink title="#{msgApp['consolidationRevenue.msg.txt3']}"
+                                   actionListener="#{irsReportB.export('IS', false)}"
+                                   immediate="true"
+                                   onclick="monitorDownload();update:'form:dataList'"
+                                   rendered="#{!irsReportB.noPermission}">
+                        <h:graphicImage library="images" name="excel.png"/>
+                        <h:outputText value="#{msgApp['consolidationRevenue.msg.txt3']}"/>
+                        <p:dataExporter type="xls" target="form:dataList" 
+                                        fileName="nonConsolidation_IS_#{irsReportB.group.code}_#{irsReportB.yearmonth}" 
+                                        postProcessor="#{irsReportB.postProcessXLS}" 
+                                        />
+                    </h:commandLink>
+                    <h:outputLabel value=" | "/>
+                    <h:commandLink title="#{msgApp['irs.msg.txt58']}"
+                                   actionListener="#{irsReportB.exportCheck(false)}"
+                                   immediate="true"
+                                   onclick="monitorDownload();update:'form:dtTranDetailList'"
+                                   rendered="#{!irsReportB.noPermission}">
+                        <h:graphicImage library="images" name="excel.png"/>
+                        <h:outputText value="#{msgApp['irs.msg.txt58']}(#{irsReportB.checkCount2})"/>
+                        <p:dataExporter type="xls" target="form:dtTranDetailList" 
+                                        fileName="nonConsolidation_check_#{irsReportB.group.code}_#{irsReportB.yearmonth}" 
+                                        postProcessor="#{irsReportB.postProcessXLS}" 
+                                        />
+                    </h:commandLink>
+                </h:panelGroup>
+                <!--關係人彙總-->
+                <h:panelGroup rendered="#{irsReportB.group eq 'TCC' and irsReportB.isPowerUsers}">
+                    <br/>
+                    <h:outputLabel value="關係人彙總"/>
+                    <h:outputLabel value=" | "/>
+                    <h:commandLink title="#{msgApp['consolidationRpt.msg.txt3']}"
+                                   actionListener="#{irsReportB.exportB1('BS')}"
+                                   immediate="true"
+                                   onclick="monitorDownload();update:'form:dtReportb1List'"
+                                   rendered="#{!irsReportB.noPermission}">
+                        <h:graphicImage library="images" name="excel.png"/>
+                        <h:outputText value="#{msgApp['consolidationRpt.msg.txt3']}"/>
+                        <p:dataExporter type="xls" target="form:dtReportb1List" 
+                                        fileName="irsReportB1_BS_#{irsReportB.group.code}_#{irsReportB.yearmonth}" 
+                                        postProcessor="#{irsReportB.postProcessXLS_B1}" 
+                                        />
+                    </h:commandLink>
+                    <h:outputLabel value=" | "/>
+                    <h:commandLink title="#{msgApp['consolidationRevenue.msg.txt3']}"
+                                   actionListener="#{irsReportB.exportB1('IS')}"
+                                   immediate="true"
+                                   onclick="monitorDownload();update:'form:dtReportb1List'"
+                                   rendered="#{!irsReportB.noPermission}">
+                        <h:graphicImage library="images" name="excel.png"/>
+                        <h:outputText value="#{msgApp['consolidationRevenue.msg.txt3']}"/>
+                        <p:dataExporter type="xls" target="form:dtReportb1List" 
+                                        fileName="irsReportB1_IS_#{irsReportB.group.code}_#{irsReportB.yearmonth}" 
+                                        postProcessor="#{irsReportB.postProcessXLS_B1}" 
+                                        />
+                    </h:commandLink>
+                </h:panelGroup>
+                
+                <!--20160602virtualLevel1-->
+                <h:panelGroup id="pgLevel1" 
+                              rendered="#{!irsReportB.noPermission and not empty irsReportB.level1s}">
+                    <br/><p:spacer width="1" height="10"/><br/>
+                    <p:selectOneMenu value="#{irsReportB.level1}">
+                        <f:selectItems value="#{irsReportB.level1s}"/>
+                        <p:ajax oncomplete="doChangeLevel1()" />
+                    </p:selectOneMenu>
+                    <p:remoteCommand name="doChangeLevel1"
+                                     actionListener="#{irsReportB.changeLevel1()}"
+                                     update=":form:pgLevel1"/>
+                    <p:spacer width="10" height="10"/>
+                    <br/>
+                    
+                    <h:panelGroup id="pgLevel1Report" 
+                                  rendered="#{not empty irsReportB.level1}">
+                        <h:outputLabel value="合併"/>
+                        <h:outputLabel value=" | "/>
+                        <h:commandLink title="#{msgApp['consolidationRpt.msg.txt3']}"
+                                       actionListener="#{irsReportB.exportLevel1('BS', true)}"
+                                       immediate="true"
+                                       onclick="monitorDownload();update:'form:dataList'">
+                            <h:graphicImage library="images" name="excel.png"/>
+                            <h:outputText value="#{msgApp['consolidationRpt.msg.txt3']}"/>
+                            <p:dataExporter type="xls" target="form:dataList" 
+                                            fileName="irsReport_BS_#{irsReportB.level1}_#{irsReportB.yearmonth}" 
+                                            postProcessor="#{irsReportB.postProcessXLS}" 
+                                            />
+                        </h:commandLink>
+                        <h:outputLabel value=" | "/>
+                        <h:commandLink title="#{msgApp['consolidationRevenue.msg.txt3']}"
+                                       actionListener="#{irsReportB.exportLevel1('IS', true)}"
+                                       immediate="true"
+                                       onclick="monitorDownload();update:'form:dataList'">
+                            <h:graphicImage library="images" name="excel.png"/>
+                            <h:outputText value="#{msgApp['consolidationRevenue.msg.txt3']}"/>
+                            <p:dataExporter type="xls" target="form:dataList" 
+                                            fileName="irsReport_IS_#{irsReportB.level1}_#{irsReportB.yearmonth}" 
+                                            postProcessor="#{irsReportB.postProcessXLS}" 
+                                            />
+                        </h:commandLink>
+                        <br/>
+                        <h:outputLabel value="非合併"/>
+                        <h:outputLabel value=" | "/>
+                        <h:commandLink title="#{msgApp['consolidationRpt.msg.txt3']}"
+                                       actionListener="#{irsReportB.exportLevel1('BS', false)}"
+                                       immediate="true"
+                                       onclick="monitorDownload();update:'form:dataList'">
+                            <h:graphicImage library="images" name="excel.png"/>
+                            <h:outputText value="#{msgApp['consolidationRpt.msg.txt3']}"/>
+                            <p:dataExporter type="xls" target="form:dataList" 
+                                            fileName="nonConsolidation_BS_#{irsReportB.level1}_#{irsReportB.yearmonth}" 
+                                            postProcessor="#{irsReportB.postProcessXLS}" 
+                                            />
+                        </h:commandLink>
+                        <h:outputLabel value=" | "/>
+                        <h:commandLink title="#{msgApp['consolidationRevenue.msg.txt3']}"
+                                       actionListener="#{irsReportB.exportLevel1('IS', false)}"
+                                       immediate="true"
+                                       onclick="monitorDownload();update:'form:dataList'">
+                            <h:graphicImage library="images" name="excel.png"/>
+                            <h:outputText value="#{msgApp['consolidationRevenue.msg.txt3']}"/>
+                            <p:dataExporter type="xls" target="form:dataList" 
+                                            fileName="nonConsolidation_IS_#{irsReportB.level1}_#{irsReportB.yearmonth}" 
+                                            postProcessor="#{irsReportB.postProcessXLS}" 
+                                            />
+                        </h:commandLink>
+                        <br/>
+                        <h:outputLabel value="勘誤表"/>
+                        <h:outputLabel value=" | "/>
+                        <h:commandLink title="#{msgApp['irs.msg.txt58']}"
+                                       actionListener="#{irsReportB.exportCheckLevel1()}"
+                                       immediate="true"
+                                       onclick="monitorDownload();update:'form:dtTranDetailList'">
+                            <h:graphicImage library="images" name="excel.png"/>
+                            <h:outputText value="#{msgApp['irs.msg.txt58']}(#{irsReportB.level1CheckCount})"/>
+                            <p:dataExporter type="xls" target="form:dtTranDetailList" 
+                                            fileName="irsReport_check_#{irsReportB.level1}_#{irsReportB.yearmonth}" 
+                                            postProcessor="#{irsReportB.postProcessXLS}" 
+                                            />
+                        </h:commandLink>
+                    </h:panelGroup>
+                    
+                </h:panelGroup>
+                
+                <br/>
+                <div style="overflow-x:scroll;">
+                    <!--reportB list
+                    20160511 reportB獨立拉出 以應變非合併報表的異動-->
+                    <ui:include src="inc_reportB.xhtml">
+                        <ui:param name="dataList" value="#{irsReportB.reportVOList}"/>
+                        <ui:param name="bsisType" value="#{irsReportB.bsisType}"/>
+                    </ui:include>
+                    
+                    <!--交易會科勘誤-->
+                    <ui:include src="inc_transList.xhtml">
+                        <ui:param name="detailList" value="#{irsReportB.tranDetailList}"/>
+                    </ui:include>
+                    
+                    <!--reportB_1 list
+                    20160803 reportB_1 台泥關係人彙總表-->
+                    <ui:include src="inc_reportB_1.xhtml">
+                        <ui:param name="dataList" value="#{irsReportB.reportVOList}"/>
+                        <ui:param name="bsisType" value="#{irsReportB.bsisType}"/>
+                    </ui:include>
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

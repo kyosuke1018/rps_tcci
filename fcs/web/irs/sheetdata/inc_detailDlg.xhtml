@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog header="#{msgApp['irs.msg.txt15']}"
+              resizable="false"
+              modal="true"
+              widgetVar="detailDlg">
+        <h:panelGroup id="detailGroup">
+            <div style="width:980px;overflow-x:scroll;overflow-y:auto;padding-bottom: 8px;">
+<!--                <h:outputLabel value="#{msgApp['app.label.total']}: "/>
+                <h:outputText value="#{querySheetdataController.totalAmount}" 
+                              styleClass="#{querySheetdataController.isDiff?'rptYearMonth':''}"/>-->
+<!--                <h:panelGroup id="pgDetailExp" rendered="#{!empty querySheetdataController.amountDetailList}" >
+                    <ui:include src="/include/inc_dataExporter.xhtml">
+                        <ui:param name="target" value=":detailForm:dtDetailList"/>
+                        <ui:param name="fileName" value="detaildata"/>
+                        <ui:param name="rowCount" value="#{querySheetdataController.amountDetailList.size()}"/>
+                        <ui:param name="controller" value="#{querySheetdataController}"/>
+                    </ui:include>   
+                </h:panelGroup>-->
+                
+                <p:tabView id="tvDetail"
+                           var="tab"
+                           value="#{querySheetdataController.detailTabs}">
+                    <p:tab title="#{tab.code}#{tab.name}">
+                        <h:outputLabel value="#{msgApp['app.label.total']}: "/>
+                        <h:outputText value="#{tab.totalAmount}" >
+                            <f:convertNumber pattern="#,##0.####"/>
+                        </h:outputText>
+                        <h:panelGroup id="pgDetailExp" rendered="#{!empty tab.tranDetailList}" >
+                            <ui:include src="/include/inc_dataExporter.xhtml">
+                                <ui:param name="target" value=":detailForm:tvDetail:dtDetailList"/>
+                                <ui:param name="fileName" value="detaildata-#{tab.code}"/>
+                                <ui:param name="rowCount" value="#{tab.tranDetailList.size()}"/>
+                                <ui:param name="controller" value="#{querySheetdataController}"/>
+                            </ui:include>   
+                        </h:panelGroup>
+                            
+                        <p:dataTable id="dtDetailList" value="#{tab.tranDetailList}"
+                                     styleClass="ui-datatable-hor-scroll"
+                                     var="row"
+                                     rows="8"
+                                     paginator="true">
+                            <p:column headerText="#{msgApp['app.label.ym']}" width="50" style="text-align: center;">
+                                <h:outputText value="#{row.getYMString()}"/>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt18']}" width="50" style="text-align: center;">
+                                <h:outputText value="#{row.zafcat}"/>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt19']}" width="60">
+                                <h:outputText value="#{row.zaftyp}"/>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt20']}" width="80">
+                                <h:outputText value="#{row.belnr}"/>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt21']}" width="40">
+                                <h:outputText value="#{row.buzei}"/>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt22']}" width="100">
+                                <h:outputText value="#{row.kunnr}"/>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt23']}" width="100">
+                                <h:outputText value="#{row.lifnr}"/>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt24']}" width="80">
+                                <h:outputText value="#{row.hkont}"/>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt25']}" width="80">
+                                <h:outputText value="#{row.budat}">
+                                    <f:convertDateTime type="date" pattern="yyyy/MM/dd"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt26']}" width="70">
+                                <h:outputText value="#{row.zuonr}"/>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt27']}" width="180">
+                                <h:outputText value="#{row.sgtxt}" style="white-space: pre-wrap;"/>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt28']}" width="150">
+                                <h:outputText value="#{row.zafbukNm}"/>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt29']}" width="150">
+                                <h:outputText value="#{row.txt50}"/>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt30']}" width="50">
+                                <h:outputText value="#{row.zckflg}"/>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt31']}" width="80">
+                                <h:outputText value="#{row.zlupdt}">
+                                    <f:convertDateTime type="date" pattern="yyyy/MM/dd"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt32']}" styleClass="valCol" width="100">
+                                <h:outputText value="#{row.wrbtr}" styleClass="item1Sum"/>
+                            </p:column>
+                            <p:column headerText="#{msgApp['irs.msg.txt33']}" styleClass="valCol" width="100">
+                                <h:outputText value="#{row.dmbtr}" styleClass="item1Sum"/>
+                            </p:column>
+                            <p:column headerText="IFRS會科" width="100">
+                                <h:outputText value="#{row.hkontIfrs}" styleClass="item1Sum"/>
+                            </p:column>
+                            <p:column headerText="會科代碼" width="60">
+                                <h:outputText value="#{row.accountCode}" styleClass="item1Sum"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:tab>
+                </p:tabView>
+            </div>
+        </h:panelGroup>
+        <h:panelGroup style="display:block; text-align:center;">
+            <p:commandButton value="#{msgApp['app.button.close']}"
+                             icon="ui-icon-circle-close" 
+                             onclick="PF('detailDlg').hide();return false;"/>
+        </h:panelGroup>
+    </p:dialog>
+</ui:composition>

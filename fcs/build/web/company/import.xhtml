@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">公司匯入</ui:define>
+    <ui:define name="content">
+        <p:panel header="公司匯入">
+            <h:form id="form" prependId="false">
+                <ui:include src="/include/inc_importExcel.xhtml">
+                    <ui:param name="importController" value="#{importCompany}"/>
+                    <ui:param name="excelTemplateURL" value="/company/importCompany.xls"/>
+                </ui:include>
+            </h:form>
+        </p:panel>
+    </ui:define>
+    <ui:define name="voColumns">
+        <p:column headerText="公司代碼" sortBy="#{row.code}">
+            <h:outputText value="#{row.code}"/>
+        </p:column>
+        <p:column headerText="公司名稱" sortBy="#{row.name}">
+            <h:outputText value="#{row.name}"/>
+        </p:column>
+        <p:column headerText="啟用" sortBy="#{row.active}">
+            <h:outputText value="#{row.active}"/>
+        </p:column>
+        <p:column headerText="上傳人">
+            <h:outputText value="#{row.loginAccount}" rendered="#{empty row.uploader}"/>
+            <h:outputText value="#{row.uploader.displayIdentifier}" rendered="#{not empty row.uploader}"/>
+        </p:column>
+        <p:column headerText="報表順序" sortBy="#{row.sort}">
+            <h:outputText value="#{row.sort}"/>
+        </p:column>
+        <p:column headerText="企業團" sortBy="#{row.group}">
+            <h:outputText value="#{row.group}"/>
+        </p:column>
+    </ui:define>
+</ui:composition>

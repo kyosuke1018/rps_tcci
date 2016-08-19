@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <!--新增或編輯-->
+    <ui:composition>
+        <p:dialog id="removeDlg" widgetVar="removeDialog" 
+                  modal="true" resizable="false" 
+                  width="400" height="240"
+                  header="#{msgApp['app.button.remove']}">
+            <!--關閉事件-->
+            <p:ajax event="close" listener="#{purchaseController.handleDetailClose(event)}" />
+
+            <h:form prependId="false" id="removeForm">
+                <p:fieldset>
+                    <p:panelGrid style="width:100%">
+                        <p:row>
+			    <!-- 商品 -->
+                            <p:column style="width:120px">
+                                <p:outputLabel value="#{msgApp['gms.goodsMgt.label.goods']}" />
+                            </p:column>
+                            <p:column>
+				<h:outputText value="#{purchaseController.selectDetailObject.goodsId.name} #{purchaseController.selectDetailObject.goodsId.goodsCode}" />
+                            </p:column>
+			    <!-- 個數 -->
+                            <p:column>
+                                <p:outputLabel value="#{msgApp['gms.purchaseMgt.label.number']}" />
+                            </p:column>
+                            <p:column>
+				<h:outputText value="#{purchaseController.selectDetailObject.goodsNumber}">
+				    <f:convertNumber minFractionDigits="0" />
+				</h:outputText>
+                            </p:column>
+                        </p:row>
+			<p:row>
+			    <!-- 金額 -->
+                            <p:column>
+				<h:outputFormat value="#{msgApp['gms.purchaseMgt.label.amount']}">
+				    <f:param value="(#{purchaseController.selectDetailObject.purchaseMasterId.currencyId.code})" />
+				</h:outputFormat>
+                            </p:column>
+                            <p:column>
+				<h:outputText value="#{purchaseController.selectDetailObject.amountBase}">
+				    <f:convertNumber minFractionDigits="2" />
+				</h:outputText>
+                            </p:column>
+			    <!-- 總金額 -->
+                            <p:column>
+                                <h:outputFormat value="#{msgApp['gms.purchaseMgt.label.totalAmount']}">
+				    <f:param value="(#{purchaseController.selectDetailObject.purchaseMasterId.currencyId.code})" />
+				</h:outputFormat>
+                            </p:column>
+                            <p:column>
+				<h:outputText value="#{purchaseController.selectDetailObject.totalAmountBase}">
+				    <f:convertNumber minFractionDigits="2" />
+				</h:outputText>
+                            </p:column>
+                        </p:row>
+			<p:row>
+			    <!-- 金額 -->
+                            <p:column>
+				<h:outputFormat value="#{msgApp['gms.purchaseMgt.label.amount']}">
+				    <f:param value="(NTD)" />
+				</h:outputFormat>
+                            </p:column>
+                            <p:column>
+				<h:outputText value="#{purchaseController.selectDetailObject.amountTarget}">
+				    <f:convertNumber minFractionDigits="0" />
+				</h:outputText>
+                            </p:column>
+			    <!-- 總金額 -->
+                            <p:column>
+                                <h:outputFormat value="#{msgApp['gms.purchaseMgt.label.totalAmount']}">
+				    <f:param value="(NTD)" />
+				</h:outputFormat>
+                            </p:column>
+                            <p:column>
+				<h:outputText value="#{purchaseController.selectDetailObject.totalAmountTarget}">
+				    <f:convertNumber minFractionDigits="2" />
+				</h:outputText>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:fieldset>
+
+                <div class="buttons" style="text-align: center">
+                    <p:commandButton icon="ui-icon-disk" 
+                                     value="#{msgApp['app.button.save']}" 
+                                     actionListener="#{purchaseController.remove()}"
+                                     oncomplete="handleSubmit(xhr,status,args,PF('removeDialog'));"
+                                     update=":growl :resultForm"
+                                     />
+                    <p:commandButton value="#{msgApp['app.button.close']}" 
+                                     immediate="true"
+                                     icon="ui-icon-close"
+                                     actionListener="#{purchaseController.handleDetailClose(event)}"
+                                     oncomplete="PF('removeDialog').hide()"
+                                     />                
+                </div>         
+            </h:form>
+<!--            <h:panelGroup class="ps_tit1" layout="block">
+                <h:outputText value="說明"/>
+                <ol id="memo" class="ps2">
+                    <li> <h:outputText value="輸入油槽直徑會自動計算油槽面積。如要變更油槽面積，請自行輸入。" escape="false"/></li>
+                </ol>
+            </h:panelGroup>-->
+        </p:dialog>
+    </ui:composition>
+</html>
+
+

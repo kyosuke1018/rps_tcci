@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{querySheetdataController.pageTitle}</ui:define>
+    <ui:define name="content">
+        <h:form id="qryForm" prependId="false">        
+            <p:panel header="#{querySheetdataController.pageTitle}">
+                <p:fieldset id="fieldset_cond" toggleable="true" legend="#{msgApp['app.fieldset.queryfilter']}">
+                    <!-- 待補 -->
+                    <ui:include src="inc_queryFilter.xhtml"/>
+                    <!-- 待補 -->
+                    <p:commandButton value="#{msgApp['app.button.query']}" icon="ui-icon-search"
+                                     actionListener="#{querySheetdataController.query()}"
+                                     update=":qryForm:fieldsetResult"
+                                     rendered="#{!querySheetdataController.noPermission}"
+                                     />
+                    <!--ajax="false" action="#{querySheetdataController.query()}"-->
+                    <!--            <ui:include src="inc_outputLink_report.xhtml">
+                                </ui:include>-->
+                </p:fieldset>    
+                <p:fieldset id="fieldsetResult" legend="#{msgApp['app.fieldset.queryresult']}">
+                    <!--F5refresh 不會init的issue-->
+                    <!--rendered="#{true}"-->
+                    <h:panelGroup id="pgExp" rendered="#{!empty querySheetdataController.mstVOList}" >
+                        <!--客製化匯出報表 使用指定的method作為process-->
+                        <h:commandLink rendered="#{(querySheetdataController.mstVOList.size()>0) 
+                                                   and (querySheetdataController.mstVOList.size() lt 65535)
+                                                   and querySheetdataController.condVO.paCompany ne null}" 
+                                       onclick="PrimeFaces.monitorDownload(startBlockUI, stopBlockUI);">
+                            <h:graphicImage width="20" height="20" library="images" name="excel.png" style="vertical-align: bottom; border-style: none" />
+                            <h:outputLabel value="#{msgApp['app.label.download2']}"/>
+                            <p:dataExporter type="xls" target=":qryForm:dataList" fileName="#{commonUIController.genFileName('sheetdata')}" 
+                                            postProcessor="#{querySheetdataController.postProcessMaster}" 
+                                            />
+                        </h:commandLink>
+                        <h:panelGroup rendered="#{querySheetdataController.mstVOList.size() gt 65535}">
+                            <h:graphicImage width="30" height="35" library="images" name="excel_gray.png" style="vertical-align: bottom; border-style: none" />
+                            <h:outputLabel style="color: red" value="#{msgApp['app.warn.download']}"/>
+                        </h:panelGroup>
+                    </h:panelGroup>
+            <!--        <h:commandLink title="#{msgApp['app.label.download2']}"
+                                   actionListener="#{querySheetdataController.export}"
+                                   immediate="true"
+                                   onclick="monitorDownload();"
+                                   rendered="#{querySheetdataController.mstVOList != null}">
+                        <p:fileDownload value="#{querySheetdataController.exportFile}"/>
+                        <h:graphicImage library="images" name="excel.png"/>
+                        <h:outputText value="#{msgApp['app.label.download2']}"/>
+                    </h:commandLink>-->
+                    <!--<h:outputText id="otRowCount" value="(共#{querySheetdataController.lazyModel.rowCount}筆)" rendered="#{querySheetdataController.lazyModel!=null}" />-->
+                    <br/>
+                    <!--<p:remoteCommand name="getRowCountAfterFiltered" update=":qryForm:otRowCount" />-->
+                    <div style="overflow-x:scroll;">
+                        <p:dataTable id="dataList" var="row" value="#{querySheetdataController.mstVOList}"
+                                     styleClass="ui-datatable-hor-scroll"
+                                     widgetVar="wvDataTable"
+                                     rows="10" paginator="true"
+                                     rendered="#{!empty querySheetdataController.mstVOList}">
+                            <!--value="#{querySheetdataController.mstVOList}"
+                                value="#{querySheetdataController.lazyModel}" 
+                                lazy="true"
+                                filteredValue="#{querySheetdataController.filterResultList}"-->
+                            <!--                <f:facet name="header">
+                                
+                                            </f:facet>-->
+                            <!-- filter 後變更筆數, 使用 Lazy Loading 不可直接 update 會抓到上次筆數，故用 oncomplete -->
+                            <!--<p:ajax event="filter" oncomplete="getRowCountAfterFiltered();" />-->
+                            <!-- 待補 -->
+                            <ui:include src="inc_pcolumns.xhtml"/>
+                            <!-- 待補 -->
+                        </p:dataTable>
+                    </div>
+                </p:fieldset>     
+                <!--待補-->
+<!--                <ui:include src="inc_note_query.xhtml">
+                </ui:include>-->
+                <!--待補-->  
+            </p:panel>
+        </h:form>
+        <h:form id="detailForm" prependId="false">
+            <ui:include src="inc_detailDlg.xhtml"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

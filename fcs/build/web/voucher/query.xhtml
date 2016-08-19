@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml"
+		xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        <h:outputText value="調整傳票"></h:outputText>
+    </ui:define>
+    <ui:define name="content">
+        <p:fieldset legend="調整傳票">
+            <p:fieldset legend="查詢條件">
+                <h:form id="queryForm" prependId="false" >
+                    <p:panelGrid style="width: 60%" styleClass="panelNoBorder">
+                        <p:row>
+			    <p:column>
+                                <p:outputLabel value="作帳年月" styleClass="required"/>
+                            </p:column>
+                            <p:column>
+				<p:selectOneMenu value="#{voucherController.queryCondition.accountDate}">
+                                    <f:selectItem itemLabel="2015/03" itemValue="2015/03" />
+				    <f:selectItem itemLabel="2015/06" itemValue="2015/06" />
+				    <f:selectItem itemLabel="2015/09" itemValue="2015/09" />
+                                </p:selectOneMenu>
+                            </p:column>
+			</p:row>
+			<p:row>
+                            <p:column>
+                                <p:outputLabel value="傳票編號" />
+                            </p:column>
+                            <p:column>
+				<p:inputText value="#{voucherController.queryCondition.id}" />
+				～
+				<p:inputText value="#{voucherController.queryCondition.id}" />
+                            </p:column>
+                        </p:row>
+			<p:row>
+                            <p:column>
+                                <p:outputLabel value="傳票狀態" />
+                            </p:column>
+                            <p:column>
+				<p:selectOneMenu>
+				    <f:selectItem itemLabel="" />
+                                    <f:selectItem itemLabel="輸入" itemValue="1" />
+				    <f:selectItem itemLabel="過帳" itemValue="3" />
+				    <f:selectItem itemLabel="作廢" itemValue="9" />
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+			<p:row>
+                            <p:column>
+                                <p:outputLabel value="作帳人員" />
+                            </p:column>
+                            <p:column>
+<!--				<p:selectOneMenu>
+				    <f:selectItem itemLabel="" />
+                                    <f:selectItem itemLabel="宮起" itemValue="宮起" />
+				    <f:selectItem itemLabel="鄭傑嗚" itemValue="鄭傑嗚" />
+				    <f:selectItem itemLabel="李孟諺" itemValue="李孟諺" />
+                                </p:selectOneMenu>-->
+                            </p:column>
+                        </p:row>
+			<p:row>
+                            <p:column>
+                                <p:outputLabel value="中文摘要" />
+                            </p:column>
+                            <p:column>
+				<p:inputText value="#{voucherController.queryCondition.summary}"
+					     size="47" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+
+                    <p:commandButton value="#{msgApp['app.button.query']}"
+                                     icon="fa fa-search"
+                                     action="#{voucherController.query()}"
+                                     update=":resultForm"
+                                     />
+<!--		    <p:commandButton  value="#{msgApp['app.label.upload']}" id="uploadButton"
+                                      icon="fa fa-angle-double-up"
+                                      onstart="#{excelUploadController.initController(voucherController)}"
+				      update=":uploadData :resultForm"
+                                      onclick="PF('excelUploadDlg').show();"
+                                      rendered="#{userSession.isUserInRole('ADMINISTRATORS,1')}"
+                                      />-->
+		</h:form>
+	    </p:fieldset>
+
+	    <p:fieldset legend="#{msgApp['app.fieldset.queryresult']}">
+		<h:form id="resultForm" prependId="false" >
+		    <p:commandButton  
+			value="新增傳票"
+			icon="fa fa-plus fa-fw"
+			actionListener="#{voucherController.addMaster()}"
+			action="editMaster.xhtml"
+			update=":resultForm"
+			/>
+		    <p:commandButton  
+			value="匯出傳票"
+			icon="fa fa-download fa-fw"
+			actionListener="#{voucherController.addMaster()}"
+			action="editMaster.xhtml"
+			update=":resultForm"
+			/>
+		    <!-- Master Table -->
+		    <p:dataTable id="datalist" 
+				 value="#{voucherController.dataTableList}"  
+				 var="data"
+				 paginator="true"
+				 paginatorPosition="bottom"
+				 rows="10"
+				 rowsPerPageTemplate="5,10,20,50,100"
+				 draggableColumns="true"
+				 sortMode="multiple"
+				 scrollable="true"
+				 styleClass="ui-datatable-tablewrapper">
+			<f:facet name="header">&nbsp;</f:facet>
+			<!-- 動作 -->
+			<p:column headerText="#{msgApp['app.label.action']}" 
+				  width="120"
+				  style="text-align: center;">
+			    <p:menuButton value="請選擇" >
+				<p:menuitem value="編輯傳票" 
+					    actionListener="#{voucherController.editMaster(data)}" 
+					    action="editMaster.xhtml"
+					    icon="fa fa-edit fa-fw"
+					    rendered="#{voucherController.isMasterEditable(data)}" />
+				<p:menuitem value="作廢傳票" 
+					    onclick="return confirm('確定要作廢該筆傳票嗎？');"
+					    icon="fa fa-remove fa-fw" 
+					    rendered="#{!voucherController.isMasterEditable(data)}" />
+				<p:menuitem value="過帳" 
+					    icon="fa fa-calculator fa-fw"
+					    rendered="#{voucherController.isMasterEditable(data)}" />
+				<!--actionListener="#{voucherController.editMaster(data)}"--> 
+			    </p:menuButton>
+			</p:column>
+			<p:column headerText="傳票編號" 
+				  sortBy="#{data.id}">
+			    <h:outputText value="#{data.id}" />
+			</p:column>
+<!--			<p:column headerText="作帳年月" 
+				  sortBy="#{data.accountDate}">
+			    <h:outputText value="#{data.accountDate}" />
+			</p:column>-->
+<!--			<p:column headerText="傳票類別" 
+				  sortBy="#{data.voucherType}">
+			    <h:outputText value="#{data.voucherType}" />
+			</p:column>-->
+			<p:column headerText="傳票狀態" 
+				  sortBy="#{data.voucherStatus}">
+			    <h:outputText value="#{data.voucherStatus}" />
+			</p:column>
+			<p:column headerText="中文摘要" 
+				  sortBy="#{data.summary}">
+			    <h:outputText value="#{data.summary}" />
+			</p:column>
+			<p:column headerText="過帳人員" 
+				  sortBy="#{data.postingPerson}">
+			    <h:outputText value="#{data.postingPerson}" />
+			</p:column>
+			<p:column headerText="過帳時間" 
+				  sortBy="#{data.postingDate}">
+			    <h:outputText value="#{data.postingDate}" >
+				<f:convertDateTime pattern="yyyy/MM/dd" />
+			    </h:outputText>
+			</p:column>
+<!--			<p:column headerText="借貸方金額" 
+				  sortBy="#{data.debitBalance}">
+			    <h:outputText value="#{data.debitBalance}">
+				<f:convertNumber minFractionDigits="2" />
+			    </h:outputText>
+			</p:column>-->
+<!--			<p:column headerText="貸方金額" 
+				  sortBy="#{data.creditBalance}">
+			    <h:outputText value="#{data.creditBalance}">
+				<f:convertNumber minFractionDigits="2" />
+			    </h:outputText>
+			</p:column>
+			<p:column headerText="差異金額" 
+				  sortBy="#{data.differBalance}">
+			    <h:outputText value="#{data.differBalance}">
+				<f:convertNumber minFractionDigits="2" />
+			    </h:outputText>
+			</p:column>-->
+<!--			<p:column headerText="作帳人員" 
+				  sortBy="#{data.voucherType}">
+			    <h:outputText value="#{data.voucherType}" />
+			</p:column>-->
+		    </p:dataTable>
+		</h:form>
+	    </p:fieldset>
+	</p:fieldset>
+    </ui:define>
+
+</ui:composition>

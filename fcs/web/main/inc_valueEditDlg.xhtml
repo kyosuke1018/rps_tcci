@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog header="#{msgApp['consolidationRevenue.msg.txt9']}"
+              widgetVar="editDlg"
+              modal="true"
+              resizable="false">
+        <h:form id="editForm" prependId="false">
+            <h:panelGroup id="rptValues">
+                <div style="width:980px;overflow-x:scroll;overflow-y:auto;padding-bottom: 8px;">
+                    <h:outputLabel value="#{msgApp['consolidationRevenue.msg.txt4']}: "/>
+                    <h:outputText value="#{reportCompare.editVO.coid1.code} #{reportCompare.editVO.coid1.name}(#{reportCompare.editVO.coid1.ename})" styleClass="rptCompany"/>
+                    <p:dataTable value="#{reportCompare.editList}"
+                                 var="row">
+                        <p:columns value="#{reportCompare.acitem1}" var="item1" styleClass="valCol" width="150">
+                            <f:facet name="header">
+                                <h:outputText value="#{item1.code}" styleClass="item1Code"/><br/>
+                                <h:outputText value="#{item1.desc}" styleClass="codeDesc"/>
+                                <h:panelGroup rendered="#{item1.edesc != null}">
+                                    <br/><h:outputText value="#{item1.edesc}" title="#{item1.edesc}" styleClass="codeDesc"/>
+                                </h:panelGroup>
+                            </f:facet>
+                            <h:outputText value="#{row.getAmount(item1.code)}"
+                                          title="#{msgApp['consolidationRevenue.msg.txt10']}:#{row.getAmountOrig(item1.code)}"
+                                          class="#{row.isModified(item1.code) ? 'modified':''}"
+                                          rendered="#{not reportCompare.isEditable(row.coid1)}"/>
+                            <h:panelGroup rendered="#{reportCompare.isEditable(row.coid1)}">
+                                <input value="#{row.getAmount(item1.code)}"
+                                       title="#{msgApp['consolidationRevenue.msg.txt10']}:#{row.getAmountOrig(item1.code)}"
+                                       maxlength="10"
+                                       class="item1Value #{row.isModified(item1.code) ? 'modified':''}"
+                                       onblur="input_blur(this);"/>
+                            </h:panelGroup>
+                            <br/>
+                            <h:outputText value="#{msgApp['consolidationRevenue.msg.txt10']}: #{row.getAmountXls(item1.code)}"/>
+                        </p:columns>
+                        <p:column headerText="#{msgApp['consolidationRevenue.msg.txt12']}" styleClass="valCol rptSum" width="100">
+                            <h:outputText value="#{row.sum1}" styleClass="item1Sum">
+                                <f:convertNumber pattern="#,##0.####"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                    <br/>
+                    <h:outputLabel value="#{msgApp['consolidationRevenue.msg.txt6']}: "/>
+                    <h:outputText value="#{reportCompare.editVO.coid2.code} #{reportCompare.editVO.coid2.name}(#{reportCompare.editVO.coid2.ename})" styleClass="rptCompany"/>
+                    <p:dataTable value="#{reportCompare.editList}"
+                                 var="row">
+                        <p:columns value="#{reportCompare.acitem2}" var="item2" styleClass="valCol">
+                            <f:facet name="header">
+                                <h:outputText value="#{item2.code}" styleClass="item2Code"/><br/>
+                                <h:outputText value="#{item2.desc}" styleClass="codeDesc"/>
+                                <h:panelGroup rendered="#{item2.edesc != null}">
+                                    <br/><h:outputText value="#{item2.edesc}" title="#{item2.edesc}" styleClass="codeDesc"/>
+                                </h:panelGroup>
+                            </f:facet>
+                            <h:outputText value="#{row.getAmount(item2.code)}"
+                                          title="#{msgApp['consolidationRevenue.msg.txt10']}:#{row.getAmountOrig(item2.code)}"
+                                          class="#{row.isModified(item2.code) ? 'modified':''}"
+                                          rendered="#{not reportCompare.isEditable(row.coid2)}"/>
+                            <h:panelGroup rendered="#{reportCompare.isEditable(row.coid2)}">
+                                <input value="#{row.getAmount(item2.code)}"
+                                       title="#{msgApp['consolidationRevenue.msg.txt10']}:#{row.getAmountOrig(item2.code)}"
+                                       maxlength="10"
+                                       class="item2Value #{row.isModified(item2.code) ? 'modified':''}"
+                                       onblur="input_blur(this);"/>
+                            </h:panelGroup>
+                            <br/>
+                            <h:outputText value="#{msgApp['consolidationRevenue.msg.txt10']}: #{row.getAmountXls(item2.code)}"/>
+                        </p:columns>
+                        <p:column headerText="#{msgApp['consolidationRevenue.msg.txt12']}" styleClass="valCol rptSum">
+                            <h:outputText value="#{row.sum2}" styleClass="item2Sum">
+                                <f:convertNumber pattern="#,##0.####"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:panelGroup>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{msgApp['app.label.note']}:"/>
+                <p:inputTextarea id="rptNote" 
+                                 value="#{reportCompare.note}"
+                                 autoResize="false"
+                                 rows="3" cols="120"
+                                 onblur="trimInput(this);"/>
+            </h:panelGrid>
+            <hr/>
+            <p:commandButton id="btnSave"
+                             value="#{msgApp['app.button.save']}"
+                             icon="ui-icon-disk"
+                             onstart="return editDlg_OK();"
+                             action="#{reportCompare.edit_OK}"/>&nbsp;
+            <p:button value="#{msgApp['app.button.cancel']}"
+                      icon="ui-icon-circle-close"
+                      onclick="PF('editDlg').hide();
+                              return false;"/>
+            <h:inputHidden id="code1Values" value="#{reportCompare.code1Values}"/>
+            <h:inputHidden id="code2Values" value="#{reportCompare.code2Values}"/>
+        </h:form>
+    </p:dialog>
+    <script type="text/javascript">
+        //<![CDATA[
+        function input_blur(el) {
+            var str = $(el).val().replace(',','');
+            var num = parseInt(str) || 0;
+            if (num < 0) {
+                num = 0;
+            }
+            var amountOrig = parseInt($(el).attr('title').substring(4)) || 0;
+            $(el).val(num);
+            if (amountOrig===num) {
+                $(el).removeClass('modified');
+                if (num===0) {
+                    $(el).val('');
+                }
+            } else {
+                $(el).addClass('modified');
+            }
+            if ($(el).hasClass('item1Value')) {
+                calcSum('#editForm .item1Value', '#editForm .item1Sum');
+            }
+            if ($(el).hasClass('item2Value')) {
+                calcSum('#editForm .item2Value', '#editForm .item2Sum');
+            }
+        }
+        function calcSum(valueSelector, sumSelector) {
+            var values = $(valueSelector);
+            var sum = 0;
+            for (var i = 0; i < values.length; i++) {
+                var num = parseInt($(values.get(i)).val()) || 0;
+                sum += num;
+            }
+            $(sumSelector).text(sum);
+        }
+        function editDlg_OK() {
+            var note = $('#rptNote').val();
+            if (note.length>500) {
+                alert('#{msgApp['app.error.note']}');
+                return false;
+            }
+            if (confirm('#{msgApp['app.confirm.edit2']}')) {
+                $('#code1Values').val(codeValues('#editForm .item1Code', '#editForm .item1Value'));
+                $('#code2Values').val(codeValues('#editForm .item2Code', '#editForm .item2Value'));
+                return true;
+            }
+            return false;
+        }
+        function codeValues(codeSelector, valueSelector) {
+            var codes = $(codeSelector);
+            var values = $(valueSelector);
+            var result = '';
+            for (var i = 0; i < codes.length; i++) {
+                var val = $.trim($(values.get(i)).val());
+                if (val !== '') {
+                    if (result.length > 0) {
+                        result += ' ';
+                    }
+                    result += $(codes.get(i)).text() + ':' + val;
+                }
+            }
+            return result;
+        }
+        //]]>
+    </script>
+</ui:composition>

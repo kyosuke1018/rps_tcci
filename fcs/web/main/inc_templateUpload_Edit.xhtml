@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:panelGrid columns="2">
+        <h:outputLabel value="#{msgApp['app.label.template.ym']}:"/>
+        <h:outputText value="#{templateUpload.reportTemplate.yearmonth}" styleClass="rptYearMonth"/>
+        <h:outputLabel value="#{msgApp['app.label.template']}:"/>
+        <h:panelGroup>
+            <ui:include src="/include/inc_attachment_Multi.xhtml"/>
+        </h:panelGroup>
+        <h:outputLabel value="#{msgApp['app.label.note']}:" for="reportNote"/>
+        <p:inputTextarea id="reportNote"
+                         value="#{templateUpload.reportTemplate.note}"
+                         rows="3" cols="80"/>
+        <h:outputLabel value="#{msgApp['app.label.modify']}:"/>
+        <h:panelGroup>
+            <h:outputText value="#{templateUpload.reportTemplate.modifier.displayIdentifier}, "/>
+            <h:outputText value="#{templateUpload.reportTemplate.modifytimestamp}">
+                <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+            </h:outputText>
+        </h:panelGroup>
+    </h:panelGrid>
+    <hr/>
+    <p:commandButton value="#{msgApp['app.button.save']}"
+                     icon="ui-icon-disk"
+                     action="#{templateUpload.save}"
+                     onstart="return saveVerify()"/>&nbsp;
+    <p:button value="#{msgApp['app.button.cancel']}"
+              icon="ui-icon-circle-close"
+              outcome="consolidationRevenue_home.xhtml"/>
+    <h:outputText value=" #{msgApp['consolidationRevenue.msg.txt19']}" style="font-size: 1.1em; color: red;"/>
+</ui:composition>

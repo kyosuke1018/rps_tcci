@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog header="#{msgApp['irs.msg.txt3']}"
+              draggable="false"
+              width="400"
+              modal="true"
+              widgetVar="generateDlg">
+        <h:panelGroup id="generateGroup">
+            <h:outputText value="#{userSession.tcUser.displayIdentifier}"/><br/>
+            <h:outputLabel  value="#{msgApp['app.label.report.ym']}:" escape="false" />
+            <h:outputText value="#{queryCompanyCloseController.yearmonth}"/><br/>
+            <h:outputLabel  value="#{msgApp['irs.msg.txt7']}:" escape="false" />
+            <h:outputText value="#{queryCompanyCloseController.generateCompany}"/>
+            <hr/>
+            <h:panelGroup>
+                <h:outputLabel  value="#{msgApp['irs.msg.txt8']}:" escape="false" />
+                <p:spacer width="40"/>
+                <p:selectOneMenu 
+                    converter="fcCompanyConverter"
+                    value="#{queryCompanyCloseController.generateReconcilCompany}">
+                    <f:selectItems value="#{queryCompanyCloseController.reconcilCompanyOptions}"/>
+                </p:selectOneMenu>
+            </h:panelGroup>
+            <hr/>
+            <br/>
+            <h:panelGroup style="display:block; text-align:center;">
+                <p:commandButton value="#{msgApp['app.button.ok']}"
+                                 icon="ui-icon-disk"
+                                 onstart="return confirm('#{msgApp['app.confirm.irs.generate']}')"
+                                 actionListener="#{queryCompanyCloseController.generate1by1()}"
+                                 rendered="#{!empty queryCompanyCloseController.reconcilCompanyOptions}"/>
+                <p:spacer width="4" />
+                <p:commandButton value="#{msgApp['app.button.close']}"
+                                 icon="ui-icon-circle-close"
+                                 onclick="PF('generateDlg').hide();return false;"/>
+            </h:panelGroup>
+        </h:panelGroup>
+    </p:dialog>
+</ui:composition>

@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!--待補-->
+<!--    <p:column  rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"
+               style="width:6px;"
+               exportable="false">
+        <f:facet name="header">
+            <h:outputLabel  value="id" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.id}" />
+    </p:column>-->
+    <!--style="width:20px;"-->
+    <p:column width="30" style="text-align: center;" exportable="false">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['app.label.ym']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getYMString()}" />
+    </p:column>
+    <p:column width="40" exportable="false">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt7']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getReCompanyDisPlay()}"/>
+    </p:column>
+    <p:column width="40" exportable="false">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt8']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getPaCompanyDisPlay()}"/>
+    </p:column>
+    <p:column width="50" sortBy="#{row.master.sheetType}">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt9']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{commonUIController.getSheetTypeEnum(row.master.sheetType).label}" />
+    </p:column>
+    <p:column width="30" style="text-align: center;">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt12']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.currency.code}" />
+        <!--交易幣別不等於任一公司幣別時 可能會有外幣評價的差異值
+        顯示警告-->
+<!--        <h:graphicImage library="images" name="flag_warn.png" 
+                        rendered="#{(row.currency ne row.getReCompanyDisPlay().currency) or (row.currency ne row.getPaCompanyDisPlay().currency)}"/>-->
+    </p:column>
+    <!--none display and exportable="true"-->
+    <p:column style="display: none;" exportable="true">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt10']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getReAccountNameDisPlay()}" />
+    </p:column>
+    <!-- end -->
+    <p:column width="40" exportable="false">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt10']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getReAccountCodeDisPlay()}" />
+        <br/>
+        <h:outputText value="#{row.master.getReAccountNameDisPlay()}" />
+    </p:column>
+    <!--none display and exportable="true"-->
+    <p:column style="display: none;" exportable="true" 
+              rendered="#{querySheetdataController.parentComp}">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt41']}(#{querySheetdataController.announceCurr.code})" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.reAnnounceAmount}">
+            <f:convertNumber pattern="#,##0.##"/>
+        </h:outputText>
+    </p:column>
+    <p:column style="display: none;" exportable="true">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt40']}(#{querySheetdataController.condVO.reCompany.currency.code})" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getReAgreedAmountDisPlay()}">
+            <f:convertNumber pattern="#,##0.##"/>
+        </h:outputText>
+    </p:column>
+    <p:column style="display: none;" exportable="true">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt13']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getReAmountOrigDisPlay()}">
+            <f:convertNumber pattern="#,##0.##"/>
+        </h:outputText>
+    </p:column>
+    <!-- end -->
+    <p:column sortBy="#{row.master.getReAmountOrigDisPlay}"
+        styleClass="valCol" width="100"
+        exportable="false">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt13']}" escape="false" />
+        </f:facet>
+        <p:commandLink title="#{msgApp['irs.msg.txt15']}"
+                       action="#{querySheetdataController.fetchReDetail(row.master)}"
+                       update=":detailForm:detailGroup"
+                       oncomplete="PF('detailDlg').show();">
+            <!--disabled="#{row.master.getReAmountOrigDisPlay() eq '0.00'}"-->
+            <h:outputText value="#{row.master.getReAmountOrigDisPlay()}" >
+                <f:convertNumber pattern="#,##0.####"/>
+            </h:outputText>
+        </p:commandLink>
+        <!--交易幣別不等於任一公司幣別時 可能會有外幣評價的差異值 顯示金額比對-->
+        <!--rendered="#{(row.currency ne row.getReCompanyDisPlay().currency) or (row.currency ne row.getPaCompanyDisPlay().currency)}"-->
+        <!--母公司顯示公告幣別金額-->
+        <h:panelGroup rendered="#{querySheetdataController.parentComp}">
+            <br/><h:outputText value="(#{querySheetdataController.announceCurr.code})" style="color: red;" />
+            <h:outputText value="#{row.reAnnounceAmount}" style="color: red;">
+                <f:convertNumber pattern="#,##0.####"/>
+            </h:outputText>
+        </h:panelGroup>
+    </p:column>
+    <!--none display and exportable="true"-->
+    <p:column style="display: none;" exportable="true">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt11']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getPaAccountNameDisPlay()}" />
+    </p:column>
+    <!-- end -->
+    <p:column width="40" exportable="false">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt11']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getPaAccountCodeDisPlay()}" 
+                      /><br/>
+        <h:outputText value="#{row.master.getPaAccountNameDisPlay()}" />
+    </p:column>
+    <!--none display and exportable="true"-->
+    <p:column style="display: none;" exportable="true"
+              rendered="#{querySheetdataController.parentComp}">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt41']}(#{querySheetdataController.announceCurr.code})" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.paAnnounceAmount}">
+            <f:convertNumber pattern="#,##0.##"/>
+        </h:outputText>
+    </p:column>
+    <p:column style="display: none;" exportable="true">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt40']}(#{querySheetdataController.condVO.paCompany.currency.code})" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getPaAgreedAmountDisPlay()}">
+            <f:convertNumber pattern="#,##0.##"/>
+        </h:outputText>
+    </p:column>
+    <p:column style="display: none;" exportable="true">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt14']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getPaAmountOrigDisPlay()}">
+            <f:convertNumber pattern="#,##0.##"/>
+        </h:outputText>
+    </p:column>
+    <!-- end -->
+    <p:column sortBy="#{row.master.getPaAmountOrigDisPlay}"
+        styleClass="valCol" width="100"
+        exportable="false">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt14']}" escape="false" />
+        </f:facet>
+        <p:commandLink title="#{msgApp['irs.msg.txt15']}"
+                       action="#{querySheetdataController.fetchPaDetail(row.master)}"
+                       update=":detailForm:detailGroup"
+                       oncomplete="PF('detailDlg').show();">
+            <!--disabled="#{row.master.getPaAmountOrigDisPlay() eq '0.00'}"-->
+            <h:outputText value="#{row.master.getPaAmountOrigDisPlay()}" >
+                <f:convertNumber pattern="#,##0.####"/>
+            </h:outputText>
+        </p:commandLink>
+        <!--交易幣別不等於任一公司幣別時 可能會有外幣評價的差異值 顯示金額比對-->
+        <!--rendered="#{(row.currency ne row.getReCompanyDisPlay().currency) or (row.currency ne row.getPaCompanyDisPlay().currency)}"-->
+        <!--母公司顯示公告幣別金額-->
+        <h:panelGroup rendered="#{querySheetdataController.parentComp}">
+            <br/><h:outputText value="(#{querySheetdataController.announceCurr.code})" style="color: red;" />
+            <h:outputText value="#{row.paAnnounceAmount}" style="color: red;">
+                <f:convertNumber pattern="#,##0.####"/>
+            </h:outputText>
+        </h:panelGroup>
+    </p:column>
+    <!--none display and exportable="true"-->
+    <p:column style="display: none;" exportable="true">
+        <f:facet name="header">
+            <h:outputLabel value="#{msgApp['irs.msg.txt16']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.diff}">
+            <f:convertNumber pattern="#,##0.####"/>
+        </h:outputText>
+    </p:column>
+    <p:column style="display: none;" exportable="true">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt39']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.reconcilingAmount}">
+            <f:convertNumber pattern="#,##0.##"/>
+        </h:outputText>
+    </p:column>
+<!--    <h:panelGroup rendered="#{querySheetdataController.parentComp}">
+        <p:column style="display: none;" exportable="true">
+            <f:facet name="header">
+                <h:outputLabel  value="#{msgApp['irs.msg.txt16']}(#{querySheetdataController.announceCurr.code})" escape="false" />
+            </f:facet>
+            <h:outputText value="#{row.getAnnounceDiff()}">
+                <f:convertNumber pattern="#,##0.####"/>
+            </h:outputText>
+        </p:column>
+        <p:column style="display: none;" exportable="true">
+            <f:facet name="header">
+                <h:outputLabel  value="#{msgApp['irs.msg.txt39']}(#{querySheetdataController.announceCurr.code})" escape="false" />
+            </f:facet>
+            <h:outputText value="#{row.getAnnounceReconcilingAmount()}">
+                <f:convertNumber pattern="#,##0.##"/>
+            </h:outputText>
+        </p:column>
+    </h:panelGroup>    -->
+    <p:column style="display: none;" exportable="true">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['app.label.note']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.getRemarkOnly()}" />
+    </p:column>
+    <!-- end -->
+    <p:column sortBy="#{row.master.diff}"
+        styleClass="valCol" width="100"
+        exportable="false">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt16']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.diff}">
+            <f:convertNumber pattern="#,##0.####"/>
+        </h:outputText>
+        <h:panelGroup rendered="#{querySheetdataController.parentComp}">
+            <br/><h:outputText value="(#{querySheetdataController.announceCurr.code})" style="color: red;" />
+            <h:outputText value="#{row.getAnnounceDiff()}" style="color: red;">
+                <f:convertNumber pattern="#,##0.####"/>
+            </h:outputText>
+        </h:panelGroup>
+    </p:column>
+     <!--sortBy="#{row.flag}"-->
+    <p:column width="10" style="text-align: center;"
+        exportable="false">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['app.label.status']}" escape="false" />
+        </f:facet>
+        <h:graphicImage library="images" name="#{row.master.flag}" />
+    </p:column>
+    <p:column width="30" style="text-align: center;" exportable="false">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['app.label.action']}" escape="false" />
+        </f:facet>
+        <h:link outcome="/irs/reconciling/queryReconciling.xhtml?faces-redirect=true" 
+                includeViewParams="true"
+                target="queryReconciling">
+            <f:param name="sheetdatamId" value="#{row.master.id}" />
+            <f:param name="individualCompanyId" value="#{row.master.individualCompany.id}" />
+            <!--outputLabel不含link 以outputText取代
+            <h:outputLabel value="#{msgApp['irs.msg.txt17']}"/>-->
+            <h:outputText value="#{msgApp['irs.msg.txt17']}"/>
+            <h:graphicImage title="#{msgApp['irs.msg.txt17']}"
+                            library="images" 
+                            name="page_edit.png"/>
+        </h:link>
+        <p:spacer width="2"/>
+    </p:column>
+<!--    <p:column width="60" sortBy="#{row.createtimestamp}">
+        <f:facet name="header"><h:outputLabel  value="#{msgApp['app.label.modifytimestamp1']}"/></f:facet>
+        <h:outputText value="#{row.createtimestamp}">
+            <f:convertDateTime type="date" pattern="yyyy/MM/dd HH:mm:ss"/>
+        </h:outputText>
+    </p:column>-->
+    <!--待補-->
+</ui:composition>

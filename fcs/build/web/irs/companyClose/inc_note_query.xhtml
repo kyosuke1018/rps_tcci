@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+<p:fieldset legend="#{msgApp['app.label.note']}" toggleable="true">
+    <!--<li><span>_依登入者權限取得個體公司(自動新增)</span>.</li>-->
+    <p:outputLabel value="#{msgApp['app.menu.help']}:" /><br/>
+    <p:outputLabel value="#{msgApp['irs.msg.txt2']}:" />
+    <h:graphicImage library="images" name="link_go.png" styleClass="icons" />
+    <p:outputLabel value="#{msgApp['querySheetdataController.pageTitle']};" />
+    <h:graphicImage library="images" name="upload.png" styleClass="icons" />
+    <p:outputLabel value="#{msgApp['importSheetDataTabsController.pageTitle']};" />
+    <h:graphicImage library="images" name="page_view.png" styleClass="icons" />
+    <p:outputLabel value="#{msgApp['irs.msg.txt51']};" />
+    <h:graphicImage library="images" name="page_edit.png" styleClass="icons" />
+    <p:outputLabel value="#{msgApp['irs.msg.txt3']};" />
+    
+    <br/><p:outputLabel value="#{msgApp['irs.msg.txt1']}:" />
+    <h:graphicImage library="images" name="page_edit.png" styleClass="icons" />
+    <p:outputLabel value="#{msgApp['irs.msg.txt1']}#{msgApp['app.button.edit']};" />
+</p:fieldset>         
+</ui:composition>

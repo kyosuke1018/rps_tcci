@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">(CSBA)會科餘額</ui:define>
+    <ui:define name="content">
+        <h:form id="qryForm" prependId="false">
+            <p:panel header="(CSBA)會科餘額">
+                <!--<p:fieldset id="fieldsetResult" >-->
+                    <h:panelGroup >
+                        <p:selectOneMenu id="somYm" value="#{queryCsbaController.quoteYM}">
+                            <f:selectItems value="#{queryCsbaController.ymOptions}"/>
+                            <p:ajax oncomplete="doChangeYm()" />
+                        </p:selectOneMenu>
+                        <p:remoteCommand name="doChangeYm"
+                                         actionListener="#{queryCsbaController.changeYm()}"
+                                         update="dtCsbaList"/>
+                    </h:panelGroup>
+                    
+                    <p:dataTable id="dtCsbaList" styleClass="ui-datatable-hor-scroll"
+                             value="#{queryCsbaController.csbaList}"
+                             var="row"
+                             rows="30"
+                             paginator="true">
+                        <p:column headerText="ID" styleClass="valCol" width="30">
+                            <h:outputText value="#{row.id}"/>
+                        </p:column>
+                        <p:column headerText="YM" width="60">
+                            <h:outputText value="#{row.YMString}"/>
+                        </p:column>
+                        <p:column headerText="ZBUKTO" width="60">
+                            <h:outputText value="#{row.zbukto}"/>
+                        </p:column>
+                        <p:column headerText="ZBUKFM" width="60"
+                                  filterBy="#{row.zbukfm}" filterMaxLength="4" filterStyle="width:50px;">
+                            <h:outputText value="#{row.zbukfm}"/>
+                        </p:column>
+                        <p:column headerText="ZAADET" width="60">
+                            <h:outputText value="#{row.zaadet}"/>
+                        </p:column>
+                        <p:column headerText="WAERS" width="50">
+                            <h:outputText value="#{row.waers}"/>
+                        </p:column>
+                        <p:column headerText="DMBTR" styleClass="valCol" width="100">
+                            <h:outputText value="#{row.dmbtr}">
+                                <f:convertNumber pattern="#,##0.##"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="ZCSWAE" width="50">
+                            <h:outputText value="#{row.zcswae}"/>
+                        </p:column>
+                        <p:column headerText="ZCSBTR" styleClass="valCol" width="100">
+                            <h:outputText value="#{row.zcsbtr}">
+                                <f:convertNumber pattern="#,##0.##"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="ZCSBTR_CLR" styleClass="valCol" width="100">
+                            <h:outputText value="#{row.zcsbtrClr}">
+                                <f:convertNumber pattern="#,##0.##"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="ZTWBTR" styleClass="valCol" width="100">
+                            <h:outputText value="#{row.ztwbtr}">
+                                <f:convertNumber pattern="#,##0.##"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="ZTWBTR_CLR" styleClass="valCol" width="100">
+                            <h:outputText value="#{row.ztwbtrClr}">
+                                <f:convertNumber pattern="#,##0.##"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                <!--</p:fieldset>-->
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{queryCompanyCloseController.pageTitle}</ui:define>
+    <ui:define name="content">
+<h:form id="qryForm" prependId="false">        
+<p:panel header="#{queryCompanyCloseController.pageTitle}">
+    <!--<p:fieldset id="fieldset_cond" toggleable="true" legend="查詢條件設定">-->
+        <!--<ui:include src="inc_queryFilter.xhtml"/>-->
+    <!--</p:fieldset>-->
+    
+    <p:fieldset id="fieldsetResult" legend="#{msgApp['irs.msg.txt1']}"
+                rendered="#{!queryCompanyCloseController.noPermission}">
+<!--            <h:panelGroup id="pgExp" rendered="#{false}">
+                <ui:include src="/include/inc_dataExporter.xhtml">
+                    <ui:param name="target" value=":qryForm:dataList"/>
+                    <ui:param name="fileName" value="inputk2"/>
+                    <ui:param name="rowCount" value="#{queryCompanyCloseController.lazyModel.rowCount}"/>
+                    <ui:param name="controller" value="#{queryCompanyCloseController}"/>
+                </ui:include>   
+            </h:panelGroup>-->
+            <!--<h:outputText id="otRowCount" value="(共#{queryCompanyCloseController.lazyModel.rowCount}筆)" rendered="#{queryCompanyCloseController.lazyModel!=null}" />-->
+            <!--<br/>-->
+            <!--<p:remoteCommand name="getRowCountAfterFiltered" update=":qryForm:otRowCount" />-->
+            <!--<div style="overflow-x:scroll">-->
+            <p:dataTable id="dataList" var="row" value="#{queryCompanyCloseController.closeList}"
+                         styleClass="ui-datatable-hor-scroll"
+                         widgetVar="wvDataTable"
+                         style="width: 960px;" 
+                         rows="1">
+<!--                <f:facet name="header">
+
+                </f:facet>-->
+                <!-- filter 後變更筆數, 使用 Lazy Loading 不可直接 update 會抓到上次筆數，故用 oncomplete -->
+                <!--<p:ajax event="filter" oncomplete="getRowCountAfterFiltered();" />-->
+                <p:column style="width:50px;text-align: center;"
+                    exportable="false">
+                    <f:facet name="header">
+                        <h:outputLabel  value="#{msgApp['app.label.action']}" escape="false" />
+                    </f:facet>
+                    <p:commandLink action="#{queryCompanyCloseController.initDtl1(row)}"
+                                   update=":editCloseDeptForm:editDetailDlgGroup"
+                                   oncomplete="PF('editMstDlg').show()"
+                                   rendered="#{userSession.isUserInRole('ADMINISTRATORS,FINANCIAL_HQ')}">
+                        <h:graphicImage title="#{msgApp['app.button.edit']}"
+                                        library="images" 
+                                        name="page_edit.png"/>
+                    </p:commandLink>
+                    <p:spacer width="2"/>
+                    <p:commandLink onstart="return confirm('#{msgApp['app.confirm.irs.generate']}')"
+                                   actionListener="#{queryCompanyCloseController.generate()}"
+                                   rendered="#{userSession.isUserInRole('ADMINISTRATORS')}">
+                        <h:graphicImage title="#{msgApp['irs.msg.txt3']}"
+                                        library="images" name="upload.png"/>
+                    </p:commandLink>
+                </p:column>
+                <ui:include src="inc_pcolumns.xhtml"/>
+            </p:dataTable>
+            <!--</div>-->
+    </p:fieldset>
+    <p:fieldset id="fCompanyList" legend="#{msgApp['irs.msg.txt2']}"
+                rendered="#{!queryCompanyCloseController.noPermission}">
+<!--        <p:selectOneMenu id="somGroup" value="#{queryCompanyCloseController.group}">
+            <f:selectItems value="#{queryCompanyCloseController.groups}"/>
+            <p:ajax oncomplete="doChangeGroup()" />
+        </p:selectOneMenu>
+        <p:remoteCommand name="doChangeGroup"
+                         actionListener="#{queryCompanyCloseController.changeGroup()}"
+                         update=":qryForm:fCompanyList"/>-->
+        <h:panelGroup >
+            <p:selectOneMenu id="somYm" value="#{queryCompanyCloseController.quoteYM}">
+                <f:selectItems value="#{queryCompanyCloseController.ymOptions}"/>
+                <p:ajax oncomplete="doChangeYm()" />
+            </p:selectOneMenu>
+            <p:remoteCommand name="doChangeYm"
+                             actionListener="#{queryCompanyCloseController.changeYm()}"
+                             update=":qryForm:companyList"/>
+        </h:panelGroup>
+        <h:panelGrid columns="3">
+            <h:selectOneRadio value="#{queryCompanyCloseController.dispMode}">
+                <f:selectItem itemLabel="#{msgApp['app.option.showAll']}" itemValue="1"/>
+                <f:selectItem itemLabel="#{msgApp['app.option.showUploaded']}" itemValue="2"/>
+                <f:selectItem itemLabel="#{msgApp['app.option.showNoUpload']}" itemValue="3"/>
+                <f:selectItem itemLabel="#{msgApp['app.option.showNoUpload']}(SAP)" itemValue="4"/>
+                <f:selectItem itemLabel="#{msgApp['app.option.showNoUpload']}(非SAP)" itemValue="5"/>
+                <f:selectItem itemLabel="#{msgApp['app.option.showNoUpload']}(無需處理)" itemValue="6"/>
+                <p:ajax event="click"
+                        listener="#{queryCompanyCloseController.dispModeChange}"
+                        update=":qryForm:companyList"/>
+            </h:selectOneRadio>
+        </h:panelGrid>
+        <p:dataTable id="companyList"
+                             value="#{queryCompanyCloseController.companyVOList}"
+                             filteredValue="#{queryCompanyCloseController.filteredCompanyVOList}"
+                             var="row"
+                             rows="10" style="width: 1000px;"
+                             paginator="true">
+            <p:column headerText="#{msgApp['app.label.action']}" style="width: 80px;">
+                <h:panelGroup rendered="#{queryCompanyCloseController.showLinkBtn(row)}">
+<!--                    <h:outputLink value="../sheetdata/querySheetdata.xhtml?reCompanyId=#{row.company.id}"
+                                  title="#{msgApp['querySheetdataController.pageTitle']}"  
+                                  target="sheetWin#{row.company.id}">
+                        <h:graphicImage library="images" name="link_go.png"/>
+                    </h:outputLink>-->
+                    <h:outputLink value="#{queryCompanyCloseController.linkUrl}reCompanyId=#{row.company.id}"
+                                  title="#{msgApp['querySheetdataController.pageTitle']}"  
+                                  target="sheetWin#{row.company.id}">
+                        <h:graphicImage library="images" name="link_go.png"/>
+                    </h:outputLink>
+                    <p:spacer width="2"/>
+                </h:panelGroup>
+                <!--<h:panelGroup rendered="#{row.company.nonSap and queryCompanyCloseController.showLinkBtn(row)}">-->
+                <h:panelGroup rendered="#{queryCompanyCloseController.showNonsapLinkBtn(row)}">
+                    <h:outputLink value="#{queryCompanyCloseController.linkUploadUrl}code=#{row.company.code}"
+                                  title="#{msgApp['importSheetDataTabsController.pageTitle']}"  
+                                  target="uploadWin#{row.company.id}">
+                        <h:graphicImage library="images" name="upload.png"/>
+                    </h:outputLink>
+                    <p:spacer width="2"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{queryCompanyCloseController.showDetail(row)}">
+                    <p:commandLink action="#{queryCompanyCloseController.fetchDetail(row)}"
+                                   update=":detailForm:detailGroup"
+                                   oncomplete="PF('detailDlg').show()">
+                        <h:graphicImage title="#{msgApp['irs.msg.txt51']}"
+                                        library="images" 
+                                        name="page_view.png"/>
+                    </p:commandLink>
+                    <p:spacer width="2"/>
+                </h:panelGroup>
+                <!--<h:panelGroup rendered="#{row.company.nonSap and queryCompanyCloseController.showDetail(row)}">-->
+                <h:panelGroup rendered="#{queryCompanyCloseController.showGenbyCompany(row)}">
+                    <p:commandLink onstart="return confirm('#{msgApp['app.confirm.irs.generate']}')"
+                                   actionListener="#{queryCompanyCloseController.generate(row)}">
+                        <h:graphicImage title="#{msgApp['irs.msg.txt3']}"
+                                        library="images" name="page_edit.png"/>
+                    </p:commandLink>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{queryCompanyCloseController.showGenbyReconcilCompany(row)}">
+                    <p:commandLink actionListener="#{queryCompanyCloseController.initGenerate(row)}"
+                                   update=":qryForm:generateGroup"
+                                   oncomplete="PF('generateDlg').show()">
+                        <h:graphicImage title="#{msgApp['irs.msg.txt3']}"
+                                        library="images" name="page_edit.png"/>
+                    </p:commandLink>
+                </h:panelGroup>
+            </p:column>
+            <!--20160504 fillter後 detail顯示異常 bug fixed
+            dataTable沒有設定filteredValue-->
+            <p:column headerText="#{msgApp['company.msg.txt1']}" width="60" style="text-align: center;"
+                      filterBy="#{row.company.code}" filterMaxLength="4" 
+                      filterStyle="width:50px;" filterMatchMode="contains">
+                <h:outputText value="#{row.company.code}"/>
+            </p:column>
+            <p:column headerText="#{msgApp['company.msg.txt2']}">
+                <h:outputText value="#{row.company.name}"/>
+            </p:column>
+            <p:column headerText="#{msgApp['app.label.modifier2']}" width="200" style="text-align: center;">
+                <h:outputText value="#{row.uploadRecord.modifier.displayIdentifier}"/>
+                <h:outputText value="#{row.uploadRecord.sapUserName}"/><!--20160523新增SAP user中文名-->
+                <h:panelGroup rendered="#{!empty row.noTrans}">
+                    <br/>
+                    <h:outputText value="#{row.noTrans.user.displayIdentifier}" style="color: mediumturquoise"/>
+                </h:panelGroup>
+            </p:column>
+            <p:column headerText="#{msgApp['app.label.modifytimestamp2']}" width="120" style="text-align: center;">
+                <h:outputText value="#{row.uploadRecord.modifytimestamp}">
+                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                </h:outputText>
+                <h:panelGroup rendered="#{!empty row.noTrans}">
+                    <br/>
+                    <h:outputText value="#{row.noTrans.createtimestamp}" style="color: mediumturquoise">
+                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                    </h:outputText>
+                </h:panelGroup>
+            </p:column>
+            <p:column headerText="#{msgApp['app.label.note']}" width="60">
+                <h:outputText value="#{queryCompanyCloseController.getCompanyNote(row)}"/>
+                <h:panelGroup rendered="#{!empty row.noTrans}">
+                    <br/>
+                    <h:outputText value="#{msgApp['irs.msg.txt56']}" style="color: mediumturquoise"/>
+                </h:panelGroup>
+            </p:column>
+            <p:column headerText="#{msgApp['irs.msg.txt56']}" style="text-align: center;" width="40">
+                <p:commandLink action="#{queryCompanyCloseController.noTransChange(row)}"
+                               update="companyList" 
+                               disabled="#{!queryCompanyCloseController.showLinkBtn(row)}"
+                               >
+                    <!--加global="off" 可以不轉 但因為reload延遲 避免使用者誤會重複勾選 還是拿掉
+                    rendered跟disabled抉擇
+                    rendered="#{queryCompanyCloseController.showLinkBtn(row)}"-->
+                    <h:graphicImage library="images" name="check_box.png" rendered="#{!empty row.noTrans}"/>
+                    <h:graphicImage library="images" name="check_box_uncheck.png" rendered="#{empty row.noTrans}"/>
+                </p:commandLink>
+            </p:column>
+<!--            <p:column headerText="#{msgApp['irs.msg.txt4']}" width="60" style="text-align: center;">
+                <h:outputText value="#{row.allEdit}"/>
+            </p:column>-->
+        </p:dataTable>
+    </p:fieldset>
+    <!--待補-->
+    <ui:include src="inc_note_query.xhtml">
+    </ui:include>
+    <!--待補-->  
+</p:panel>
+    
+    <ui:include src="inc_generateDlg.xhtml"/>
+</h:form> 
+<!--待補-->
+<ui:include src="inc_editFactoryCloseDlg_dtl1.xhtml"/>
+<!--<ui:include src="inc_detailDlg.xhtml"/>-->
+<!--要包在form裡 filter才會有效-->
+<h:form id="detailForm" prependId="false">
+    <ui:include src="inc_detailDlg.xhtml"/>
+</h:form>
+<ui:include src="/jsff/ajaxStatusDlg.xhtml"/>      
+<!--待補-->
+    </ui:define>
+</ui:composition>

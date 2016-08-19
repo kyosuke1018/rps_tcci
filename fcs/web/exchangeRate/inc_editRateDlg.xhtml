@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog header="#{msgApp['exchangeRate.msg.txt3']}"
+              resizable="false"
+              modal="true"
+              widgetVar="editRateDlg">
+        <h:panelGroup id="editRateGroup">
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{msgApp['exchangeRate.msg.txt4']}(TWD):"/>
+                <p:inputText maxlength="12" size="10"  value="#{exchangeRateController.editRate.rate}"
+                             converterMessage="#{msgApp['exchangeRate.msg.txt6']}">
+                    <f:convertNumber pattern="#,##0.######"/>
+                </p:inputText>
+                <h:outputLabel value="#{msgApp['exchangeRate.msg.txt5']}(TWD):"/>
+                <p:inputText maxlength="12" size="10"  value="#{exchangeRateController.editRate.avgRate}"
+                             converterMessage="#{msgApp['exchangeRate.msg.txt7']}">
+                    <f:convertNumber pattern="#,##0.######"/>
+                </p:inputText>
+            </h:panelGrid>
+            <hr/>
+            <div style="text-align: center;">
+                <p:commandButton value="#{msgApp['app.button.save']}"
+                                 icon="ui-icon-circle-check"
+                                 action="#{exchangeRateController.saveRate()}"
+                                 update=":form:monthlyRateList"
+                                 onstart="return true;"
+                                 oncomplete="saveOnComplete(xhr, status, args);"/>
+                <p:spacer width="4" />
+                <p:commandButton value="#{msgApp['app.button.cancel']}"
+                                 icon="ui-icon-circle-close"
+                                 onclick="PF('editRateDlg').hide();return false;"/>
+            </div>
+        </h:panelGroup>
+    </p:dialog>
+    <script type="text/javascript">
+     //<![CDATA[
+    function saveOnComplete(xhr, status, args) {
+        if (typeof args.saved !== "undefined" && args.saved) {
+//            editRateDlg.hide();
+            PF('editRateDlg').hide();
+        }
+    }
+    //]]>
+    </script>  
+</ui:composition>

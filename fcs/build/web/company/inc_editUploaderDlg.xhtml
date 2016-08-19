@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog header="#{msgApp['company.msg.txt8']}"
+              resizable="false"
+              modal="true"
+              widgetVar="editUploaderDlg">
+        <h:panelGroup id="editUploaderGroup">
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{msgApp['company.msg.txt7']}:"/>
+                <p:autoComplete binding="#{companyController.autoComplete}"
+                                completeMethod="#{companyController.completeUser}"
+                                var="user"
+                                itemLabel="#{user.displayIdentifier}"
+                                itemValue="#{user.id.toString()}"
+                                forceSelection="true"><!--global="off"-->
+                </p:autoComplete>
+            </h:panelGrid>
+            <hr/>
+            <div style="text-align: center;">
+                <p:commandButton value="#{msgApp['app.button.save']}"
+                                 icon="ui-icon-circle-check"
+                                 action="#{companyController.saveUploader}"
+                                 update=":form:companyList"
+                                 onstart="return true;"
+                                 oncomplete="saveOnComplete(xhr, status, args);"/>
+                <p:spacer width="4" />
+                <p:commandButton value="#{msgApp['app.button.cancel']}"
+                                 icon="ui-icon-circle-close"
+                                 onclick="PF('editUploaderDlg').hide();return false;"/>
+            </div>
+        </h:panelGroup>
+    </p:dialog>
+    <script type="text/javascript">
+     //<![CDATA[
+    function saveOnComplete(xhr, status, args) {
+        if (typeof args.saved !== "undefined" && args.saved) {
+//            editUploaderDlg.hide();
+            PF('editUploaderDlg').hide();
+        }
+    }
+    //]]>
+    </script>  
+</ui:composition>

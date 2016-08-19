@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{importSheetDataTabsController.pageTitle}</ui:define>
+    <ui:define name="content">
+        <p:panel header="#{importSheetDataTabsController.pageTitle}">
+            <h:form id="form" prependId="false">
+		<p:remoteCommand name="rc" onsuccess="PF('wiz').hideBackNav();" autoRun="false" />
+		<p:growl id="growl2" sticky="true" showDetail="false"/>
+		<p:selectOneMenu value="#{importSheetDataTabsController.groupCondition}">
+		    <f:selectItems value="#{importSheetDataTabsController.groupsOptionList}"/>
+		    <p:ajax oncomplete="doChangeGroup()" />
+		</p:selectOneMenu>
+		<p:remoteCommand name="doChangeGroup"
+				 actionListener="#{importSheetDataTabsController.changeGroup()}"
+				 update=":form"/>
+
+		<p:fieldset legend="#{msgApp['app.label.upload3']}">
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgApp['app.label.report.ym']}:"/>
+                        <h:outputText value="#{importSheetDataTabsController.yearMonth}" styleClass="rptYearMonth"/>
+                        <br/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputLabel value="範本下載: "/>
+                        <!--                        <ui:include src="/include/inc_outputLinkTemplate.xhtml">
+                                                    <ui:param name="excelTemplateURL" value="/templates/excel/IRS_nonSAP_template_v001.xls"/>
+                                                </ui:include>-->
+                        <h:commandLink title="#{msgApp['app.label.template.download2']}"
+                                       actionListener="#{importSheetDataTabsController.downloadTemplate}"
+                                       immediate="true"
+                                       onclick="monitorDownload();">
+                            <p:fileDownload value="#{importSheetDataTabsController.downloadFile}"/>
+                            <h:graphicImage library="images" name="excel.png"/>
+                            <h:outputText value="#{msgApp['app.label.template.download2']}"/>
+                            <!--version 人工更新-->
+                            <h:outputText value="v1.0.2"/>
+                        </h:commandLink>
+                    </h:panelGroup>
+		    <h:panelGrid columns="3">
+			<h:selectOneRadio value="#{importSheetDataTabsController.dispMode}">
+			    <f:selectItem itemLabel="#{msgApp['app.option.showAll']}" itemValue="1"/>
+			    <f:selectItem itemLabel="#{msgApp['app.option.showUploaded']}" itemValue="2"/>
+			    <f:selectItem itemLabel="#{msgApp['app.option.showNoUpload']}" itemValue="3"/>
+			    <p:ajax event="click"
+				    listener="#{importSheetDataTabsController.dispModeChange}"
+				    update=":form:voList"/>
+			</h:selectOneRadio>
+			<!--<p:button outcome="reportCompare.xhtml" value="對帳表..." icon="ui-icon-transferthick-e-w"/>-->
+			<h:panelGroup id="stopSign">
+			    <h:graphicImage library="images" name="stop_sign.png" style="vertical-align: middle;" rendered="#{importSheetDataTabsController.stopUpload}"/>
+			    <h:outputText value=" #{msgApp['app.button.stopUpload.on']}" style="color: red;" rendered="#{importSheetDataTabsController.stopUpload}"/>
+			</h:panelGroup>
+		    </h:panelGrid>
+		    <p:dataTable id="voList"
+				 value="#{importSheetDataTabsController.voList}"
+				 var="row"
+				 rows="10"
+				 paginator="true">
+			<p:column 
+			    headerText="#{msgApp['company.msg.txt1']}" 
+			    sortBy="#{row.company.code}"
+			    width="80" >
+			    <h:outputText value="#{row.company.code}"/>
+			</p:column>
+			<p:column 
+			    headerText="#{msgApp['company.msg.txt2']}" 
+			    sortBy="#{row.company.name}">
+			    <h:outputText value="#{row.company.name}"/>
+			</p:column>
+<!--			<p:column style="text-align: center;">
+			    <f:facet name="header">
+				<h:outputText value="#{msgApp['app.label.report']} "/>
+				<h:commandLink title="#{msgApp['app.button.downloadAll']}"
+					       actionListener="#{reportHome.downloadAll}"
+					       immediate="true"
+					       onclick="monitorDownload();"
+					       rendered="#{reportHome.showDownloadAll()}">
+				    <p:fileDownload value="#{reportHome.downloadFile}"/>
+				    <h:graphicImage library="images" name="compress.png"/>
+				</h:commandLink>
+			    </f:facet>
+			    <h:commandLink title="#{msgApp['app.label.download']}"
+					   actionListener="#{reportHome.download(row)}"
+					   immediate="true"
+					   onclick="monitorDownload();"
+					   rendered="#{not empty row.reportUpload}">
+				<p:fileDownload value="#{reportHome.downloadFile}"/>
+				<h:graphicImage library="images" name="excel.png"/>
+			    </h:commandLink>
+			</p:column>-->
+			<p:column 
+			    headerText="#{msgApp['app.label.modifier2']}"
+			    width="180">
+			    <h:outputText value="#{row.reportUpload.creator.displayIdentifier}"/>
+			</p:column>
+			<p:column 
+			    headerText="#{msgApp['app.label.modifytimestamp2']}"
+			    width="150">
+			    <h:outputText value="#{row.reportUpload.createtimestamp}" >
+				<f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+			    </h:outputText>
+<!--			    
+			    
+			    styleClass="#{importSheetDataTabsController.isUploadExpired(row) ? 'upload_expired':''}"
+			    <h:graphicImage library="images"
+					    name="expired.png"
+					    style="vertical-align: middle;"
+					    rendered="#{importSheetDataTabsController.isUploadExpired(row)}"/>-->
+			</p:column>
+			<p:column 
+			    headerText="#{msgApp['app.label.action']}"
+			    width="60"
+			    style="text-align: center;">
+			    <h:link outcome="reportUpload.xhtml"
+				    title="#{msgApp['app.label.upload3']}"
+				    rendered="#{importSheetDataTabsController.uploadable}">
+				<f:param name="code" value="#{row.company.code}"/>
+				<h:graphicImage library="images" name="upload.png"/>
+			    </h:link>
+			</p:column>
+		    </p:dataTable>
+		</p:fieldset>
+		<!--<p:wizard widgetVar="wiz"
+		    flowListener="#{importSheetDataTabsController.onFlowProcess}">
+		    <p:tab id="personal" title="公司">
+			<p:panel header="年月資訊">
+			    <p:messages />
+			    <h:panelGrid columns="2" columnClasses="label, value">
+				<h:outputLabel value="資料年月: "/>
+				<h:outputText value="#{importSheetDataTabsController.yearMonth}" 
+				/>
+				<h:outputLabel  value="個體公司:" escape="false" />
+				<p:selectOneMenu 
+				    converter="fcCompanyConverter"
+				    value="#{importSheetDataTabsController.company}">
+				    <f:selectItems value="#{importSheetDataTabsController.companyOptions}" />
+				    <p:ajax listener="#{importSheetDataTabsController.selectCompany}" update=""  />
+				</p:selectOneMenu>
+			    </h:panelGrid>
+			</p:panel>
+		    </p:tab>
+		    <p:tab id="confirm" title="上傳資料">
+		<script type="text/javascript">
+		//<![CDATA[
+		rc();
+		//]]>
+		</script>
+			<p:panel header="上傳資料">
+			    <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
+				<h:panelGrid columns="2" columnClasses="label, value">
+				    <h:outputLabel value="資料年月: "/>
+				    <h:outputText value="#{importSheetDataTabsController.yearMonth}" styleClass="outputLabel"/>
+				    <h:outputLabel  value="個體公司:" escape="false" />
+				    <h:outputText value="#{importSheetDataTabsController.company.toString()}" styleClass="outputLabel"/>
+				    <h:outputLabel value="範本下載: "/>
+				    <ui:include src="/include/inc_outputLinkTemplate.xhtml">
+					<ui:param name="excelTemplateURL" value="/templates/excel/template_sheetData.xls"/>
+				    </ui:include>
+				</h:panelGrid>
+			    </h:panelGrid>
+		     <h:panelGrid columns="3">
+			<h:outputLabel value="報表檔案:"/>
+			<h:panelGroup>
+				<ui:include src="/include/inc_attachment.xhtml">
+					<ui:param name="uploadUpdate" value=":form:btnSave :form:tabview"/>
+					<ui:param name="process" value=""/>
+				</ui:include>
+			</h:panelGroup>
+			<p:messages id="pmsg" autoUpdate="true"/>
+		    </h:panelGrid>
+			<hr/>
+			<p:commandButton id="btnSave"
+					 value="#{msgApp['app.button.save']}"
+					 icon="ui-icon-disk"
+					 disabled="#{not importSheetDataTabsController.allowSave()}"
+					 action="#{importSheetDataTabsController.save}"
+					 onstart="return confirm('確認要儲存?');"
+			/>&nbsp;
+			<p:button value="#{msgApp['app.button.cancel']}"
+				  icon="ui-icon-cancel"
+				  outcome="importSheetData.xhtml"/>
+			<p:spacer width="2"/>
+			<h:link outcome="/attachment/queryAttachment.xhtml?faces-redirect=true" 
+				includeViewParams="true"
+				target="viewLaw">已上傳檔案歷史查詢
+			    <f:param name="pageCode" value="#{importSheetDataTabsController.pageCode}" />
+			    <h:graphicImage title="已上傳檔案歷史查詢"
+					    library="images" 
+					    name="page_view.png"/>
+			</h:link>
+			<p:tabView id="tabview"
+				   >
+			    <p:tab title="關系人對帳交易記錄">
+				<ui:include src="inc_importExcel_ztcoRelaDtl.xhtml">
+				    <ui:param name="importController" value="#{importSheetDataTabsController.importZtcoRelaDtlController}"/>
+				</ui:include>
+			    </p:tab>
+			    <p:tab title="關係人帳進銷項發票記錄">
+				<ui:include src="inc_importExcel_ztcoRelaGui.xhtml">
+				    <ui:param name="importController" value="#{importSheetDataTabsController.importZtcoRelaGuiController}"/>
+				</ui:include>
+			    </p:tab>
+			</p:tabView>
+			    </p:panel>
+			</p:tab>
+		    </p:wizard>-->
+            </h:form>
+	    <!--待補-->
+<!--	    <ui:include src="inc_note_importSheetData.xhtml">
+	    </ui:include>-->
+	    <!--待補-->  
+        </p:panel>
+    </ui:define>
+</ui:composition>

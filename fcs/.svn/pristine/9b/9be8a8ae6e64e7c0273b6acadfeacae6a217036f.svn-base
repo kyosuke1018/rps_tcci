@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!--<h:outputLabel  value="id" escape="false" />
+    <h:outputText value="#{queryReconcilingController.editDetail.id}" 
+    />-->
+<!--    <h:outputLabel value="調節對象:" 
+                   rendered="#{queryReconcilingController.parentComp}"/>
+    <h:panelGroup rendered="#{queryReconcilingController.parentComp}">
+        <h:selectOneRadio value="#{queryReconcilingController.editDetail.remarkOnly}">
+            <f:selectItem itemLabel="交易金額" itemValue="#{false}"/>
+            <f:selectItem itemLabel="公告幣別金額" itemValue="#{true}"/>
+        </h:selectOneRadio>
+    </h:panelGroup>-->
+    <h:outputLabel value="是否調節:"/>
+    <h:panelGroup id="pgRemarkOnly">
+        <h:selectOneRadio value="#{queryReconcilingController.editDetail.remarkOnly}">
+            <f:selectItem itemLabel="調節" itemValue="#{false}"/>
+            <f:selectItem itemLabel="不調節" itemValue="#{true}"/>
+            <p:ajax oncomplete="doChangeRemarkOnly()"/>
+        </h:selectOneRadio>
+        <p:remoteCommand name="doChangeRemarkOnly"
+                         actionListener="#{queryReconcilingController.changeARemarkOnly()}"
+                         update=":editReconcilingDForm:editDetailDlgGroup"/>
+    </h:panelGroup>
+    <h:outputLabel class="required" value="#{msgApp['irs.msg.txt36']}:" />
+    <!--<p:inputText size="20" value="#{queryReconcilingController.editDetail.accountType}"
+                 required="true" requiredMessage="[對帳類別]必填!"
+    />-->
+    <h:panelGroup id="pgAccType">
+        <p:selectOneMenu 
+            value="#{queryReconcilingController.editDetail.accountType}"
+            >
+            <f:selectItems value="#{queryReconcilingController.companyOptions}" />
+            <p:ajax oncomplete="doChangeAccountType()"/>
+        </p:selectOneMenu>
+        <p:remoteCommand name="doChangeAccountType"
+                         actionListener="#{queryReconcilingController.changeAccountType()}"
+                         update=":editReconcilingDForm:editDetailDlgGroup"/>
+        <!--update=":editReconcilingDForm:pgAccNode"-->
+    </h:panelGroup>
+    <h:outputLabel class="required" value="對帳科目:" />
+    <h:panelGroup id="pgAccNode">
+        <p:selectOneMenu id="somAccNode" 
+                         value="#{queryReconcilingController.reconcilingAccNodeId}"
+                         disabled="#{queryReconcilingController.editDetail.remarkOnly}">
+            <f:selectItems value="#{queryReconcilingController.accountingOptions}" />
+        </p:selectOneMenu> 
+    </h:panelGroup>
+    <h:outputLabel class="required" value="#{msgApp['app.label.note']}:" />
+    <!--required="true" requiredMessage="[#{msgApp['app.label.note']}]必填!"-->
+    <p:inputText size="40" value="#{queryReconcilingController.editDetail.remark}"
+                 />
+    <h:outputLabel class="required" value="#{msgApp['irs.msg.txt37']}:" />
+    <!--required="true" requiredMessage="[#{msgApp['irs.msg.txt37']}]必填!"-->
+    <p:inputText value="#{queryReconcilingController.editDetail.amountAdjustments}"
+                 styleClass="valCol"
+                 size="20"
+                 disabled="#{queryReconcilingController.editDetail.remarkOnly}"/>
+                 
+    <!--待補-->
+</ui:composition>

@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+<!--    <p:column  rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"
+               sortBy="#{row.id}"
+               styleClass="valCol"
+               style="width:10px;">
+        <f:facet name="header">
+            <h:outputLabel  value="id" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.id}"  />
+    </p:column>-->
+    <p:column sortBy="#{row.accountType}" style="width:80px;">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt36']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.accountType}" />
+    </p:column>
+    <p:column style="width:80px;">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt8']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.sheetdatam.reCompany}" rendered="#{row.accountType eq 'RE'}" />
+        <h:outputText value="#{row.sheetdatam.paCompany}" rendered="#{row.accountType eq 'PA'}" />
+    </p:column>
+    <p:column sortBy="#{row.accountNode.code}"  style="width:150px;">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['acc.msg.txt3']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.accountNode}"  />
+        <!--<h:outputText value="#{row.getAccountName()}"  />-->
+    </p:column>
+    <!--sortBy="#{row.remark}"
+    filterBy="#{row.remark}"-->
+    <p:column>
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['app.label.note']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.remark}" style="white-space: pre-wrap;" />
+    </p:column>
+    <!--filterBy="#{row.amountAdjustments}"-->
+    <p:column 
+        sortBy="#{row.amountAdjustments}"
+        styleClass="valCol"
+        style="width:100px;">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt37']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.amountAdjustments}" >
+            <f:convertNumber pattern="#,##0.####"/>
+        </h:outputText>
+    </p:column>
+    <!--sortBy="#{row.creator.loginAccount}"-->
+    <p:column style="width:120px;">
+        <f:facet name="header"><h:outputLabel  value="#{msgApp['app.label.modifier1']}" escape="false" /></f:facet>
+        <h:outputText value="#{row.creator.displayIdentifier}"/>
+    </p:column>
+    <!--sortBy="#{row.createtimestamp}"-->
+    <p:column style="width:120px;">
+        <f:facet name="header"><h:outputLabel  value="#{msgApp['app.label.modifytimestamp1']}" escape="false" /></f:facet>
+        <h:outputText value="#{row.createtimestamp}">
+            <f:convertDateTime type="date" pattern="yyyy/MM/dd HH:mm"/>
+        </h:outputText>
+    </p:column>
+</ui:composition>

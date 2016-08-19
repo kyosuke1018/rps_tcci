@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+    template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{msgApp['app.menu.consolidationRpt']} #{msgApp['app.label.upload2']}</ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+            .ui-fieldset-content {
+                margin-top: -10px;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <p:panel header="#{msgApp['app.menu.consolidationRpt']} #{msgApp['app.label.upload2']}">
+            <h:form id="form" prependId="false">
+                <p:selectOneMenu id="somGroup" value="#{consolidationRptHome.group}">
+                    <f:selectItems value="#{consolidationRptHome.groups}"/>
+                    <p:ajax oncomplete="doChangeGroup()" />
+                </p:selectOneMenu>
+                <p:remoteCommand name="doChangeGroup"
+                                 actionListener="#{consolidationRptHome.changeGroup()}"
+                                 update=":form"/>
+                <p:fieldset rendered="#{!consolidationRptHome.noPermission}">
+                    <ui:include src="inc_homeTemplate.xhtml"/>
+                </p:fieldset>
+                
+                <p:fieldset legend="#{msgApp['app.label.upload3']}">
+                    <h:panelGrid columns="3">
+                        <h:selectOneRadio value="#{consolidationRptHome.dispMode}">
+                            <f:selectItem itemLabel="#{msgApp['app.option.showAll']}" itemValue="1"/>
+                            <f:selectItem itemLabel="#{msgApp['app.option.showUploaded']}" itemValue="2"/>
+                            <f:selectItem itemLabel="#{msgApp['app.option.showNoUpload']}" itemValue="3"/>
+                            <f:selectItem itemLabel="#{msgApp['app.option.showNoUpload']}(SAP)" itemValue="4"/>
+                            <f:selectItem itemLabel="#{msgApp['app.option.showNoUpload']}(WEB)" itemValue="5"/>
+                            <p:ajax event="click"
+                                    listener="#{consolidationRptHome.dispModeChange}"
+                                    update=":form:voList"/>
+                        </h:selectOneRadio>
+                        <h:outputLabel value=" | "/>
+                        <h:commandLink title="#{msgApp['consolidationRpt.msg.txt3']}"
+                                       actionListener="#{consolidationRptHome.export}"
+                                       immediate="true"
+                                       onclick="monitorDownload();"
+                                       rendered="false">
+                            <!--先藏 rendered="false"
+                            20160316因原提出此報表需求之user離職 暫不使用-->
+                            <!--rendered="#{not empty consolidationRptHome.voList}"-->
+                            <p:fileDownload value="#{consolidationRptHome.exportFile}"/>
+                            <h:graphicImage library="images" name="excel.png"/>
+                            <h:outputText value="#{msgApp['consolidationRpt.msg.txt3']}"/>
+                        </h:commandLink>
+                        
+                        <h:panelGroup id="stopSign">
+                            <h:graphicImage library="images" name="stop_sign.png" style="vertical-align: middle;" rendered="#{consolidationRptHome.stopUpload}"/>
+                            <h:outputText value=" #{msgApp['app.button.stopUpload.on']}" style="color: red;" rendered="#{consolidationRptHome.stopUpload}"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                    <p:dataTable id="voList"
+                                 value="#{consolidationRptHome.voList}"
+                                 var="row"
+                                 rows="10"
+                                 paginator="true">
+                        <p:column headerText="#{msgApp['company.msg.txt1']}" sortBy="#{row.company.code}" width="80">
+                            <h:outputText value="#{row.company.code}"/>
+                        </p:column>
+                        <p:column headerText="#{msgApp['company.msg.txt2']}" sortBy="#{row.company.name}">
+                            <h:outputText value="#{row.company.name}"/>
+                        </p:column>
+                        <p:column headerText="#{msgApp['company.msg.txt9']}" width="40">
+                            <h:outputText value="#{row.company.currency.code}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="60">
+                            <f:facet name="header">
+                                <h:outputText value="#{msgApp['app.label.report']} "/>
+<!--                                20160321 不要給這功能0321
+                                <h:commandLink title="#{msgApp['app.button.downloadAll']}"
+                                               actionListener="#{reportHome.downloadAll}"
+                                               immediate="true"
+                                               onclick="monitorDownload();"
+                                               rendered="#{reportHome.showDownloadAll()}">
+                                    <p:fileDownload value="#{reportHome.downloadFile}"/>
+                                    <h:graphicImage library="images" name="compress.png"/>
+                                </h:commandLink>-->
+                            </f:facet>
+                            <h:commandLink title="#{msgApp['app.label.download']}"
+                                           actionListener="#{consolidationRptHome.download(row)}"
+                                           immediate="true"
+                                           onclick="monitorDownload();"
+                                           rendered="#{row.company.consolidationRptUpload and not empty row.rptSheetUpload}">
+                                <p:fileDownload value="#{consolidationRptHome.downloadFile}"/>
+                                <h:graphicImage library="images" name="excel.png"/>
+                            </h:commandLink>
+                        </p:column>
+                        <p:column headerText="#{msgApp['app.label.modifier2']}" width="150">
+<!--                            <h:outputText value="#{row.rptSheetUpload.modifier.displayIdentifier}"/>
+                            <br/>-->
+                            <h:outputText value="#{row.rptUploadRecord.modifier.displayIdentifier}"/>
+                            <h:outputText value="#{row.rptUploadRecord.sapUserName}"/><!--20160523新增SAP user中文名-->
+                        </p:column>
+                        <p:column headerText="#{msgApp['app.label.modifytimestamp2']}" width="120">
+                            <h:outputText value="#{row.rptUploadRecord.modifytimestamp}">
+                                <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msgApp['app.label.action']}" style="text-align: center;" width="60">
+                            <h:panelGroup rendered="#{row.company.consolidationRptUpload}">
+                                <h:link outcome="rptDataUpload.xhtml"
+                                        title="#{msgApp['app.label.upload2']}"
+                                        rendered="#{consolidationRptHome.uploadable}">
+                                    <f:param name="code" value="#{row.company.code}"/>
+                                    <h:graphicImage library="images" name="upload.png"/>
+                                </h:link>
+                                <p:spacer width="2"/>
+                                    
+                                <p:commandLink onstart="return confirm('重新寫入會科餘額檔CSBA?')"
+                                               actionListener="#{consolidationRptHome.saveTB(row)}"
+                                               rendered="#{userSession.isUserInRole('ADMINISTRATORS')
+                                                       and row.company.consolidationRptUpload and row.rptSheetUpload != null}">
+                                    <h:graphicImage title="重新寫入會科餘額檔CSBA"
+                                                    library="images" name="page_edit.png"/>
+                                </p:commandLink>
+                            </h:panelGroup>
+                        </p:column>
+
+                        <p:column headerText="#{msgApp['app.label.note']}" width="60">
+                            <h:outputText value="#{consolidationRptHome.getCompanyNote(row)}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+                <ui:include src="inc_note_query.xhtml">
+                </ui:include>
+            </h:form>
+            <ui:include src="inc_editRptYM.xhtml"/>
+        </p:panel>
+    </ui:define>
+</ui:composition>

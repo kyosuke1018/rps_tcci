@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <persistence-unit name="Model" transaction-type="JTA">
+        <jta-data-source>jdbc/fcs</jta-data-source>
+        <class>com.tcci.fc.entity.org.TcUser</class>
+        <class>com.tcci.fc.entity.org.TcGroup</class>
+        <class>com.tcci.fc.entity.org.TcUsergroup</class>
+        <class>com.tcci.fc.entity.essential.TcDomain</class>
+        <class>com.tcci.fc.entity.content.TcApplicationdata</class>
+        <class>com.tcci.fc.entity.content.TcFvitem</class>
+        <class>com.tcci.fc.entity.content.TcFvvault</class>
+        <class>com.tcci.fcs.entity.FcCompany</class>
+        <class>com.tcci.fcs.entity.FcConfig</class>
+        <class>com.tcci.fcs.entity.FcReportNote</class>
+        <class>com.tcci.fcs.entity.FcReportTemplate</class>
+        <class>com.tcci.fcs.entity.FcReportUpload</class>
+        <class>com.tcci.fcs.entity.FcReportValue</class>
+        <class>com.tcci.fcs.entity.FcUploaderR</class>
+        <class>com.tcci.fcs.entity.FcCurrency</class>
+        <class>com.tcci.fcs.entity.FcMonthlyExchangeRate</class>
+        <class>com.tcci.fcs.entity.FcReportA0102</class>
+        <class>com.tcci.fcs.entity.FcUserCompGroupR</class>
+        <class>com.tcci.fcs.entity.FcRptConfig</class>
+        <class>com.tcci.fcs.entity.FcCompGroup</class>
+        <class>com.tcci.fcs.entity.ZtfiAfcsAcma</class>
+        <class>com.tcci.fcs.entity.FcSapUploadRecord</class>
+        <!-- irs -->
+        <class>com.tcci.irs.entity.attachment.IrsReportUpload</class>
+        <class>com.tcci.irs.entity.sheetdata.ZtfiAfrcTran</class>
+        <class>com.tcci.irs.entity.sheetdata.ZtfiAfrcInvo</class>
+        <class>com.tcci.irs.entity.sheetdata.IrsCompanyClose</class>
+        <class>com.tcci.irs.entity.sheetdata.IrsSheetdataM</class>
+        <class>com.tcci.irs.entity.reconciling.IrsSheetdataReconcilingD</class>
+        <class>com.tcci.irs.entity.ReclPortfolio</class>
+        <class>com.tcci.irs.entity.IrsTranUploadRecord</class>
+        <class>com.tcci.irs.entity.AccountNode</class>
+        <class>com.tcci.irs.entity.IrsReconcilCompanyR</class>
+        <class>com.tcci.irs.entity.IrsCompanyType</class>
+        <class>com.tcci.irs.entity.IrsCompanyNoTrans</class>
+        <!-- rpt -->
+        <!--<class>com.tcci.rpt.entity.RptIsbs</class>-->
+        <class>com.tcci.rpt.entity.RptSheetUpload</class>
+        <class>com.tcci.rpt.entity.RptDataUploadRecord</class>
+        <class>com.tcci.rpt.entity.RptDValue</class>
+        <class>com.tcci.rpt.entity.RptTbValue</class>
+        <class>com.tcci.rpt.entity.ZtfiAfcsCsba</class>
+        <class>com.tcci.rpt.entity.ZtfiAfcsCsbu</class>
+        <class>com.tcci.rpt.entity.RptCompanyOrg</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <!-- JPA logging -->
+            <property name="eclipselink.logging.level" value="WARNING"/>
+            <property name="eclipselink.logging.parameters" value="false"/>
+        </properties>
+    </persistence-unit>
+</persistence>

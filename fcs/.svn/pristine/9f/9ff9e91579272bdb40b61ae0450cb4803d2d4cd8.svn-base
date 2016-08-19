@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dataTable id="dtReportb1List" var="row" value="#{dataList}"
+                 styleClass="ui-datatable-hor-scroll"
+                 widgetVar="wvDataTable"
+                 rendered="#{!empty dataList}">
+        <!--dataExport 不支援footer-->
+        <!--company1-->
+        <p:column headerText="#{msgApp['company.msg.txt2']}" width="80">
+            <h:outputText value="#{row.comp2Code}#{row.comp2Name}"/>
+        </p:column>
+        <p:column headerText="關係人" width="80">
+            <h:outputText value="#{row.comp2Rtype}"/>
+        </p:column>
+        <!--RE BS-->
+        <p:column headerText="1161應收票據-關係人" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountReA}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="1172應收帳款-關係人" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountReB}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="1181應收帳款-關係人" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountReC}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="1175應收租賃款" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountReD}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="1206其他應收款" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountReE}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="1212其他應收款-關係人" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountReF}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="1300存貨" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountReG}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="1419預付費用" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountReH}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="1421預付貨款" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountReI}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="1268其他預付款" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountReJ}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="1479其他流動資產" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountReK}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="1600不動產、廠房及設備" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountReL}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="1920存出保證金品" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountReM}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="1930長期應收票據及款項-關係人" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountReN}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="1990其他非流動資產" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountReO}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <!--RE IS-->
+        <p:column headerText="4111銷貨收入" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReA}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="4114銷貨收入" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReB}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="4115銷貨收入" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReC}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="4116銷貨收入" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReD}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="4117銷貨收入" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReE}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="4119銷貨收入" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReF}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="4190銷貨退回及折讓" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReG}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="4300收入金額" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReH}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="4500收入金額" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReI}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="4600收入金額" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReJ}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="4800收入金額" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReK}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="7100利息收入金額" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReL}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="7110收入金額" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReM}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="7130股利收入金額" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReN}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="7210收入金額" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReO}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="7010收入金額" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountReP}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="合計數" width="80">
+            <h:outputText value="#{row.getTotalRe()}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+            
+        <!--PA BS-->
+        <p:column headerText="2100其他短期借款" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountPaA}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="2160應付票據-關係人" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountPaB}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="2170應付帳款" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountPaC}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="2180應付帳款-關係人" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountPaD}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="2200其他應付款項" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountPaE}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="2220其他應付款項–關係人" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountPaF}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="2310預收款項" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountPaG}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="2399其他流動負債" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountPaH}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="2620長期應付票據及款項" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountPaI}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="2645存入保證金(品)" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountPaJ}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="2670其他負債-其他" rendered="#{bsisType eq 'BS'}" width="80">
+            <h:outputText value="#{row.amountPaK}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <!--PA IS-->
+        <p:column headerText="5000進貨、運輸成本、運什費等營業成本" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountPaA}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="5800其他營業成本" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountPaB}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="6000營業費用" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountPaC}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="7510利息費用" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountPaD}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="7590支出金額" rendered="#{bsisType eq 'IS'}" width="80">
+            <h:outputText value="#{row.amountPaE}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="合計數" width="80">
+            <h:outputText value="#{row.getTotalPa()}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="差異數" width="80">
+            <h:outputText value="#{row.getDiff()}">
+                <f:convertNumber pattern="#,##0"/>
+            </h:outputText>
+        </p:column>
+    </p:dataTable>  
+</ui:composition>

@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{msgApp['app.menu.company']}</ui:define>
+    <ui:define name="content">
+        <p:panel header="#{msgApp['app.menu.company']}">
+            <h:form id="form" prependId="false">
+                <p:commandButton value="#{msgApp['app.button.add']}"
+                                 icon="ui-icon-plus"
+                                 action="#{companyController.editCompany(null)}"
+                                 update=":editCompForm:editCompanyGroup"
+                                 oncomplete="PF('editCompanyDlg').show();"/>
+<!--             20151021隱藏公司匯入功能   
+<p:button value="匯入"
+                          icon="ui-icon-wrench"
+                          outcome="import.xhtml"/>-->
+                <h:outputLabel value=" | "/>
+                <h:outputLabel value="lookup: " for="nameFilter"/>
+                <p:inputText id="nameFilter"
+                             value="#{companyController.filter}"
+                             size="30">
+                </p:inputText>
+                <input type="HIDDEN" id="nameFilterLast"/>
+                <p:remoteCommand name="remoteNameFilterChange"
+                                 action="#{companyController.filterChange}"
+                                 update=":form:companyList"
+                                 global="off"/>
+                <div style="overflow-x:scroll;">
+                    <p:dataTable id="companyList"
+                                 value="#{companyController.companyList}"
+                                 var="row"
+                                 rows="10"
+                                 paginator="true"
+                                 styleClass="ui-datatable-hor-scroll">
+                        <p:column headerText="#{msgApp['company.msg.txt1']}" width="60">
+                            <h:outputText value="#{row.code}"/>
+                        </p:column>
+                        <p:column headerText="#{msgApp['company.msg.txt2']}" width="200">
+                            <p:commandLink title="#{msgApp['company.msg.txt3']}"
+                                           action="#{companyController.editCompany(row)}"
+                                           update=":editCompForm:editCompanyGroup"
+                                           oncomplete="PF('editCompanyDlg').show();">
+                                <h:graphicImage library="images" name="page_edit.png"/>
+                                <h:outputText value="#{row.name}"/>
+                            </p:commandLink>
+                        </p:column>
+                        <p:column headerText="#{msgApp['app.button.on']}" style="text-align: center;" width="40">
+                            <p:commandLink action="#{companyController.activeChange(row)}"
+                                           update=":form:companyList"
+                                           global="off">
+                                <h:graphicImage library="images" name="check_box.png" rendered="#{row.active}"/>
+                                <h:graphicImage library="images" name="check_box_uncheck.png" rendered="#{not row.active}"/>
+                            </p:commandLink>
+                        </p:column>
+                        <!--                    <p:column headerText="上傳人">
+                                                <h:outputText value="#{row.uploader.displayIdentifier}"/>
+                                            </p:column>-->
+                                                
+                        <p:column headerText="#{msgApp['company.msg.txt4']}" style="text-align: right;" width="60">
+                            <h:outputText value="#{row.sort}"/>
+                        </p:column>
+                        <p:column headerText="#{msgApp['company.msg.txt5']}" style="text-align: center;" width="60">
+                            <h:outputText value="#{row.abbreviation}"/>
+                        </p:column>
+                        <p:column headerText="#{msgApp['company.msg.txt6']}"  style="text-align: center;" width="60">
+                            <h:outputText value="#{row.group.code}"/>
+                        </p:column>
+                        <p:column headerText="#{msgApp['company.msg.txt7']}" width="300">
+                            <p:commandLink title="#{msgApp['company.msg.txt8']}"
+                                           action="#{companyController.editUploader(row)}"
+                                           update=":editUploaderForm:editUploaderGroup"
+                                           oncomplete="PF('editUploaderDlg').show();">
+                                <h:graphicImage library="images" name="add.png" styleClass="icons" />
+                            </p:commandLink>
+                            <p:spacer width="3" />
+                            <ui:repeat value="#{row.uploaderList}" var="uploader" varStatus="status">
+                                <h:outputText value="#{uploader.tcUser.displayIdentifier}"/>
+                                <p:commandLink title="#{msgApp['app.button.remove']}[#{uploader.tcUser.displayIdentifier}]" 
+                                               onclick="if( !confirm('#{msgApp['app.confirm.remove']}[#{uploader.tcUser.displayIdentifier}]?') )
+                                                   { return false; }else{ rcDelete([{name: 'id', value: '#{uploader.id}'}]); }">
+                                    <h:graphicImage library="images" name="delete.png" styleClass="icons" />
+                                </p:commandLink>
+                                <!--奇數間隔 偶數換行-->
+                                <h:panelGroup rendered="#{(status.index+1) % 2 ne 0}" >
+                                    <p:spacer width="3" />
+                                </h:panelGroup>
+                                <!--每2個換行一次-->
+                                <h:panelGroup rendered="#{(status.index+1) % 2 eq 0}" >
+                                    <br/>
+                                </h:panelGroup>
+                            </ui:repeat>
+                            <!-- 刪除上傳人； remoteCommand -->
+                            <p:remoteCommand name="rcDelete"  
+                                             actionListener="#{companyController.deleteUploader()}"
+                                             update="companyList" />
+                        </p:column>
+                        <p:column headerText="#{msgApp['company.msg.txt9']}" style="text-align: center;" width="40">
+                            <h:outputText value="#{row.currency ne null ? row.currency.code : ''}"/>
+                        </p:column>
+                        <p:column headerText="#{msgApp['company.msg.txt10']}" style="text-align: center;" width="50">
+                            <h:outputText value="#{row.consolidationRevenue}"/>
+                        </p:column>
+                        <!--20160317 wayne建議改正面敘述
+                            headerText="非SAP"-->
+                        <p:column headerText="IRS_web上傳" style="text-align: center;" width="70">
+                            <h:outputText value="#{row.nonSap}"/>
+                        </p:column>
+                        <p:column headerText="IRS_無需處理" style="text-align: center;" width="70">
+                            <h:outputText value="#{row.undo}"/>
+                        </p:column>
+                        <p:column headerText="合併報表" style="text-align: center;" width="50">
+                            <h:outputText value="#{row.consolidationRpt}"/>
+                        </p:column>
+                        <p:column headerText="合併報表_web上傳" style="text-align: center;" width="110">
+                            <h:outputText value="#{row.consolidationRptUpload}"/>
+                        </p:column>
+                        <p:column headerText="虛擬公司" style="text-align: center;" width="50">
+                            <h:outputText value="#{row.virtual}"/>
+                        </p:column>
+                        <p:column headerText="#{msgApp['company.msg.txt11']}" style="text-align: center;" width="160">
+                            <h:outputText value="#{row.ename}"/>
+                        </p:column>
+                        <p:column headerText="ID" width="15">
+                            <h:outputText value="#{row.id}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+            <h:form id="editCompForm" prependId="false">
+                <ui:include src="inc_editCompanyDlg.xhtml"/>
+            </h:form>
+            <!-- 可上傳人員選取對話框 -->
+            <h:form id="editUploaderForm" prependId="false">
+                <ui:include src="inc_editUploaderDlg.xhtml"/>
+            </h:form>
+<!--        <ui:include src="/inc/inc_autoCompleteUserSelect.xhtml">
+            <ui:param name="controller" value="#{matterTaskCreateController}" />
+            <ui:param name="updateUI" value=":fmMain:pgMain"/>
+        </ui:include>-->
+        </p:panel>
+        <script type="text/javascript">
+            $(function() {
+                textDelayChange('#nameFilter', '#nameFilterLast', remoteNameFilterChange);
+            });
+        </script>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <!--新增或編輯-->
+    <ui:composition>
+        <p:dialog id="editDetailDlg" widgetVar="editDetailDialog" 
+                  modal="true" resizable="true" 
+                  width="860" height="450"
+                  header="新增編輯">
+            <!--關閉事件-->
+            <p:ajax event="close" listener="#{voucherController.handleDetailClose(event)}" />
+
+            <h:form prependId="false" id="editDetailForm">
+                <div class="buttons">
+                    <p:commandButton icon="ui-icon-disk" 
+                                     value="暫存" 
+                                     actionListener="#{voucherController.saveDetail()}"
+                                     oncomplete="handleSubmit(xhr,status,args,PF('editDetailDialog'));"
+                                     update=":growl :voucherForm"
+                                     />
+                    <p:commandButton value="關閉" 
+                                     immediate="true"
+                                     icon="ui-icon-close"
+                                     oncomplete="PF('editDetailDialog').hide()"
+				     actionListener="#{voucherController.handleDetailClose(event)}"
+                                     />
+		</div>   
+                <p:fieldset>
+                    <p:panelGrid style="width:100%">
+                        <p:row>
+                            <p:column style="width:120px">
+                                <p:outputLabel value="序號" />
+                            </p:column>
+                            <p:column>
+				<h:outputText value="#{voucherController.selectDetailObject.serial}" />
+                            </p:column>
+                        </p:row>
+			<p:row>
+                            <p:column>
+                                <p:outputLabel value="借貸" styleClass="required" />
+                            </p:column>
+                            <p:column>
+				<p:selectOneMenu value="#{voucherController.selectDetailObject.debitAndCredit}">
+                                    <f:selectItem itemLabel="D" itemValue="D" />
+				    <f:selectItem itemLabel="C" itemValue="C" />
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+			<p:row>
+                            <p:column>
+                                <p:outputLabel value="會計科目" styleClass="required" />
+                            </p:column>
+                            <p:column>
+				<p:selectOneMenu value="#{voucherController.selectDetailObject.account}">
+                                    <f:selectItems value="#{voucherController.accountOptionList}" 
+						   var="account"
+                                                   itemLabel="#{account}" 
+                                                   itemValue="#{account}" 
+                                                   />
+                                </p:selectOneMenu>
+<!--				<p:autoComplete value="#{voucherController.selectDetailObject.account}"
+                                                completeMethod="#{voucherController.findAccountList}"
+                                                var="account"
+						itemValue="#{account}"
+						itemLabel="#{account}"
+                                                forceSelection="true" 
+						size="5" 
+                                                scrollHeight="200"
+                                                minQueryLength="1"
+                                                dropdown="true" 
+                                                queryDelay="300"
+                                                required="false"
+                                                converterMessage="貼的東西還是找不到歐"
+                                                style="width: 120px;">
+                                </p:autoComplete>-->
+                            </p:column>
+			</p:row>
+			<p:row>
+                            <p:column>
+                                <p:outputLabel value="公司代碼" styleClass="required" />
+                            </p:column>
+                            <p:column>
+<!--				<p:autoComplete value="#{voucherController.selectDetailObject.detail}"
+                                                completeMethod="#{voucherController.findDetailList}"
+                                                var="detail"
+						itemValue="#{detail}"
+						itemLabel="#{detail}"
+                                                forceSelection="true" 
+						size="5" 
+                                                scrollHeight="200"
+                                                minQueryLength="1"
+                                                dropdown="true" 
+                                                queryDelay="300"
+                                                required="false"
+                                                converterMessage="貼的東西還是找不到歐"
+                                                style="width: 120px;">
+                                </p:autoComplete>-->
+				<p:selectOneMenu value="#{voucherController.selectDetailObject.detail}">
+                                    <f:selectItems value="#{voucherController.detailOptionList}" 
+						   var="detail"
+                                                   itemLabel="#{detail}" 
+                                                   itemValue="#{detail}" 
+                                                   />
+                                </p:selectOneMenu>
+				<!--				converter="storeConverter"
+								itemValue="#{store}"
+										itemLabel="#{store.name}"-->
+                            </p:column>
+			</p:row>
+			<p:row>
+                            <p:column>
+                                <p:outputLabel value="金額(TWD)" styleClass="required" />
+                            </p:column>
+                            <p:column>
+				<p:inputText value="#{voucherController.selectDetailObject.amount}"
+					     converterMessage="請輸入數字">
+				    <f:convertNumber minFractionDigits="0" />
+				</p:inputText>
+                            </p:column>
+                        </p:row>
+			<p:row>
+                            <p:column>
+                                <p:outputLabel value="摘要" />
+                            </p:column>
+                            <p:column colspan="3">
+				<p:inputText value="#{voucherController.selectDetailObject.remark}" 
+					     style="width: 95%" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:fieldset>
+
+                <div class="buttons">
+                    <p:commandButton icon="ui-icon-disk" 
+                                     value="暫存" 
+                                     actionListener="#{voucherController.saveDetail()}"
+                                     oncomplete="handleSubmit(xhr,status,args,PF('editDetailDialog'));"
+                                     update=":growl :voucherForm"
+                                     />
+                    <p:commandButton value="關閉" 
+                                     immediate="true"
+                                     icon="ui-icon-close"
+                                     oncomplete="PF('editDetailDialog').hide()"
+				     actionListener="#{voucherController.handleDetailClose(event)}"
+                                     />
+                </div>         
+            </h:form>
+	    <!--            <h:panelGroup class="ps_tit1" layout="block">
+			    <h:outputText value="說明"/>
+			    <ol id="memo" class="ps2">
+				<li> <h:outputText value="輸入油槽直徑會自動計算油槽面積。如要變更油槽面積，請自行輸入。" escape="false"/></li>
+			    </ol>
+			</h:panelGroup>-->
+        </p:dialog>
+    </ui:composition>
+</html>
+
+

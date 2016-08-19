@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">非合併聯屬公司群組</ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+            .ui-fieldset-content {
+                margin-top: -10px;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <p:panel header="非合併聯屬公司群組">
+            <h:form id="form" prependId="false">
+                <p:selectOneMenu id="somGroup" value="#{nonConsolidationController.group}">
+                    <f:selectItem itemValue="TCC" itemLabel="台泥"/>
+                    <!--<f:selectItem itemValue="CSRC" itemLabel="中橡"/>-->
+                    <p:ajax oncomplete="doChangeGroup()" />
+                </p:selectOneMenu>
+                <p:remoteCommand name="doChangeGroup"
+                                 actionListener="#{nonConsolidationController.changeGroup()}"
+                                 update="voList"/>
+                                    
+                <p:dataTable id="voList"
+                             value="#{nonConsolidationController.nonConsolidationList}"
+                             var="row"
+                             rows="20"
+                             paginator="true">
+                    <p:column headerText="CODE" width="50">
+                        <h:outputText value="#{row.compCode}"/>
+                    </p:column>
+                    <p:column headerText="NAME" width="100">
+                        <h:outputText value="#{row.compName}"/>
+                    </p:column>
+                    <p:column headerText="ABBREVIATION" width="50">
+                        <h:outputText value="#{row.abbreviation}"/>
+                    </p:column>
+                    <p:column headerText="GROUP" width="50">
+                        <h:outputText value="#{row.comp2Code}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

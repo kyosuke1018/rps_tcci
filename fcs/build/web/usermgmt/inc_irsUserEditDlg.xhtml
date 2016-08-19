@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog header="#{msgApp['irs.msg.txt52']}"
+              resizable="false"
+              width="600"
+              modal="true"
+              widgetVar="irsUserEditDlg">
+        <h:panelGroup id="irsUserEditGroup">
+            <h:outputText value="#{usermgmtController.editReconcilCompanyR.tcUser.displayIdentifier}"/>
+            <br/>
+            <h:panelGroup >
+                <h:outputLabel  value="#{msgApp['irs.msg.txt7']}:" escape="false" />
+                <p:selectOneMenu 
+                        converter="fcCompanyConverter"
+                        value="#{usermgmtController.editReconcilCompanyR.company}">
+                        <f:selectItems value="#{usermgmtController.allCompanyOptions}" />
+                    </p:selectOneMenu>
+                <h:outputLabel  value="#{msgApp['irs.msg.txt8']}:" escape="false" />
+                <!--<h:panelGroup>-->
+                    <p:selectOneMenu 
+                        converter="fcCompanyConverter"
+                        value="#{usermgmtController.editReconcilCompanyR.reconcilCompany}">
+                        <f:selectItems value="#{usermgmtController.allCompanyOptions}" />
+                    </p:selectOneMenu>
+                <!--</h:panelGroup>-->
+            </h:panelGroup>
+            <h:panelGroup style="display:block;">
+                <p:commandButton value="#{msgApp['app.button.add']}"
+                                 icon="ui-icon-circle-check"
+                                 action="#{usermgmtController.addIrsUserCompany()}"
+                                 update="dtRreconcilCompanyR"/>
+                <!--oncomplete="editUserDlg_complete(xhr, status, args,PF('irsUserEditDlg'))"-->
+            </h:panelGroup>
+            <p:dataTable id="dtRreconcilCompanyR"
+                             value="#{usermgmtController.reconcilCompanyRList}"
+                             var="row"
+                             rows="5" style="width: 500px;"
+                             paginator="true">
+                <p:column headerText="#{msgApp['app.label.action']}" width="20">
+                    <p:commandLink onstart="return confirm('#{msgApp['app.confirm.remove']}')"
+                                   actionListener="#{usermgmtController.removeIrsUserCompany(row)}"
+                                   update="dtRreconcilCompanyR">
+                        <h:graphicImage title="#{msgApp['app.button.remove']}"
+                                        library="images" name="delete.png"/>
+                    </p:commandLink>
+                </p:column>
+                <p:column headerText="#{msgApp['irs.msg.txt7']}" width="60" style="text-align: center;">
+                    <h:outputText value="#{row.company.code}"/>
+                </p:column>
+                <p:column headerText="#{msgApp['irs.msg.txt8']}" width="60" style="text-align: center;">
+                    <h:outputText value="#{row.reconcilCompany.code}"/>
+                </p:column>
+                <p:column headerText="#{msgUsermgmt['usermgmt.label.createtimestamp']}" width="80" style="text-align: center;">
+                    <h:outputText value="#{row.createtimestamp}">
+                        <f:convertDateTime type="date" pattern="yyyy/MM/dd HH:mm"/>
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+            <hr/>
+            <h:panelGroup style="display:block; text-align:center;">
+                <p:commandButton value="#{msgApp['app.button.close']}"
+                                 icon="ui-icon-circle-close"
+                                 onclick="PF('irsUserEditDlg').hide();return false;"/>
+            </h:panelGroup>
+        </h:panelGroup>
+    </p:dialog>
+</ui:composition>

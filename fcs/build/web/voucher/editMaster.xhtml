@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">調整傳票資料維護</ui:define>
+    <ui:define name="content">
+        <p:panel header="調整傳票資料維護">
+            <h:form id="voucherForm" prependId="false">
+                <p:panelGrid style="width: 100%">
+		    <p:row>
+			<p:column colspan="6">
+			    <h:selectOneRadio>
+				<f:selectItems value="#{voucherController.groupsOptionList}"/>
+			    </h:selectOneRadio>
+			</p:column>
+		    </p:row>
+		    <p:row>
+			<p:column style="background-color: #F2F5F9; width:120px">
+			    <p:outputLabel value="傳票編號" style="font-weight: bold;" />
+			</p:column>
+			<p:column colspan="5">
+			    <h:outputText value="#{voucherController.selectMasterObject.id}" />
+			</p:column>
+		    </p:row>
+		    <p:row>
+			<p:column style="background-color: #F2F5F9; width:120px">
+			    <p:outputLabel value="作帳年月" style="font-weight: bold;" />
+			</p:column>
+			<p:column>
+			    <h:outputText value="#{voucherController.selectMasterObject.accountDate}" />
+			</p:column>
+<!--
+			<p:column>
+			    <p:outputLabel value="傳票類別"/>
+			</p:column>
+			<p:column>
+			    <p:inputText value="#{voucherController.selectMasterObject.voucherType}" />
+			</p:column>-->
+
+			<p:column style="background-color: #F2F5F9; width:120px">
+			    <p:outputLabel value="傳票狀態" style="font-weight: bold;"/>
+			</p:column>
+			<p:column>
+			    <h:outputText value="#{voucherController.selectMasterObject.voucherStatus}" />
+			</p:column>
+
+			<p:column style="background-color: #F2F5F9; width:120px">
+			    <p:outputLabel value="作帳人員" style="font-weight: bold;"/>
+			</p:column>
+			<p:column>
+			    <h:outputText value="#{voucherController.selectMasterObject.postingPerson}" />
+			</p:column>
+		    </p:row>
+		    <p:row>
+			<p:column style="background-color: #F2F5F9;">
+			    <p:outputLabel value="中文摘要" style="font-weight: bold;" />
+			</p:column>
+			<p:column colspan="5">
+			    <p:inputText value="#{voucherController.selectMasterObject.summary}" style="width: 60%" />
+			</p:column>
+		    </p:row>
+		    <p:row>
+			<p:column style="background-color: #F2F5F9;">
+			    <p:outputLabel value="借方金額(TWD)" style="font-weight: bold;" />
+			</p:column>
+			<p:column>
+			    <h:outputText value="#{voucherController.selectMasterObject.debitBalance}">
+				<f:convertNumber type="currency" currencySymbol=" " minFractionDigits="2" />
+			    </h:outputText>
+			</p:column>
+
+			<p:column style="background-color: #F2F5F9;">
+			    <p:outputLabel value="貸方金額(TWD)" style="font-weight: bold;" />
+			</p:column>
+			<p:column>
+			    <h:outputText value="#{voucherController.selectMasterObject.creditBalance}">
+				<f:convertNumber type="currency" currencySymbol=" " minFractionDigits="2" />
+			    </h:outputText>
+			</p:column>
+
+			<p:column style="background-color: #F2F5F9;">
+			    <p:outputLabel value="差異金額(TWD)" style="font-weight: bold;" />
+			</p:column>
+			<p:column>
+			    <h:outputText value="#{voucherController.selectMasterObject.differBalance}">
+				<f:convertNumber type="currency" currencySymbol=" " minFractionDigits="2" />
+			    </h:outputText>
+			</p:column>
+		    </p:row>
+		</p:panelGrid>
+		<br/>
+		<p:commandButton  
+		    value="新增明細"
+		    icon="fa fa-plus fa-fw"
+		    action="#{voucherController.addDetail()}"
+		    update="voucherForm"
+		    />
+		<!--onclick="PF('editDetailDialog').show()"-->
+		<p:commandButton value="編輯明細" 
+			    actionListener="#{voucherController.editDetail()}"
+			    update="voucherForm"
+			    icon="fa fa-edit fa-fw" />
+		<p:commandButton value="取消編輯" 
+			    actionListener="#{voucherController.cancelDetail()}"
+			    update="voucherForm"
+			    icon="fa fa-cancel fa-fw" />
+		<!--oncomplete="PF('editDetailDialog').show()"-->
+		<p:dataTable id="datalist"
+			     value="#{voucherController.selectMasterObject.voucherDetailList}"  
+			     var="data"
+			     paginator="true"
+			     paginatorPosition="bottom"
+			     rows="10"
+			     rowsPerPageTemplate="5,10,20,50,100"
+			     draggableColumns="true"
+			     sortMode="multiple"
+			     scrollable="true"
+			     styleClass="ui-datatable-tablewrapper">
+		    <f:facet name="header">&nbsp;</f:facet>
+		    <p:column headerText="動作" 
+			      width="120"
+			      style="text-align: center;">
+			<!--<p:menuButton value="請選擇" >-->
+<!--			    <p:menuitem value="編輯明細" 
+					actionListener="#{voucherController.editDetail(data)}"
+					update=":editDetailForm"
+					oncomplete="PF('editDetailDialog').show()"
+					icon="fa fa-edit fa-fw" />-->
+			    <p:commandButton value="刪除明細" 
+					    onclick="return confirm('確定要刪除該筆明細嗎？');"
+					    icon="fa fa-remove fa-fw" />
+			    <!--actionListener="#{voucherController.addDetail(data)}"--> 
+			<!--</p:menuButton>-->
+		    </p:column>
+		    <p:column headerText="序號"  
+			      sortBy="#{data.serial}">
+			<h:outputText value="#{data.serial}" 
+				      rendered="#{!voucherController.isDetailEditable(data)}" />
+			<p:inputText value="#{data.serial}" 
+				     rendered="#{voucherController.isDetailEditable(data)}" />
+		    </p:column>
+		    <p:column headerText="借貸" 
+			      sortBy="#{data.debitAndCredit}">
+			<h:outputText value="#{data.debitAndCredit}" 
+				      rendered="#{!voucherController.isDetailEditable(data)}" />
+			<p:selectOneMenu value="#{data.debitAndCredit}" 
+					 rendered="#{voucherController.isDetailEditable(data)}">
+			    <f:selectItem itemLabel="D" itemValue="D" />
+			    <f:selectItem itemLabel="C" itemValue="C" />
+			</p:selectOneMenu>
+		    </p:column>
+		    <p:column headerText="會計科目" 
+			      sortBy="#{data.account}">
+			<h:outputText value="#{data.account}-#{data.accountName}" 
+				      rendered="#{!voucherController.isDetailEditable(data)}" />
+			<p:selectOneMenu value="#{data.account}"
+					 rendered="#{voucherController.isDetailEditable(data)}">
+			    <f:selectItems value="#{voucherController.accountOptionList}" 
+					   var="account"
+					   itemLabel="#{account}" 
+					   itemValue="#{account}" 
+					   />
+			</p:selectOneMenu>
+		    </p:column>
+<!--		    <p:column headerText="會科中文名稱" 
+			      sortBy="#{data.accountName}">
+			<h:outputText value="#{data.accountName}" />
+		    </p:column>-->
+		    <p:column headerText="公司代碼" 
+			      sortBy="#{data.detail}">
+			<h:outputText value="#{data.detail}-#{data.detailName}" 
+				      rendered="#{!voucherController.isDetailEditable(data)}" />
+			<p:selectOneMenu value="#{data.detail}"
+					 rendered="#{voucherController.isDetailEditable(data)}" >
+			    <f:selectItems value="#{voucherController.detailOptionList}" 
+					   var="detail"
+					   itemLabel="#{detail}" 
+					   itemValue="#{detail}" 
+					   />
+			</p:selectOneMenu>
+		    </p:column>
+<!--		    <p:column headerText="明細中文名稱" 
+			      sortBy="#{data.detailName}">
+			<h:outputText value="#{data.detailName}" />
+		    </p:column>-->
+		    <p:column headerText="金額(TWD)" 
+			      sortBy="#{data.amount}">
+			<h:outputText value="#{data.amount}" rendered="#{!voucherController.isDetailEditable(data)}">
+			    <f:convertNumber type="currency" currencySymbol=" " minFractionDigits="2" />
+			</h:outputText>
+			<p:inputText value="#{data.amount}"
+					     converterMessage="請輸入數字"
+					     rendered="#{voucherController.isDetailEditable(data)}" >
+			    <f:convertNumber minFractionDigits="0" />
+			</p:inputText>
+		    </p:column>
+		    <p:column headerText="摘要" 
+			      sortBy="#{data.remark}">
+			<h:outputText value="#{data.remark}" rendered="#{!voucherController.isDetailEditable(data)}" />
+			<p:inputText value="#{data.remark}" 
+				     rendered="#{voucherController.isDetailEditable(data)}" />
+		    </p:column>
+		</p:dataTable>
+		<div class="buttons">
+                    <p:commandButton icon="ui-icon-disk" 
+                                     value="儲存" 
+                                     actionListener="#{voucherController.saveMaster()}"
+                                     action="query.xhtml"
+                                     />
+		</div>
+	    </h:form>
+        </p:panel>
+	<ui:include src="editDetail.xhtml"/>
+    </ui:define>
+</ui:composition>

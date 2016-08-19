@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <div style="max-height:600px; min-height: 80px; overflow-x: auto;">
+        <!--D0202 D0204相關先註記 20160316因原提出此報表需求之user離職 暫不使用-->
+<!--        <h:panelGroup rendered="#{item.sheetCode eq 'D0202'}">
+            <p:dataTable value="#{consolidationRptUpload.getCompList(item)}"
+                         var="comp"
+                         rowStyleClass="#{comp.code eq 'SUM' ? 'rptSum' : ''}">
+                <p:column headerText="#{msgApp['company.msg.txt1']}" width="120">
+                    <h:outputText value="#{comp.code}"/>
+                </p:column>
+                <p:column headerText="#{msgApp['company.msg.txt2']}" width="120">
+                    <h:outputText value="#{comp.name}" title="#{comp.name}" styleClass="compCol"/>
+                </p:column>
+                <p:columns value="#{item.acItems}" var="acitem" styleClass="valCol" width="90">
+                    <f:facet name="header">
+                        <h:outputText value="#{acitem.code}" title="#{acitem.desc}"/><br/>
+                        <h:outputText value="#{acitem.desc}" styleClass="codeDesc"/>
+                    </f:facet>
+                    <h:outputText value="#{consolidationRptUpload.getValue(item, comp, acitem)}">
+                        <f:convertNumber pattern="#,##0.####"/>
+                    </h:outputText>
+                    <h:panelGroup rendered="#{consolidationRptUpload.showAmountXls}">
+                        <br/>
+                        <h:outputText value="#{consolidationRptUpload.getXlsValue(item, comp, acitem)}">
+                            <f:convertNumber pattern="#,##0.####"/>
+                        </h:outputText>
+                    </h:panelGroup>
+                </p:columns>
+            </p:dataTable>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{item.sheetCode eq 'D0204'}">
+            <p:dataTable value="#{consolidationRptUpload.getCompList(item)}"
+                         var="comp"
+                         rowStyleClass="#{comp.code eq 'SUM' ? 'rptSum' : ''}">
+                <p:column headerText="#{msgApp['company.msg.txt1']}" width="120">
+                    <h:outputText value="#{comp.code}"/>
+                </p:column>
+                <p:column headerText="#{msgApp['company.msg.txt2']}" width="120">
+                    <h:outputText value="#{comp.name}" title="#{comp.name}" styleClass="compCol"/>
+                </p:column>
+                <p:columns value="#{item.acItems}" var="acitem" styleClass="valCol"  width="90">
+                    <f:facet name="header">
+                        <h:outputText value="#{acitem.code}" title="#{acitem.desc}"/><br/>
+                        <h:outputText value="#{acitem.desc}" styleClass="codeDesc"/>
+                    </f:facet>
+                    <h:outputText value="#{consolidationRptUpload.getValue(item, comp, acitem)}">
+                        <f:convertNumber pattern="#,##0.####"/>
+                    </h:outputText>
+                    <h:panelGroup rendered="#{consolidationRptUpload.showAmountXls}">
+                        <br/>
+                        <h:outputText value="#{consolidationRptUpload.getXlsValue(item, comp, acitem)}">
+                            <f:convertNumber pattern="#,##0.####"/>
+                        </h:outputText>
+                    </h:panelGroup>
+                </p:columns>
+            </p:dataTable>
+        </h:panelGroup>-->
+        <h:panelGroup rendered="#{item.sheetCode eq 'TB'}">
+            <p:dataTable value="#{consolidationRptUpload.tabAccounts}"
+                         var="row"
+                         paginator="true" rows="10">
+                <p:column headerText="#{msgApp['acc.msg.txt1']}" style="width: 30px;">
+                    <h:outputText value="#{row.accCode}"/>
+                </p:column>
+                <p:column headerText="#{msgApp['acc.msg.txt2']}" style="width: 120px;">
+                    <h:outputText value="#{row.accName}" styleClass="compCol"/>
+                </p:column>
+                <p:column headerText="金額" styleClass="valCol"  style="width: 80px;">
+                    <h:outputText value="#{row.amount}">
+                        <f:convertNumber pattern="#,##0.####"/>
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+        </h:panelGroup>
+        <br/>
+    </div>                
+</ui:composition>

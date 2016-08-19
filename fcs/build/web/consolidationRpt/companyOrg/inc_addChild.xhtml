@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog header="addChild"
+              resizable="false"
+              width="400"
+              modal="true"
+              widgetVar="addChildDlg">
+        <h:panelGroup id="pgAddChild">
+            <h:outputLabel  value="PARENT:" escape="false" />
+            <h:outputText value="#{companyOrgController.editOrg.parent.code}"/>
+            <p:spacer width="10"/>
+            <h:outputLabel  value="HLEVEL:" escape="false" />
+            <h:outputText value="#{companyOrgController.editOrg.hlevel}"/>
+            <br/>
+            <h:outputLabel  value="COED:" escape="false" class="required"/>
+            <p:inputText value="#{companyOrgController.editOrg.code}" 
+                         required="true" requiredMessage="[COED]必填!"
+                         size="12" maxlength="6" />
+            <br/>
+            <hr/>
+            <br/>
+            <h:panelGroup style="display:block; text-align:center;">
+                <p:commandButton value="#{msgApp['app.button.ok']}"
+                                 icon="ui-icon-disk"
+                                 onstart="return confirm('確定新增子節點?')"
+                                 actionListener="#{companyOrgController.addChild()}"
+                                 onsuccess="PF('addChildDlg').hide();"
+                                 update=":form"/>
+                <p:spacer width="4" />
+                <p:commandButton value="#{msgApp['app.button.close']}"
+                                 icon="ui-icon-circle-close"
+                                 onclick="PF('addChildDlg').hide();return false;"/>
+            </h:panelGroup>
+        </h:panelGroup>
+    </p:dialog>
+</ui:composition>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+<!--待補-->
+<p:fieldset legend="備註" toggleable="true">
+    <li><span>使用時機:每月初將上月非SAP對帳相關資料匯入系統</span>.</li>
+    <li><span>使用頻率:每月</span>.</li>
+    <li><span>操作:下載範本後，填入欲更新資料，上傳範本後，確認系統提示訊息是否正確，按下'儲存'即可</span>.</li>
+    <li><span>註1:範本請從第3列開始複製資料</span>.</li>
+    <li><span>_依登入者取得個體公司取得下拉選單</span>.</li>
+</p:fieldset> 
+<!--待補-->      
+</ui:composition>

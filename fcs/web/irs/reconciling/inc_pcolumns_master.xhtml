@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!--待補-->
+    <!--style="max-width:20px;"-->
+    <p:column width="30" style="text-align: center;">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['app.label.ym']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getYMString()}" />
+    </p:column>
+    <p:column  width="40" style="text-align: center;">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt7']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getReCompanyDisPlay()}"/>
+    </p:column>
+    <p:column width="40" style="text-align: center;">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt8']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getPaCompanyDisPlay()}"/>
+    </p:column>
+    <p:column width="50" style="text-align: center;">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt9']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{commonUIController.getSheetTypeEnum(row.master.sheetType).label}"/>
+    </p:column>
+    <p:column width="30" style="text-align: center;">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt12']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.currency.code}"/>
+    </p:column>
+    <p:column width="40">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt10']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getReAccountCodeDisPlay()}"/><br/>
+        <h:outputText value="#{row.master.getReAccountNameDisPlay()}"/>
+    </p:column>
+    <p:column styleClass="valCol"  width="100">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt13']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getReAmountOrigDisPlay()}">
+            <f:convertNumber pattern="#,##0.####"/>
+        </h:outputText>
+        <h:panelGroup rendered="#{queryReconcilingController.parentComp}">
+            <br/><h:outputText value="(#{queryReconcilingController.announceCurr.code})" style="color: red;" />
+            <h:outputText value="#{row.reAnnounceAmount}" style="color: red;">
+                <f:convertNumber pattern="#,##0.####"/>
+            </h:outputText>
+        </h:panelGroup>
+    </p:column>
+    <p:column width="40">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt11']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getPaAccountCodeDisPlay()}"/><br/>
+        <h:outputText value="#{row.master.getPaAccountNameDisPlay()}"/>
+    </p:column>
+    <p:column styleClass="valCol"  width="100">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt14']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.getPaAmountOrigDisPlay()}">
+            <f:convertNumber pattern="#,##0.####"/>
+        </h:outputText>
+        <h:panelGroup rendered="#{queryReconcilingController.parentComp}">
+            <br/><h:outputText value="(#{queryReconcilingController.announceCurr.code})" style="color: red;" />
+            <h:outputText value="#{row.paAnnounceAmount}" style="color: red;">
+                <f:convertNumber pattern="#,##0.####"/>
+            </h:outputText>
+        </h:panelGroup>
+    </p:column>
+    <p:column styleClass="valCol"  width="100">
+        <f:facet name="header">
+            <h:outputLabel  value="#{msgApp['irs.msg.txt16']}" escape="false" />
+        </f:facet>
+        <h:outputText value="#{row.master.diff}">
+            <f:convertNumber pattern="#,##0.####"/>
+        </h:outputText>
+        <h:panelGroup rendered="#{queryReconcilingController.parentComp}">
+            <br/><h:outputText value="(#{queryReconcilingController.announceCurr.code})" style="color: red;" />
+            <h:outputText value="#{row.getAnnounceDiff()}" style="color: red;">
+                <f:convertNumber pattern="#,##0.####"/>
+            </h:outputText>
+        </h:panelGroup>
+    </p:column>
+    <!--待補-->
+</ui:composition>

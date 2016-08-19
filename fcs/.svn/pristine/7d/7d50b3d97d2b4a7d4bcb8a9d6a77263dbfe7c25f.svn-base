@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="mainMenu" prependId="false">
+        <p:menubar>
+            <p:submenu label="#{msgApp['app.menu.irs']}" >
+                <p:menuitem value="#{msgApp['queryCompanyCloseController.pageTitle']}"
+                            url="/faces/irs/companyClose/queryCompanyClose.xhtml"/>
+                <p:menuitem value="#{msgApp['importSheetDataTabsController.pageTitle']}"
+                            url="/faces/irs/nonSAP/importSheetData.xhtml"/>
+                <p:menuitem value="#{msgApp['irs.title.generateSheetdata']}"
+                            url="/faces/irs/sheetdata/generateSheetdata.xhtml"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"/>
+                <p:menuitem value="#{msgApp['querySheetdataController.pageTitle']}"
+                            url="/faces/irs/sheetdata/querySheetdata.xhtml"/>
+                <p:menuitem value="#{msgApp['irs.msg.txt55']}"
+                            url="/faces/irs/report/irsReport.xhtml"/>
+                <p:menuitem value="#{msgApp['irs.msg.txt57']}"
+                            url="/faces/irs/report/irsReportB.xhtml"/>
+            </p:submenu>
+            <!--20151112EXCEL VBA取代 暫不開發
+            20151119 調整分錄繼續開發?!
+            20160219 只提供報表上傳-->
+            <p:submenu label="#{msgApp['app.menu.consolidationRpt']}">
+                <p:menuitem value="#{msgApp['app.label.upload2']}"
+                            url="/faces/consolidationRpt/consolidationRpt_home.xhtml"/>
+<!--                <p:menuitem value="package #{msgApp['app.label.upload2']}"
+                            url="/faces/consolidationRpt/package/package.xhtml"/>-->
+                <p:menuitem value="(CSBA)會科餘額"
+                            url="/faces/consolidationRpt/queryCsba.xhtml"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"/>
+                <p:menuitem value="(CSBU)合併公司設定"
+                            url="/faces/consolidationRpt/queryCsbu.xhtml"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"/>
+                <!--20160323 TODO-->
+<!--                <p:menuitem value="#{msgApp['consolidationRpt.msg.txt4']}"
+                            url="/faces/consolidationRpt/companyOrg/queryOrg.xhtml"
+                            rendered="#{userSession.adaccount eq 'kyle.cheng'}"/>-->
+            </p:submenu>
+            <p:submenu label="#{msgApp['app.menu.consolidationRevenue']}">
+                <p:menuitem value="#{msgApp['app.label.upload2']}"
+                            url="/faces/main/consolidationRevenue_home.xhtml"/>
+                <p:menuitem value="#{msgApp['consolidationRevenue.msg.txt1']}"
+                            url="/faces/main/reportCompare.xhtml"/>
+                <p:menuitem value="#{msgApp['consolidationRevenue.msg.txt2']}"
+                            url="/faces/main/reportRevenue.xhtml"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS,FINANCIAL_HQ')}"/>
+            </p:submenu>
+            <p:submenu label="#{msgApp['app.menu.global']}" rendered="#{userSession.isUserInRole('ADMINISTRATORS,FINANCIAL_HQ')}">
+                <p:menuitem value="#{msgApp['app.menu.exchangeRate']}"
+                            url="/faces/exchangeRate/exchangeRate.xhtml"/>
+                <p:menuitem value="#{msgApp['irs.msg.txt53']}"
+                            url="/faces/irs/companyType/query.xhtml"/>
+                <p:menuitem value="#{msgApp['acc.msg.pageTitle']}"
+                            url="/faces/accounts/accounts.xhtml"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"/>
+                <p:menuitem value="合併聯屬公司報表會科mapping"
+                            url="/faces/accounts/irsReportAccount.xhtml"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"/>
+                <p:menuitem value="非合併聯屬公司群組"
+                            url="/faces/nonConsolidation/nonConsolidation.xhtml"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"/>
+            </p:submenu>
+            <p:submenu label="#{msgApp['app.menu.help']}">
+                <p:menuitem value="#{msgApp['app.menu.training_material']}"
+                            url="/help/training_material.pdf"
+                            target="training_material"/>
+                <p:menuitem value="#{msgApp['app.menu.user_manual']}"
+                            url="/help/user_manual.pdf"
+                            target="user_manual"/>
+            </p:submenu>
+            <p:submenu label="#{msgApp['app.menu.sysadmin']}"
+                       rendered="#{userSession.isUserInRole('ADMINISTRATORS,switch-user')}">
+                <p:menuitem value="#{msgApp['app.menu.sysadmin.switchuser']}"
+                            url="/faces/switchUser.xhtml"/>
+                <p:menuitem value="#{msgApp['app.menu.sysadmin.usermgmt']}"
+                            url="/faces/usermgmt/management.xhtml"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"/>
+                <p:menuitem value="#{msgApp['app.menu.company']}"
+                            url="/faces/company/company.xhtml"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"/>
+                <p:menuitem value="#{msgApp['app.menu.clearcache']}"
+                            url="/service/cache/flush"
+                            rendered="#{userSession.isUserInRole('ADMINISTRATORS')}"/>
+                <p:menuitem value="執行batch程式"
+                            url="/faces/schedule/runBatch.xhtml"
+                            rendered="#{userSession.adaccount eq 'kyle.cheng'}"/>
+            </p:submenu>
+        </p:menubar>
+    </h:form>
+</ui:composition>

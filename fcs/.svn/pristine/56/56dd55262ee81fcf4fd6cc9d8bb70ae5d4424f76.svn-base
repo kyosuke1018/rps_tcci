@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <h:panelGrid columns="2" >
+        <h:outputLabel value="#{msgApp['app.label.report.ym']}:"/>
+        <h:panelGroup>
+            <h:outputText value="#{consolidationRptHome.yearmonth}" styleClass="rptYearMonth"/>
+        </h:panelGroup>
+        <h:outputLabel value="#{msgApp['app.label.template.download2']}: "/>
+        <h:commandLink title="#{msgApp['app.label.template.download2']}"
+                       actionListener="#{consolidationRptHome.downloadTemplate}"
+                       immediate="true"
+                       onclick="monitorDownload();">
+            <p:fileDownload value="#{consolidationRptHome.downloadFile}"/>
+            <h:graphicImage library="images" name="excel.png"/>
+            <h:outputText value="#{msgApp['app.label.template.download2']}"/>
+            <!--version 人工更新-->
+            <!--<h:outputText value="v1.0.2"/>-->
+            <!--20160316因原提出此報表需求之user離職 暫不使用D0202 D0204-->
+            <!--20160706新增會科4118銷貨收入 - 石灰石-->
+            <h:outputText value="v1.1.2"/>
+        </h:commandLink>
+        
+    </h:panelGrid>
+    <h:panelGroup rendered="#{userSession.isUserInRole('ADMINISTRATORS,FINANCIAL_HQ')}">
+<!--        action="#{queryCompanyCloseController.initDtl1(row)}"
+                                   update=":editCloseDeptForm:editDetailDlgGroup"
+                                   oncomplete="PF('editMstDlg').show()"-->
+        <p:commandButton value="#{msgApp['app.button.edit']} #{msgApp['app.label.report.ym']}" 
+                         icon="ui-icon-pencil"
+                         update=":editForm"
+                         oncomplete="PF('editDlg').show()"/>&nbsp;
+        <p:commandButton id="btnStopUpload"
+                         value="#{msgApp['app.button.stopUpload']} #{consolidationRptHome.stopUpload ? msgApp['app.button.cancel']:msgApp['app.button.on']}"
+                         icon="ui-icon-power"
+                         action="#{consolidationRptHome.stopUploadChange}"
+                         onstart="return confirm('#{msgApp['app.confirm.edit']}');"
+                         update="@this :form:stopSign :form:voList"/>&nbsp;
+        <!--合併報表總處負責人 使用-->
+        <p:commandButton value="更新上傳時間" 
+                         icon="ui-icon-refresh"
+                         action="#{consolidationRptHome.updateSapUpload()}" 
+                         update=":form:voList"
+                         rendered="#{userSession.isUserInRole('ADMINISTRATORS,CONSOLIDATION_RPT_HQ')}"/>
+    </h:panelGroup>
+</ui:composition>

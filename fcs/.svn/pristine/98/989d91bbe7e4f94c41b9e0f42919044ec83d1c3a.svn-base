@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{reportUpload.pageTitle}</ui:define>
+    <ui:define name="content">
+        <p:panel header="#{reportUpload.pageTitle}">
+            <h:form id="form" prependId="false">
+                <h:panelGrid columns="6">
+                    <h:outputLabel value="#{msgApp['app.label.report.ym']}:"/>
+                    <h:outputText value="#{reportUpload.yearmonth}" styleClass="rptYearMonth"/>
+                    <h:outputLabel value="#{msgApp['company.msg.txt1']}:"/>
+                    <h:outputText value="#{reportUpload.company.code}" styleClass="rptCompany"/>
+                    <h:outputLabel value="#{msgApp['company.msg.txt2']}:"/>
+                    <h:outputText value="#{reportUpload.company.name}" styleClass="rptCompany"/>
+                </h:panelGrid>
+                <h:panelGrid columns="3">
+                    <h:outputLabel value="#{msgApp['app.label.upload3']}:"/>
+                    <h:panelGroup>
+                        <ui:include src="/include/inc_attachment.xhtml">
+                            <ui:param name="uploadUpdate" value=":form:btnSave :form:reportTabs"/>
+                            <ui:param name="process" value=":form:currencyRate"/>
+                        </ui:include>
+                    </h:panelGroup>
+                    <p:messages id="pmsg" autoUpdate="true"/>
+                </h:panelGrid>
+                <h:panelGrid columns="3">
+                    <h:outputLabel value="#{msgApp['app.label.modify']}:"/>
+                    <h:outputText value="#{reportUpload.reportUpload.uploader.displayIdentifier}, "/>
+                    <h:outputText value="#{reportUpload.reportUpload.modifytimestamp}">
+                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                    </h:outputText>
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <!--<h:outputLabel value="仟元台幣轉換率:"/>
+                    <p:inputText id="currencyRate" value="#{reportUpload.currencyRate}"/>-->
+                    <!--20151002 之後是否改為直接依公司設定幣別及月份 抓取匯率設定檔報價匯率且不可修改-->
+                    <h:outputLabel value="#{msgApp['consolidationRevenue.msg.txt13']}(to #{reportUpload.company.group.currency.code}):"/>
+                    <h:outputText id="currencyRate" value="#{reportUpload.currencyRate}"/>
+                </h:panelGrid>
+                <hr/>
+                <p:commandButton id="btnSave"
+                                 value="#{msgApp['app.button.save']}"
+                                 icon="ui-icon-disk"
+                                 disabled="#{not reportUpload.allowSave}"
+                                 action="#{reportUpload.save}"
+                                 onstart="return saveVerify()"/>
+                <p:spacer width="5"/>
+                <p:button value="#{msgApp['app.button.cancel']}"
+                          icon="ui-icon-circle-close"
+                          outcome="consolidationRevenue_home.xhtml"/>
+                <p:tabView id="reportTabs"
+                           var="tab"
+                           value="#{reportUpload.reportTabs}">
+                    <p:tab title="#{tab.sheetCode}#{tab.sheetName}">
+                        <ui:include src="inc_reportTab.xhtml">
+                            <ui:param name="item" value="#{tab}"/>
+                        </ui:include>
+                    </p:tab>
+                </p:tabView>
+            </h:form>
+        </p:panel>            
+        <script type="text/javascript">
+            //<![CDATA[
+            function saveVerify() {
+                var files = jQuery('#uploadFilesGroup a.uploadFile');
+                if (files.length === 0) {
+                    alert('#{msgApp['app.error.upload']}');
+                    return false;
+                }
+                return confirm('#{msgApp['app.confirm.save']}');
+            }
+            //]]>
+        </script>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!--待補-->
+    <!--<p:column width="66">
+	<f:facet name="header">
+	    <h:outputLabel  value="公司代碼" escape="false"
+	  styleClass="required"
+	    />
+	</f:facet>
+	<h:outputText value="#{row.bukrs}" 
+	/>
+    </p:column>-->
+    <p:column width="100">
+	<f:facet name="header">
+	    <h:outputLabel  value="關係人公司代碼" escape="false"
+			    styleClass="required"
+			    />
+	</f:facet>
+	<h:outputText value="#{row.zafbuk}" 
+		      />
+    </p:column>
+    <p:column width="66">
+	<f:facet name="header">
+	    <h:outputLabel  value="對帳分類" escape="false"
+			    styleClass="required"
+			    />
+	</f:facet>
+	<h:outputText value="#{row.zafcat}" 
+		      />
+    </p:column>
+    <p:column width="80">
+	<f:facet name="header">
+	    <h:outputLabel  value="對帳交易別" escape="false"
+			    styleClass="required"
+			    />
+	</f:facet>
+	<h:outputText value="#{row.zaftyp}" 
+		      />
+    </p:column>
+    <p:column width="66">
+	<f:facet name="header">
+	    <h:outputLabel  value="會計年度" escape="false"
+			    styleClass="required"
+			    />
+	</f:facet>
+	<h:outputText value="#{row.gjahr}" 
+		      />
+    </p:column>
+    <p:column width="96">
+	<f:facet name="header">
+	    <h:outputLabel  value="會計文件號碼" escape="false"
+			    styleClass="required"
+			    />
+	</f:facet>
+	<h:outputText value="#{row.belnr}" 
+		      />
+    </p:column>
+    <p:column width="86">
+	<f:facet name="header">
+	    <h:outputLabel  value="發票號碼" escape="false"
+			    styleClass="required"
+			    />
+	</f:facet>
+	<h:outputText value="#{row.guino}" 
+		      />
+    </p:column>
+    <p:column width="80">
+	<f:facet name="header">
+	    <h:outputLabel  value="客戶編號" escape="false"
+			    />
+	</f:facet>
+	<h:outputText value="#{row.kunnr}" 
+		      />
+    </p:column>
+    <p:column width="180">
+	<f:facet name="header">
+	    <h:outputLabel  value="供應商或貸方的帳號" escape="false"
+			    />
+	</f:facet>
+	<h:outputText value="#{row.lifnr}" 
+		      />
+    </p:column>
+    <p:column width="80">
+	<f:facet name="header">
+	    <h:outputLabel  value="統一編號" escape="false"
+			    styleClass="required" />
+	</f:facet>
+	<h:outputText value="#{row.guiRegis}" 
+		      />
+    </p:column>
+    <p:column width="120">
+	<f:facet name="header">
+	    <h:outputLabel  value="文件過帳日期" escape="false"
+			    styleClass="required" />
+	</f:facet>
+	<h:outputText value="#{row.budat}" />
+    </p:column>
+    <p:column width="40">
+	<f:facet name="header">
+	    <h:outputLabel  value="幣別碼" escape="false"
+			    styleClass="required" />
+	</f:facet>
+	<h:outputText value="#{row.waers}" 
+		      />
+    </p:column>
+    <p:column width="100">
+	<f:facet name="header">
+	    <h:outputLabel  value="稅前金額" escape="false"
+			    styleClass="required" />
+	</f:facet>
+	<h:outputText value="#{row.baseamt}">
+	    <f:convertNumber pattern="#,##0.####"/>
+	</h:outputText>
+    </p:column>
+    <p:column width="60">
+	<f:facet name="header">
+	    <h:outputLabel  value="稅額" escape="false"
+			    styleClass="required" />
+	</f:facet>
+	<h:outputText value="#{row.taxamt}">
+	    <f:convertNumber pattern="#,##0.####"/>
+	</h:outputText>
+    </p:column>
+    <p:column width="80">
+	<f:facet name="header">
+	    <h:outputLabel  value="稅後金額" escape="false"
+			    styleClass="required" />
+	</f:facet>
+	<h:outputText value="#{row.totalamt}">
+	    <f:convertNumber pattern="#,##0.####"/>
+	</h:outputText>
+    </p:column>
+    <p:column width="160">
+	<f:facet name="header">
+	    <h:outputLabel  value="關係人公司名稱" escape="false"
+			    styleClass="required" />
+	</f:facet>
+	<h:outputText value="#{row.zafbukNm}" 
+		      />
+    </p:column>
+    <!--<p:column width="80">
+	<f:facet name="header">
+	    <h:outputLabel  value="對帳註記" escape="false"
+	    />
+	</f:facet>
+	<h:outputText value="#{row.zckflg}" 
+	/>
+    </p:column>
+    <p:column width="120">
+	<f:facet name="header">
+	    <h:outputLabel  value="最近更新日期" escape="false"
+	    />
+	</f:facet>
+	<h:outputText value="#{row.zlupdt}" 
+	/>
+    </p:column>-->
+    <!--待補-->
+</ui:composition>

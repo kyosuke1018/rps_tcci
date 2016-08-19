@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+    template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{msgApp['app.menu.consolidationRpt']} #{msgApp['consolidationRpt.msg.txt4']}</ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <p:panel header="#{msgApp['consolidationRpt.msg.txt4']}">
+            <h:form id="form" prependId="false">
+                <h:panelGroup rendered="#{!companyOrgController.noPermission}">
+                    <p:selectOneMenu id="somGroup" value="#{companyOrgController.group}">
+                        <f:selectItems value="#{companyOrgController.groups}"/>
+                        <p:ajax oncomplete="doChangeGroup()" />
+                    </p:selectOneMenu>
+                    <p:remoteCommand name="doChangeGroup"
+                                     actionListener="#{companyOrgController.changeGroup()}"
+                                     update=":form"/>
+                </h:panelGroup>
+                <p:fieldset id="fsOrgTree" legend="#{msgApp['consolidationRpt.msg.txt4']}" toggleable="true"
+                            rendered="#{!companyOrgController.noPermission}">
+                    <p:tree id="treeSingle" value="#{companyOrgController.root}" var="node" cache="false" orientation="horizontal"
+                            rendered="#{not empty companyOrgController.root}">
+                        <!-- dynamic="true" 會轉
+                        selectionMode="single"  selection="#{orgController.selectedNode}"
+                        orientation="horizontal" or vertical-->
+                        <p:treeNode>
+                            <h:graphicImage library="images" name="orgG.png"
+                                        rendered="#{node.hasChild}" styleClass="icons" />
+                            <h:graphicImage library="images" name="user.png"
+                                        rendered="#{!node.hasChild}" styleClass="icons" />
+                            <h:outputText value="#{node}" title="#{node}" />
+                        </p:treeNode>
+                    </p:tree>
+                    
+
+                    <!--不使用
+                    <p:contextMenu for="treeSingle">
+                        <p:menuitem value="Add" update=":addForm:pgAddChild" icon="ui-icon-plus" />
+                        <p:menuitem value="Delete" update="treeSingle" icon="ui-icon-close"/>
+                    </p:contextMenu>-->
+                </p:fieldset>
+                <p:fieldset legend="#{msgApp['app.fieldset.queryresult']}" rendered="#{companyOrgController.isAdmin}">
+                    <p:dataTable id="dtCompanyOrgList"
+                                 value="#{companyOrgController.companyOrgList}"
+                                 var="row" style="width: 500px;"
+                                 paginator="false">
+                        <p:column headerText="#{msgApp['app.label.action']}" width="40" rendered="#{userSession.adaccount eq 'kyle.cheng'}">
+                            <!-- 新增子節點 -->
+                            <p:commandLink actionListener="#{companyOrgController.initAddChild(row)}"
+                                           update=":addForm:pgAddChild"
+                                           oncomplete="PF('addChildDlg').show()">
+                                <h:graphicImage title="新增子節點"
+                                                library="images" name="add.png"/>
+                            </p:commandLink>
+                            <!-- 刪除此節點 -->
+                            <p:commandLink title="#{msg['app.button.delete']}" 
+                                           actionListener="#{companyOrgController.deleteNode(row)}" 
+                                           update=":form"
+                                           onclick="if( !confirm('確定刪除此節點?') ){ return false; }"
+                                           rendered="#{!companyOrgController.hasChild(row)}">
+                                <h:graphicImage library="images" name="delete.png" styleClass="icons" />
+                            </p:commandLink>
+                        </p:column>    
+                        <p:column headerText="ID" width="20" rendered="#{userSession.isUserInRole('ADMINISTRATORS')}">
+                            <h:outputText value="#{row.id}"/>
+                        </p:column>
+                        <p:column headerText="#{msgApp['company.msg.txt2']}" width="80">
+                            <h:outputText value="#{row.code}" rendered="#{empty row.company}"/>
+                            <h:outputText value="#{row.company.toString()}" rendered="#{not empty row.company}"/>
+                        </p:column>
+                        <p:column headerText="HLEVEL" width="30">
+                            <h:outputText value="#{row.hlevel}"/>
+                        </p:column>
+                        <p:column headerText="PARENT" width="110">
+                            <h:outputText value="#{row.parent.code}" rendered="#{not empty row.parent and empty row.parent.company}"/>
+                            <h:outputText value="#{row.parent.company.toString()}" rendered="#{not empty row.parent and not empty row.parent.company}"/>
+                        </p:column>
+                        <p:column headerText="CODE" width="50">
+                            <h:outputText value="#{row.code}"/>
+                        </p:column>
+                        <p:column headerText="停用" style="text-align: center;" width="40">
+                            <p:commandLink action="#{companyOrgController.disableChange(row)}"
+                                           update=":form" 
+                                           disabled="#{companyOrgController.hasChild(row)}"
+                                           >
+                                <!--加global="off" 可以不轉 但因為reload延遲 避免使用者誤會重複勾選 還是拿掉
+                                rendered跟disabled抉擇
+                                rendered="#{queryCompanyCloseController.showLinkBtn(row)}"-->
+                                <h:graphicImage library="images" name="check_box.png" rendered="#{companyOrgController.isOrgDisabled(row)}"/>
+                                <h:graphicImage library="images" name="check_box_uncheck.png" rendered="#{!companyOrgController.isOrgDisabled(row)}"/>
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </h:form>
+            <h:form id="addForm" prependId="false">
+                <ui:include src="inc_addChild.xhtml"/>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

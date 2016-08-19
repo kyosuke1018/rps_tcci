@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog header="#{msgApp['company.msg.txt3']}"
+              resizable="false"
+              modal="true"
+              widgetVar="editCompanyDlg">
+        <h:panelGroup id="editCompanyGroup">
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{msgApp['company.msg.txt1']}:" for="compCode" styleClass="required"/>
+                <p:inputText id="compCode"
+                             value="#{companyController.editComp.code}"
+                             maxlength="6"
+                             onblur="trimInput(this);"/>
+                <h:outputLabel value="#{msgApp['company.msg.txt2']}:" for="compName" styleClass="required"/>
+                <p:inputText id="compName"
+                             value="#{companyController.editComp.name}"
+                             size="50"
+                             maxlength="50"
+                             onblur="trimInput(this);"/>
+                <h:outputLabel value="#{msgApp['company.msg.txt5']}:" for="itAbbr"/>
+                <p:inputText id="itAbbr"
+                             value="#{companyController.editComp.abbreviation}"
+                             size="20"
+                             maxlength="20"
+                             onblur="trimInput(this);"/>
+                <h:outputLabel value="#{msgApp['company.msg.txt11']}:" for="itEname"/>
+                <p:inputText id="itEname"
+                             value="#{companyController.editComp.ename}"
+                             size="50"
+                             maxlength="50"/>
+                <h:outputLabel value="#{msgApp['app.button.on']}:"/>
+                <h:selectOneRadio value="#{companyController.editComp.active}">
+                    <f:selectItem itemLabel="啟用" itemValue="#{true}"/>
+                    <f:selectItem itemLabel="停用" itemValue="#{false}"/>
+                </h:selectOneRadio>
+                <h:outputLabel value="#{msgApp['company.msg.txt10']}:"/>
+                <h:selectOneRadio value="#{companyController.editComp.consolidationRevenue}">
+                    <f:selectItem itemLabel="是" itemValue="#{true}"/>
+                    <f:selectItem itemLabel="否" itemValue="#{false}"/>
+                </h:selectOneRadio>
+                <!--20160317 wayne建議改正面敘述
+                <h:outputLabel value="非SAP:"/>-->
+                <h:outputLabel value="IRS_web上傳:"/>
+                <h:selectOneRadio value="#{companyController.editComp.nonSap}">
+                    <f:selectItem itemLabel="是" itemValue="#{true}"/>
+                    <f:selectItem itemLabel="否" itemValue="#{false}"/>
+                </h:selectOneRadio>
+                <h:outputLabel value="IRS_無需處理:"/>
+                <h:selectOneRadio value="#{companyController.editComp.undo}">
+                    <f:selectItem itemLabel="是" itemValue="#{true}"/>
+                    <f:selectItem itemLabel="否" itemValue="#{false}"/>
+                </h:selectOneRadio>
+                <h:outputLabel value="合併報表:"/>
+                <h:selectOneRadio value="#{companyController.editComp.consolidationRpt}">
+                    <f:selectItem itemLabel="是" itemValue="#{true}"/>
+                    <f:selectItem itemLabel="否" itemValue="#{false}"/>
+                </h:selectOneRadio>
+                <h:outputLabel value="合併報表_web上傳:"/>
+                <h:selectOneRadio value="#{companyController.editComp.consolidationRptUpload}">
+                    <f:selectItem itemLabel="是" itemValue="#{true}"/>
+                    <f:selectItem itemLabel="否" itemValue="#{false}"/>
+                </h:selectOneRadio>
+                <h:outputLabel value="虛擬公司:"/>
+                <h:selectOneRadio value="#{companyController.editComp.virtual}">
+                    <f:selectItem itemLabel="是" itemValue="#{true}"/>
+                    <f:selectItem itemLabel="否" itemValue="#{false}"/>
+                </h:selectOneRadio>
+<!--                <h:outputLabel value="上傳人:"/>
+                <p:autoComplete binding="#{companyController.autoComplete}"
+                                completeMethod="#{companyController.completeUser}"
+                                var="user"
+                                itemLabel="#{user.displayIdentifier}"
+                                itemValue="#{user.id.toString()}"
+                                forceSelection="true"
+                                global="off">
+                </p:autoComplete>-->
+                <h:outputLabel value="#{msgApp['company.msg.txt4']}:" for="spSort"/>
+                <p:spinner id="spSort" max="99" min="0" size="3" value="#{companyController.editComp.sort}" />
+                <h:outputLabel value="#{msgApp['company.msg.txt6']}:" for="sorGroup"/>
+<!--                <p:selectOneMenu id="sorGroup" value="#{companyController.editComp.group}">
+                    <f:selectItem itemLabel="台泥" itemValue="TCC"/>
+                    <f:selectItem itemLabel="中橡" itemValue="CSRC"/>
+                    <f:selectItem itemLabel="CSRC (BVI)" itemValue="CSRC_BVI"/>
+                </p:selectOneMenu>-->
+                <p:selectOneMenu id="sorGroup" value="#{companyController.groupId}">
+                    <f:selectItems value="#{companyController.groups}"
+                                   />
+                </p:selectOneMenu>
+                <h:outputLabel value="#{msgApp['company.msg.txt9']}:" for="somCurrency"/>
+                <p:selectOneMenu id="somCurrency" value="#{companyController.editCurrencyId}">
+                    <f:selectItems value="#{companyController.allCurrency}"
+                                   />
+                </p:selectOneMenu>
+            </h:panelGrid>
+            <hr/>
+            <div style="text-align: center;">
+                <p:commandButton value="#{msgApp['app.button.save']}"
+                                 icon="ui-icon-circle-check"
+                                 action="#{companyController.save}"
+                                 update=":form:companyList"
+                                 onstart="return true;"
+                                 oncomplete="if (args.saved) PF('editCompanyDlg').hide();"/>
+                <!--oncomplete="saveOnComplete(xhr, status, args);"
+                oncomplete="saveOnComplete(xhr, status, args,PF('editCompanyDlg'));"-->
+                <p:spacer width="4" />
+                <p:commandButton value="#{msgApp['app.button.cancel']}"
+                                 icon="ui-icon-circle-close"
+                                 onclick="PF('editCompanyDlg').hide();return false;"/>
+            </div>
+        </h:panelGroup>
+    </p:dialog>
+    <script type="text/javascript">
+     //<![CDATA[
+     //20151021 無法觸發
+//    function saveOnComplete(xhr, status, args, dialog) {
+//        if (typeof args.saved !== "undefined" && args.saved) {
+////            editCompanyDlg.hide();
+////            PF('editCompanyDlg').hide();
+//            dialog.hide();
+//        }
+//    }
+    //]]>
+    </script>  
+</ui:composition>

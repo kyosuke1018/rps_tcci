@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:fieldset legend="#{msgApp['app.label.note']}" toggleable="true">
+        <!--<p:outputLabel value="已導入SAP公司上傳檔案不需填寫trail balance(TB)" /><br/>-->
+        <p:outputLabel value="一律上傳公司幣別金額" /><br/>
+        <p:outputLabel value="TB金額總和必須為零" /><br/>
+        <p:outputLabel value="SAP資料上傳時間為每15分鐘更新一次" />
+    </p:fieldset>            
+</ui:composition>

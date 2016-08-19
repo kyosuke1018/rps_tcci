@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!--參數
+    target must ex.:approvalNoListForm:dataList
+    fileName must ex.:materialList
+    rowCount must ex.:materialList
+    -->
+    <!--<h:panelGroup rendered="#{rowCount lt  65536}">-->
+    <h:commandLink rendered="#{(rowCount>0) and (rowCount lt 65535)}" 
+                   onclick="PrimeFaces.monitorDownload(startBlockUI, stopBlockUI);">
+        <h:graphicImage width="20" height="20" library="images" name="excel.png" style="vertical-align: bottom; border-style: none" />
+        <h:outputLabel value="#{msgApp['app.label.download2']}"/>
+        <p:dataExporter type="xls" target="#{target}" fileName="#{commonUIController.genFileName(fileName)}" 
+                        postProcessor="#{controller.postProcessXLS}" 
+                        />
+    </h:commandLink>
+    <h:panelGroup rendered="#{rowCount gt 65535}">
+        <h:graphicImage width="30" height="35" library="images" name="excel_gray.png" style="vertical-align: bottom; border-style: none" />
+        <h:outputLabel style="color: red" value="#{msgApp['app.warn.download']}"/>
+    </h:panelGroup>
+    <p:spacer width="5px"/>
+</ui:composition>
