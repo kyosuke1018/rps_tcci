@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>    
+<title>金币发送与兑换办法（暂定）</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport"           content="width=device-width, initial-scale=1.0" />
+<link rel="icon" 	   type="image/x-icon"	href="img/browser_TCC.png"/>
+<link rel="stylesheet" type="text/css" 		href="style.css" />
+</head>
+    
+<body>
+    <div id="building">	
+        <div id="headerField">
+            <div class="header">金币发送与兑换办法（暂定）</div>            
+        </div>	
+
+        <div id="contentField">        	
+       		<table class="explainTable" border="0">
+				<tr>
+					<td class="numItem"><span class="num">1</span></td>
+					<td class="text">台泥档口客户使用“台泥行动商城APP”，下单订购袋装水泥（纸袋、编织袋），每次购买满一吨，可获赠金币一枚，满五吨可获五枚，依此类推；未满一吨者不计。</td>
+				</tr>
+				<tr>
+					<td class="numItem"><span class="num">2</span></td>
+					<td class="text">每次交易完成后，金币即汇入档口客户所属金币帐户内累计。金币可以在“台泥行动商城APP”内的“台泥本铺”兑换等值商品，并由台泥经销商安排送货。</td>
+				</tr>
+				<tr>
+					<td class="numItem"><span class="num">3</span></td>
+					<td class="text">在“台泥本铺”线上使用金币兑换商品，一旦交易成立，无法取消、退换货，请经销商领货时特别注意。</td>
+				</tr>
+				<tr>
+					<td class="numItem"><span class="num">4</span></td>
+					<td class="text">台泥公司保留活动与商品内容变更之权利。</td>
+				</tr>
+			</table> 
+        </div>	
+
+        <div id="footerField">            
+            <div class="footer"></div>
+            <div class="footerEndLine"></div>
+        </div>
+    </div>    
+</body>
+
+</html>

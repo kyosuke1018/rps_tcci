@@ -1,9 +1,0 @@
-drop table tc_fvitem;
-drop table tc_fvvault;
-drop table tc_domain;
-drop table tc_applicationdata;
-drop table tc_usergroup;
-drop table tc_group;
-drop table tc_user;
-DROP SEQUENCE SEQ_FVITEM;
-DROP SEQUENCE SEQ_TCC;
