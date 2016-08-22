@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">客訴資料編輯</ui:define>
+    <ui:define name="content">
+        <p:panel header="客訴資料編輯">
+            <h:form id="form" prependId="false">
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="ID:"/>
+                    <h:outputText value="#{complainEdit.id}"/>
+                    <h:outputLabel value="年月日:"/>
+                    <p:calendar value="#{complainEdit.date}"
+                                pattern="yyyy/MM/dd"/>
+                    <h:outputLabel value="客戶:"/>
+                    <h:panelGroup>
+                        <p:autoComplete id="customer_code" 
+                                        value="#{selectCustomerController.selectedCustomer}"
+                                        var="code"
+                                        itemLabel="#{code}"
+                                        itemValue="#{code}"
+                                        completeMethod="#{queryCriteriaController.completeCustomer}"
+                                        maxResults="10"
+                                        queryDelay="500"
+                                        minQueryLength="3">
+                            <p:column style="width: 100%">
+                                #{code} - #{selectCustomerController.getCustomerName(code)}
+                            </p:column>
+                            <p:ajax event="itemSelect" 
+                                    listener="#{selectCustomerController.handleSelect}"
+                                    update="customer_name"/>
+                        </p:autoComplete>
+                        <p:spacer width="5px"/>
+                        <p:commandButton action="#{queryCriteriaController.initCustomerDialog}"
+                                         oncomplete="PF('selectCustomerDlg').show();"
+                                         immediate="true"
+                                         value="..."
+                                         update="customerCode customerName"/>
+                        <h:outputLabel id="customer_name" value="#{selectCustomerController.name}"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputLabel value="產品: "/>
+                        <h:link onclick="PF('selectOneProductsDlg').show();
+                                return false;">
+                            <h:graphicImage library="images" name="find.png"/>
+                        </h:link>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputLabel value="代碼: "/>
+                        <p:inputText id="matNo" value="#{complainEdit.complain.matNo}" maxlength="18"/><br/>
+                        <h:outputLabel value="名稱: "/>
+                        <p:inputText id="matName"
+                                     value="#{complainEdit.complain.matName}"
+                                     maxlength="64"
+                                     size="80"/>
+                    </h:panelGroup>
+                    <h:outputLabel value="批號:" for="batchNo"/>
+                    <p:inputText id="batchNo"
+                                 value="#{complainEdit.complain.batchNo}"
+                                 maxlength="10"/>
+                    <h:outputLabel value="問題分類:"/>
+                    <h:selectOneRadio value="#{complainEdit.complain.reasonClass}">
+                        <f:selectItem itemLabel="外觀異常" itemValue="外觀異常"/>
+                        <f:selectItem itemLabel="包裝異常" itemValue="包裝異常"/>
+                        <f:selectItem itemLabel="內容物缺損" itemValue="內容物缺損"/>
+                        <f:selectItem itemLabel="品質異常" itemValue="品質異常"/>
+                    </h:selectOneRadio>
+                    <h:outputLabel value="事由:" for="reason"/>
+                    <p:inputTextarea id="reason"
+                                     value="#{complainEdit.complain.reason}"
+                                     cols="100"
+                                     rows="4"/>
+                    <h:outputLabel value="管制藥品:"/>
+                    <h:selectOneRadio value="#{complainEdit.complain.ctDrug}">
+                        <f:selectItem itemLabel="是" itemValue="Y"/>
+                        <f:selectItem itemLabel="否" itemValue="N"/>
+                    </h:selectOneRadio>
+                    <h:outputLabel value="換貨:"/>
+                    <h:selectOneRadio value="#{complainEdit.complain.chStatus}">
+                        <f:selectItem itemLabel="是" itemValue="Y"/>
+                        <f:selectItem itemLabel="否" itemValue="N"/>
+                    </h:selectOneRadio>
+                    <h:outputLabel value="書面報告:"/>
+                    <h:selectOneRadio value="#{complainEdit.complain.reportStatus}">
+                        <f:selectItem itemLabel="是" itemValue="Y"/>
+                        <f:selectItem itemLabel="否" itemValue="N"/>
+                    </h:selectOneRadio>
+                    <h:outputLabel value="怨訴單轉品管:"/>
+                    <h:selectOneRadio value="#{complainEdit.complain.turnStatus}">
+                        <f:selectItem itemLabel="是" itemValue="Y"/>
+                        <f:selectItem itemLabel="否" itemValue="N"/>
+                    </h:selectOneRadio>
+                    <h:outputLabel value="備註:"/>
+                    <p:inputTextarea value="#{complainEdit.complain.memo}"
+                                     cols="100"
+                                     rows="4"/>
+                    <h:outputLabel value="業代:"/>
+                    <p:inputText id="sales"
+                                 value="#{complainEdit.complain.sales}"
+                                 maxlength="20"/>
+                </h:panelGrid>
+                <hr/>
+                <p:commandButton value="儲存"
+                                 icon="ui-icon-disk"
+                                 disabled="#{not complainEdit.editable}"
+                                 action="#{complainEdit.save}"
+                                 onstart="return saveCheck();"
+                                 update=":messages"/>
+            </h:form>
+        </p:panel>            
+        <ui:include src="/jsff/selectCustomerDlg.xhtml">
+            <ui:param name="customerCodeId" value=":customer_code"/>
+            <ui:param name="customerNameId" value=":customer_name"/>
+        </ui:include>
+        <ui:include src="/jsff/selectOneProduct.xhtml"/>
+        <ui:include src="/jsff/ajaxStatusDlg.xhtml"/>
+        <script type="text/javascript">
+        //<![CDATA[
+            function selectOneProduct_click(element) {
+                var tr = $(element).parents('tr');
+                $('#matNo').val(tr.find('.prodCode').text());
+                $('#matName').val(tr.find('.prodName').text());
+            }
+
+            function checkInput(id, msg) {
+                var value = $(id).val();
+                if (value === '') {
+                    alert(msg);
+                    $(id).focus();
+                    return false;
+                }
+                return true;
+            }
+
+            function saveCheck() {
+                if (!checkInput('#customer_code_input', '客戶欄位必填!') ||
+                        !checkInput('#matNo', '產品代碼必填!') ||
+                        !checkInput('#matName', '產品名稱必填!') ||
+                        !checkInput('#batchNo', '產品批號必填!') ||
+                        !checkInput('#reason_input', '事由欄位必填!') ||
+                        !checkInput('#sales', '業代欄位必填!')
+                        ) {
+                    return false;
+                }
+                return confirm('確認要儲存?');
+            }
+        //]]>
+        </script>    
+    </ui:define>
+</ui:composition>

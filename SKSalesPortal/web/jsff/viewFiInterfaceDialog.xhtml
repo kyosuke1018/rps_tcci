@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form prependId="false">
+        <p:dialog header="#{msg['fiinterface.dialog.title']}"
+                  id="fiInterfaceDialog"
+                  widgetVar="fiInterfaceDialog"
+                  resizable="false" 
+                  draggable="true"
+                  width="915"
+                  modal="true">
+                <h:panelGroup id="fiMasterInterfaceTable">
+                    <p:scrollPanel mode="native" style="height: 400px;">
+                        <p:dataTable id="fiMasterInterface" rowStyleClass="rowstyle"
+                                     value="#{fiInterfaceController.interfaceVOList}"
+                                     var="item" 
+                                     rowIndexVar="rownumber"
+                                     >
+                            <p:column headerText="#{msg['common.label.errorMessage']}"
+                                      exportable="false">
+                                <h:outputText value="#{item.detail.returnCode}" 
+                                              title="#{item.detail.returnMessage}"
+                                              style="color: red;"
+                                              rendered="#{item.detail.returnCode ne '000'}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.id']}" style="white-space: nowrap"> 
+                                <h:outputText value="#{item.detail.master.transactionNo}"/>
+                            </p:column>        
+                            <p:column headerText="#{msg['fiinterface.column.item']}" style="white-space: nowrap"> 
+                                <h:outputText value="#{item.detail.transactionItem}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.date']}" style="white-space: nowrap">
+                                <h:outputText value="#{item.detail.transactionDate}">
+                                    <f:convertDateTime pattern="yyyyMMdd"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.type']}" style="white-space: nowrap">
+                                <h:outputText value="#{item.detail.transactionType}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.generalledgercode']}" style="white-space: nowrap">
+                                <h:outputText value="#{item.detail.generalLedgerCode}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.summonscode']}" style="white-space: nowrap">
+                                <h:outputText value="#{item.detail.summonsCode}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.customernumber']}" style="white-space: nowrap">
+                                <h:outputText value="#{item.detail.customerNumber}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.invoicenumber']}" style="white-space: nowrap">
+                                <h:outputText value="#{item.detail.invoiceNumber}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.ordernumber']}" style="white-space: nowrap">
+                                <h:outputText value="#{item.detail.orderNumber}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.salesgroup']}" style="white-space: nowrap">
+                                <h:outputText value="#{item.detail.salesGroup}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.amount']}" style="white-space: nowrap;text-align:right">
+                                <h:outputText value="#{item.detail.transactionAmount}">
+                                    <f:convertNumber pattern="###.##"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.quantity']}" style="white-space: nowrap">
+                                <h:outputText value="#{item.detail.quantity}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.checknumber']}" style="white-space: nowrap">
+                                <h:outputText value="#{item.detail.checkNumber}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.checkduedate']}" style="white-space: nowrap">
+                                <h:outputText value="#{item.detail.checkDueDate}">
+                                    <f:convertDateTime pattern="yyyyMMdd"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.checkbank']}" style="white-space: nowrap">
+                                <h:outputText value="#{item.detail.checkBank}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.checkaccount']}" style="white-space: nowrap">
+                                <h:outputText value="#{item.detail.checkAccount}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.owner']}" style="white-space: nowrap">
+                                <h:outputText value="#{item.detail.owner}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['fiinterface.column.status']}" style="white-space: nowrap">
+                                <h:outputText value="#{item.detail.status}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:scrollPanel>
+                </h:panelGroup>
+            <p/>
+            <p:commandButton icon="ui-icon-disk"
+                             value="#{msg['button.excel']}"
+                             ajax="false">  
+                <p:dataExporter type="xls" 
+                                target="fiMasterInterface"
+                                postProcessor="#{fiInterfaceController.postProcessXLS}"
+                                fileName="ARInterface"/>
+            </p:commandButton>  
+            <p:spacer width="5px"/>
+            <p:commandButton value="#{msg['button.upload']}"
+                             action="#{fiInterfaceController.upload}"
+                             oncomplete="fiInterfaceDialog_uploadComplete(xhr,status,args)"
+                             update="messages growl fiMasterInterfaceTable ${sourceList} "
+                             icon="ui-icon-arrowthick-1-n"/>
+        </p:dialog>
+    </h:form>
+</ui:composition>
+

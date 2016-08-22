@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+<!--    <p:scrollPanel  style="width:100%;height:300px">-->
+<p:dataTable id="remitResultList" scrollWidth="900" rows="10" paginator="true"
+                     value="#{remitQueryController.masterDataModel}"                      
+                     var="row">
+            <p:column rendered="#{remitQueryController.selectable}">
+                <f:facet name="header">
+                    <p:selectBooleanCheckbox value="#{remitQueryController.selectAll}">
+                        <p:ajax event="change" 
+                                listener="#{remitQueryController.selectAllChange}" 
+                                update ="remitResultList"/>
+                    </p:selectBooleanCheckbox>
+                </f:facet>
+                <p:selectBooleanCheckbox value="#{row.selected}" disabled="#{row.remitMaster.status eq 'CANCELED'}" >
+                    <p:ajax global="off"
+                            listener="#{remitQueryController.selectedChange}" 
+                            update ="remitResultList"/>
+                </p:selectBooleanCheckbox>
+            </p:column>
+            <p:column headerText="#{msg['remit.label.customer']}" style="text-align:left; white-space: nowrap">
+                <h:outputText value="#{row.remitMaster.customer.displayIdentifier}"/>
+            </p:column>
+            <p:column headerText="#{msg['remit.label.remitNumber']}">
+                <h:outputText value="#{row.remitMaster.id}"/>
+            </p:column>
+            <p:column headerText="#{msg['remit.label.cash']}" style="text-align:right">
+                <h:outputText value="#{row.remitMaster.remittanceAmount}">
+                    <f:convertNumber pattern="###,###,###,###"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="#{msg['remit.label.check']}" style="text-align:right">
+                <h:outputText value="#{row.remitMaster.checkAmount}">
+                    <f:convertNumber pattern="###,###,###,###"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="#{msg['remit.label.financeReviewer']}">
+                <h:outputText value="#{row.remitMaster.financeReviewer.displayIdentifier}"/>
+            </p:column>
+            <p:column headerText="#{msg['remit.label.reviewTimestamp']}" style="width:60px">
+                <h:outputText value="#{row.remitMaster.reviewTimestamp}">
+                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss "/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="#{msg['fiinterface.label.status']}">
+                <h:graphicImage library="images" 
+                                name="#{fiInterfaceController.getDisplayIcon(row.fiInterface)}" 
+                                title="#{fiInterfaceController.getDisplayIdentifier(row.fiInterface)}"
+                                rendered="#{row.fiInterface ne null}"/>
+            </p:column>
+            <p:column headerText="#{msg['status']}">
+                <h:outputText value="#{row.remitMaster.status.displayName}"/>
+            </p:column>            
+            <p:column style="white-space: nowrap" headerText="#{msg['common.label.action']}" rendered="#{remitQueryController.reviewable or remitQueryController.editable}">
+                <h:panelGroup rendered="#{remitQueryController.editable}">
+                    <p:commandButton ajax="false"
+                                     immediate="true"                                                           
+                                     action="remit_maintenance_step3?faces-redirect=true"
+                                     icon="#{row.remitMaster.salesCancelable ? 'ui-icon-pencil' : 'ui-icon-image'}"
+                                     title="#{row.remitMaster.salesCancelable ? msg['button.edit'] : msg['view']}">                                 
+                        <f:setPropertyActionListener target="#{flash.skArRemitMaster}" value="#{row.remitMaster}"/>
+                        <f:setPropertyActionListener target="#{flash.viewOnly}" value="#{not row.remitMaster.salesCancelable}"/>
+                        <f:setPropertyActionListener target="#{flash.from}" value="query"/>                     
+                    </p:commandButton>     
+                    <p:commandButton 
+                                     action="#{remitQueryController.setAbandonedRemit(row.remitMaster)}"   
+                                     onclick="PF('confirmation').show()"
+                                     disabled="#{not row.remitMaster.salesCancelable}"
+                                     icon="ui-icon-trash"                                
+                                     title="#{msg['button.giveup']}">
+                        <f:setPropertyActionListener target="#{flash.skArRemitMaster}" value="#{row.remitMaster}"/>
+                    </p:commandButton>                   
+                </h:panelGroup>    
+                <h:panelGroup rendered="#{remitQueryController.reviewable}">
+                    <p:commandButton ajax="false"
+                                     action="#{queryCriteriaController.toConfirmRemitPage}"
+                                     rendered="#{remitQueryController.reviewable}"                              
+                                     icon="ui-icon-pencil"
+                                     title="#{msg['button.edit']}">
+<!-- finance can always edit remit                       
+                                     icon="#{row.remitMaster.financeCancelable ? 'ui-icon-pencil' : 'ui-icon-image'}"
+                                     title="#{row.remitMaster.financeCancelable ? msg['button.edit'] : msg['view']}">   -->
+                        <f:setPropertyActionListener target="#{flash.skArRemitMaster}" value="#{row.remitMaster}"/>
+                        <f:setPropertyActionListener target="#{flash.viewOnly}" value="#{false}"/> <!-- finance can always edit remit -->
+<!--                        <f:setPropertyActionListener target="#{flash.viewOnly}" value="#{not row.remitMaster.financeCancelable}"/>  -->                
+                    </p:commandButton>     
+                    <p:commandButton 
+                                     action="#{remitQueryController.setAbandonedRemit(row.remitMaster)}"     
+                                     onclick="PF('confirmation').show()"
+                                     disabled="#{not row.remitMaster.financeCancelable}"
+                                     icon="ui-icon-trash"                                    
+                                     title="#{msg['button.giveup']}">
+                        <f:setPropertyActionListener target="#{flash.skArRemitMaster}" value="#{row.remitMaster}"/>
+                    </p:commandButton>
+                </h:panelGroup>        
+            </p:column>
+        </p:dataTable>
+<!--    </p:scrollPanel>-->
+    <br/>
+<p:confirmDialog id="confirmDialog" message="#{msg['remitmaintenance.confirm.remove.remit']}"  
+                header="#{msg['button.giveup']}" severity="alert" widgetVar="confirmation">                   
+        <p:commandButton id="confirm" value="#{msg['button.ok']}" update="remitResultList" oncomplete="PF('confirmation').hide();"  
+                    actionListener="#{remitQueryController.cancel}" />  
+        <p:commandButton id="decline" value="#{msg['button.cancel']}" onclick="PF('confirmation').hide();" type="button" />                     
+</p:confirmDialog>    
+</ui:composition>
+

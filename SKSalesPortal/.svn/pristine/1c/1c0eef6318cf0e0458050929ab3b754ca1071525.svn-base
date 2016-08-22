@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >    
+    <h:panelGrid columns="4" width="100%">
+        <h:outputLabel value="#{msg['remit.label.approveDate']}:" for="approveDate"/>
+        <h:panelGroup id="approveDate"> 
+            <p:calendar value="#{queryCriteriaController.filter.reviewDateStart}" pattern="yyyy/MM/dd" showOn="button" />              
+            <h:outputLabel value="~" style="margin-right: 10px"/>
+            <p:calendar value="#{queryCriteriaController.filter.reviewDateEnd}" pattern="yyyy/MM/dd" showOn="button" />  
+        </h:panelGroup>
+        <h:outputLabel value="#{msg['remit.label.approver']}:" for="approver"/>
+        <h:panelGroup id="approver">
+            <p:autoComplete id="creator_empId" 
+                            value="#{selectEmployeeController.selectedUser}"
+                            var="empId"
+                            itemLabel="#{empId}"
+                            itemValue="#{empId}"
+                            completeMethod="#{selectEmployeeController.completeMethod}"
+                            maxResults="9"
+                            >
+                <p:column>
+                    #{empId} - #{selectEmployeeController.getUserCname(empId)}
+                </p:column>
+                <p:ajax event="itemSelect" 
+                        listener="#{selectEmployeeController.handleSelect}"
+                        update="creator_empId creator_cname"
+                        />
+            </p:autoComplete>
+            <p:spacer width="5px"/>
+            <p:commandButton action="#{selectEmployeeController.init}"
+                             immediate="true"
+                             oncomplete="PF('selectEmployeeDialog').show();"
+                             update="SED_selects employeeListGroup"
+                             value="..."/>
+            <h:outputLabel id="creator_cname" value="#{selectEmployeeController.cname}"/>        
+            <h:inputHidden binding="#{selectEmployeeController.initUserBySessionUserHidden}"/>
+        </h:panelGroup>
+        <h:outputLabel value="#{msg['checkMaster.createtimestamp']}:" style="margin-right: 10px"/>
+        <h:panelGroup> 
+            <p:calendar value="#{queryCriteriaController.filter.startTime}" pattern="yyyy/MM/dd" showOn="button" />              
+            <h:outputLabel value="~" style="margin-right: 10px"/>
+            <p:calendar value="#{queryCriteriaController.filter.endTime}" pattern="yyyy/MM/dd" showOn="button" />  
+        </h:panelGroup>
+    </h:panelGrid>   
+</ui:composition>
+

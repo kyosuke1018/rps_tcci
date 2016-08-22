@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >    
+    <p:dialog id="editSalesAllowancesDialog" header="#{msg['button.edit']}#{msg['common.label.detail']}"
+              resizable="false"
+              draggable="true"
+              modal="true"
+              width="300"
+              widgetVar="editSalesAllowancesDialog"
+              >
+        <h:panelGrid columns="2">
+            <h:outputLabel value="#{msg['common.label.id']}:" for="dialog_id"/>
+            <h:outputText id="dialog_id"
+                          value="#{applySalesAllowancesController.salesAllowances.id}"/>
+            <h:outputLabel value="#{msg['salesAllowances.label.orderNumber']}:" 
+                           for="dialog_orderNumber"
+                           styleClass="required"/>
+            <h:inputText id="dialog_orderNumber" 
+                         value="#{applySalesAllowancesController.salesAllowances.orderNumber}"/>
+            <h:outputLabel value="#{msg['salesAllowances.label.applyDate']}:" for="dialog_applyDate"/>
+            <h:outputText id="dialog_applyDate"
+                          value="#{applySalesAllowancesController.salesAllowances.applyDate}"/>
+            <h:outputLabel value="#{msg['salesAllowances.label.reason']}:" for="dialog_reason"/>
+            <h:outputText id="dialog_reason"
+                          value="#{applySalesAllowancesController.salesAllowances.reason}"/>
+            <h:outputLabel value="#{msg['salesAllowances.label.item']}:" for="dialog_item"/>
+            <h:outputText id="dialog_item"
+                          value="#{applySalesAllowancesController.salesAllowances.item}"/>
+            <h:outputLabel value="#{msg['salesAllowances.label.beginEnd']}:" for="dialog_beginEnd"/>
+            <h:outputText id="dialog_beginEnd"
+                          value="#{applySalesAllowancesController.salesAllowances.beginEnd}"/>
+            <h:outputLabel value="#{msg['salesAllowances.label.product']}:" for="dialog_product"/>
+            <h:outputText id="dialog_product"
+                          value="#{applySalesAllowancesController.salesAllowances.product}"/>
+            <h:outputLabel value="#{msg['salesAllowances.label.quantity']}:" for="dialog_quantity"/>
+            <h:outputText id="dialog_quantity"
+                          value="#{applySalesAllowancesController.salesAllowances.quantity}"/>
+            <h:outputLabel value="#{msg['salesAllowances.label.unit']}:" for="dialog_unit"/>
+            <h:outputText id="dialog_unit"
+                          value="#{applySalesAllowancesController.salesAllowances.unit}"/>
+            <h:outputLabel value="#{msg['salesAllowances.label.salesAllowances']}:" 
+                           for="dialog_salesAllowances" 
+                           styleClass="required"/>
+            <h:inputText id="dialog_salesAllowances" 
+                         value="#{applySalesAllowancesController.salesAllowances.salesAllowances}"
+                         />
+            <h:panelGroup/>
+            <h:panelGroup>
+                <p:commandButton action="#{applySalesAllowancesController.save}"
+                                 oncomplete="editSalesAllowancesDialog_okcomplete(xhr,status,args);"
+                                 update="salesAllowancesList"
+                                 value="#{msg['button.ok']}"/>
+                <p:commandButton onclick="editSalesAllowancesDialog.close();"
+                                 value="#{msg['button.cancel']}"/>
+            </h:panelGroup>
+        </h:panelGrid>
+    </p:dialog>
+</ui:composition>
+

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >   
+    <h:form prependId="false">
+        <p:dialog id="editCheckDialog" header="#{editCheckDialogController.title}"
+                  resizable="false"
+                  draggable="true"
+                  modal="true"
+                  dynamic="true"
+                  width="400"
+                  widgetVar="editCheckDialog"
+                  >
+            <h:panelGrid columns="2" width="100%">
+                <h:outputLabel value="#{msg['check.number']}:"/>
+                <p:inputText value="#{editCheckDialogController.check.checkNumber}"/>
+                <h:outputLabel value="#{msg['check.bank.name']}:"/>
+                <h:panelGroup>
+                    <p:autoComplete id="selectedBankCode"
+                                    value="#{checkMasterMaintenanceController.bankCode}"
+                                    var="bankCode"
+                                    itemLabel="#{bankCode}"
+                                    itemValue="#{bankCode}"
+                                    completeMethod="#{checkMasterMaintenanceController.completeBank}"
+                                    >
+                        <p:ajax event="itemSelect" 
+                                listener="#{checkMasterMaintenanceController.handleSelect}"
+                                update="selectedBankCode selectedBankName"/>
+                        <p:column>
+                            #{bankCode} - #{checkMasterMaintenanceController.findBankName(bankCode)}
+                        </p:column>
+                    </p:autoComplete>
+                    <p:spacer width="5px"/>
+                    <p:commandButton value="#{msg['button.browse']}" 
+                                     oncomplete="PF('selectBankDlg').show();return false;"
+                                     action="#{selectBankController.init}"
+                                     update="bankCriteria bankSearchResult"/>
+                </h:panelGroup>
+                <h:panelGroup/>
+                <h:outputText id="selectedBankName" value="#{checkMasterMaintenanceController.bankName}"/>
+                <h:outputLabel value="#{msg['check.billing.account']}:"/>
+                <p:inputText value="#{editCheckDialogController.check.billingAccount}"/>
+                <h:outputLabel value="#{msg['check.duedate']}:"/>
+                <p:calendar value="#{editCheckDialogController.check.dueDate}" pattern="yyyyMMdd" showOn="button" />  
+                <h:outputLabel value="#{msg['check.billing.amount']}:"/>
+                <p:inputText value="#{editCheckDialogController.check.amount}"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1" width="100%" style="text-align:center">
+                <h:panelGroup>
+                    <p:commandButton action="#{editCheckDialogController.returnFromDialog}" 
+                                     oncomplete="editCheckDialog_okcomplete(xhr,status,args)"
+                                     value="#{msg['button.save']}"
+                                     update="check_amount dataTable"/>
+                    <p:spacer width="5px"/>
+                    <p:commandButton onclick="PF('editCheckDialog').hide()"
+                                     value="#{msg['button.cancel']}"
+                                     immediate="true"/>
+                </h:panelGroup>                        
+            </h:panelGrid>
+            <p:ajax event="close" update="dataTable"/>
+        </p:dialog>
+    </h:form>
+</ui:composition>
+

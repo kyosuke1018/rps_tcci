@@ -1,0 +1,33 @@
+SELECT t1.sapid, t1.customer,t1.invoice_number,t1.order_number,
+t1.INVOICE_TIMESTAMP, t1.AMOUNT,t1.TAX,t1.PREMIUM_DISCOUNT, t1.PREMIUM_DISCOUNT_TAX,
+t2.payment_term,t2.simple_code,t2.name,t2.vat,t2.city,t2.street,nvl(t1.SHIPPING_CONDITIONS,t2.shipping_condition) shipping_condition,t2.sales_allowances_page, t2.discount_rate 
+FROM
+(
+	SELECT t1.sapid, t1.customer,t1.invoice_number,t1.order_number,t1.INVOICE_TIMESTAMP, t1.AMOUNT,t1.TAX,t1.SHIPPING_CONDITIONS
+	,t2.PREMIUM_DISCOUNT, t2.PREMIUM_DISCOUNT_TAX 
+	FROM
+	(
+		--Sales Order銷售
+		select t.sapid,t.buyer_customer as customer,t.invoice_number,t.order_number,t.INVOICE_TIMESTAMP,SUM(t.RETURN_AMOUNT) as AMOUNT, SUM(t.RETURN_AMOUNT_TAX) as TAX, SHIPPING_CONDITIONS  
+		FROM SK_SALES_DETAILS t 
+		WHERE 
+		(
+		t.BILLING_TYPE like 'ZF%' 
+		or t.BILLING_TYPE like 'ZL%'
+		) 
+		GROUP BY t.sapid,t.buyer_customer,t.invoice_number,t.order_number,t.INVOICE_TIMESTAMP,t.SHIPPING_CONDITIONS
+	) t1,
+	(
+		--議價折讓
+		select t.invoice_number, SUM(t.PREMIUM_DISCOUNT) as PREMIUM_DISCOUNT, SUM(t.PREMIUM_DISCOUNT_TAX) as PREMIUM_DISCOUNT_TAX 
+		FROM SK_SALES_DETAILS t 
+		WHERE 
+		--to_char(t.INVOICE_TIMESTAMP,'YYYYMM')='201202' AND 
+		t.BILLING_TYPE like 'ZF%' 
+		GROUP BY t.invoice_number
+	) t2 
+	WHERE 
+	t1.invoice_number = t2.invoice_number(+)
+) t1, SK_CUSTOMER t2 
+WHERE t1.customer=t2.code 
+--and t1.sapid='011' and to_char(t1.INVOICE_TIMESTAMP,'YYYYMM')>'201202' 

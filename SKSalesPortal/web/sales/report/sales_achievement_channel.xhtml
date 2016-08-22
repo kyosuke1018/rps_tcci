@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../../templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{salesAchievementReport.pageTitleChannel}</ui:define>
+    <ui:define name="content">
+        <h:form prependId="false">
+            <p:panel header="#{salesAchievementReport.pageTitleChannel}">
+                <p:fieldset legend="#{msg['search.criteria']}:">
+                    <h:outputLabel value="#{msg['common.label.year']}:" for="year"/>
+                    <h:selectOneMenu id="year"
+                                     style="vertical-align:bottom;width: 70px"
+                                     value="#{queryCriteriaController.filter.year}">
+                        <f:selectItems value="#{queryCriteriaController.yearList}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{msg['common.label.month']}:" for="month" style="padding-bottom: 5px"/>
+                    <h:selectOneMenu id="month"
+                                     style="vertical-align:bottom;width: 50px"
+                                     value="#{queryCriteriaController.filter.month}">
+                        <f:selectItems value="#{queryCriteriaController.monthList}"/>
+                    </h:selectOneMenu>
+                    <br/><br/>
+                    <p:commandButton value="#{msg['button.search']}"
+                                     action="#{salesAchievementReport.channelReportQuery}"
+                                     update="searchResult"/>
+                </p:fieldset>
+                <p:fieldset id="searchResult" legend="#{msg['search.result']}:">
+                    <p:dataTable value="#{salesAchievementReport.channelReport}"
+                                 var="row"
+                                 paginator="false">
+                        <p:column headerText="#{msg['achievement.channel']}" style="text-align:left">
+                            <h:outputText value="#{row.channel} #{salesAchievementReport.getChannelName(row)}"/>
+                            <f:facet name="footer">
+                                <h:outputText style="text-align:center" value="Totals:" />
+                            </f:facet>                            
+                        </p:column>
+                        <p:column headerText="#{msg['amount']}" style="text-align:right">
+                            <h:outputText value="#{row.invoiceAmount}">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{salesAchievementReport.totalInvoiceAmount}">
+                                    <f:convertNumber pattern="#,###"/>
+                                </h:outputText>
+                            </f:facet>
+                        </p:column>
+                        <p:column headerText="#{msg['premiumDiscount']}" style="text-align:right">
+                            <h:outputText value="#{row.premiumDiscount}">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{salesAchievementReport.totalPremiumDiscount}">
+                                    <f:convertNumber pattern="#,###"/>
+                                </h:outputText>
+                            </f:facet> 
+                        </p:column>
+                        <p:column headerText="#{msg['salesReturn']}" style="text-align:right">
+                            <h:outputText value="#{row.salesReturn}">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{salesAchievementReport.totalSalesReturn}">
+                                    <f:convertNumber pattern="#,###"/>
+                                </h:outputText>                                
+                            </f:facet>                             
+                        </p:column>
+                        <p:column headerText="#{msg['salesDiscount']}" style="text-align:right">
+                            <h:outputText value="#{row.salesDiscount}">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{salesAchievementReport.totalSalesDiscount}">
+                                    <f:convertNumber pattern="#,###"/>
+                                </h:outputText> 
+                            </f:facet>                        
+                        </p:column>
+                        <p:column headerText="#{msg['netProfit']}" style="text-align:right">
+                            <h:outputText value="#{row.salesAmount}">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{salesAchievementReport.totalSalesAmount}">
+                                    <f:convertNumber pattern="#,###"/>
+                                </h:outputText> 
+                            </f:facet>                                                 
+                        </p:column>
+                        <p:column headerText="#{msg['grossProfitRate']}" style="text-align:right">
+                            <h:outputText value="#{row.grossProfitRate}">
+                                <f:convertNumber type="percent" minFractionDigits="2"/>
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{salesAchievementReport.totalgrossProfitRate}">
+                                    <f:convertNumber type="percent" minFractionDigits="2"/>
+                                </h:outputText> 
+                            </f:facet>                                 
+                        </p:column>
+                        <p:column headerText="#{msg['achievementRate']}" style="text-align:right">
+                            <h:outputText value="#{row.achievementRate}">
+                                <f:convertNumber type="percent" minFractionDigits="2"/>
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{salesAchievementReport.totalAchievementRate}">
+                                    <f:convertNumber type="percent" minFractionDigits="2"/>
+                                </h:outputText> 
+                            </f:facet>                                  
+                        </p:column>
+                        <p:column headerText="#{msg['budget']}" style="text-align:right">
+                            <h:outputText value="#{row.budget}">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{salesAchievementReport.totalBudget}">
+                                    <f:convertNumber pattern="#,###"/>
+                                </h:outputText> 
+                            </f:facet>                                                          
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:panel>    
+        </h:form>
+        <ui:include src="/jsff/ajaxStatusDlg.xhtml"/>
+    </ui:define>
+</ui:composition>

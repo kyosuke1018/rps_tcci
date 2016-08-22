@@ -1,0 +1,12 @@
+log4j.rootLogger=INFO,com,fileOut
+
+log4j.appender.com=org.apache.log4j.ConsoleAppender
+log4j.appender.com.layout=org.apache.log4j.PatternLayout
+log4j.appender.com.layout.ConversionPattern=%d %p %l - %m%n
+
+log4j.appender.fileOut=org.apache.log4j.RollingFileAppender
+log4j.appender.fileOut.File=${com.sun.aas.instanceRoot}/logs/sksp.log
+log4j.appender.fileOut.MaxFileSize=2MB
+log4j.appender.fileOut.layout=org.apache.log4j.PatternLayout
+log4j.appender.fileOut.layout.ConversionPattern=%d %p %l - %m%n
+log4j.appender.fileOut.MaxBackupIndex=20

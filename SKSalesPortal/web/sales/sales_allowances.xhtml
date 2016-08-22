@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/generalPageTemplate.xhtml">
+    <ui:define name="title">
+        #{msg['menu.sales.salesallowances']}
+    </ui:define>    
+    <ui:define name="content">
+        <h:form id="salesAllowancesForm" prependId="false">
+            <p:tabView id="tabView" activeIndex="#{salesAllowancesController.tabIndex}">
+                <p:ajax event="tabChange" update=":salesAllowancesForm"/>
+                <!--p:ajax event="tabChange" listener="#{salesAllowancesController.onTabChange}" update=":salesAllowancesForm"/-->
+                <p:tab id="searchCriteriaTab" title="#{msg['search.criteria']}">
+                    <p:panel header="#{msg['search.criteria']}">
+                        <ui:include src="selectSalesCustomerInvoiceTimestamp.xhtml"/>
+                        <h:panelGrid columns="1" width="100%">
+                            <h:panelGroup>
+                                <p:commandButton value="#{msg['button.search']}" 
+                                                 icon="ui-icon-search"
+                                                 action="#{salesAllowancesController.doSearchAllowancesAction}" 
+                                                 update=":salesAllowancesForm" />
+                                <p:spacer width="20px"/>
+                            </h:panelGroup>                        
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+                <p:tab id="salesAllowancesPageTab" title="檢視與修改客戶列印聯數與折讓率">
+                    <p:panel header="檢視與修改客戶聯數與折讓率">
+                        <p:commandButton icon="ui-icon-disk" 
+                                                 value="#{msg['button.save']}"
+                                                 ajax="true"
+                                                 update=":salesAllowancesForm"
+                                                 action="#{salesAllowancesController.saveAllowancesPageAction}"
+                                                 style="display:#{not empty salesAllowancesController.customerList ? 'inline' : 'none'}"/>
+                        <p:scrollPanel  style="width:100%;height:300px">
+                            <p:dataTable value="#{salesAllowancesController.customerList}" var="row">
+                                <p:column headerText="#{msg['customer.name']}">
+                                    <h:outputText value="#{row.customerName}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['customer.code']}">
+                                    <h:outputText value="#{row.customerSimpleCode}"/>
+                                </p:column>
+                                <p:column headerText="列印聯數">
+                                    <h:selectOneMenu value="#{row.salesAllowancesPage}">
+                                        <f:selectItems value="#{salesAllowancesController.pageEnumList}" var="item" itemLabel="#{item.displayName}" itemValue="#{item}"/>
+                                    </h:selectOneMenu>
+                                </p:column>
+                                <p:column headerText="折讓率">
+                                    <p:inputText value="#{row.discountRate}" size="3"/>
+                                    <h:outputText value="%"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:scrollPanel>
+                        <p:commandButton icon="ui-icon-disk" 
+                                                 value="#{msg['button.save']}"
+                                                 ajax="true"
+                                                 update=":salesAllowancesForm"
+                                                 action="#{salesAllowancesController.saveAllowancesPageAction}"
+                                                 style="display:#{not empty salesAllowancesController.customerList ? 'inline' : 'none'}"/>
+                    </p:panel>
+                </p:tab>
+                <p:tab id="searchResultTab" title="#{msg['menu.sales.salesallowances']}" >
+                    <p:commandButton icon="ui-icon-disk" 
+                                                 value="#{msg['button.pdf']}"
+                                                 ajax="false"
+                                                 action="#{salesAllowancesController.print}"
+                                                 id="reportBtn1"
+                                                 style="display:#{not empty salesAllowancesController.salesOrderList ? 'inline' : 'none'}"/>
+                    <p:panel header="#{msg['menu.sales.salesallowances']}:">
+                        <p:scrollPanel  style="width:100%;height:300px">
+                            <p:dataTable selection="#{salesAllowancesController.selectedSalesOrderList}" value="#{salesAllowancesController.salesOrderList}" var="row">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <p:selectBooleanCheckbox value="#{salesAllowancesController.selectAll}">
+                                            <p:ajax event="change" 
+                                                    listener="#{salesAllowancesController.selectAllChange}"
+                                                    update=":salesAllowancesForm"/>
+                                        </p:selectBooleanCheckbox>
+                                    </f:facet>
+                                    <p:selectBooleanCheckbox value="#{row.selected}"/>
+                                </p:column>
+                                <p:column headerText="匯出次數">
+                                    <h:outputText value="#{row.printNumber}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['remit.label.customer']}" style="text-align:left">
+                                    <h:outputText value="#{row.customerSimpleCode} #{row.customerName} [#{row.paymentTerm}] (#{row.salesAllowancesPage.displayName})"/>
+                                </p:column>
+                                <p:column headerText="#{msg['order.number']}">
+                                    <h:outputText value="#{row.orderNumber}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['invoice.number']}">
+                                    <h:outputText value="#{row.invoiceNumber}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['invoice.date']}">
+                                    <h:outputText value="#{row.invoiceTimestamp}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="#{msg['account.receivable']}" style="text-align:right">
+                                    <h:outputText value="#{row.amount}">
+                                        <f:convertNumber groupingUsed="true"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="#{msg['premium.discount']}" style="text-align:right">
+                                    <h:outputText value="#{row.premiumDiscount==null ? '0' : row.premiumDiscount + row.premiumDiscountTax }">
+                                        <f:convertNumber groupingUsed="true"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="#{msg['sales.allowances']}" style="text-align:right">
+                                    <h:outputText value="#{row.salesAllowances}">
+                                        <f:convertNumber groupingUsed="true"/>
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </p:scrollPanel>
+                        <p:commandButton icon="ui-icon-disk" 
+                                                 value="#{msg['button.pdf']}"
+                                                 ajax="false"
+                                                 action="#{salesAllowancesController.print}"
+                                                 id="reportBtn2"
+                                                 style="display:#{not empty salesAllowancesController.salesOrderList ? 'inline' : 'none'}"/>
+                    </p:panel>
+                </p:tab>
+            </p:tabView>
+        </h:form>
+        <ui:include src="../jsff/selectCustomerDlg.xhtml">
+            <ui:param name="customerCodeId" value=":salesAllowancesForm:tabView:customer_code"/>
+            <ui:param name="customerNameId" value=":salesAllowancesForm:tabView:customer_name"/>
+        </ui:include>
+        <ui:include src="../jsff/ajaxStatusDlg.xhtml"/>
+    </ui:define>    
+</ui:composition>

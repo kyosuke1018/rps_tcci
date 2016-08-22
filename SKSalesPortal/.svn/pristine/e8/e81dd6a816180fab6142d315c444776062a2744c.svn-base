@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/generalPageTemplate.xhtml">
+    <ui:define name="title">
+        #{msg['menu.sales.arlist']}
+    </ui:define>    
+    <ui:define name="content">
+        <h:form prependId="false">
+            <p:panel header="#{msg['menu.sales.arlist']}">
+                <p:fieldset legend="#{msg['search.criteria']}:">
+                    <!--                    <h:panelGrid columns="2" width="100%">-->
+                    <ui:include src="selectSalesAndInvoiceTimestamp.xhtml"/>
+                    <h:panelGrid columns="1" width="50%">
+                        <h:panelGroup>
+                            <p:commandButton value="#{msg['button.search']}"
+                                             icon="ui-icon-search"
+                                             action="#{accountsReceivableController.doSearchARAction}"
+                                             update="searchResultGroup reportBtn1 reportBtn2,:messages,:growl" />
+                            <p:spacer width="10px"/>
+                            <p:commandButton icon="ui-icon-disk" 
+                                             value="#{msg['button.pdf']}"
+                                             ajax="false"
+                                             action="#{accountsReceivableController.doExportPDFAction}"
+                                             id="reportBtn1"
+                                             style="vertical-align:bottom;display:#{accountsReceivableController.arVOList ne null ? 'inline' : 'none'};"/>
+                            <p:spacer width="10px"/>
+                            <p:commandButton icon="ui-icon-disk" 
+                                             value="#{msg['button.excel']}"
+                                             ajax="false"
+                                             action="#{accountsReceivableController.doExportXLSAction}"
+                                             id="reportBtn2"
+                                             style="vertical-align:bottom;display:#{accountsReceivableController.arVOList ne null ? 'inline' : 'none'};"/>                            
+                        </h:panelGroup>
+                    </h:panelGrid>                    
+                </p:fieldset>
+                <h:panelGroup id="searchResultGroup">
+                <p:fieldset id="searchResult" legend="#{msg['search.result']}:" rendered="#{accountsReceivableController.arVOList ne null}">
+                    <!--p:scrollPanel  style="width:100%;height:300px"-->
+                        <p:dataTable style="width:100%" value="#{accountsReceivableController.arVOList}" var="row">
+                            <p:columnGroup rendered="#{accountsReceivableController.arVOList ne null}" type="header">
+                                <p:row>
+                                    <!--p:column colspan="4" headerText="" /-->
+                                    <p:column colspan="5" headerText="#{msg['ar.summary']}" style="text-align:right"/>
+                                    <p:column headerText="#{accountsReceivableController.summaryQueryARsString}" style="text-align:right"/>  
+                                </p:row>  
+                                <p:row>
+                                    <p:column headerText="#{msg['order.number']}" />
+                                    <p:column headerText="#{msg['invoice.number']}" />
+                                    <p:column headerText="#{msg['invoice.date']}" />  
+                                    <p:column headerText="#{msg['account.receivable']}" />  
+                                    <p:column headerText="#{msg['premium.discount']}" />
+                                    <p:column headerText="#{msg['ar.total']}" />
+                                </p:row>
+                            </p:columnGroup> 
+                            <p:subTable var="item" value="#{row.list}">  
+                                <f:facet name="header">
+                                    <h:outputLabel style="margin-right: 20px" value="#{row.customer.displayIdentifier}  [#{row.customer.paymentTerm eq null ? 'NA' : row.customer.paymentTerm}]#{(row.customer.shippingCondition != null ? (row.customer.shippingCondition.equals('01') ? '(三聯)' : (row.customer.shippingCondition.equals('02') ? '(三聯)' : (row.customer.shippingCondition.equals('03') ? '(二聯)' :  ''))) : '')}"/>
+                                                  <h:outputLabel for="advanceReceiptA" value="#{msg['remitmaintenance.advance.receipts.A.total']} : "/>
+                                                  <h:outputText id="advanceReceiptA" style="margin-right: 20px" 
+                                                                value="#{row.advancedReceiptsA}">                           
+                                                          <f:convertNumber groupingUsed="true"/>
+                                                      </h:outputText>
+                                                      <h:outputLabel for="advanceReceiptJ" value="#{msg['remitmaintenance.advance.receipts.J.total']} : "/>
+                                                      <h:outputText id="advanceReceiptJ" 
+                                                                    value="#{row.advancedReceiptsJ}">
+                                                          <f:convertNumber groupingUsed="true"/>
+                                                      </h:outputText>
+                                                  </f:facet>
+                                                  <p:column>
+                                                      <h:outputText value="#{item.orderNumber}"/>
+                                                  </p:column>
+                                                  <p:column>
+                                                      <h:outputText value="#{item.invoiceNumber}"/>
+                                                  </p:column>
+                                                  <p:column>
+                                                      <h:outputText value="#{item.invoiceTimestamp}">
+                                                          <f:convertDateTime pattern="yyyy/MM/dd"/>
+                                                      </h:outputText>
+                                                  </p:column>
+                                                  <p:column  style="text-align:right">
+                                                      <h:outputText value="#{item.amount}">
+                                                          <f:convertNumber groupingUsed="true"/>
+                                                      </h:outputText>
+                                                  </p:column>
+                                                  <p:column style="text-align:right">
+                                                      <h:outputText value="#{item.premiumDiscount==null ? '0' : item.premiumDiscount}">
+                                                          <f:convertNumber groupingUsed="true"/>
+                                                      </h:outputText>
+                                                  </p:column>
+                                                  <p:column style="text-align:right">
+                                                      <h:outputText value="#{item.amount + item.premiumDiscount}">
+                                                          <f:convertNumber groupingUsed="true"/>
+                                                      </h:outputText>
+                                                  </p:column>
+                                                  <p:columnGroup type="footer">
+                                                      <p:row>
+                                                          <p:column colspan="5" footerText="#{msg['ar.customer.total']}" style="text-align:right"/>
+                                                          <!--p:column footerText="#{row.totalAmount}"  style="text-align:right"/-->
+                                                          <!--p:column footerText="#{row.totalPremiumDiscount}"  style="text-align:right"/-->
+                                                          <p:column footerText="#{row.formatTotalARAmount}" style="text-align:right"/>
+                                                      </p:row>
+                                                  </p:columnGroup>                            
+                                    </p:subTable>
+                                    <p:columnGroup type="footer" rendered="#{accountsReceivableController.arVOList ne null}">
+                                        <p:row>
+                                            <p:column colspan="5" footerText="#{msg['ar.summary']}" style="text-align:right"/>  
+                                    <p:column footerText="#{accountsReceivableController.summaryQueryARsString}" style="text-align:right"/>
+                                </p:row>  
+                            </p:columnGroup>  
+                        </p:dataTable>
+                    <!--/p:scrollPanel-->
+                </p:fieldset>
+                </h:panelGroup>
+            </p:panel>    
+        </h:form>
+        <ui:include src="../jsff/selectCustomerDlg.xhtml">
+            <ui:param name="customerCodeId" value=":customer_code"/>
+            <ui:param name="customerNameId" value=":customer_name"/>
+        </ui:include>
+        <ui:include src="../jsff/ajaxStatusDlg.xhtml"/>
+    </ui:define>    
+</ui:composition>

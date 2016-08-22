@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/generalPageTemplate.xhtml">
+    <ui:define name="title">
+        #{msg['premiumDiscount.title.premiumDiscount']}
+    </ui:define>    
+    <ui:define name="content">
+        <h:form prependId="false">
+            <p:panel header="#{msg['premiumDiscount.title.premiumDiscount']}">
+                <p:fieldset legend="#{msg['common.fieldset.criteria']}:">
+                    <h:panelGrid columns="4" width="100%">
+                        <h:outputLabel value="#{msg['premiumDiscount.label.number']}:" for="number"/>
+                        <p:inputText id="number" value="#{premiumDiscountController.filter.number}"/>
+                        <h:outputLabel value="#{msg['premiumDiscount.label.date']}:" for="date"/>
+                        <h:panelGroup id="date">
+                            <p:calendar id="beginDate" 
+                                        navigator="true"
+                                        showOn="button" 
+                                        pattern="yyyy/MM/dd" 
+                                        size="16"
+                                        value="#{premiumDiscountController.filter.beginDate}" 
+                                        />
+                            ~ 
+                            <p:calendar id="endDate" 
+                                        navigator="true"
+                                        showOn="button" 
+                                        pattern="yyyy/MM/dd" 
+                                        size="16"
+                                        value="#{premiumDiscountController.filter.endDate}" 
+                                        />
+                        </h:panelGroup>
+                        <h:outputLabel value="#{msg['common.label.modifier']}:" for="modifier"/>
+                        <h:panelGroup id="modifier">
+                            <p:autoComplete id="creator_empId" 
+                                            value="#{selectEmployeeController.selectedUser}"
+                                            var="empId"
+                                            itemLabel="#{empId}"
+                                            itemValue="#{empId}"
+                                            completeMethod="#{selectEmployeeController.completeMethod}"
+                                            maxResults="9"
+                                            >
+                                <p:column>
+                                    #{empId} - #{selectEmployeeController.getUserCname(empId)}
+                                </p:column>
+                                <p:ajax event="itemSelect" 
+                                        listener="#{selectEmployeeController.handleSelect}"
+                                        update="creator_empId creator_cname"
+                                        />
+                            </p:autoComplete>
+                            <p:spacer width="5px"/>
+                            <p:commandButton action="#{selectEmployeeController.init}"
+                                             immediate="true"
+                                             oncomplete="PF('selectEmployeeDialog').show();"
+                                             update="SED_selects employeeListGroup"
+                                             value="..."/>
+                            <h:outputLabel id="creator_cname" value="#{selectEmployeeController.cname}"/>
+                            <h:inputHidden binding="#{selectEmployeeController.initUserBySessionUserHidden}"/>
+                        </h:panelGroup>                    
+                        <h:outputLabel value="#{msg['common.label.modifytimestamp']}:" for="date"/>
+                        <h:panelGroup id="modifytimestamp">
+                            <p:calendar id="beginModifytimestamp" 
+                                        navigator="true"
+                                        showOn="button" 
+                                        pattern="yyyy/MM/dd" 
+                                        size="16"
+                                        value="#{premiumDiscountController.filter.beginModifytimestamp}" 
+                                        />
+                            ~ 
+                            <p:calendar id="endModifytimestamp" 
+                                        navigator="true"
+                                        showOn="button" 
+                                        pattern="yyyy/MM/dd" 
+                                        size="16"
+                                        value="#{premiumDiscountController.filter.endModifytimestamp}" 
+                                        />
+                        </h:panelGroup>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" width="100%">
+                        <h:panelGroup>
+                            <p:commandButton value="#{msg['button.search']}" 
+                                             action="#{premiumDiscountController.query}" 
+                                             update="resultList messages growl creator_cname" 
+                                             icon="ui-icon-search"/>
+                            <p:spacer width="5px"/>
+                            <p:commandButton action="#{editPremiumDiscountController.create}"
+                                             oncomplete="PF('editPremiumDiscountDialog').show();"
+                                             update="editPremiumDiscountDialog premiumDiscountDetail messages growl"
+                                             value="#{msg['button.add']}"
+                                             icon="ui-icon-plus">
+                            </p:commandButton>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </p:fieldset>
+                <p:fieldset id="resultList" legend="#{msg['common.fieldset.result']}:">
+                    <p:dataTable value="#{premiumDiscountController.premiumDiscountDataModel}"
+                                 var="row">
+                        <p:column>
+                            <f:facet name="header">
+                                <p:selectBooleanCheckbox value="#{premiumDiscountController.selectAll}">
+                                    <p:ajax event="change" 
+                                            listener="#{premiumDiscountController.selectAllChange}"
+                                            update="resultList"/>
+                                </p:selectBooleanCheckbox>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{row.selected}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="#{msg['premiumDiscount.label.orderNumber']}"/><br/>
+                                <h:outputLabel value="#{msg['premiumDiscount.label.invoiceNumber']}"/>
+                            </f:facet>
+                            <h:outputText value="#{row.discount.orderNumber}"/><br/>
+                            <h:outputText value="#{row.discount.invoiceNumber}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="#{msg['premiumDiscount.label.orderTimestamp']}"/><br/>
+                                <h:outputLabel value="#{msg['premiumDiscount.label.invoiceTimestamp']}"/>
+                            </f:facet>
+                            <h:outputText value="#{row.discount.orderTimestamp}">
+                                <f:convertDateTime pattern="yyyy/MM/dd"/>
+                            </h:outputText><br/>
+                            <h:outputText value="#{row.discount.invoiceTimestamp}">
+                                <f:convertDateTime pattern="yyyy/MM/dd"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['premiumDiscount.label.customer']}">
+                            <h:outputText value="#{row.discount.customer.displayIdentifier}"/>
+                        </p:column>
+                        <p:column  style="text-align:right" headerText="#{msg['premiumDiscount.label.premiumDiscount']}">
+                            <h:outputText value="#{row.discount.discount}">
+                                <f:convertNumber pattern="###,###,###,###"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="text-align:right" headerText="#{msg['premiumDiscount.label.premiumDiscountTax']}">
+                            <h:outputText value="#{row.discount.tax}">
+                                <f:convertNumber pattern="###,###,###,###"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="text-align:right" headerText="#{msg['premiumDiscount.label.totalDiscount']}">
+                            <h:outputText value="#{row.discount.discount+row.discount.tax}">
+                                <f:convertNumber pattern="###,###,###,###"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['premiumDiscount.label.year']}">
+                            <h:outputText value="#{row.discount.year}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['premiumDiscount.label.month']}">
+                            <h:outputText value="#{row.discount.month}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['fiinterface.label.status']}">
+                            <h:graphicImage library="images"
+                                            name="#{fiInterfaceController.getDisplayIcon(row.fiInterface)}"
+                                            title="#{fiInterfaceController.getDisplayIdentifier(row.fiInterface)}"
+                                            rendered="#{row.fiInterface ne null}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['common.label.action']}" style="width: 40px; white-space: nowrap">
+                            <p:commandButton action="#{editPremiumDiscountController.edit(row.discount)}"
+                                             update="editPremiumDiscountDialog premiumDiscountDetail messages growl"
+                                             oncomplete="PF('editPremiumDiscountDialog').show()"
+                                             disabled="#{!fiInterfaceController.canEdit(row.fiInterface)}"
+                                             icon="ui-icon-pencil"
+                                             title="#{msg['button.edit']}"/>
+                            <p:spacer width="5px"/>
+                            <p:commandButton action="#{premiumDiscountController.setDiscountToDelete(row)}" 
+                                             disabled="#{!fiInterfaceController.canRemove(row.fiInterface)}"
+                                             oncomplete="PF('confirmRemoveDialog').show()"
+                                             icon="ui-icon-trash"
+                                             title="#{msg['button.delete']}">
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <p/>
+                    <h:outputLabel value="#{msg['fiinterface.column.date']}:" for="transactionDate" styleClass="required"/>
+                    <p:calendar id="transactionDate" 
+                                navigator="true"
+                                showOn="button" 
+                                pattern="yyyy/MM/dd" 
+                                size="16"
+                                value="#{premiumDiscountController.transactionDate}" 
+                                />
+                    <p:spacer width="5px"/>
+                    <p:commandButton value="#{msg['button.upload']}" 
+                                     action="#{premiumDiscountController.prepareUpload}"
+                                     oncomplete="fiInterfaceDialog_showComplete(xhr, status, args);"
+                                     update="messages growl fiInterfaceDialog resultList"
+                                     icon="ui-icon-arrowthick-1-n"/>
+                    <ui:include src="include_editPremiumDiscountDialog.xhtml"/>
+                </p:fieldset>
+            </p:panel>    
+            <p:confirmDialog style="vertical-align: middle" 
+                             header="#{msg['premiumDiscount.title.removePremiumDiscount']}" 
+                             message="#{msg['premiumDiscount.confirm.removePremiumDiscount']}" 
+                             widgetVar="confirmRemoveDialog">
+                <p:spacer width="45px" height="1px"/>
+                <p:commandButton value="#{msg['button.ok']}"
+                                 oncomplete="PF('confirmRemoveDialog').hide();"
+                                 action="#{premiumDiscountController.delete}"
+                                 update="resultList messages growl"/>  
+                <p:spacer width="5px"/>
+                <p:commandButton value="#{msg['button.cancel']}" onclick="PF('confirmRemoveDialog').hide();" type="button" immediate="true"/>
+            </p:confirmDialog>
+            <ui:include src="../jsff/ajaxStatusDlg.xhtml"/>
+        </h:form>
+        <ui:include src="../jsff/selectEmployeeDialog.xhtml">
+            <ui:param name="empidId" value="creator_empId"/>
+            <ui:param name="empnameId" value="creator_cname"/>
+        </ui:include>
+        <ui:include src="../jsff/viewFiInterfaceDialog.xhtml">
+            <ui:param name="sourceList" value="resultList"/>
+        </ui:include>
+    </ui:define>    
+</ui:composition>

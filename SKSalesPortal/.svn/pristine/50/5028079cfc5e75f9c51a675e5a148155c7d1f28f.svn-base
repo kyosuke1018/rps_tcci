@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >    
+    <p:dialog id="editPremiumDiscountDialog" header="#{editPremiumDiscountController.dialogHeader}"
+              resizable="false"
+              draggable="true"
+              modal="true"
+              width="800"
+              widgetVar="editPremiumDiscountDialog"
+              >
+        <p:ajax listener="#{premiumDiscountController.query}" event="close" update="resultList"/>
+        <h:panelGroup id="premiumDiscountDetail">
+            <p:fieldset legend="#{msg['common.fieldset.criteria']}:" rendered="#{editPremiumDiscountController.action eq 'Create'}">
+                <h:panelGrid columns="4">
+                    <h:outputLabel value="#{msg['premiumDiscount.label.number']}:" for="create_detail_number"/>
+                    <p:inputText id="create_detail_number" value="#{editPremiumDiscountController.number}"/>
+                    <p:commandButton value="#{msg['button.search']}"
+                                     icon="ui-icon-search"
+                                     update="premiumDiscountDetail errorMessage"
+                                     action="#{editPremiumDiscountController.query}"/>
+                    <h:outputLabel id="errorMessage" 
+                                   style="color:red;"
+                                   value="#{editPremiumDiscountController.errorMessage}"
+                                   />
+                    <p/>
+                </h:panelGrid>
+            </p:fieldset>
+            <p:fieldset id="detailResultList" legend="#{msg['premiumDiscount.fieldset.detail']}:">
+                <p:dataTable  value="#{editPremiumDiscountController.discounts}" var="discount">
+                    <p:column headerText="#{msg['premiumDiscount.label.orderNumber']}">
+                        <h:outputLabel value="#{discount.orderNumber}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['premiumDiscount.label.orderTimestamp']}">
+                        <h:outputLabel value="#{discount.orderTimestamp}">
+                            <f:convertDateTime pattern="yyyy/MM/dd"/>
+                        </h:outputLabel>
+                    </p:column>
+                    <p:column headerText="#{msg['premiumDiscount.label.invoiceNumber']}">
+                        <h:outputLabel value="#{discount.invoiceNumber}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['premiumDiscount.label.invoiceTimestamp']}">
+                        <h:outputLabel value="#{discount.invoiceTimestamp}">
+                            <f:convertDateTime pattern="yyyy/MM/dd"/>
+                        </h:outputLabel>
+                    </p:column>
+                    <p:column headerText="#{msg['premiumDiscount.label.customer']}">
+                        <h:outputLabel value="#{discount.customer.displayIdentifier}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['premiumDiscount.label.premiumDiscount']}">
+                        <h:outputLabel value="#{discount.discount}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['premiumDiscount.label.premiumDiscountTax']}">
+                        <h:outputLabel value="#{discount.tax}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['premiumDiscount.label.totalDiscount']}">
+                        <h:outputLabel value="#{discount.discount+discount.tax}"/>
+                    </p:column>
+                </p:dataTable>
+                <p/>
+                <h:panelGrid columns="6" width="100%">
+
+                    <h:outputLabel value="#{msg['premiumDiscount.label.premiumDiscount']}:" for="detail_discount"/>
+                    <p:inputText id="detail_discount" 
+                                 style="text-align:right;" 
+                                 value="#{editPremiumDiscountController.discount == null ? 0 : editPremiumDiscountController.discount.discount}"
+                                 size="18" 
+                                 onkeyup="calculateTotalDiscount();"/>
+                    <h:outputLabel value="#{msg['premiumDiscount.label.premiumDiscountTax']}:" for="detail_tax"/>
+                    <p:inputText id="detail_tax" 
+                                 style="text-align:right;" 
+                                 value="#{editPremiumDiscountController.discount == null ? 0 : editPremiumDiscountController.discount.tax}"
+                                 size="18"
+                                 onkeyup="calculateTotalDiscount();"/>
+                    <h:outputLabel value="#{msg['premiumDiscount.label.totalDiscount']}:" for="detail_totalDiscount"/>
+                    <p:inputText id="detail_totalDiscount" 
+                                 style="text-align:right;" 
+                                 value="#{editPremiumDiscountController.discount == null ? 0 : editPremiumDiscountController.discount.discount+editPremiumDiscountController.discount.tax}" 
+                                 disabled="true"
+                                 size="18"/>
+
+                </h:panelGrid>
+                <h:panelGrid columns="4" width="50%">
+                    <h:outputLabel value="#{msg['premiumDiscount.label.year']}:" for="detail_year"/>
+                    <h:selectOneMenu id="detail_year" 
+                                     value="#{editPremiumDiscountController.discount.year}"
+                                     style="width: 63px">
+                        <f:selectItems value="#{editPremiumDiscountController.yearList}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{msg['premiumDiscount.label.month']}:" for="detail_month"/>
+                    <h:selectOneMenu id="detail_month" 
+                                     value="#{editPremiumDiscountController.discount.month}"
+                                     style="width: 47px">
+                        <f:selectItems value="#{editPremiumDiscountController.monthList}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <p/>
+                <h:outputLabel rendered="#{editPremiumDiscountController.fiInterface.uploadTimestamp ne null}" 
+                               style="color: red;font-weight: bold;"
+                               value="此筆溢價折讓已上傳, 上傳日期: " />
+                <h:outputLabel rendered="#{editPremiumDiscountController.fiInterface.uploadTimestamp ne null}" 
+                               style="color: red;font-weight: bold;"
+                               value="#{editPremiumDiscountController.fiInterface.uploadTimestamp}">
+                    <f:convertDateTime pattern="yyyy/MM/dd"/>
+                </h:outputLabel>
+            </p:fieldset>
+            <p/>
+            <h:panelGrid columns="1" width="100%" style="text-align:center;">
+                <h:panelGroup>
+                    <p:commandButton value="#{msg['button.save']}" 
+                                     actionListener="#{editPremiumDiscountController.save}"
+                                     update="messages growl"
+                                     oncomplete="editPremiumDiscountDialog_okcomplete(xhr,status,args)"/>
+                    <p:spacer width="5px"/>
+                    <p:commandButton value="#{msg['button.close']}" 
+                                     onclick="PF('editPremiumDiscountDialog').hide()"/>
+                </h:panelGroup>
+            </h:panelGrid>
+        </h:panelGroup>
+        <p:ajax event="close" update="resultList"/>
+    </p:dialog>
+    <script language="javascript">
+        //<![CDATA[
+        function calculateTotalDiscount() {
+            discount = jQuery('#detail_discount');
+            tax = jQuery('#detail_tax');
+            totalDiscount=jQuery('#detail_totalDiscount');
+            if(discount.val() != '' && tax.val() != '') {
+                var patten = /[^0-9\.]+/g;
+                totalDiscount.val(parseFloat(discount.val().replace(patten,"")) + parseFloat(tax.val().replace(patten,"")));
+            }
+        }
+        //]]>
+    </script>
+</ui:composition>
+

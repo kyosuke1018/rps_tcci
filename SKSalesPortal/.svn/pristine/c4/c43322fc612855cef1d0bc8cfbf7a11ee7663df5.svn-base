@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/generalPageTemplate.xhtml">
+    <ui:define name="title">
+        #{msg['menu.assistant.exportSalesAllowances']}
+    </ui:define>    
+    <ui:define name="content">
+        <h:form id="querySalesAllowancesForm" prependId="false">
+            <p:panel header="#{msg['menu.assistant.exportSalesAllowances']}">
+                <p:fieldset legend="#{msg['search.criteria']}:">
+                    <h:panelGrid columns="6">
+                        <h:outputLabel for="applyDate" value="#{msg['salesAllowances.label.uploadDate']}:"/>
+                        <p:calendar id="applyDate" 
+                                    readOnlyInputText="false" 
+                                    navigator="true"
+                                    showOn="button" 
+                                    pattern="yyyy/MM/dd" 
+                                    size="16"
+                                    value="#{querySalesAllowancesController.exportDate}"
+                                    />
+                        <p:commandButton value="#{msg['button.search']}" 
+                                         icon="ui-icon-search"
+                                         action="#{querySalesAllowancesController.queryForExport}" 
+                                         update=":querySalesAllowancesForm:salesAllowancesListScrollBar exportButton :messages :growl" />
+                        <p:spacer width="5px"/>
+                        <p:commandButton id="exportButton"
+                                         ajax="false"
+                                         value="#{msg['button.export']}"
+                                         icon="ui-icon-disk"
+                                         style="display:#{salesAllowancesListController.showExportButton ne false ? 'inline' : 'none'}">
+                            <p:dataExporter type="xls" 
+                                            target="salesAllowancesList" 
+                                            fileName="salesAllowances" 
+                                            postProcessor="#{querySalesAllowancesController.postProcessXLS}"
+                                            />
+                        </p:commandButton>
+                    </h:panelGrid>                    
+                </p:fieldset>
+                <p:fieldset legend="#{msg['search.result']}:">
+                    <p:scrollPanel id="salesAllowancesListScrollBar" style="width:892px;height:322px">
+                        <p:dataTable id="salesAllowancesList" 
+                                     value="#{salesAllowancesListController.salesAllowancesList}" 
+                                     var="row">
+                            <p:column headerText="#{msg['salesAllowances.label.type']}" style="text-align:left; white-space: nowrap;">
+                                <h:outputText value="#{row.type}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.org']}" style="text-align:left; white-space: nowrap;">
+                                <h:outputText value="#{row.org}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.channel']}" style="text-align:left; white-space: nowrap;">
+                                <h:outputText value="#{row.channel}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.dept']}" style="text-align:left; white-space: nowrap;">
+                                <h:outputText value="00"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.refOrder']}" style="text-align:left; white-space: nowrap;">
+                                <h:outputText value="#{row.refOrder}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.buyer']}" style="text-align:left; white-space: nowrap;">
+                                <h:outputText value="#{querySalesAllowancesController.getBuyer(row)}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.orderNumber']}" style="text-align:left; white-space: nowrap;">
+                                <h:outputText value="#{row.orderNumber}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.invoiceNumber']}" style="text-align:left; white-space: nowrap;">
+                                <h:outputText value="#{row.invoiceNumber}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.uploadDate']}" style="text-align:left; white-space: nowrap;">
+                                <h:outputText value="#{querySalesAllowancesController.exportDate}">
+                                    <f:convertDateTime pattern="yyyy/MM/dd"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.reason']}" style="text-align:left; white-space: nowrap;">
+                                <h:outputText value="#{row.reason}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.item']}" style="text-align:left; white-space: nowrap;">
+                                <h:outputText value="#{querySalesAllowancesController.getUploadItem(row.item)}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.beginEnd']}" style="text-align:left; white-space: nowrap;">
+                                <h:outputText value="#{row.beginEnd}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.product']}" style="text-align:left; white-space: nowrap;">
+                                <h:outputText value="#{row.product}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.quantity']}" style="text-align:right; white-space: nowrap;">
+                                <h:outputText value="#{row.quantity}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.unit']}" style="white-space: nowrap;">
+                                <h:outputText value="#{row.unit}"/>
+                            </p:column>
+                            <p:column headerText="" style="white-space: nowrap;">
+                                <h:outputText value=""/>
+                            </p:column>
+                            <p:column headerText="" style="white-space: nowrap;">
+                                <h:outputText value=""/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.condition']}" style="white-space: nowrap;">
+                                <h:outputText value="#{row.condition}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.salesAllowances']}" style="text-align:right; white-space: nowrap;">
+                                <h:outputText value="#{row.salesAllowances}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.priceCondition']}" style="white-space: nowrap;">
+                                <h:outputText value="0"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.priceUnit']}" style="white-space: nowrap;">
+                                <h:outputText value="#{row.unit}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['salesAllowances.label.sapid']}" style="white-space: nowrap;">
+                                <h:outputText value="#{row.sapid}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['common.label.id']}" style="white-space: nowrap;">
+                                <h:outputText value="#{row.id}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:scrollPanel>
+                </p:fieldset>
+            </p:panel>    
+        </h:form>
+        <ui:include src="../jsff/ajaxStatusDlg.xhtml"/>
+    </ui:define>    
+</ui:composition>

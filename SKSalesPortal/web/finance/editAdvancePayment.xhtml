@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/generalPageTemplate.xhtml">
+    <ui:define name="title">
+        #{advancePaymentController.title}
+    </ui:define>    
+    <ui:define name="content">
+        <h:form prependId="false">
+            <p:panel header="#{advancePaymentController.title}">
+                <p:fieldset legend="#{msg['advancepayment.label.advancepayment']}">
+                    <h:panelGrid columns="4" style="width: 70%">
+                        <h:outputLabel value="#{msg['remit.label.remitNumber']}:"
+                                       for="remitNumber"
+                                       rendered="#{advancePaymentController.advancePayment.arRemitMaster ne null}"/>
+                        <h:outputText id="remitNumber"
+                                      value="#{advancePaymentController.advancePayment.arRemitMaster.id}"
+                                      rendered="#{advancePaymentController.advancePayment.arRemitMaster ne null}"/>
+                        <h:panelGroup rendered="#{advancePaymentController.advancePayment.arRemitMaster ne null}"/>
+                        <h:panelGroup rendered="#{advancePaymentController.advancePayment.arRemitMaster ne null}"/>
+                        <h:outputLabel value="#{msg['customer']}:" 
+                                       styleClass="required"
+                                       for="customer"/>
+                        <h:panelGroup id="customer">
+                            <h:outputText value="#{advancePaymentController.advancePayment.customer.displayIdentifier}"
+                                          rendered="#{advancePaymentController.advancePayment.arRemitMaster ne null}"/>
+                            <h:panelGroup rendered="#{advancePaymentController.advancePayment.arRemitMaster eq null}">
+                                <p:autoComplete id="customer_code" 
+                                                value="#{selectCustomerController.selectedCustomer}"
+                                                var="code"
+                                                itemLabel="#{code}"
+                                                itemValue="#{code}"
+                                                completeMethod="#{selectCustomerController.completeMethod}"
+                                                maxResults="10"
+                                                queryDelay="500"
+                                                minQueryLength="3" required="true"
+                                                requiredMessage="#{msg['customer.msg.required']}"
+                                                >
+                                    <p:column style="width: 100%">
+                                        #{code} - #{selectCustomerController.getCustomerName(code)}
+                                    </p:column>
+                                    <p:ajax event="itemSelect" 
+                                            listener="#{selectCustomerController.handleSelect}"
+                                            update="customer_name"
+                                            />
+                                </p:autoComplete>
+                                <p:spacer width="5px"/>
+                                <p:commandButton action="#{queryCriteriaController.initCustomerDialog}"
+                                                 oncomplete="PF('selectCustomerDlg').show();"
+                                                 immediate="true"
+                                                 value="..."
+                                                 update="customerCode customerName customerSearchResult"/>
+                                <h:outputLabel id="customer_name" value="#{selectCustomerController.name}"/>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <h:outputLabel value="#{msg['common.label.creator.or.modifier']}:"
+                                       for="modifier"/>
+                        <h:outputText id="modifier"
+                                      value="#{advancePaymentController.advancePayment.modifier.displayIdentifier}"/>
+                        <h:outputLabel value="#{msg['advancepayment.label.amount']}:"
+                                       for="amount"/>
+                        <h:panelGroup id="amount">
+                            <h:outputText value="#{advancePaymentController.advancePayment.amount}"
+                                          rendered="#{advancePaymentController.advancePayment.arRemitMaster ne null}"
+                                          style="text-align:right;">
+                                <f:convertNumber pattern="###,###,###"/>    
+                            </h:outputText>
+                            <p:inputText value="#{advancePaymentController.advancePayment.amount}"
+                                         rendered="#{advancePaymentController.advancePayment.arRemitMaster eq null}"
+                                         converterMessage="#{msg['advancepayment.msg.cashshouldbeanumber']}"/>
+                        </h:panelGroup>
+                        <h:outputLabel value="#{msg['advancepayment.label.checktotalamount']}:"
+                                       for="check_amount"/>
+                        <h:outputText id="check_amount" 
+                                      value="#{advancePaymentController.checkTotalAmount}">
+                            <f:convertNumber pattern="###,###,###"/>
+                        </h:outputText>
+                    </h:panelGrid>
+                </p:fieldset>
+                <p:fieldset legend="#{msg['advancepayment.label.checkdetail']}">
+                    <h:panelGroup id="dataTableGroup">
+                        <p:dataTable id="dataTable"
+                                     value="#{advancePaymentController.checkMasters}"
+                                     var="item">
+                            <f:facet name="header" >
+                                <p:commandButton value="#{msg['button.add']}" 
+                                                 action="#{editCheckDialogController.edit(null)}"
+                                                 oncomplete="PF('editCheckDialog').show(); return false;"
+                                                 rendered="#{advancePaymentController.advancePayment.arRemitMaster eq null}"
+                                                 update="editCheckDialog"
+                                                 immediate="true"
+                                                 icon="ui-icon-plus"/>
+                            </f:facet>
+                            <p:column headerText="#{msg['check.number']}">
+                                <h:outputText value="#{item.checkNumber}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['check.bank.name']}">
+                                <h:outputText value="#{item.billingBank.name}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['check.billing.account']}">
+                                <h:outputText value="#{item.billingAccount}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['check.billing.amount']}" style="text-align: right;">
+                                <h:outputText value="#{item.amount}">
+                                    <f:convertNumber pattern="###,###,###,###"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['check.duedate']}">
+                                <h:outputText value="#{item.dueDate}">
+                                    <f:convertDateTime pattern="yyyy/MM/dd"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['common.label.creator.or.modifier']}">
+                                <h:outputText value="#{item.modifier.displayIdentifier}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['column.action']}" rendered="#{advancePaymentController.advancePayment.arRemitMaster eq null}">
+                                <p:commandButton action="#{editCheckDialogController.edit(item)}"
+                                                 oncomplete="PF('editCheckDialog').show();"
+                                                 update="editCheckDialog"
+                                                 icon="ui-icon-pencil"
+                                                 title="#{msg['button.edit']}"/>
+                                <p:spacer width="5px"/>
+                                <p:commandButton action="#{advancePaymentController.removeCheck(item)}"
+                                                 update="dataTableGroup"
+                                                 icon="ui-icon-trash"
+                                                 title="#{msg['button.delete']}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGroup>
+                </p:fieldset>
+                <h:outputText value=""/>
+                <p/>
+                <p:commandButton value="#{msg['button.save']}"
+                                 ajax="false"
+                                 action="#{advancePaymentController.save}"
+                                 process="@all"/>
+                <p:spacer width="5px"/>
+                <p:commandButton value="#{msg['button.cancel']}"
+                                 ajax="false"
+                                 immediate="true"
+                                 action="#{advancePaymentController.cancel}"/>
+            </p:panel>
+        </h:form>
+        <ui:include src="include_editCheckDialog.xhtml"/>
+        <ui:include src="../jsff/selectCustomerDlg.xhtml">
+            <ui:param name="customerCodeId" value=":customer_code"/>
+            <ui:param name="customerNameId" value=":customer_name"/>
+        </ui:include>
+        <ui:include src="../jsff/selectBankDlg.xhtml"/>
+    </ui:define>    
+</ui:composition>

@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/generalPageTemplate.xhtml">
+    <ui:define name="title">
+        #{msg['menu.sales.quotation.mailGroup']}
+    </ui:define>    
+    <ui:define name="content">
+        <h:form prependId="false">
+            <p:panel header="#{msg['menu.sales.quotation.mailGroup']}">
+
+                <p:dataTable id="datalist"
+                             value="#{quotationMailGroup.items}"
+                             var="group"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             rows="10"
+                             style="width: 100%;">
+                    <f:facet name="header">
+                        <p:commandButton value="#{msg['button.add']}"
+                                         icon="ui-icon-plus"
+                                         action="#{quotationMailGroup.prepareCreate}"
+                                         oncomplete="PF('editQuotationMailGroupDialogVar').show();"
+                                         update="editQuotationMailGroupDialog"/>
+
+                    </f:facet>
+                    <p:column headerText="#{msg['quotation.mailGroup.name']}" 
+                              sortBy="#{group.name}"
+                              style="white-space: nowrap;">
+                        <h:outputText value="#{group.name}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['quotation.mailGroup.member']}"
+                              style="white-space: nowrap;">
+                        <ui:repeat value="#{group.memberCollection}"
+                                   var="groupMember">
+                            <h:outputText value="#{groupMember.member.displayIdentifier}"
+                                          style="float: left"/>
+                            <br/>
+                        </ui:repeat>
+                    </p:column>
+
+                    <p:column headerText="#{msg['quotation.mailGroup.user']}"
+                              style="white-space: nowrap;">
+                        <ui:repeat value="#{group.userCollection}"
+                                   var="groupUser">
+                            <h:outputText value="#{groupUser.user.displayIdentifier}"
+                                          style="float: left;"/>
+                            <br/>
+                        </ui:repeat>
+                    </p:column>
+
+                    <p:column headerText="#{msg['common.label.creator']}">
+                        <h:outputText value="#{group.creator.displayIdentifier}"
+                                      />
+                    </p:column>
+                    <p:column headerText="#{msg['common.label.createtimestamp']}">
+                        <h:outputText value="#{group.createtimestamp}">
+                            <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="#{msg['common.label.modifier']}">
+                        <h:outputText value="#{group.modifier.displayIdentifier}"
+                                      />
+                    </p:column>
+
+                    <p:column headerText="#{msg['common.label.modifytimestamp']}">
+                        <h:outputText value="#{group.modifytimestamp}">
+                            <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['common.label.action']}"
+                              style="width: 100px;">
+                        <h:panelGroup style="float: left; white-space: nowrap;">
+                            <p:commandButton icon="ui-icon-pencil"
+                                             title="#{msg['button.edit']}"
+                                             action="#{quotationMailGroup.prepareEdit(group)}"
+                                             oncomplete="PF('editQuotationMailGroupDialogVar').show();"
+                                             update="editQuotationMailGroupDialog"/>
+                            <p:spacer width="5px"/>
+                            <p:commandButton icon="ui-icon-trash"
+                                             title="#{msg['button.delete']}"
+                                             onclick="return confirm('#{msg['common.msg.confirmDelete']}');"
+                                             action="#{quotationMailGroup.remove(group)}"
+                                             update="datalist"/>
+                        </h:panelGroup>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>    
+        </h:form>
+        <ui:include src="editQuotationMailGroup.xhtml"/>
+    </ui:define>    
+</ui:composition>

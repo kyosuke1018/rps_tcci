@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >    
+    <h:outputLabel for="salesGroup" value="#{msg['sales.group']}:" styleClass="required"
+                   style="white-space: nowrap;"/>
+    <h:panelGroup id="salesGroupGroup">
+        <h:selectOneMenu value="#{queryCriteriaController.filter.sales}" 
+                         converter="skSalesMemberConverter"
+                         required="true" 
+                         requiredMessage="#{msg['remitmaintenance.msg.sales.group.is.required']}"
+                         disabled="#{!queryCriteriaController.salesSelectable}" 
+                         id="salesGroup" 
+                         style="vertical-align:bottom;white-space:nowrap;" >
+            <p:ajax event="change" listener="#{queryCriteriaController.salesChange()}" global="off"/>
+            <f:selectItems value="#{queryCriteriaController.salesList}" 
+                           var="sales" 
+                           itemLabel="#{sales.displayIdentifier}" 
+                           itemValue="#{sales}"/>  
+        </h:selectOneMenu>
+        <h:inputHidden binding="#{queryCriteriaController.initSalesHidden}"/>
+    </h:panelGroup>
+    <h:outputLabel for="customer_code" 
+                   value="#{msg['customer.code']}:" 
+                   styleClass="required" 
+                   style="margin-right: 10px; white-space: nowrap;"/>
+    <h:panelGrid id="customerGroup" columns="3">
+        <p:autoComplete id="customer_code" 
+                        value="#{selectCustomerController.selectedCustomer}"
+                        var="code"
+                        itemLabel="#{code}"
+                        itemValue="#{code}"
+                        completeMethod="#{queryCriteriaController.completeCustomer}"
+                        requiredMessage="#{msg['remitmaintenance.msg.customer.is.required']}"
+                        maxResults="10"
+                        required="true"
+                        >
+            <p:column style="width: 100%">
+                #{code} - #{selectCustomerController.getCustomerName(code)}
+            </p:column>
+            <p:ajax event="itemSelect" 
+                    listener="#{selectCustomerController.handleSelect}"
+                            update="customer_code customer_name messages growl"
+                    />
+        </p:autoComplete>
+        <p:commandButton action="#{queryCriteriaController.initCustomerDialog}"
+                         oncomplete="PF('selectCustomerDlg').show();"
+                         immediate="true"
+                         value="..."
+                                 update="customerCode customerName customerSearchResult"/>
+        <h:outputLabel id="customer_name" 
+                       value="#{selectCustomerController.name}"/>        
+    </h:panelGrid>
+</ui:composition>
+

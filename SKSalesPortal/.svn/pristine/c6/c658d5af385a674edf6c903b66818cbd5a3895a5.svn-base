@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../../templates/generalPageTemplate.xhtml">
+    <ui:define name="title">
+        #{msg['menu.sales.report.customer']}
+    </ui:define>    
+    <ui:define name="content">
+        <h:form prependId="false">
+            <p:panel header="#{msg['menu.sales.report.customer']}">
+                <p:fieldset legend="#{msg['search.criteria']}:">
+                    <h:panelGrid columns="4" width="100%">
+                        <h:outputLabel value="#{msg['customer.code']} :" for="customerCode" style="margin-right: 10px"/>
+                        <p:inputText id="customerCode"
+                                     value="#{customerReportController.code}"                                                                
+                                     maxlength="20"/>
+                        <h:outputLabel value="#{msg['customer.name']} :" for="customerName" style="margin-right: 10px"/>
+                        <p:inputText id="customerName"
+                                     value="#{customerReportController.name}"                                                                
+                                     maxlength="200"/>                        
+                        <h:outputLabel value="#{msg['customer.zip.code']} :" for="zipcode" style="margin-right: 10px"/>
+                        <p:inputText id="zipcode"
+                                     value="#{customerReportController.zipCode}"                                                                
+                                     maxlength="20"/>
+                        <h:outputLabel value="#{msg['customer.city']} :" for="city" style="margin-right: 10px"/>
+                        <p:inputText id="city"
+                                     value="#{customerReportController.city}"                                                                
+                                     maxlength="200"/>
+                        <h:outputLabel value="#{msg['customer.street']} :" for="street" style="margin-right: 10px"/>
+                        <p:inputText id="street"
+                                     value="#{customerReportController.street}"                                                                
+                                     maxlength="200"/>
+                        <h:outputLabel for="salesGroup" value="#{msg['sales.group']}:" style="margin-right: 10px;" styleClass="required"/>
+                        <h:selectOneMenu id="salesGroup" value="#{customerReportController.selectedSales}" converter="skSalesMemberConverter"
+                                         disabled="#{!queryCriteriaController.salesSelectable}" style="vertical-align:bottom">
+                            <f:selectItems value="#{queryCriteriaController.salesList}" var="sales" 
+                                           itemLabel="#{sales.displayIdentifier}" itemValue="#{sales}"/>  
+                        </h:selectOneMenu>
+                        <h:outputLabel for="paymentTermGroup" value="#{msg['customer.payment.term']}:" style="margin-right: 10px"/>
+                        <h:selectOneMenu id="paymentTermGroup" value="#{customerReportController.selectedPaymentTerm}"
+                                         style="vertical-align:bottom">
+                            <f:selectItem itemLabel="--All--"/>
+                            <f:selectItems value="#{customerReportController.paymentTermList}"/>  
+                        </h:selectOneMenu>
+                    </h:panelGrid>
+                    <h:inputHidden binding="#{queryCriteriaController.initSalesHidden}"/>
+                    <h:panelGrid columns="1" width="100%">
+                        <h:panelGroup>
+                            <p:commandButton value="#{msg['button.search']}" action="#{customerReportController.doSearchAction}" update="searchResultGroup" />
+                        </h:panelGroup>
+                    </h:panelGrid>                    
+                </p:fieldset>
+                <h:panelGroup id="searchResultGroup">
+                <p:fieldset id="searchResult" legend="#{msg['search.result']}:" rendered="#{customerReportController.customerList ne null}">
+                    <!--
+                    <p/>
+                    <h:panelGrid rendered="#{customerReportController.customerList ne null}">
+                        <p:commandButton icon="ui-icon-disk" 
+                                         value="#{msg['button.export']}"
+                                         ajax="false"
+                                         action="#{customerReportController.doExportAction}"/>
+                    </h:panelGrid>
+                    -->
+                    <!--
+                    <h:panelGrid columns="1" rendered="#{ (customerReportController.customerList ne null) and (customerReportController.selectedSales ne null)}">  
+                        <p:panel>  
+                            <h:commandLink title="匯出全部" >  
+                                <h:graphicImage library="images" name="excel.png" width="32" height="32"/>  
+                                <p:dataExporter type="xls" target="tbl" fileName="customers" 
+                                                postProcessor="#{customerReportController.postProcessXLS}"
+                                                excludeColumns="0,8,9"/>  
+                        </p:panel>
+                    </h:panelGrid>
+                    -->
+                    <p:dataTable id="tbl" rows="20" value="#{customerReportController.customerList}" var="row" paginator="true"
+                                 >
+                       
+ <p:column style="width:16px">  
+            <p:rowToggler />  
+        </p:column>
+                        <p:column headerText="#{msg['customer.code']}" style="text-align:left" sortBy="#{row.simpleCode}" >
+                            <h:outputText value="#{row.simpleCode}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['customer.name']}" style="text-align:left" sortBy="#{row.name}">
+                            <h:outputText value="#{row.name}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['customer.zip.code']}" style="text-align:left" sortBy="#{row.zipCode}">
+                            <h:outputText value="#{row.zipCode}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['customer.city']}" style="text-align:left" sortBy="#{row.city}">
+                            <h:outputText value="#{row.city}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['customer.street']}" style="text-align:left" sortBy="#{row.street}">
+                            <h:outputText value="#{row.street}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['customer.payment.term']}" style="text-align:left" sortBy="#{row.paymentTerm}">
+                            <h:outputText value="#{row.paymentTerm}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['sales.group']}" style="text-align:left" sortBy="#{row.sapid}">
+                            <h:outputText value="#{row.sapid}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['common.label.action']}" style="text-align:left" >
+                            <p:commandButton icon="ui-icon-extlink" 
+                                             value="#{msg['menu.sales.report.customer.order']}" 
+                                             oncomplete="PF('customerSalesOrderDlg').show()" 
+                                             action="#{customerReportController.callCustomerSalesOrderAction(row)}"
+                                             update="customerSalesOrderDlg">
+                            </p:commandButton>
+                            <p:commandButton icon="ui-icon-extlink" 
+                                             value="#{msg['menu.sales.report.customer.order.yearly']}" 
+                                             oncomplete="PF('salesOrderYearlyDlg').show()" 
+                                             action="#{customerReportController.callCustomerSalesOrderYearlyReportAction(row)}"
+                                             update="salesOrderYearlyDlg">
+                            </p:commandButton>
+                        </p:column>
+                        <p:rowExpansion>
+                            <h:panelGrid columns="2"
+                                         style="width:300px;">
+                                <h:outputLabel value="#{msg['customer.telephone']}"/>
+                                <h:outputText value="#{row.telephone}"/>
+                                <h:outputLabel value="#{msg['customer.health.insurance.code']}"/>
+                                <h:outputText value="#{row.healthInsuranceCode}"/>
+                                <h:outputLabel value="#{msg['customer.vat']}"/>
+                                <h:outputText value="#{row.vat}"/>
+                                <h:outputLabel value="#{msg['customer.control.code']}"/>
+                                <h:outputText value="#{row.controlCode}"/>
+                            </h:panelGrid>
+
+                        </p:rowExpansion>
+                    </p:dataTable>
+                </p:fieldset>
+              </h:panelGroup>      
+            </p:panel>    
+        </h:form>
+        <p:dialog   header="#{msg['menu.sales.report.customer.order']}"
+                    widgetVar="customerSalesOrderDlg"
+                    id="customerSalesOrderDlg"
+                    dynamic="true"
+                    maximizable="true" minimizable="true"
+                    >
+            <h:form prependId="false">
+                <p:fieldset legend="#{msg['search.criteria']}:">
+                    <ui:include src="../../jsff/report/salesCustomerSelectOrderTimestamp.xhtml"/>
+                    <h:panelGrid columns="1" width="100%">
+                        <h:panelGroup id="buttonGroup">
+                            <p:commandButton value="#{msg['button.search']}" action="#{customerSalesOrderReportController.doSearchAction}" update="buttonGroup customerSalesOrderSearchResult messages" />
+                            <p:commandButton icon="ui-icon-disk"
+                                             value="#{msg['button.excel']}"
+                                             ajax="false"
+                                             title="匯出全部"
+                                             style="margin-left: 10px; vertical-align: bottom"
+                                             rendered="#{customerSalesOrderReportController.orderDetailList ne null}">
+                                <p:dataExporter type="xls" target="customerSalesOrdertbl" fileName="salesOrder" 
+                                                postProcessor="#{customerSalesOrderReportController.postProcessXLS}"/>  
+                            </p:commandButton>                            
+                        </h:panelGroup>
+                    </h:panelGrid>                    
+                </p:fieldset>
+                <p:fieldset id="customerSalesOrderSearchResult" legend="#{msg['search.result']}:">
+                    <ui:include src="../../jsff/report/customer_salesorder_report.xhtml">
+                        <ui:param name="includeFrom" value="customer_report"/>
+                    </ui:include>    
+                </p:fieldset>
+            </h:form>    
+        </p:dialog>        
+        <p:dialog header="#{msg['menu.sales.report.customer.order.yearly']}"
+                  widgetVar="salesOrderYearlyDlg"
+                  id="salesOrderYearlyDlg"
+                  resizable="true" 
+                  draggable="true"
+                  width="920"
+                  height="500"
+                  modal="true"
+                  dynamic="true"
+                  maximizable="true" minimizable="true"
+                  >
+            <ui:include src="../../jsff/report/customer_salesorder_yearly_report.xhtml"/>
+        </p:dialog>
+        <ui:include src="../../jsff/ajaxStatusDlg.xhtml"/>
+    </ui:define>    
+</ui:composition>

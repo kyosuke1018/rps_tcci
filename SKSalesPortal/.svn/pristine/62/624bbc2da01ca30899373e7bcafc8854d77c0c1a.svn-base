@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/generalPageTemplate.xhtml">
+    <ui:define name="title">
+        #{msg['remit.title.reviewRemit']}
+    </ui:define>    
+    <ui:define name="content">
+        <h:form prependId="false">
+            <p:panel header="#{msg['remit.title.reviewRemit']}">
+                <p:fieldset legend="#{msg['common.fieldset.criteria']}:">
+                    <h:panelGroup>
+                        <h:inputHidden binding="#{queryCriteriaController.initStatusWithDefaultList}"/>
+                        <h:inputHidden binding="#{queryCriteriaController.initSalesStatusYearMonthHidden}"/>                        
+                    </h:panelGroup>
+                    <h:panelGrid columns="4" width="100%">
+                        <h:outputLabel value="#{msg['common.label.year']}:" for="period"/>
+                        <h:panelGrid columns="3" id="period">
+                            <h:selectOneMenu id="year"
+                                             style="vertical-align:bottom;width: 70px"
+                                             value="#{queryCriteriaController.filter.year}"
+                                             >
+                                <f:selectItems value="#{queryCriteriaController.yearList}"/>
+                                <p:ajax update="from to" listener="#{queryCriteriaController.changeMinMaxNumber}"
+                                        />
+                            </h:selectOneMenu>
+                            <h:outputLabel value="#{msg['common.label.month']}:" for="month" style="padding-bottom: 5px"/>
+                            <h:selectOneMenu id="month"
+                                             style="vertical-align:bottom;width: 50px"
+                                             value="#{queryCriteriaController.filter.month}"
+                                             >
+                                <p:ajax update="from to" listener="#{queryCriteriaController.changeMinMaxNumber}"/>
+                                <f:selectItems value="#{queryCriteriaController.monthList}"/>
+                            </h:selectOneMenu>
+                        </h:panelGrid>
+
+                        <h:outputLabel value="#{msg['remit.label.remitNumber']}:" for="remitNumber"/>
+                        <h:panelGroup id="remitNumber">
+                            <h:panelGrid columns="6">
+                                <h:outputLabel value="#{msg['common.label.from']}:" for="from"/>
+                                <p:inputText id="from" 
+                                             disabled="true"
+                                             styleClass="ui-inputfield ui-state-default"
+                                             size="8"
+                                             style="text-align: right;"
+                                             value="#{queryCriteriaController.filter.minRemitNumber}"/>
+                                <p:inputText size="8" 
+                                             style="text-align: right;"
+                                             styleClass="ui-inputfield ui-state-default"
+                                             value="#{queryCriteriaController.filter.fromRemitNumber}"/>
+                                <h:outputLabel value="#{msg['common.label.to']}:" for="to"/>
+                                <p:inputText id="to" 
+                                             disabled="true"
+                                             size="8"
+                                             style="text-align: right;"
+                                             styleClass="ui-inputfield ui-state-default"
+                                             value="#{queryCriteriaController.filter.maxRemitNumber}"/>
+                                <p:inputText size="8"
+                                             style="text-align: right;"
+                                             styleClass="ui-inputfield ui-state-default"
+                                             value="#{queryCriteriaController.filter.toRemitNumber}"/>
+                            </h:panelGrid>
+                        </h:panelGroup>
+                        <h:outputLabel for="salesGroup" value="#{msg['sales.group']}:" style="margin-right: 10px"/>
+                        <h:panelGroup>                            
+                            <h:selectOneMenu id="salesGroup" value="#{queryCriteriaController.filter.sales}" 
+                                             converter="skSalesMemberConverter"
+                                             disabled="#{!queryCriteriaController.salesSelectable}">
+                                <f:selectItem itemValue="#{null}" itemLabel=""/>
+                                <f:selectItems value="#{queryCriteriaController.salesList}" var="sales" 
+                                               itemLabel="#{sales.code} (#{sales.member.displayIdentifier})" 
+                                               itemValue="#{sales}"/>  
+                            </h:selectOneMenu>
+                        </h:panelGroup>
+                        <h:outputLabel value="#{msg['remit.label.customer']}:" for="customerGroup"/>
+                        <h:panelGroup id="customerGroup">
+                            <p:autoComplete id="customer_code" 
+                                            value="#{selectCustomerController.selectedCustomer}"
+                                            var="code"
+                                            itemLabel="#{code}"
+                                            itemValue="#{code}"
+                                            completeMethod="#{selectCustomerController.completeMethod}"
+                                            maxResults="9"
+                                            >
+                                <p:column style="width: 100%">
+                                    #{code} - #{selectCustomerController.getCustomerName(code)}
+                                </p:column>
+                                <p:ajax event="itemSelect" 
+                                        listener="#{selectCustomerController.handleSelect}"
+                                        update="customer_name"
+                                        />
+                            </p:autoComplete>
+                            <p:spacer width="5px"/>
+                            <p:commandButton action="#{selectCustomerController.init}"
+                                             oncomplete="PF('selectCustomerDlg').show();"
+                                             immediate="true"
+                                             value="..."
+                                             update="customerCode customerName customerSearchResult"/>
+                            <h:outputLabel id="customer_name" value="#{selectCustomerController.name}"/>
+                        </h:panelGroup>
+                        <h:outputLabel value="#{msg['common.label.creator']}:" for="creatorGroup"/>
+                        <h:panelGroup id="creatorGroup">
+                            <p:autoComplete id="creator_empId" 
+                                            value="#{selectEmployeeController.selectedUser}"
+                                            var="empId"
+                                            itemLabel="#{empId}"
+                                            itemValue="#{empId}"
+                                            completeMethod="#{selectEmployeeController.completeMethod}"
+                                            maxResults="9"
+                                            >
+                                <p:column>
+                                    #{empId} - #{selectEmployeeController.getUserCname(empId)}
+                                </p:column>
+                                <p:ajax event="itemSelect" 
+                                        listener="#{selectEmployeeController.handleSelect}"
+                                        update="creator_empId creator_cname"
+                                        />
+                            </p:autoComplete>
+                            <p:spacer width="5px"/>
+                            <p:commandButton action="#{selectEmployeeController.init}"
+                                             immediate="true"
+                                             oncomplete="PF('selectEmployeeDialog').show();"
+                                             update="SED_selects employeeListGroup"
+                                             value="..."/>
+                            <h:outputLabel id="creator_cname" value="#{selectEmployeeController.cname}"/>
+                        </h:panelGroup>
+                        <h:outputLabel value="#{msg['remit.label.status']}:" for="status"/>
+                        <h:panelGroup>                            
+                            <h:selectOneMenu id="status" 
+                                             style="width: 70px"
+                                             value="#{queryCriteriaController.filter.status}">
+                                <f:selectItem itemValue="#{null}" itemLabel=""/>
+                                <f:selectItems value="#{queryCriteriaController.statusList}"/>
+                            </h:selectOneMenu>
+                        </h:panelGroup>
+                    </h:panelGrid>   
+                    <h:panelGrid columns="1" width="100%">
+                        <h:panelGroup>
+                            <p:commandButton value="#{msg['button.search']}"
+                                             icon="ui-icon-search"
+                                             action="#{remitQueryController.doSearchRemitMasterAction}" 
+                                             update="searchResult creator_cname customer_name itemsExport" />
+                            <h:panelGroup id="itemsExport">
+                                <p:spacer width="10"/>
+                                <p:commandButton id="itemsExportBtn"
+                                                 value="匯出excel"
+                                                 icon="ui-icon-disk"
+                                                 ajax="false"
+                                                 immediate="true"
+                                                 actionListener="#{remitQueryController.exportRemitItems}"
+                                                 onclick="PrimeFaces.monitorDownload(start, stop)"
+                                                 rendered="#{not empty remitQueryController.remitMasterVOList}">
+                                    <p:fileDownload value="#{remitQueryController.exportFile}" />
+                                </p:commandButton>
+                            </h:panelGroup>
+                        </h:panelGroup>                        
+                    </h:panelGrid>                    
+                </p:fieldset>
+                <p:fieldset id="searchResult" legend="#{msg['common.fieldset.result']}:">
+                    <ui:include src="../jsff/remitQueryResult.xhtml"/>
+                </p:fieldset>
+            </p:panel>    
+        </h:form>
+        <ui:include src="../jsff/selectEmployeeDialog.xhtml">
+            <ui:param name="empidId" value="creator_empId"/>
+            <ui:param name="empnameId" value="creator_cname"/>
+        </ui:include>
+        <ui:include src="../jsff/selectCustomerDlg.xhtml">
+            <ui:param name="customerCodeId" value=":customer_code"/>
+            <ui:param name="customerNameId" value=":customer_name"/>
+        </ui:include>
+        <ui:include src="../jsff/ajaxStatusDlg.xhtml"/>
+        <script type="text/javascript">
+            function start() {
+                PF('ajaxStatusDlg').show();
+            }
+
+            function stop() {
+                PF('ajaxStatusDlg').hide();
+            }
+        </script>
+    </ui:define>    
+</ui:composition>

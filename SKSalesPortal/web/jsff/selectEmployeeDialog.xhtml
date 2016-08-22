@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <h:form prependId="false">
+        <p:dialog header="#{msg['employee.search']}"
+                  id="selectEmployeeDialog"
+                  widgetVar="selectEmployeeDialog"
+                  resizable="true" 
+                  draggable="true"
+                  width="400"
+                  modal="true">
+            <h:panelGrid columns="2">
+                <h:panelGrid id="SED_selects" columns="2" width="100%">
+                    <h:outputLabel value="#{msg['employee.badgeNumber']}:" for="SED_badgeNumber"/>
+                    <p:inputText id="SED_badgeNumber" value="#{selectEmployeeController.filter.empId}"/>
+                    <h:outputLabel value="#{msg['employee.name']}:" for="SED_name"/>
+                    <p:inputText id="SED_name" value="#{selectEmployeeController.filter.cname}"/>
+                    <h:outputLabel value="#{msg['employee.loginAccount']}:" for="SED_loginAccount"/>
+                    <p:inputText id="SED_loginAccount" value="#{selectEmployeeController.filter.loginAccount}"/>
+                </h:panelGrid>
+                <p:commandButton value="#{msg['button.search']}"
+                                 icon="ui-icon-search" 
+                                 update="employeeListGroup" 
+                                 action="#{selectEmployeeController.query}"/>
+            </h:panelGrid>
+            <br/>
+            <h:panelGroup id="employeeListGroup">
+                <p:dataTable id="employeeList" 
+                             value="#{selectEmployeeController.tcUserDataModel}" 
+                             var="employee"
+                             rows="10" 
+                             paginator="true"
+                             selectionMode="single"
+                             >
+                    <p:ajax event="rowSelect" 
+                            oncomplete="PF('selectEmployeeDialog').hide();" 
+                            listener="#{selectEmployeeController.onRowSelect}"
+                            update="${empidId} ${empnameId}"
+                            />
+                    <p:column headerText="#{msg['employee.badgeNumber']}">
+                        <h:outputText value="#{employee.empId}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['employee.name']}">
+                        <h:outputText value="#{employee.cname}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['employee.loginAccount']}">
+                        <h:outputText value="#{employee.loginAccount}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:panelGroup>
+        </p:dialog> 
+    </h:form>
+</ui:composition>

@@ -1,0 +1,14 @@
+# asadmin --host 192.168.204.24 multimode --file resources_PROD.conf
+# asadmin --host 192.168.204.35 multimode --file resources_PROD.conf
+
+# jdbc, jndi config
+#delete-jdbc-resource jdbc/skSpUser
+#delete-jdbc-connection-pool skSpUserPool
+#delete-jdbc-resource jdbc/pgmUser
+#delete-jdbc-connection-pool pgmUserPool
+#delete-custom-resource jndi/sk.config
+add-resources glassfish-resources_PROD.xml
+
+# SAM config
+delete-message-security-provider --layer HttpServlet SAM_SKSP
+create-message-security-provider --layer HttpServlet --classname com.tcci.cas.sam.CasServerAuthModule --providertype server --property defaultGroup="Authenticated":casServerLoginUrl="https\://sso.taiwancement.com/cas\-server/login":casServerUrlPrefix="https\://sso.taiwancement.com/cas\-server":jaas-context="casRealm":jndi-dataSource="jdbc/skSpUser":query-group="select g.code from TC_User u, TC_USERGROUP gu,TC_GROUP g where u.login_account\=? and u.id\=gu.user_id and gu.GROUP_ID\=g.id":serverName="https\://sksales.taiwancement.com" SAM_SKSP

@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{msgW['menu.sd.salesDocumentList']}</ui:define>
+    <ui:define name="content">  
+        <h:form prependId="false">
+            <p:panel header="#{msgW['sd.title']}">
+                <p:fieldset legend="#{msg['search.criteria']}:">
+                    <h:panelGrid columns="4" style="width: 100%">
+                        <h:outputLabel value="#{msgW['sd.audat']}:" for="audat"/>
+                        <h:panelGroup id="audat">
+                            <p:calendar id="beginDate" 
+                                        readOnlyInputText="false" 
+                                        navigator="true"
+                                        showOn="button" 
+                                        pattern="yyyy/MM/dd" 
+                                        size="16"
+                                        value="#{salesDocumentController.filter.audatBegin}" 
+                                        />
+                            ~ 
+                            <p:calendar id="endDate" 
+                                        readOnlyInputText="false" 
+                                        navigator="true"
+                                        showOn="button" 
+                                        pattern="yyyy/MM/dd" 
+                                        size="16"
+                                        value="#{salesDocumentController.filter.audatEnd}" 
+                                        />                    
+                        </h:panelGroup>
+                        <h:outputLabel value="#{msgW['sd.vkorg']}:" for="vkorg"/>
+                        <h:selectOneMenu id="vkorg" value="#{salesDocumentController.filter.vkorg}">
+                            <f:selectItem itemValue="#{null}"
+                                          itemLabel=""/>
+                            <f:selectItems value="#{salesDocumentController.ztabExpTvkotList}" 
+                                           var="var" 
+                                           itemLabel="#{var.vkorg} (#{var.vtext})" 
+                                           itemValue="#{var.vkorg}"/>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="#{msgW['sd.vtweg']}:" for="vtweg"/>
+                        <h:selectOneMenu id="vtweg" value="#{salesDocumentController.filter.vtweg}">
+                            <f:selectItem itemValue="#{null}"
+                                          itemLabel=""/>
+                            <f:selectItems value="#{salesDocumentController.ztabExpTvtwtList}" 
+                                           var="var" 
+                                           itemLabel="#{var.vtweg} - #{var.vtext}" 
+                                           itemValue="#{var.vtweg}"/>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="#{msgW['sd.bersl']}:" for="bersl"/>
+                        <h:selectOneMenu id="bersl" value="#{salesDocumentController.filter.bersl}">
+                            <f:selectItems value="#{salesDocumentController.ztabExpBesrlList}" 
+                                           var="var" 
+                                           itemLabel="#{salesDocumentController.getBerslDisplay(var)}" 
+                                           itemValue="#{var.bersl}"/>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="#{msgW['sd.vbeln2']}:" for="vbeln"/>
+                        <h:inputText id="vbeln" value="#{salesDocumentController.filter.vbeln}"/>
+                        <h:outputLabel value="#{msgW['sd.selectoption']}:" for="selectOption"/>
+                        <h:selectOneMenu id="selectOption" value="#{salesDocumentController.selectOption}">
+                            <f:selectItem itemLabel="#{msgW['sd.selectoption_none']}"
+                                          itemValue="#{null}"/>
+                            <f:selectItems value="#{salesDocumentController.selectOptions}"
+                                           var="selectOption"
+                                           itemLabel="#{selectOption.displayName}"
+                                           itemValue="#{selectOption}"/>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="#{msgW['sd.status']}:" for="option"/>
+                        <h:selectOneRadio id="option" value="#{salesDocumentController.reviewOption}">
+                            <f:selectItems value="#{salesDocumentController.reviewOptions}"
+                                           var="option"
+                                           itemLabel="#{option.displayName}"
+                                           itemValue="#{option}"/>
+                        </h:selectOneRadio>
+                        <!--暫時先不能選bname, 因為目前財務代總經理簽核, 實際上就只有總經理的簽單.-->
+                        <h:outputLabel value="#{msgW['sd.bname']}:" for="bname" style="visibility: hidden;"/>
+                        <h:selectOneMenu id="bname" value="#{salesDocumentController.filter.bname}"
+                                         style="visibility: hidden;">
+                            <f:selectItems value="#{salesDocumentController.relfilenoEmpVOList}" 
+                                           var="var" 
+                                           itemLabel="#{var.displayIdentifier}" 
+                                           itemValue="#{var.bname}"/>
+                        </h:selectOneMenu>
+                    </h:panelGrid>
+                    <p:commandButton value="#{msg['button.search']}" 
+                                     action="#{salesDocumentController.query}" 
+                                     update="searchResult exportButtonGroup reviewButton messages growl" 
+                                     icon="ui-icon-search"/>
+                    <p:spacer width="5px"/>
+                    <h:panelGroup id="exportButtonGroup">
+                        <p:commandButton id="exportButton"
+                                         ajax="false"
+                                         value="#{msg['button.export']}"
+                                         icon="ui-icon-disk"
+                                         rendered="#{salesDocumentController.exportButtonRendered}">
+                            <p:dataExporter type="xls" 
+                                            target="worklist" 
+                                            fileName="worklist" 
+                                            postProcessor="#{salesDocumentController.postProcessXLS}"
+                                            />
+                        </p:commandButton>
+                    </h:panelGroup>
+                </p:fieldset>
+                <p:fieldset id="searchResult" legend="#{msg['search.result']}:">
+                        <ui:include src="../jsff/salesDocumentList.xhtml"/>
+                </p:fieldset>
+                <p />
+                <p:commandButton id="reviewButton" icon="ui-icon-check" 
+                                 value="批次#{salesDocumentController.reviewOption.displayName}"
+                                 update="messages growl searchResult"
+                                 action="#{salesDocumentController.batchSign}"
+                                 process="@all"
+                                 />
+            </p:panel>
+        </h:form>
+        <ui:include src="../jsff/ajaxStatusDlg.xhtml"/>
+    </ui:define>    
+</ui:composition>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:menubar>
+        <p:submenu rendered="#{facesContext.externalContext.isUserInRole('Sales') || facesContext.externalContext.isUserInRole('Administrators')}" label="#{msg['menu.sales.area']}" icon="ui-icon ui-icon-document"> 
+            <p:menuitem value="#{msg['menu.sales.arlist']}" url="/faces/sales/ar_list.xhtml" />
+            <p:menuitem value="#{msg['menu.check.maintenance']}" url="/faces/assistant/check_query.xhtml"/>
+            <p:menuitem value="#{msg['menu.assistant.applySalesAllowances']}" url="/faces/assistant/querySalesAllowances.xhtml"/>
+            <p:menuitem value="#{msg['menu.sales.salesallowances']}" url="/faces/sales/sales_allowances.xhtml" />
+            <p:menuitem value="#{msg['menu.sales.remitmaintenance']}" url="/faces/sales/remit_maintenance_step1.xhtml"/>
+            <p:menuitem value="#{msg['menu.sales.remitquery']}" url="/faces/sales/remit_query.xhtml" />
+            <!--<p:menuitem value="#{msg['menu.sales.budgetupload']}" url="/faces/sales/budget_upload.xhtml"/>--> 
+            <p:submenu label="#{msg['menu.sales.quotation']}" icon="ui-icon ui-icon-document">
+                <p:menuitem value="#{msg['menu.sales.quotation.create']}" url="/faces/quotation/editQuotation.xhtml"/>
+                <p:menuitem value="#{msg['menu.sales.quotation.query']}" url="/faces/quotation/quotation.xhtml"/>
+                <p:menuitem value="#{msg['menu.sales.quotation.mailGroup']}" url="/faces/quotation/quotationMailGroup.xhtml"/>
+            </p:submenu>
+            <p:submenu label="#{msg['menu.sales.report']}" icon="ui-icon ui-icon-document">
+                <p:menuitem value="#{msg['menu.sales.report.customer']}" url="/faces/sales/report/customer_report.xhtml" />
+                <p:menuitem value="#{msg['menu.sales.report.customer.order']}" url="/faces/sales/report/customer_salesorder_report.xhtml" />
+                <p:menuitem value="#{msg['menu.sales.report.customer.order.yearly']}" url="/faces/sales/report/customer_salesorder_yearly_report.xhtml" />
+                <p:menuitem value="#{msg['menu.sales.report.overdue.200days']}" url="/faces/report/overdue_ar_report.xhtml" />
+                <p:menuitem value="#{msg['menu.sales.report.payment.rate']}" url="/faces/sales/report/payment_rate_report.xhtml" />
+                <p:menuitem value="#{msg['menu.sales.report.sales.return.discount']}" url="/faces/sales/report/sales_return_discount_report.xhtml" />
+                <!--p:menuitem value="#{msg['menu.sales.report.payment.item']}" url="/faces/report/payment_item_report.xhtml" /-->
+                <p:menuitem value="#{msg['menu.sales.report.sales.achievement']}" url="/faces/sales/report/sales_achievement_month.xhtml" />
+                <p:menuitem value="#{msg['menu.sales.report.sales.achievement.channel']}" url="/faces/sales/report/sales_achievement_channel.xhtml" />
+            </p:submenu>
+            <p:menuitem value="#{msg['menu.product']}" url="/faces/product/product.xhtml"/>
+        </p:submenu> 
+        <p:submenu rendered="#{facesContext.externalContext.isUserInRole('Planner') || facesContext.externalContext.isUserInRole('Administrators')}" label="#{msg['menu.planner.area']}" icon="ui-icon ui-icon-document"> 
+            <p:menuitem value="#{msg['menu.product']}" url="/faces/product/product.xhtml"/>
+        </p:submenu>
+        <p:submenu rendered="#{facesContext.externalContext.isUserInRole('Assistant') || facesContext.externalContext.isUserInRole('Administrators')}" label="#{msg['menu.assistant.area']}" icon="ui-icon ui-icon-document"> 
+        <!--<p:submenu rendered="#{facesContext.externalContext.isUserInRole('Assistant') || facesContext.externalContext.isUserInRole('Sales') || facesContext.externalContext.isUserInRole('Administrators')}" label="#{msg['menu.assistant.area']}" icon="ui-icon ui-icon-document">--> 
+            <p:menuitem value="#{msg['menu.sales.arlist']}" url="/faces/sales/ar_list.xhtml" />
+            <p:menuitem value="#{msg['menu.check.maintenance']}" url="/faces/assistant/check_query.xhtml"/>
+            <p:menuitem value="#{msg['menu.assistant.applySalesAllowances']}" url="/faces/assistant/querySalesAllowances.xhtml"/>
+            <p:menuitem value="#{msg['menu.assistant.exportSalesAllowances']}" url="/faces/assistant/exportSalesAllowances.xhtml" rendered="#{facesContext.externalContext.isUserInRole('Assistant') || facesContext.externalContext.isUserInRole('Administrators')}"/>
+            <p:submenu label="#{msg['menu.sales.quotation']}" icon="ui-icon ui-icon-document">
+                <p:menuitem value="#{msg['menu.sales.quotation.create']}" url="/faces/quotation/editQuotation.xhtml"/>
+                <p:menuitem value="#{msg['menu.sales.quotation.query']}" url="/faces/quotation/quotation.xhtml"/>
+                <p:menuitem value="#{msg['menu.sales.quotation.mailGroup']}" url="/faces/quotation/quotationMailGroup.xhtml"/>
+            </p:submenu>
+            <p:menuitem value="#{msg['menu.finace.resend.mail.Achievement']}" url="/faces/sales/reSendAchievementMail.xhtml" />
+            <p:menuitem value="#{msg['menu.product']}" url="/faces/product/product.xhtml"/>
+        </p:submenu>       
+        <p:submenu rendered="#{facesContext.externalContext.isUserInRole('Finance') || facesContext.externalContext.isUserInRole('Administrators')}" label="#{msg['menu.finance.area']}" icon="ui-icon ui-icon-document"> 
+            <p:menuitem value="#{msg['menu.finace.resend.mail']}" url="/faces/finance/reSendMail.xhtml" />            
+            <p:menuitem value="#{msg['menu.finance.remitverify']}" url="/faces/finance/reviewRemit.xhtml" />
+            <p:menuitem value="#{msg['menu.finance.remitupload']}" url="/faces/finance/uploadRemit.xhtml" />
+            <p:menuitem value="#{msg['menu.finance.premiumdiscount']}" url="/faces/finance/premiumDiscount.xhtml" />
+            <p:menuitem value="#{msg['menu.check.maintenance']}" url="/faces/finance/finance_check_query.xhtml"/>
+            <p:menuitem value="#{msg['menu.finance.advancepayment']}" url="/faces/finance/advancePayment.xhtml"/>            
+            <p:menuitem value="#{msg['menu.sales.report.checkmaster']}" url="/faces/finance/report/check_master_report.xhtml" />            
+            <p:menuitem value="#{msg['menu.finace.upload.overdue.ar']}" url="/faces/finance/uploadOverdueAR.xhtml" />
+            <p:menuitem value="#{msg['menu.sales.report.overdue.ar']}" url="/faces/report/overdue_ar_report.xhtml" />            
+            <p:menuitem value="#{msg['menu.finace.sync.payment.rate']}" url="/faces/finance/syncPaymentRate.xhtml" />
+            <!--<p:menuitem value="#{msg['menu.achievement.calculation']}" url="/faces/finance/calculateAchievement.xhtml" />-->
+            <p:menuitem value="#{msg['menu.assistant.skFiCost.upload']}" url="/faces/assistant/uploadSkFiCost.xhtml" />
+        </p:submenu>           
+        <p:submenu rendered="#{facesContext.externalContext.isUserInRole('Managers') || facesContext.externalContext.isUserInRole('Administrators')}" 
+                   label="#{msgW['menu.sd.salesDocumentList']}" 
+                   icon="ui-icon ui-icon-document">
+            <p:menuitem url="/faces/worklist/salesDocument.xhtml"
+                        value="#{msgW['menu.sd.salesDocumentList']}" /> 
+            <p:menuitem target="_blank" value="操作手冊" url="/doc/worklist_guide2.pdf"/>
+        </p:submenu>
+        <p:submenu label="客訴資料維護" icon="ui-icon ui-icon-document"
+                   rendered="#{facesContext.externalContext.isUserInRole('ComplainEditor') || facesContext.externalContext.isUserInRole('Managers') || facesContext.externalContext.isUserInRole('Administrators')}" >
+            <p:menuitem value="客訴資料新增" url="/faces/swls/edit.xhtml" />
+            <p:menuitem value="客訴資料查詢" url="/faces/swls/list.xhtml" />
+        </p:submenu>
+        <p:submenu rendered="#{facesContext.externalContext.isUserInRole('Administrators')}" label="#{msg['menu.admin.area']}" icon="ui-icon ui-icon-document"> 
+            <p:menuitem value="#{msg['menu.admin.switchuser']}" url="/faces/admin/switchUser.xhtml" />
+            <p:menuitem value="#{msg['menu.sales.budgetupload']}" url="/faces/sales/budget_upload.xhtml"/>                   
+            <p:menuitem value="#{msg['menu.sales.skSalesBuget.upload.BI']}" url="/faces/sales/uploadSkSalesBuget.xhtml"/>                   
+            <p:menuitem value="#{msg['menu.sales.skProduct.upload']}" url="/faces/sales/uploadSkProduct.xhtml"/>                   
+            <p:menuitem value="#{msg['menu.admin.sales.org.list']}" url="/faces/admin/salesOrgList.xhtml" />     
+            <p:menuitem value="#{msg['menu.bank.maintenance']}" url="/faces/admin/addBank.xhtml" />
+        </p:submenu>
+        <p:menuitem target="_blank" value="操作手冊" url="/doc/sk_user_guide.pdf"/>
+    </p:menubar>
+</ui:composition>

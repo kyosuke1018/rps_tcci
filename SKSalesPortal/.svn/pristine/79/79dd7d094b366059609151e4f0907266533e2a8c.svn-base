@@ -1,0 +1,417 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/generalPageTemplate.xhtml">
+    <ui:define name="title">
+        #{editQuotation.title}
+    </ui:define>    
+    <ui:define name="content">
+        <h:form prependId="false">
+            <p:panel header="#{editQuotation.title}">
+                <p:fieldset legend="#{msg['quotation.master']}">
+                    <h:panelGrid columns="4" style="width:100%">
+                        <h:outputLabel for="salesGroup" value="#{msg['sales.group']}:" styleClass="required"
+                                       style="white-space: nowrap;"/>
+                        <h:panelGroup id="salesGroupGroup">
+                            <h:selectOneMenu value="#{queryCriteriaController.filter.sales}" 
+                                             converter="skSalesMemberConverter"
+                                             required="true" 
+                                             requiredMessage="#{msg['remitmaintenance.msg.sales.group.is.required']}"
+                                             disabled="#{!queryCriteriaController.salesSelectable}" 
+                                             id="salesGroup" 
+                                             style="vertical-align:bottom;white-space:nowrap;" >
+                                <f:selectItems value="#{queryCriteriaController.salesList}" 
+                                               var="sales" 
+                                               itemLabel="#{sales.displayIdentifier}" 
+                                               itemValue="#{sales}"/>  
+                                <p:ajax listener="#{editQuotation.resetCustomerCosignee}" 
+                                        update="customer_code customer_name consignee_code consignee_name" />
+                            </h:selectOneMenu>
+                            <h:inputHidden binding="#{queryCriteriaController.initSalesHidden}"/>
+                        </h:panelGroup>
+                        <h:outputLabel for="customer_code" 
+                                       value="#{msg['customer.code']}:" 
+                                       styleClass="required" 
+                                       style="margin-right: 10px; white-space: nowrap;"/>
+                        <h:panelGrid id="customerGroup" columns="3">
+                            <p:autoComplete id="customer_code" 
+                                            value="#{selectCustomerController.selectedCustomer}"
+                                            var="code"
+                                            itemLabel="#{code}"
+                                            itemValue="#{code}"
+                                            completeMethod="#{queryCriteriaController.completeCustomer}"
+                                            requiredMessage="#{msg['remitmaintenance.msg.customer.is.required']}"
+                                            maxResults="10"
+                                            required="true"
+                                            >
+                                <p:column style="width: 100%">
+                                    #{code} - #{selectCustomerController.getCustomerName(code)}
+                                </p:column>
+                                <p:ajax event="itemSelect" 
+                                        listener="#{selectCustomerController.handleSelect}"
+                                        update="customer_code customer_name consignee_code consignee_name messages growl"
+                                        />
+                            </p:autoComplete>
+                            <p:commandButton action="#{queryCriteriaController.initCustomerDialog}"
+                                             oncomplete="PF('selectCustomerDlg').show();"
+                                             immediate="true"
+                                             value="..."
+                                             update="customerCode customerName customerSearchResult"/>
+                            <h:outputLabel id="customer_name" 
+                                           value="#{selectCustomerController.name}"/>        
+                        </h:panelGrid>
+                        <h:outputLabel value="#{msg['quotation.poNo']}:" 
+                                       style="white-space: nowrap;"
+                                       for="poNo"
+                                       />
+                        <p:inputText id="poNo"
+                                     value="#{editQuotation.selected.poNo}"
+                                     maxlength="30"/>
+
+                        <h:outputLabel value="#{msg['quotation.consignee']}:" 
+                                       style="white-space: nowrap;"
+                                       styleClass="required"
+                                       for="cosigneeGroup"/>
+                        <h:panelGrid id="cosigneeGroup" columns="3">
+                            <p:autoComplete id="consignee_code" 
+                                            value="#{selectConsigneeController.selectedConsignee}"
+                                            var="code"
+                                            itemLabel="#{code}"
+                                            itemValue="#{code}"
+                                            completeMethod="#{selectConsigneeController.completeMethod}"
+                                            requiredMessage="#{msg['quotation.consigneeIsRequired']}"
+                                            maxResults="10"
+                                            required="true"
+                                            >
+                                <p:column style="width: 100%">
+                                    #{code} - #{selectConsigneeController.getConsigneeName(code)}
+                                </p:column>
+                                <p:ajax event="itemSelect" 
+                                        listener="#{selectConsigneeController.handleSelect}"
+                                        update="consignee_code consignee_name"
+                                        />
+                            </p:autoComplete>
+                            <p:commandButton action="#{selectConsigneeController.init}"
+                                             oncomplete="PF('selectConsigneeDialog').show();"
+                                             immediate="true"
+                                             value="..."
+                                             update="consigneeCode consigneeName consigneeSearchResult"/>
+                            <h:outputLabel id="consignee_name" 
+                                           value="#{selectConsigneeController.name}"/>        
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" id="remarkGroup">
+                        <p:fieldset legend="#{msg['quotation.remark']}">
+                            <h:panelGrid columns="2" style="width:100%">
+                                <h:panelGroup>
+                                    <h:selectOneMenu value="#{editQuotation.selected.remark1}">
+                                        <f:selectItem itemValue="#{null}"
+                                                      itemLabel=""/>
+                                        <f:selectItems value="#{editQuotation.remarkList}"
+                                                       var="remark"
+                                                       itemLabel="#{remark.bezei}"
+                                                       itemValue="#{remark.tcZtabExpTvv1tPK.kvgr1}"/>
+                                    </h:selectOneMenu>
+                                    <br/>
+                                    <h:selectOneMenu value="#{editQuotation.selected.remark2}">
+                                        <f:selectItem itemValue="#{null}"
+                                                      itemLabel=""/>
+                                        <f:selectItems value="#{editQuotation.remarkList}"
+                                                       var="remark"
+                                                       itemLabel="#{remark.bezei}"
+                                                       itemValue="#{remark.tcZtabExpTvv1tPK.kvgr1}"/>
+                                    </h:selectOneMenu>
+                                    <br/>
+                                    <h:selectOneMenu value="#{editQuotation.selected.remark3}">
+                                        <f:selectItem itemValue="#{null}"
+                                                      itemLabel=""/>
+                                        <f:selectItems value="#{editQuotation.remarkList}"
+                                                       var="remark"
+                                                       itemLabel="#{remark.bezei}"
+                                                       itemValue="#{remark.tcZtabExpTvv1tPK.kvgr1}"/>
+                                    </h:selectOneMenu>
+                                </h:panelGroup>
+
+                                <p:inputTextarea id="remark"
+                                                 cols="50" rows="3" 
+                                                 value="#{editQuotation.selected.remark}"
+                                                 maxlength="1000"/>
+                            </h:panelGrid>
+                        </p:fieldset>
+                        <p:fieldset legend="#{msg['quotation.note']}">
+                            <p:spacer height="8"/>
+                            <p:inputTextarea id="note"
+                                             cols="50" rows="3"
+                                             value="#{editQuotation.selected.note}"
+                                             maxlength="1000"/>
+                        </p:fieldset>       
+                    </h:panelGrid>
+                </p:fieldset>
+
+                <p:fieldset id="detailList" legend="#{msg['quotation.detail']}">
+                    <p:dataTable value="#{editQuotation.detailList}"
+                                 var="vo">
+                        <f:facet name="header">
+                            <p:commandButton id="addOrderButton"
+                                             icon="ui-icon-plus"
+                                             value="#{msg['quotation.addLastTwoOrderItem']}"
+                                             action="#{editQuotation.searchLastTwoOrder}"
+                                             process="@this customer_code remarkGroup"
+                                             disabled="#{editQuotation.detailList.size() + editQuotation.giftList.size() ge 6}"
+                                             update="detailList remarkGroup customer_code customer_name total_amount total_premiumDiscount total_totalAmount addOrderButton addButton addGiftButton moreThen6ItemWarning :messages :growl"/>
+                            <p:commandButton id="addButton"
+                                             icon="ui-icon-plus"
+                                             action="#{editQuotation.newDetail}"
+                                             value="#{msg['button.add']}"
+                                             disabled="#{editQuotation.detailList.size() + editQuotation.giftList.size() ge 6}"                                             
+                                             process="@this"
+                                             update="detailList addOrderButton addButton moreThen6ItemWarning"/>
+                            <p:spacer width="5" height="1"/>
+                            <h:outputText id="moreThen6ItemWarning" 
+                                          value="(#{msg['quotation.moreThen6Item']})"
+                                          style="color:red;"
+                                          rendered="#{editQuotation.detailList.size() + editQuotation.giftList.size() ge 6}"/>
+                        </f:facet>
+                        <p:column headerText="#{msg['common.label.action']}">
+                            <p:commandButton icon="ui-icon-trash"
+                                             action="#{editQuotation.remove(vo)}"
+                                             process="@this"
+                                             update="detailList total_amount total_premiumDiscount total_totalAmount"
+                                             />
+                        </p:column>
+                        <p:column style="white-space: nowrap;">
+                            <f:facet name="header">
+                                <h:outputLabel value="#{msg['quotation.productNumber']}"
+                                               styleClass="required"/>
+                            </f:facet>
+
+                            <h:outputLabel value="#{msg['common.label.productcategory']}"
+                                           for="productCategory"/>
+                            <h:selectOneMenu id="productCategory" 
+                                             value="#{vo.category}"
+                                             style="width: 150px;">
+                                <f:selectItem itemValue="#{null}"
+                                              itemLabel=""/>
+                                <f:selectItems value="#{editQuotation.categoryList}"
+                                               var="category"
+                                               itemLabel="#{category.category} - #{category.description}"
+                                               itemValue="#{category.category}"/>
+                                <p:ajax listener="#{editQuotation.changeCategory(vo)}"
+                                        update="productNumber"/>
+                            </h:selectOneMenu>
+                            <br/>
+                            <h:outputLabel value="#{msg['common.label.productnumber']}"
+                                           for="productNumber"/>
+                            <h:selectOneMenu id="productNumber" 
+                                             value="#{vo.detail.productNumber}"
+                                             style="width: 150px;"
+                                             >
+                                <f:selectItem itemValue="#{null}"
+                                              itemLabel=""/>
+                                <f:selectItems value="#{vo.productList}"
+                                               var="product"
+                                               itemLabel="#{product.code} - #{product.name}"
+                                               itemValue="#{product.code}"/>
+                                <p:ajax listener="#{editQuotation.changeProduct(vo)}"
+                                        update="detailList"/>
+                            </h:selectOneMenu>
+                        </p:column>
+                        <p:column headerText="#{msg['quotation.productName']}">
+                            <h:outputText id="productName" 
+                                          value="#{editQuotation.getProductName(vo.detail.productNumber)}"
+                                          />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="#{msg['quotation.price']}"
+                                               styleClass="required"/>
+                            </f:facet>
+
+                            <p:inputText id="price"
+                                         value="#{vo.detail.price}"
+                                         size="9"
+                                         style="text-align: right;"
+                                         converterMessage="#{msg['quotation.priceShouldBeNumber']}">
+                                <f:convertNumber pattern="#,##0.00"/>
+                                <p:ajax event="blur" 
+                                        listener="#{editQuotation.calculateTotalAmount}"
+                                        global="false"
+                                        update="amount total_amount totalAmount total_totalAmount"/>
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="#{msg['quotation.quantity']}"
+                                               styleClass="required"/>
+                            </f:facet>
+                            <p:inputText id="quantity" value="#{vo.detail.quantity}"
+                                         size="5"
+                                         style="text-align: right;"
+                                         converterMessage="#{msg['quotation.quantityShouldBeNumber']}">
+                                <f:convertNumber pattern="#,###"/>
+                                <p:ajax event="blur" 
+                                        listener="#{editQuotation.calculateTotalAmount}"
+                                        global="false"
+                                        update="amount total_amount totalAmount total_totalAmount"/>
+                            </p:inputText>
+                        </p:column>
+                        <p:column headerText="#{msg['quotation.amount']}">
+                            <h:outputText id="amount"
+                                          value="#{vo.detail.quantity*vo.detail.price}"
+                                          style="float: right;">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['premium.discount']}">
+                            <p:inputText id="premiumDiscount"
+                                         value="#{vo.detail.premiumDiscount}"
+                                         style="text-align: right;"
+                                         size="8"
+                                         converterMessage="#{msg['quotation.premiumDiscountShouldBeNumber']}"
+                                         >
+                                <f:convertNumber pattern="#,###"/>
+                                <p:ajax event="blur" 
+                                        listener="#{editQuotation.calculateTotalAmount}"
+                                        global="false"
+                                        update="amount total_amount total_premiumDiscount totalAmount total_totalAmount"/>
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['gift']}"/>
+                            </f:facet>
+                            <p:commandButton id="addGiftButton"
+                                             icon="ui-icon-plus"
+                                             process="@this giftTable"
+                                             action="#{editQuotation.newGift(vo)}"
+                                             disabled="#{editQuotation.detailList.size() + editQuotation.giftList.size() ge 6}"
+                                             update="detailList addOrderButton addButton addGiftButton moreThen6ItemWarning"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['quotation.totalAmount']}">
+                            <h:outputText id="totalAmount"
+                                          value="#{vo.detail.quantity * vo.detail.price - (vo.detail.premiumDiscount eq null ? 0 : vo.detail.premiumDiscount)}"
+                                          style="float: right;">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable id="giftTable" value="#{editQuotation.giftList}"
+                                 var="giftVO">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['gift']}"/>
+                        </f:facet>
+                        <p:column headerText="#{msg['common.label.action']}">
+                            <p:commandButton icon="ui-icon-trash"
+                                             action="#{editQuotation.removeGift(giftVO)}"
+                                             immediate="true"
+                                             update="detailList"
+                                             />
+                        </p:column>
+                        <p:column headerText="#{msg['quotation.giftParent']}">
+                            <h:outputText value="#{giftVO.detailVO.detail.productNumber} - #{editQuotation.getProductName(giftVO.detailVO.detail.productNumber)}"/>
+                        </p:column>
+                        <p:column style="white-space: nowrap;">
+                            <f:facet name="header">
+                                <h:outputLabel value="#{msg['quotation.productNumber']}"
+                                               styleClass="required"/>
+                            </f:facet>
+                            <h:outputLabel value="#{msg['common.label.productcategory']}"
+                                           for="gift_productCategory"/>
+                            <h:selectOneMenu id="gift_productCategory" 
+                                             value="#{giftVO.category}"
+                                             style="width: 150px;">
+                                <f:selectItem itemValue="#{null}"
+                                              itemLabel=""/>
+                                <f:selectItems value="#{editQuotation.categoryList}"
+                                               var="category"
+                                               itemLabel="#{category.category} - #{category.description}"
+                                               itemValue="#{category.category}"/>
+                                <p:ajax listener="#{editQuotation.changeGiftCategory(giftVO)}"
+                                        update="gift_productNumber"/>
+                            </h:selectOneMenu>
+                            <br/>
+                            <h:outputLabel value="#{msg['common.label.productnumber']}"
+                                           for="gift_productNumber"/>
+                            <h:selectOneMenu id="gift_productNumber" 
+                                             value="#{giftVO.gift.productNumber}"
+                                             style="width: 150px;"
+                                             >
+                                <f:selectItem itemValue="#{null}"
+                                              itemLabel=""/>
+                                <f:selectItems value="#{giftVO.productList}"
+                                               var="product"
+                                               itemLabel="#{product.code} - #{product.name}"
+                                               itemValue="#{product.code}"/>
+                                <p:ajax update="gift_productName"/>
+                            </h:selectOneMenu>                                    
+                        </p:column>
+                        <p:column headerText="#{msg['quotation.productName']}">
+                            <h:outputText id="gift_productName"
+                                          value="#{editQuotation.getProductName(giftVO.gift.productNumber)}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="#{msg['gift']}#{msg['quotation.quantity']}"
+                                               styleClass="required"/>
+                            </f:facet>
+                            <p:inputText id="giftQuantity"
+                                         value="#{giftVO.gift.quantity}"
+                                         size="5"
+                                         style="text-align: right;"
+                                         converterMessage="#{msg['quotation.giftQuantityShouldBeNumber']}"
+                                         >
+                            </p:inputText>
+                        </p:column>
+                    </p:dataTable>
+                    <h:panelGrid columns ="6" style="width: 100%">
+                        <h:outputLabel value="#{msg['quotation.amount']}#{msg['quotation.total']}:"
+                                       style="white-space: nowrap;"
+                                       for="total_amount"/>
+                        <h:outputText id="total_amount"
+                                      style="float:right; width:130px"
+                                      value="#{editQuotation.selected.amount}">
+                            <f:convertNumber pattern="#,##0"/>
+                        </h:outputText>
+
+                        <h:outputLabel value="#{msg['premium.discount']}#{msg['quotation.total']}:"
+                                       style="white-space: nowrap;"
+                                       for="total_premiumDiscount"/>
+                        <h:outputText id="total_premiumDiscount" 
+                                      style="float:right; width:130px"
+                                      value="#{editQuotation.selected.premiumDiscount}">
+                            <f:convertNumber pattern="#,##0"/>
+                        </h:outputText>
+
+                        <h:outputLabel value="#{msg['quotation.totalAmount']}#{msg['quotation.total']}:"
+                                       style="white-space: nowrap;"
+                                       for="total_totalAmount"/>
+                        <h:outputText id="total_totalAmount"
+                                      style="float:right; width:130px"
+                                      value="#{editQuotation.selected.totalAmount}">
+                            <f:convertNumber pattern="#,##0"/>
+                        </h:outputText>
+                    </h:panelGrid>
+                </p:fieldset>
+                <p:spacer height="25px" width="0px"/>
+                <p:commandButton icon="ui-icon-disk"
+                                 value="#{msg['button.save']}"
+                                 action="#{editQuotation.save}"
+                                 update="customer_code customer_name consignee_code consignee_name :messages :growl detailList"/>
+            </p:panel>    
+            <h:inputHidden binding="#{editQuotation.initSalesAndCustomerHidden}"/>
+        </h:form>
+        <ui:include src="selectProductDialog.xhtml"/>
+        <ui:include src="../jsff/selectCustomerDlg.xhtml">
+            <ui:param name="customerCodeId" value=":customer_code"/>
+            <ui:param name="customerNameId" value=":customer_name"/>
+            <ui:param name="otherUpdates" value="consignee_code consignee_name"/>
+        </ui:include>
+        <ui:include src="../jsff/selectConsigneeDialog.xhtml"/>
+        <ui:include src="../jsff/ajaxStatusDlg.xhtml"/>
+    </ui:define>    
+</ui:composition>

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >    
+    <h:panelGrid columns="2"  width="100%">
+        <h:panelGroup>
+            <h:outputLabel for="salesGroup" value="#{msg['sales.group']}:" style="margin-right: 10px"/>
+            <h:selectOneMenu id="salesGroup" value="#{queryCriteriaController.filter.sales}" converter="skSalesMemberConverter"
+                             disabled="#{!queryCriteriaController.salesSelectable}" style="vertical-align:bottom">
+
+                <f:selectItems value="#{queryCriteriaController.salesList}" var="sales" 
+                               itemLabel="#{sales.code}(#{sales.member.displayIdentifier})" itemValue="#{sales}"/>  
+            </h:selectOneMenu>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:outputLabel value="#{msg['common.label.year']}:" style="margin-right: 10px"/>
+            <h:selectOneMenu id="yy" value="#{queryCriteriaController.filter.year}" style="vertical-align:bottom">
+                <f:selectItems value="#{queryCriteriaController.yearList}"
+                               itemLabel="#{item}" itemValue="#{item}"/>
+            </h:selectOneMenu>
+            <h:outputLabel value="#{msg['yy']}" style="margin-right: 10px"/>
+        </h:panelGroup>
+        <h:inputHidden binding="#{queryCriteriaController.initSalesHidden}"/>
+    </h:panelGrid>
+</ui:composition>
+

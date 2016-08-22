@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <h:form prependId="false">
+        <p:dialog header="#{editPaymentDetailController.dialogTitle}"
+                  id="viewAdvancedReceiptsDialog"
+                  widgetVar="viewAdvancedReceiptsDialog"
+                  resizable="false" 
+                  draggable="true"
+                  width="400"
+                  modal="true">
+            <h:panelGroup id="advancedReceiptsGroup">
+                <p:dataTable id="advancedReceiptsList" 
+                             value="#{editPaymentDetailController.advancedReceiptsList}" 
+                             var="ar"
+                             rows="10" 
+                             paginator="true"
+                             >
+                    <p:column headerText="#{msg['remitmaintenance.sales.receipts.customer']}">
+                        <h:outputText value="#{ar.customer.displayIdentifier}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['common.label.createtimestamp']}"
+                              style="white-space: nowrap;">
+                        <h:outputText value="#{ar.remitTimestamp}">
+                            <f:convertDateTime pattern="yyyy/MM/dd"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['common.label.amount']}" 
+                              style="text-align:right; white-space: nowrap;">
+                        <h:outputText value="#{-ar.amount}">
+                            <f:convertNumber groupingUsed="true"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </h:panelGroup>
+        </p:dialog> 
+    </h:form>
+</ui:composition>

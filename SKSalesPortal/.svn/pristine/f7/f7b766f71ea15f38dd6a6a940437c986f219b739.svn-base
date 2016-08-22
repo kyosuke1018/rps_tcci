@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/generalPageTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{msg['menu.sales.remitmaintenance']}" rendered="#{flash.skArRemitMaster eq null}"/>
+        <h:outputText value="#{msg['menu.sales.remitmaintenance.edit']} (#{flash.skArRemitMaster.id})" rendered="#{flash.skArRemitMaster ne null}"/>
+    </ui:define>    
+    <ui:define name="content">
+        <p:panel>
+            <f:facet name="header">
+                <h:outputText value="#{msg['menu.sales.remitmaintenance']}" rendered="#{flash.skArRemitMaster eq null}"/>
+                <h:outputText value="#{msg['menu.sales.remitmaintenance.edit']} (#{flash.skArRemitMaster.id})" rendered="#{flash.skArRemitMaster ne null}"/>
+            </f:facet>
+            <h:form prependId="false">            
+                <ui:include src="../jsff/editPaymentDetail.xhtml"/>           
+                <p/>
+                <p:commandButton value="#{msg['button.save']}" 
+                                 rendered="#{remitQueryController.editable and not flash.viewOnly}"
+                                 onclick="calcTotal();"
+                                 action="#{editPaymentDetailController.save}" ajax="false" 
+                                 update="messages growl"/>
+                <p:spacer width="5px"/> 
+                <p:commandButton ajax="false" 
+                                 rendered="#{remitQueryController.editable}"
+                                 action="#{editPaymentDetailController.goBack}" 
+                                 value="#{flash.viewOnly ? msg['button.close'] : msg['button.cancel']}"/>                           
+            </h:form>
+            <ui:include src="selectOrderNumberDlg.xhtml"/>
+            <ui:include src="../jsff/viewAdvanceReceiptsDialog.xhtml"/>
+        </p:panel>
+    </ui:define>    
+</ui:composition>               

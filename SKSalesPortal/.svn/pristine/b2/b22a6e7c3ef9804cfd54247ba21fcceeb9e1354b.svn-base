@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!--h:outputScript library="js" name="tcc.js"/-->
+    <script type="text/javascript">
+        function handleCompleteSelectedCustomer(xhr, status, args){
+            var customerCode = args.selectedCustomer.code;
+            var customerName = args.selectedCustomer.name;
+            var customerId = args.selectedCustomer.id;
+            jQuery('#selectedCustomerCode').val(customerCode);
+            jQuery('#selectedCustomerName').text(customerName);
+            jQuery('#selectedCustomerId').val(customerId);
+        }
+    </script>
+    <h:form prependId="false">
+        <p:dialog  header="#{msg['customer.search']}"
+                   widgetVar="selectCustomerDlg"
+                   resizable="true" 
+                   draggable="true"
+                   width="580"
+                   modal="true"
+                   dynamic="true"
+                   >
+            <p:fieldset id="customerCriteria" legend="#{msg['search.criteria']}:">
+                <h:panelGrid columns="4" width="100%">
+                    <h:outputLabel value="#{msg['customer.code']} :" for="customerCode"/>
+                    <p:inputText id="customerCode"
+                        value="#{selectCustomerController.code}"                                                                
+                        maxlength="20"/>
+                    <h:outputLabel value="#{msg['customer.name']} :" for="customerName"/>
+                    <p:inputText id="customerName"
+                        value="#{selectCustomerController.name}"                                                                
+                        maxlength="200"/>                        
+                    <h:panelGroup>
+                        <p:commandButton value="#{msg['button.search']}" action="#{selectCustomerController.doCustomerSearch}" icon="ui-icon-search" update="customerSearchResult"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+            </p:fieldset>
+
+            <p:fieldset id="customerSearchResult" legend="#{msg['search.result']}" style="width:96%;display:#{selectCustomerController.customerDataModel.wrappedData ne null ? 'inline' : 'none'}" >
+                <p:dataTable id="customerlist" 
+                             value="#{selectCustomerController.customerDataModel}" 
+                             var="row" 
+                             rows="10" 
+                             paginator="true"
+                             selectionMode="single"
+                             >
+                    <p:ajax update="customerCriteria ${customerCodeId} ${customerNameId} ${otherUpdates}" 
+                            oncomplete="PF('selectCustomerDlg').hide();" 
+                            event="rowSelect" 
+                            listener="#{selectCustomerController.onRowSelect}"/>
+                    <p:column headerText="#{msg['customer.code']}">
+                        <h:outputText id="customerCode" value="#{row.simpleCode}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['customer.name']}">
+                        <h:outputText value="#{row.name}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+        </p:dialog>        
+    </h:form>
+</ui:composition>

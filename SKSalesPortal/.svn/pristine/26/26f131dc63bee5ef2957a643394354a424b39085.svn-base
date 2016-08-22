@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">   
+    <h:form prependId="false">
+        <p:dialog id="viewCheckDialog" header="#{msg['view.check']}"
+                  resizable="false"
+                  draggable="true"
+                  modal="true"
+                  dynamic="true"
+                  width="300"
+                  widgetVar="viewCheckDialog"
+                  >
+            <h:panelGroup rendered="#{not empty editCheckDialogController.check.checkNumber}">
+                <h:panelGrid columns="2" width="100%">
+                    <h:outputLabel value="#{msg['check.number']}:"/>
+                    <p:inputText value="#{editCheckDialogController.check.checkNumber}" readonly="true"/>
+
+                    <h:outputLabel value="#{msg['check.bank.name']}:"/>                    
+                    <p:inputText value="#{checkMasterMaintenanceController.bankCode}" readonly="true"/>                                   
+
+                    <h:panelGroup/>
+                    <h:outputText id="selectedBankName" value="#{checkMasterMaintenanceController.bankName}"/>
+
+                    <h:outputLabel value="#{msg['check.billing.account']}:"/>
+                    <p:inputText value="#{editCheckDialogController.check.billingAccount}" readonly="true"/>
+
+                    <h:outputLabel value="#{msg['check.duedate']}:"/>      
+                    <h:outputText value="#{editCheckDialogController.check.dueDate}">                
+                        <f:convertDateTime pattern="yyyy/MM/dd"/>
+                    </h:outputText>
+
+                    <h:outputLabel value="#{msg['check.billing.amount']}:"/>
+                    <p:inputText value="#{editCheckDialogController.check.amount}" readonly="true"/>
+                </h:panelGrid>                    
+            </h:panelGroup>    
+            <h:panelGroup rendered="#{empty editCheckDialogController.check.checkNumber}">
+                <p:spacer width="30px"/><h:outputText value="#{msg['view.check.not.found']}"/>  
+            </h:panelGroup>                 
+            <h:panelGroup>                
+                <p:spacer width="100px" height="30px" /><p:commandButton onclick="PF('viewCheckDialog').hide();" value="#{msg['button.close']}"/>
+            </h:panelGroup>            
+        </p:dialog>
+    </h:form>
+</ui:composition>
+

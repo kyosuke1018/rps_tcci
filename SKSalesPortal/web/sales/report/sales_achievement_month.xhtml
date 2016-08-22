@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../../templates/generalPageTemplate.xhtml">
+    <ui:define name="title">#{salesAchievementReport.pageTitleMonth}</ui:define>
+    <ui:define name="content">
+        <h:form prependId="false">
+            <p:panel header="#{msg['menu.sales.report.sales.achievement']}">
+                <p:fieldset legend="#{msg['search.criteria']}:">
+                    <ui:include src="../../jsff/selectSalesYear.xhtml"/>
+                    <h:panelGrid columns="1" width="100%">
+                        <h:panelGroup>
+                            <p:commandButton value="#{msg['button.search']}"
+                                             action="#{salesAchievementReport.monthReportQuery}"
+                                             update="searchResult messages"/>
+                        </h:panelGroup>
+                    </h:panelGrid>                    
+                </p:fieldset>
+                <p:fieldset id="searchResult" legend="#{msg['search.result']}">
+                    <p:dataTable id="tbl"
+                                 value="#{salesAchievementReport.monthReport}"
+                                 var="row">
+                        <p:column headerText="#{msg['ym']}" style="text-align:left">
+                            <h:outputText value="#{salesAchievementReport.showYMD(row)}"/>
+                            <f:facet name="footer">
+                                <h:outputText style="text-align:center" value="Totals:" />
+                            </f:facet>
+                        </p:column>
+                        <p:column headerText="#{msg['amount']}" style="text-align:right">
+                            <h:outputText value="#{row.invoiceAmount}">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{salesAchievementReport.totalInvoiceAmount}">
+                                    <f:convertNumber pattern="#,###"/>
+                                </h:outputText>
+                            </f:facet>
+                        </p:column>                                            
+                        <p:column headerText="#{msg['premiumDiscount']}" style="text-align:right">
+                            <h:outputText value="#{row.premiumDiscount}">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{salesAchievementReport.totalPremiumDiscount}">
+                                    <f:convertNumber pattern="#,###"/>
+                                </h:outputText>
+                            </f:facet> 
+                        </p:column>
+                        <p:column headerText="#{msg['salesReturn']}" style="text-align:right">
+                            <h:outputText value="#{row.salesReturn}">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{salesAchievementReport.totalSalesReturn}">
+                                    <f:convertNumber pattern="#,###"/>
+                                </h:outputText>                                
+                            </f:facet>                             
+                        </p:column>
+                        <p:column headerText="#{msg['salesDiscount']}" style="text-align:right">
+                            <h:outputText value="#{row.salesDiscount}">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{salesAchievementReport.totalSalesDiscount}">
+                                    <f:convertNumber pattern="#,###"/>
+                                </h:outputText> 
+                            </f:facet>                     
+                        </p:column>
+                        <p:column headerText="#{msg['netProfit']}" style="text-align:right">
+                            <h:outputText value="#{row.salesAmount}">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{salesAchievementReport.totalSalesAmount}">
+                                    <f:convertNumber pattern="#,###"/>
+                                </h:outputText> 
+                            </f:facet>                                                 
+                        </p:column>
+                        <p:column headerText="#{msg['grossProfitRate']}" style="text-align:right">
+                            <h:outputText value="#{row.grossProfitRate}">
+                                <f:convertNumber type="percent" minFractionDigits="2"/>
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{salesAchievementReport.totalgrossProfitRate}">
+                                    <f:convertNumber type="percent" minFractionDigits="2"/>
+                                </h:outputText> 
+                            </f:facet>                                 
+                        </p:column>
+                        <p:column headerText="#{msg['achievementRate']}" style="text-align:right">
+                            <h:outputText value="#{row.achievementRate}">
+                                <f:convertNumber type="percent" minFractionDigits="2"/>
+                            </h:outputText>
+                             <f:facet name="footer">
+                                <h:outputText value="#{salesAchievementReport.totalAchievementRate}">
+                                    <f:convertNumber type="percent" minFractionDigits="2"/>
+                                </h:outputText> 
+                            </f:facet>                                  
+                        </p:column>
+                        <p:column headerText="#{msg['budget']}" style="text-align:right">
+                            <h:outputText value="#{row.budget}">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+                            <f:facet name="footer">
+                                 <h:outputText value="#{salesAchievementReport.totalBudget}">
+                                    <f:convertNumber pattern="#,###"/>
+                                </h:outputText> 
+                            </f:facet>                              
+                        </p:column>
+                        <p:column  headerText="#{msg['common.label.action']}" >
+                            <p:commandButton icon="ui-icon-extlink" 
+                                             value="#{msg['menu.sales.report.sales.achievement.detail']}"
+                                             action="#{salesAchievementReport.dailyReportQuery(row)}"
+                                             update="salesDailyAchievementReporttbl"
+                                             oncomplete="PF('salesDailyAchievementReportDlg').show()">
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:panel>    
+            <p:dialog header="#{msg['menu.sales.report.sales.achievement.detail']}"
+                      widgetVar="salesDailyAchievementReportDlg"
+                      resizable="true"
+                      draggable="true"
+                      width="800"
+                      height="480"
+                      modal="true"
+                      dynamic="true">
+                <p:dataTable id="salesDailyAchievementReporttbl"
+                             value="#{salesAchievementReport.dailyReport}"
+                             var="row"
+                             paginator="false">
+                    <p:column headerText="#{msg['ym']}" style="text-align:left">
+                        <h:outputText value="#{salesAchievementReport.showYMD(row)}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['amount']}" style="text-align:right">
+                        <h:outputText value="#{row.invoiceAmount}">
+                            <f:convertNumber pattern="#,###"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['premiumDiscount']}" style="text-align:right">
+                        <h:outputText value="#{row.premiumDiscount}">
+                            <f:convertNumber pattern="#,###"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['salesReturn']}" style="text-align:right">
+                        <h:outputText value="#{row.salesReturn}">
+                            <f:convertNumber pattern="#,###"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['salesDiscount']}" style="text-align:right">
+                        <h:outputText value="#{row.salesDiscount}">
+                            <f:convertNumber pattern="#,###"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['netProfit']}" style="text-align:right">
+                        <h:outputText value="#{row.salesAmount}">
+                            <f:convertNumber pattern="#,###"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['achievementRate']}" style="text-align:right">
+                        <h:outputText value="#{row.achievementRate}">
+                            <f:convertNumber type="percent" minFractionDigits="2"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['budget']}" style="text-align:right">
+                        <h:outputText value="#{row.budget}">
+                            <f:convertNumber pattern="#,###"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </p:dialog>
+        </h:form>
+        <ui:include src="/jsff/ajaxStatusDlg.xhtml"/>
+    </ui:define>    
+</ui:composition>

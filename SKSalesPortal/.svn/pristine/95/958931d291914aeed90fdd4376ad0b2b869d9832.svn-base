@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/generalPageTemplate.xhtml">
+    <ui:define name="title">
+        #{msg['menu.finace.upload.overdue.ar']}
+    </ui:define>    
+    <ui:define name="content">
+        <h:form prependId="false" enctype="multipart/form-data">
+            <p:panel header="#{msg['menu.finace.upload.overdue.ar']}">
+                <p:fieldset legend="#{msg['upload.overdue.ar.criteria']}:">
+                    <h:panelGrid columns="2" width="100%">
+                        <h:panelGroup>
+                            <h:outputLabel styleClass="required" value="#{msg['upload.year']}:"/>
+                            <h:selectOneMenu value="#{uploadOverdueARController.selectedYear}" style="vertical-align:bottom">
+                                <f:selectItem itemLabel="" itemValue=""/>
+                                <f:selectItems value="#{uploadOverdueARController.yearList}"/>
+                            </h:selectOneMenu>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputLabel styleClass="required" value="#{msg['upload.month']}:"/>
+                            <h:selectOneMenu value="#{uploadOverdueARController.selectedMonth}" style="vertical-align:bottom">
+                                <f:selectItem itemLabel="" itemValue=""/>
+                                <f:selectItems  value="#{uploadOverdueARController.monthList}"/>
+                            </h:selectOneMenu>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" width="100%">
+                        <h:panelGroup>
+                            <h:outputLabel styleClass="required" value="#{msg['upload.overdue.ar.file']}:"/>
+                            <p:fileUpload mode="simple" update="messages" multiple="false"
+                                         value="#{uploadOverdueARController.uploadedFile}"
+                                         allowTypes="/(\.|\/)(xls)$/" 
+                                          />
+                        </h:panelGroup>                        
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" width="100%">
+                        <h:panelGroup>
+                            <p:commandButton ajax="false" action="#{uploadOverdueARController.doUploadOverdueARAction}" value="#{msg['button.upload']}"/>
+                        </h:panelGroup>                        
+                    </h:panelGrid>
+                </p:fieldset>
+                <p:fieldset legend="#{msg['upload.data.format']}">
+                    <table border="1" width="100%">
+                        <tbody>
+                            <tr>
+                                <th>Key</th>
+                                <th>Field 1</th>
+                                <th>Field 2</th>
+                                <th>Field 3</th>
+                                <th>Field 4</th>
+                                <th>Field 5</th>
+                                <th>Field 6</th>
+                                <th>Field 7</th>
+                                <th>Field 8</th>
+                            </tr>
+                            <tr>
+                                <td>OVERDUE_AR</td>
+                                <td>#{msg['upload.overdue.customer.number']}</td>
+                                <td>#{msg['upload.overdue.ar.customer.name']}</td>
+                                <td>#{msg['upload.overdue.ar.order.number']}</td>
+                                <td>#{msg['upload.overdue.ar.invoice.number']}</td>
+                                <td>#{msg['upload.overdue.ar.amount']}</td>
+                                <td>#{msg['upload.overdue.ar.sapid']}</td>
+                                <td>#{msg['upload.overdue.ar.invoice.date']}</td>
+                                <td>#{msg['upload.overdue.ar.day.number']}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </p:fieldset>
+            </p:panel>    
+        </h:form>
+        <ui:include src="../jsff/ajaxStatusDlg.xhtml"/>
+    </ui:define>    
+</ui:composition>

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/generalPageTemplate.xhtml">
+    <ui:define name="title">
+        #{msg['menu.assistant.querySalesAllowances']}
+    </ui:define>    
+    <ui:define name="content">
+        <h:form id="querySalesAllowancesForm" prependId="false">
+            <p:panel header="#{msg['menu.assistant.querySalesAllowances']}">
+                <p:fieldset legend="#{msg['search.criteria']}:">
+                    <h:panelGrid columns="4" style="width:100%">
+                        <h:outputLabel for="salesGroup" value="#{msg['salesAllowances.label.sales']}:" styleClass="required"/>
+                        <h:selectOneMenu value="#{querySalesAllowancesController.salesMember}" 
+                                         converter="skSalesMemberConverter"
+                                         required="true" 
+                                         requiredMessage="#{msg['remitmaintenance.msg.sales.group.is.required']}"
+                                         disabled="#{!queryCriteriaController.salesSelectable}" 
+                                         id="salesGroup" 
+                                         style="vertical-align:bottom;white-space:nowrap;" >
+                            <f:selectItems value="#{queryCriteriaController.salesList}" 
+                                           var="sales" 
+                                           itemLabel="#{sales.displayIdentifier}" 
+                                           itemValue="#{sales}"/>  
+                        </h:selectOneMenu>
+                        <h:outputLabel value="#{msg['salesAllowances.label.orderNumber']}:" for="orderNumber"/>
+                        <h:inputText id="orderNumber" value="#{querySalesAllowancesController.orderNumber}"/>
+                        <h:outputLabel value="#{msg['salesAllowances.label.invoiceNumber']}:" for="invoiceNumber"/>
+                        <h:inputText id="invoiceNumber" value="#{querySalesAllowancesController.invoiceNumber}"/>
+                        <h:outputLabel value="#{msg['salesAllowances.label.returnNumber']}:" for="returnNumber"/>
+                        <h:inputText id="returnNumber" value="#{querySalesAllowancesController.returnNumber}"/>
+                    </h:panelGrid>                    
+                    <h:inputHidden binding="#{queryCriteriaController.initSalesHidden}"/>
+                    <p:commandButton value="#{msg['button.search']}" 
+                                     icon="ui-icon-search"
+                                     action="#{querySalesAllowancesController.query}" 
+                                     update=":querySalesAllowancesForm:salesAllowancesListPanelGroup :messages :growl"/>
+                    <p:spacer width="5px"/>
+                    <p:commandButton value="#{msg['button.add']}"
+                                     icon="ui-icon-plus"
+                                     ajax="false"
+                                     action="applySalesAllowances"/>
+                </p:fieldset>
+                <p:fieldset legend="#{msg['search.result']}:">
+                    <ui:include src="../jsff/salesAllowancesList.xhtml"/>
+                </p:fieldset>
+                <p />
+            </p:panel>    
+        </h:form>
+        <ui:include src="../jsff/ajaxStatusDlg.xhtml"/>
+    </ui:define>    
+</ui:composition>

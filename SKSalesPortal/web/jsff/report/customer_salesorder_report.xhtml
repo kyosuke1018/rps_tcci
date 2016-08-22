@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >    
+    <p:dataTable id="customerSalesOrdertbl" rows="#{includeFrom eq 'customer_report' ? 5 : 10}" value="#{customerSalesOrderReportController.orderDetailList}" var="row" paginator="true"
+                 rowStyleClass="#{row.gift ? 'gift-row' : null}" 
+                 >
+        <p:column headerText="#{msg['customer']}" style="text-align:left">
+            <h:outputText value="#{row.customerSimpleCode}" rendered="#{!row.gift}"/>
+            <br/>
+            <h:outputText value="#{row.customerName}" rendered="#{!row.gift}"/>
+        </p:column>
+        <p:column headerText="#{msg['invoice.number']}/#{msg['invoice.date']}" sortBy="#{row.invoiceTimestamp}" style="text-align: left;">
+            <h:outputText value="#{row.invoiceNumber}" rendered="#{!row.gift}"/>
+            <br/>
+            <h:outputText value="#{row.invoiceTimestamp}" rendered="#{!row.gift and not empty row.invoiceNumber}">
+                <f:convertDateTime pattern="yyyy/MM/dd"/>
+            </h:outputText>                
+        </p:column>
+        <p:column headerText="#{msg['order.number']}/#{msg['invoice.amount']}" style="text-align:left">
+            <h:outputText value="#{row.orderNumber}" rendered="#{!row.gift}"/>   
+            <br/>
+            <h:outputText value="#{row.invoiceTotalAmount}" rendered="#{!row.gift}">
+                <f:convertNumber currencySymbol="$" groupingUsed="true" type="currency" maxFractionDigits="0"/>
+            </h:outputText>              
+        </p:column>            
+        <p:column headerText="#{msg['product']}" style="text-align:left">            
+            <h:outputText value="#{row.productNumber}" rendered="#{!row.gift}"/><h:outputText value="【#{row.lotNumber}】" rendered="#{!row.gift}"/>           
+            <br/>
+            <h:outputText value="#{row.productName}" rendered="#{!row.gift}"/>
+        </p:column>                    
+        <p:column headerText="#{msg['quantity']}/#{msg['unit']}" style="text-align:right">
+            <h:outputText value="#{row.quantity}"/>
+            <br/>
+            <h:outputText value="#{row.unit}"/>  
+        </p:column>
+        <p:column headerText="#{msg['price']}/(#{msg['gift']})" style="text-align:right">
+            <h:outputText value="#{row.sellingPrice}" rendered="#{!row.gift}">            
+                <f:convertNumber groupingUsed="true"/>
+            </h:outputText>
+            <h:outputText value="#{msg['gift']}" rendered="#{row.gift}"/>                
+        </p:column>
+        <p:column headerText="#{msg['amount']}" style="text-align:right">           
+            <h:outputText value="#{row.invoiceAmount}" rendered="#{!row.gift}">
+                <f:convertNumber currencySymbol="$" groupingUsed="true" type="currency" maxFractionDigits="0"/>
+            </h:outputText>                    
+        </p:column>        
+        <p:column headerText="#{msg['premium.discount']}" style="text-align:right">
+            <h:outputText value="#{row.premiumDiscount + row.premiumDiscountTax}" rendered="#{!row.gift}">
+                <f:convertNumber groupingUsed="true"/>
+            </h:outputText>                          
+        </p:column>
+    </p:dataTable> 
+</ui:composition>
+

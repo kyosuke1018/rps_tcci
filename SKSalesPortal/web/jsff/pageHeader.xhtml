@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <div class="innertube">
+        <h:form>
+            <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                <tr valign="bottom" >
+                    <td width="85" ></td>
+                    <td width="137">
+                        <div class="logo" id="logo">
+<!--                            <h:outputLink value="http://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.requestContextPath}">-->
+                            <h:outputLink value="#{facesContext.externalContext.requestContextPath}" style="">
+                                <h:graphicImage library="images" name="logo_sk.png" width="60" height="55" style="border: 0px" />
+                            </h:outputLink>
+                        </div>
+                    </td>
+                    <td width="5" ><p:spacer width="25px" height="3px" /></td>
+                    <td width="100%" id="nav">
+                        <div class="nab" id="siteinfo">
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0" >
+                                <tr>
+                                    <td style="text-align:left">
+                                        <h:outputLink value="#{facesContext.externalContext.requestContextPath}" style="">
+                                            <h:outputText value="#{msg['header.app_name']}" styleClass="systemname" />
+                                        </h:outputLink>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <h:outputText styleClass="label3b" value="#{sessionController.user.displayIdentifier} | "/>
+                                        <p:commandLink action="#{sessionController.logout}" immediate="true" style="margin-right:20px;" ajax="false" >
+                                            <h:outputText value="#{msg['header.logout']}" />
+                                        </p:commandLink>
+
+                                    </td>
+                                    <td width="10"></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <ui:include src="menu.xhtml"/>
+                    </td>
+                    <td width="10"></td>
+                </tr>
+            </table>
+        </h:form>
+    </div>
+</ui:composition>
+

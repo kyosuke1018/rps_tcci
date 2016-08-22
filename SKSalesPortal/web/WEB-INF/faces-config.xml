@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+
+<faces-config version="2.0"
+    xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+    <application>
+        <locale-config>
+            <default-locale>en</default-locale>
+            <supported-locale>zh</supported-locale>
+        </locale-config>
+        <resource-bundle>
+            <description>config resource bundle</description>
+            <base-name>messages</base-name>
+            <var>msg</var>
+        </resource-bundle>        
+        <resource-bundle>
+            <description>config resource bundle</description>
+            <base-name>worklistMessages</base-name>
+            <var>msgW</var>
+        </resource-bundle>        
+        <resource-handler>com.tcci.fc.controller.util.CustomResourceHandler</resource-handler>
+    </application>
+    <lifecycle>
+        <phase-listener>com.tcci.fc.controller.util.UACompatibleHeaderPhaseListener</phase-listener>
+    </lifecycle>
+    <!-- Navigation Block -->
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>check_maintenance</from-outcome>
+            <to-view-id>/assistant/check_maintenance.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+</faces-config>

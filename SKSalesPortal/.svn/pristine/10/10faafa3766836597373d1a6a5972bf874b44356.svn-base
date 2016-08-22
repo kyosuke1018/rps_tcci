@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >    
+    <h:panelGrid columns="2" width="100%">
+        <h:panelGrid columns="2">
+            <h:outputLabel for="salesGroup" value="#{msg['sales.group']}:" style="margin-right: 10px"/>
+            <h:selectOneMenu id="salesGroup" value="#{queryCriteriaController.filter.sales}" converter="skSalesMemberConverter"
+                            disabled="#{!queryCriteriaController.salesSelectable}" style="vertical-align:bottom">
+                <p:ajax event="change" listener="#{queryCriteriaController.salesChange()}" global="off"/>
+                <f:selectItems value="#{queryCriteriaController.salesList}" var="sales" 
+                               itemLabel="#{sales.displayIdentifier}" itemValue="#{sales}"/>  
+            </h:selectOneMenu>
+        </h:panelGrid>
+        <h:panelGroup>
+            <h:outputLabel value="#{msg['invoice.enddate']}:" style="margin-right: 10px"/>
+            <p:calendar value="#{queryCriteriaController.filter.invoiceStart}" pattern="yyyy/MM/dd" showOn="button" rendered="#{queryCriteriaController.renderInvoiceStart}"/>  
+            <h:outputLabel value="~" style="margin-right: 10px" rendered="#{queryCriteriaController.renderInvoiceStart}"/>
+            <p:calendar value="#{queryCriteriaController.filter.invoiceEnd}" pattern="yyyy/MM/dd" showOn="button" />
+            <h:inputHidden binding="#{queryCriteriaController.initSalesInvoiceNotStartEndAsYesterdayHidden}"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:outputLabel for="customer_code" value="#{msg['customer.code']}:" style="margin-right: 10px"/>
+            <p:autoComplete id="customer_code" 
+                            value="#{selectCustomerController.selectedCustomer}"
+                            var="code"
+                            itemLabel="#{code}"
+                            itemValue="#{code}"
+                            completeMethod="#{queryCriteriaController.completeCustomer}"
+                            maxResults="10"
+                            queryDelay="500"
+                            minQueryLength="3" 
+                            >
+                <p:column style="width: 100%">
+                    #{code} - #{selectCustomerController.getCustomerName(code)}
+                </p:column>
+                <p:ajax event="itemSelect" 
+                        listener="#{selectCustomerController.handleSelect}"
+                        update="customer_name"
+                        />
+            </p:autoComplete>
+            <p:spacer width="5px"/>
+            <p:commandButton action="#{queryCriteriaController.initCustomerDialog}"
+                             oncomplete="PF('selectCustomerDlg').show();"
+                             immediate="true"
+                             value="..."
+                             update="customerCode customerName customerSearchResult"/>
+            <h:outputLabel id="customer_name" value="#{selectCustomerController.name}"/>
+        </h:panelGroup>
+    </h:panelGrid>   
+</ui:composition>
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <h:form prependId="false" id="selectOrderNumberForm">
+        <p:dialog header="#{msg['remitmaintenance.select.orderNumber']}"                
+                 widgetVar="selectOrderNumberDlg"
+                 resizable="false"            
+                 width="600"
+                 modal="true">           
+            <ui:include src="../jsff/selectOrderNumber.xhtml"/>
+            <br/>
+            <h:panelGroup style="display:block; text-align:center;">
+                <!-- action method should implements at SelectOrderNumberDlgController ...... -->
+                <p:commandButton value="#{msg['button.add']}" action="${editPaymentDetailController.initSkArRemitItemList}" oncomplete="calcTotal();reCalcColumnTotal();PF('selectOrderNumberDlg').hide();" update="detailField"/>                
+                <p:commandButton value="#{msg['button.cancel']}" onclick="PF('selectOrderNumberDlg').hide();"/>
+            </h:panelGroup>
+        </p:dialog> 
+    </h:form>    
+</ui:composition>
+

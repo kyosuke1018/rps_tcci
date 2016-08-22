@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <style type="text/css">
+        #categoriesTable td {width:60px;vertical-align:top;}
+        #productsTable {border:solid 1px;border-color:gray;height:250px;overflow: auto;}
+        #productsTable a {color:blue !important;}
+    </style>
+    <h:form prependId="false" id="selProdForm">
+        <p:dialog header="選擇商品"
+                  widgetVar="selectOneProductsDlg"
+                  resizable="false"
+                  width="600"
+                  modal="true">
+            <div id="categoriesTable">
+                <h:selectManyCheckbox id="selectedCategories" value="#{selectOneProduct.selectedCategories}">
+                    <f:selectItem itemValue="Z310" itemLabel="Z310 抗感染製劑"/>
+                    <f:selectItem itemValue="Z320" itemLabel="Z320 解熱鎮痛製劑"/>
+                    <f:selectItem itemValue="Z330" itemLabel="Z330 綜合感冒製劑"/>
+                    <f:selectItem itemValue="Z340" itemLabel="Z340 慢性病製劑"/>
+                    <f:selectItem itemValue="Z350" itemLabel="Z350 心血管製劑"/>
+                    <f:selectItem itemValue="Z360" itemLabel="Z360 腸胃道製劑"/>
+                    <f:selectItem itemValue="Z370" itemLabel="Z370 皮膚外用製劑"/>
+                    <f:selectItem itemValue="Z380" itemLabel="Z380 眼科製劑"/>
+                    <f:selectItem itemValue="Z390" itemLabel="Z390 中樞神經製劑"/>
+                    <f:selectItem itemValue="Z3ZZ" itemLabel="Z3ZZ 其它製劑"/>
+                    <p:ajax event="click"
+                            listener="#{selectOneProduct.categoriesChange}"
+                            process="@this :selProdForm:selectedCategories"
+                            update=":selProdForm:products"
+                            global="off"/>
+                </h:selectManyCheckbox>
+            </div>
+            <h:outputLabel value="filter: "/>
+            <p:inputText id="prodFilter"
+                         value="#{selectOneProduct.filter}"
+                         title="輸入部份商品代碼或名稱"
+                         size="42"/>
+            <input type="HIDDEN" id="prodFilterLast"/>
+            <p:remoteCommand name="remoteProdFilterChange"
+                             action="#{selectOneProduct.filterChange}"
+                             update=":selProdForm:products"
+                             global="off"/>
+            <h:panelGroup id="products">
+                <div id="productsTable">
+                    <p:dataTable value="#{selectOneProduct.filtedProducts}"
+                                 var="prod">
+                        <p:column headerText="商品代碼">
+                            <h:link onclick="selectOneProduct_click(this);PF('selectOneProductsDlg').hide();return false;">
+                                <h:outputText value="#{prod.code}" styleClass="prodCode"/>
+                            </h:link>
+                        </p:column>
+                        <p:column headerText="商品名稱" style="text-align:left;">
+                            <h:link onclick="selectOneProduct_click(this);PF('selectOneProductsDlg').hide();return false;">
+                                <h:outputText value="#{prod.name}" styleClass="prodName"/>
+                            </h:link>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:panelGroup>
+        </p:dialog>
+    </h:form>
+    <script type="text/javascript">
+    //<![CDATA[
+$(function() {
+    textDelayChange('#prodFilter', '#prodFilterLast', remoteProdFilterChange);
+});
+
+function textDelayChange(filterId, filterLastId, callback) {
+    // 300 milliseconds delay
+    textDelayChange(filterId, filterLastId, callback, 300);
+}
+
+function textDelayChange(filterId, filterLastId, callback, delay) {
+    $(filterId).bind('input keyup', function() {
+        var $this = $(this);
+        clearTimeout($this.data('timer'));
+        $this.data('timer', setTimeout(function() {
+            $this.removeData('timer');
+            var userFilterLast = $(filterLastId).val();
+            var userFilter = $.trim($(filterId).val());
+            if (userFilterLast !== userFilter) {
+                $(filterLastId).val(userFilter);
+                callback();
+            }
+        }, delay));
+    });
+}
+    //]]>
+    </script>
+</ui:composition>

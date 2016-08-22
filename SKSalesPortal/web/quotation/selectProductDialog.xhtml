@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <h:form prependId="false">
+        <p:dialog  id="selectProductDialog"
+                   header="#{msg['product.search']}"
+                   widgetVar="selectProductDialogVar"
+                   resizable="true" 
+                   draggable="true"
+                   width="580"
+                   modal="true"
+                   dynamic="true"
+                   >
+            <p:fieldset id="productCriteria" legend="#{msg['search.criteria']}:">
+                <h:panelGrid columns="4" width="100%">
+                    <h:outputLabel value="#{msg['common.label.productcategory']}"
+                                   for="productCategory"/>
+                    <h:selectOneMenu id="productCategory" 
+                                     value="#{createQuotation.category}"
+                                     style="width: 150px;">
+                        <f:selectItem itemValue="#{null}"
+                                      itemLabel=""/>
+                        <f:selectItems value="#{createQuotation.categoryList}"
+                                       var="category"
+                                       itemLabel="#{category.category} - #{category.description}"
+                                       itemValue="#{category.category}"/>
+                        <p:ajax listener="#{createQuotation.changeCategory}"
+                                update="productList"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+            </p:fieldset>
+
+            <p:fieldset id="productSearchResult" legend="#{msg['search.result']}" 
+                        style="width:96%;" >
+                <p:dataTable id="productList" 
+                             value="#{createQuotation.productList}" 
+                             var="row" 
+                             rows="10" 
+                             rowKey="#{row.id}"
+                             paginator="true"
+                             selectionMode="single"
+                             >
+                    <p:ajax update="customerCriteria customer_code customer_name" 
+                            oncomplete="PF('selectProductDialog').hide();" 
+                            event="rowSelect" 
+                            listener="#{createQuotation.onProductSelect}"/>
+                    <p:column headerText="#{msg['common.label.productnumber']}">
+                        <h:outputText id="productCode" value="#{row.code}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['common.label.productname']}">
+                        <h:outputText value="#{row.name}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+        </p:dialog>        
+    </h:form>
+</ui:composition>

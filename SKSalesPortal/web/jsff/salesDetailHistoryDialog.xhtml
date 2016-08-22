@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <script type="text/javascript">
+        function handleCompleteSelectedBank(xhr, status, args) {
+            var bankCode = args.selectedBank.code;
+            var bankName = args.selectedBank.name;
+            var bankId = args.selectedBank.id;
+            //alert("bankId=" + bankId);
+            jQuery('#selectedBankCode').val(bankCode);
+            jQuery('#selectedBankName').text(bankName);
+            jQuery('#selectedBankId').val(bankId);
+        }
+    </script>    
+    <p:dialog  header="#{msg['salesDetailHistoryDialogTitle']}"
+               id="salesDetailHistoryDialogId"
+               widgetVar="salesDetailHistoryDialog"
+               resizable="true" 
+               draggable="true"
+               modal="true"
+               height="500"
+               >
+        <h:outputLabel value="#{msg['customer.code']}:" for="customerCode"/>
+        <p:spacer width="5px"/>
+        <h:outputText id="customerCode" value="#{salesDetailHistoryDialogController.customer.simpleCode} - #{salesDetailHistoryDialogController.customer.name}"/>
+        <h:panelGrid columns="1">
+            <h:panelGroup>
+                <p:commandButton id="exportHistoryButton1"
+                                 ajax="false"
+                                 value="#{msg['button.export']}"
+                                 icon="ui-icon-disk">
+                    <p:dataExporter type="xls" 
+                                    target="salesOrderYearlytbl" 
+                                    fileName="salesHistory" 
+                                    postProcessor="#{salesDetailHistoryDialogController.postProcessorXLS}"
+                                    />
+                </p:commandButton>
+                <p:commandButton id="closeButton1"
+                                 value="#{msg['button.close']}"
+                                 icon="ui-icon-close"
+                                 onclick="PF('salesDetailHistoryDialog').hide();"
+                                 />
+            </h:panelGroup>
+            <ui:include src="yearlySalesDetailList.xhtml"/>
+            <h:panelGroup>
+                <p:commandButton id="exportHistoryButton"
+                                 ajax="false"
+                                 value="#{msg['button.export']}"
+                                 icon="ui-icon-disk">
+                    <p:dataExporter type="xls" 
+                                    target="salesOrderYearlytbl" 
+                                    fileName="salesHistory" 
+                                    postProcessor="#{salesDetailHistoryDialogController.postProcessorXLS}"
+                                    />
+                </p:commandButton>
+                <p:commandButton id="closeButton2"
+                                 value="#{msg['button.close']}"
+                                 icon="ui-icon-close"
+                                 onclick="PF('salesDetailHistoryDialog').hide();"
+                                 />
+            </h:panelGroup>
+        </h:panelGrid>
+    </p:dialog>        
+</ui:composition>

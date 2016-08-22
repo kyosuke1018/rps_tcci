@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <style type="text/css">
+        #categoriesTable td {width:60px;vertical-align:top;}
+        #productsTable {border:solid 1px;border-color:gray;height:250px;overflow: auto;}
+        #productsTable a {color:blue !important;}
+    </style>
+    <h:form prependId="false" id="selProdForm">
+        <p:dialog header="選擇商品"
+                  widgetVar="selectProductsDialog"
+                  resizable="false"
+                  width="600"
+                  modal="true">
+            <div id="categoriesTable">
+                <h:selectManyCheckbox id="selectedCategories" value="#{selectProductsController.selectedCategories}">
+                    <f:selectItem itemValue="Z310" itemLabel="Z310 抗感染製劑"/>
+                    <f:selectItem itemValue="Z320" itemLabel="Z320 解熱鎮痛製劑"/>
+                    <f:selectItem itemValue="Z330" itemLabel="Z330 綜合感冒製劑"/>
+                    <f:selectItem itemValue="Z340" itemLabel="Z340 慢性病製劑"/>
+                    <f:selectItem itemValue="Z350" itemLabel="Z350 心血管製劑"/>
+                    <f:selectItem itemValue="Z360" itemLabel="Z360 腸胃道製劑"/>
+                    <f:selectItem itemValue="Z370" itemLabel="Z370 皮膚外用製劑"/>
+                    <f:selectItem itemValue="Z380" itemLabel="Z380 眼科製劑"/>
+                    <f:selectItem itemValue="Z390" itemLabel="Z390 中樞神經製劑"/>
+                    <f:selectItem itemValue="Z3ZZ" itemLabel="Z3ZZ 其它製劑"/>
+                    <p:ajax event="click"
+                            listener="#{selectProductsController.categoriesChange}"
+                            process="@this :selProdForm:selectedCategories"
+                            update=":selProdForm:products"
+                            oncomplete="update_checkAll();"
+                            global="off"/>
+                </h:selectManyCheckbox>
+            </div>
+            <h:panelGroup id="products">
+                <div id="productsTable">
+                    <p:dataTable value="#{selectProductsController.products}"
+                                 var="prod"
+                                 id="productList">
+                        <p:column style="width:10px;">
+                            <f:facet name="header">
+                                <input type="checkbox" id="checkAll" onclick="checkAll_click();"/>
+                            </f:facet>
+                            <p:commandLink action="#{selectProductsController.toggle(prod)}"
+                                           oncomplete="update_checkAll();"
+                                           global="off"
+                                           update="productList">
+                                <input type="checkbox" checked="#{selectProductsController.isProductSelected(prod) ? 'checked':''}"/>
+                            </p:commandLink>
+                        </p:column>
+                        <p:column headerText="商品代碼">
+                            <h:outputText value=" #{prod.code}"/>
+                        </p:column>
+                        <p:column headerText="商品名稱" style="text-align:left;">
+                            <h:outputText value="#{prod.name}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:panelGroup>
+            <div align="center" style="padding-top:6px;">
+                <p:button icon="ui-icon-close" value="關閉" onclick="PF('selectProductsDialog').hide();return false;"/>
+            </div>
+        </p:dialog>
+        <p:remoteCommand name="remoteSelectAll"
+                         action="#{selectProductsController.selectAll()}"
+                         global="off"/>
+        <p:remoteCommand name="remoteRemoveAll"
+                         action="#{selectProductsController.removeAll()}"
+                         global="off"/>
+    </h:form>
+    <script type="text/javascript">
+    //<![CDATA[
+    function update_checkAll() {
+        if ($('#productsTable tbody input[type="checkbox"]').length==0) {
+            $('#checkAll').attr('checked', false);
+            return;
+        }
+        var checkAll = true;
+        $('#productsTable tbody input[type="checkbox"]').each(function(){
+            if (!$(this).is(':checked')) {
+                checkAll = false;
+            }
+        });
+        $('#checkAll').attr('checked', checkAll);
+    }
+    function checkAll_click() {
+        if ($('#productsTable tbody input[type="checkbox"]').length==0)
+            return;
+        var checked = $('#checkAll').is(':checked');
+        $('#productsTable tbody input[type="checkbox"]').each(function(){
+            $(this).attr('checked', checked);
+        });
+        if (checked)
+            remoteSelectAll();
+        else
+            remoteRemoveAll();
+    }
+    //]]>
+    </script>
+</ui:composition>
