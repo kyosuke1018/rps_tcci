@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dataTable value="#{customerSalesSync.syncData.result1}"
+                 var="customerVO"
+                 paginator="true" paginatorPosition="bottom" rows="10"
+                 rowStyleClass="#{customerVO.valid ? '' : 'ui-state-error'}">
+        <p:column headerText="客戶代碼">
+            <h:outputText value="#{customerVO.code}"/>
+        </p:column>
+        <p:column headerText="客戶名稱">
+            <h:outputText value="#{customerVO.name}"/>
+        </p:column>
+        <p:column headerText="啟用">
+            <h:outputText value="#{customerVO.active}"/>
+        </p:column>
+        <p:column headerText="訊息">
+            <h:outputText value="#{customerVO.message}"/>
+        </p:column>
+    </p:dataTable>
+</ui:composition>

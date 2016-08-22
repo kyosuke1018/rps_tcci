@@ -1,0 +1,43 @@
+# To change this license header, choose License Headers in Project Properties.
+# To change this template file, choose Tools | Templates
+# and open the template in the editor.
+
+order.label.listOrder=\u67e5\u8be2\u8ba2\u5355
+order.label.reviewOrder=\u5ba1\u6838\u8ba2\u5355
+order.label.id=\u5e8f\u53f7
+order.label.customer=\u5ba2\u6237
+order.label.product=\u5546\u54c1
+order.label.quantity=\u6570\u91cf(\u5428)
+order.label.unitPrice=\u5355\u4ef7
+order.label.amount=\u603b\u91d1\u989d
+order.label.vehicle=\u8f66\u53f7
+order.label.deliveryDate=\u63d0\u8d27\u65e5
+order.label.method=\u51fa\u8d27\u65b9\u5f0f
+order.label.method.FCA=\u5de5\u5730\u4ea4\u81ea\u63d0
+order.label.method.EXW=\u5382\u4ea4\u81ea\u63d0
+order.label.siteLoc=\u888b\u88c5\u55b7\u7801
+order.label.bonus=\u7ea2\u5229
+order.label.contract=\u5408\u7ea6\u7f16\u53f7
+order.label.salesarea=\u9500\u552e\u533a\u57df
+order.label.deliveryPlace=\u9001\u8fbe\u5730\u70b9
+order.label.sales=\u4e1a\u52a1\u5458
+order.label.plant=\u53d1\u8d27\u5de5\u5382
+order.label.member=\u5efa\u7acb\u5e10\u53f7
+order.label.status=\u72b6\u6001
+order.label.sapOrdernum=SAP\u8ba2\u5355\u7f16\u53f7
+order.label.message=\u8baf\u606f
+order.label.createtime=\u5efa\u7acb\u65f6\u95f4
+order.label.approveDescription=\u6838\u51c6\u5e76\u547c\u53ebSAP\u5efa\u7acb\u8ba2\u5355
+order.label.cancelDescription=\u53d6\u6d88\u8ba2\u5355
+order.label.viewDescription=\u70b9\u51fb\u7f16\u53f7\u68c0\u89c6\u8ba2\u5355\u660e\u7ec6
+
+order.msg.approveSuccess=\u8ba2\u5355\u5df2\u6838\u51c6\uff0cSAP\u5c06\u6279\u6b21\u5efa\u7acb\u8ba2\u5355!
+order.msg.cancelSuccess=\u8ba2\u5355\u5df2\u53d6\u6d88\uff0cSAP\u5c06\u6279\u6b21\u53d6\u6d88\u8ba2\u5355!
+order.msg.sapOrderCreateSuccess=SAP\u8ba2\u5355\u5df2\u4ea7\u751f (\u8ba2\u5355\u7f16\u53f7:{0})!
+order.msg.sapOrderCreateFail=SAP\u8ba2\u5355\u4ea7\u751f\u5931\u8d25 (\u9519\u8bef\u8baf\u606f:{0})!
+order.msg.sapOrderCancelSuccess=SAP\u8ba2\u5355\u5df2\u5220\u9664 (SAP\u8baf\u606f:{0})!
+order.msg.sapOrderCancelFail=SAP\u8ba2\u5355\u5220\u9664\u5931\u8d25 (\u9519\u8bef\u8baf\u606f:{0})!
+order.msg.sapOrderCreateNotify=\u8ba2\u5355(\u5e8f\u53f7: {0}, \u6570\u91cf: {1} \u5428, \u8f66\u53f7: {2})\u5df2\u6210\u7acb, \u6b63\u5f0f\u8ba2\u5355\u53f7\u7801\u4e3a{3}!
+order.msg.orderCloseNotify=\u8ba2\u5355{0}(\u5e8f\u53f7: {1}, \u6570\u91cf: {2} \u5428, \u8f66\u53f7: {3}) \u5df2\u51fa\u8d27!
+order.msg.orderCancelNotify=\u8ba2\u5355(\u5e8f\u53f7: {0}, \u6570\u91cf: {1} \u5428, \u8f66\u53f7: {2})\u5df2\u7ecf\u53d6\u6d88! \u8be6\u60c5\u8bf7\u6d3d\u8d1f\u8d23\u4e1a\u52a1\u5458.
+order.msg.orderCancelNotifyPrefix=\u8ba2\u5355(\u5e8f\u53f7: {0}, \u6570\u91cf: {1} \u5428, \u8f66\u53f7: {2})\u5df2\u7ecf\u53d6\u6d88!

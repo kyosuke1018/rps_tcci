@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml">
+    <ui:define name="title">台泥夥伴匯入</ui:define>
+    <ui:define name="content">
+        <p:panel header="台泥夥伴匯入">
+            <ui:include src="inc_submenu.xhtml"/>
+            <h:form id="form" prependId="false">
+                <h:outputLabel value="圖檔目錄:"/>
+                <p:inputText id="imageFolder" value="#{partnerImport.imageFolder}" size="100"/>
+                <h:panelGrid columns="2" style="vertical-align: top;">
+                    <p:fileUpload fileUploadListener="#{partnerImport.handleFileUpload}"
+                                  label="上傳檔案"
+                                  multiple="false"
+                                  auto="true"
+                                  allowTypes="/(\.|\/)(xls|xlsx)$/i"
+                                  update="@form:fileName @form:datalist"
+                                  onstart="dummyAction();return true;"
+                                  oncomplete="$('div.fileupload-content tr.template-upload.ui-state-error').remove()"/>
+                    <h:panelGroup>
+                        <h:outputLink value="#{facesContext.externalContext.request.contextPath}/templates/partnerImport.xlsx">
+                            <h:graphicImage library="images" name="excel.png"/>
+                            <h:outputText value="範本下載"/>
+                        </h:outputLink>
+                        <br/>
+                        <h:outputLabel value="上傳檔名: "/>
+                        <h:outputText id="fileName" value="#{partnerImport.fileName}"/>
+                        <br/>
+                    </h:panelGroup>
+                </h:panelGrid>
+                <p:remoteCommand name="dummyAction"
+                                 action="#{partnerImport.dummy}"/>
+                <p:fieldset legend="匯入資料預覽">
+                    <h:selectBooleanCheckbox id="invalidOnly"
+                                             value="#{partnerImport.invalidOnly}">
+                        <p:ajax event="click" 
+                                listener="#{partnerImport.invalidOnlyChange}"
+                                update="@form:datalist"/>
+                    </h:selectBooleanCheckbox>
+                    <h:outputLabel value="只顯示錯誤列" for="invalidOnly"/>
+                    <p:dataTable id="datalist"
+                                 value="#{partnerImport.filtedlist}"
+                                 var="row"
+                                 rows="10"
+                                 paginator="true"
+                                 rowStyleClass="#{row.valid ? '' : 'ui-state-error'}">
+                        <p:column headerText="ROW#" sortBy="#{row.rowIndex}">
+                            <h:outputText value="#{row.rowIndex}"/>
+                        </p:column>
+                        <p:column headerText="owner帳號"
+                                  sortBy="#{row.ownerAccount}">
+                            <h:outputText value="#{row.ownerAccount}"/>
+                        </p:column>
+                        <p:column headerText="檔口名稱"
+                                  sortBy="#{row.name}">
+                            <h:outputText value="#{row.name}"/>
+                        </p:column>
+                        <p:column headerText="省"
+                                  sortBy="#{row.province}">
+                            <h:outputText value="#{row.province}"/>
+                        </p:column>
+                        <p:column headerText="市"
+                                  sortBy="#{row.city}">
+                            <h:outputText value="#{row.city}"/>
+                        </p:column>
+                        <p:column headerText="區"
+                                  sortBy="#{row.district}">
+                            <h:outputText value="#{row.district}"/>
+                        </p:column>
+                        <p:column headerText="鎮"
+                                  sortBy="#{row.town}">
+                            <h:outputText value="#{row.town}"/>
+                        </p:column>
+                        <p:column headerText="地址"
+                                  sortBy="#{row.address}">
+                            <h:outputText value="#{row.address}"/>
+                        </p:column>
+                        <p:column headerText="連絡人"
+                                  sortBy="#{row.phone}">
+                            <h:outputText value="#{row.contact}"/>
+                        </p:column>
+                        <p:column headerText="電話"
+                                  sortBy="#{row.phone}">
+                            <h:outputText value="#{row.phone}"/>
+                        </p:column>
+                        <p:column headerText="WeChat"
+                                  sortBy="#{row.social}">
+                            <h:outputText value="#{row.social}"/>
+                        </p:column>
+                        <p:column headerText="描述"
+                                  sortBy="#{row.description}">
+                            <h:outputText value="#{row.description}"/>
+                        </p:column>
+<!--                        <p:column headerText="theme"
+                                  sortBy="#{row.theme}">
+                            <h:outputText value="#{row.theme}"/>
+                        </p:column>-->
+                        <p:column headerText="狀態"
+                                  sortBy="#{row.pstatus}">
+                            <h:outputText value="#{row.pstatus}"/>
+                        </p:column>
+                        <p:column headerText="啟用"
+                                  sortBy="#{row.active}">
+                            <h:outputText value="#{row.active}"/>
+                        </p:column>
+                        <p:column headerText="圖檔名稱"
+                                  sortBy="#{row.image}">
+                            <h:outputText value="#{row.image}"/>
+                        </p:column>
+                        <p:column headerText="訊息" sortBy="#{row.message}">
+                            <h:outputText value="#{row.message}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="#{msgApp['app.button.save']}"
+                                     icon="ui-icon-disk"
+                                     onstart="return confirm('確認要儲存?');"
+                                     action="#{partnerImport.save}"
+                                     update="@form:datalist"/>
+                </p:fieldset>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

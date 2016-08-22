@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog header="#{msgOrder['order.label.reviewOrder']}"
+              resizable="false"
+              width="400"
+              modal="true"
+              id="reviewOrderDialog"
+              widgetVar="reviewOrderDialogVar">
+        <h:panelGroup id="reviewOrderGroup">
+            <h:panelGrid columns="2" style="width:100%">
+                <h:outputText value="#{msgOrder['order.label.id']}:"/>
+                <h:outputText value="#{orderController.selected.id}"/>
+
+                <h:outputText value="#{msgOrder['order.label.customer']}:"/>
+                <h:outputText value="#{orderController.selected.customerId.name} (#{orderController.selected.customerId.code})"/>
+
+                <h:outputText value="#{msgOrder['order.label.contract']}:"
+                              rendered="#{orderController.selected.contractId ne null}"/>
+                <h:outputText value="#{orderController.selected.contractId.code}, 项次 #{orderController.selected.posnr}"
+                              rendered="#{orderController.selected.contractId ne null}"/>
+
+                <h:outputText value="#{msgOrder['order.label.product']}:"/>
+                <h:outputText value="#{orderController.selected.productId.name} (#{orderController.selected.productId.code})"/>
+                
+<!--                <h:outputText value="#{msgOrder['order.label.unitPrice']}"
+                              rendered="#{orderController.selected.unitPrice ne null}"/>
+                <h:outputText value="#{orderController.selected.unitPrice}"
+                              rendered="#{orderController.selected.unitPrice ne null}">
+                    <f:convertNumber pattern="#{msgApp['unitPriceFormat']}"/>
+                </h:outputText>-->
+
+                <h:outputText value="#{msgOrder['order.label.quantity']}:"/>
+                <h:outputText value="#{orderController.selected.quantity}">
+                    <f:convertNumber pattern="#{msgApp['quantityFormat']}"/>
+                </h:outputText>
+
+<!--                <h:outputText value="#{msgOrder['order.label.amount']}"
+                              rendered="#{orderController.selected.amount ne null}"/>
+                <h:outputText value="#{orderController.selected.amount}"
+                              rendered="#{orderController.selected.amount ne null}">
+                    <f:convertNumber pattern="#{msgApp['amountFormat']}"/>
+                </h:outputText>-->
+
+                <h:outputText value="#{msgOrder['order.label.salesarea']}:"/>
+                <h:outputText value="#{orderController.selected.salesareaId.name} (#{orderController.selected.salesareaId.code})"/>                
+
+                <h:outputText value="#{msgOrder['order.label.sales']}:"/>
+                <h:outputText value="#{orderController.selected.salesId.name} (#{orderController.selected.salesId.code})"/>
+
+                <h:outputText value="#{msgOrder['order.label.plant']}:"/>
+                <h:outputText value="#{orderController.selected.plantId.name} (#{orderController.selected.plantId.code})"/>
+                
+                <h:outputText value="#{msgOrder['order.label.vehicle']}:"/>
+                <h:outputText value="#{orderController.selected.vehicle}"/>
+
+                <h:outputText value="#{msgOrder['order.label.deliveryPlace']}:"
+                              rendered="#{orderController.selected.deliveryId ne null}"/>
+                <h:outputText value="#{orderController.selected.deliveryId.name} (#{orderController.selected.deliveryId.code})"
+                              rendered="#{orderController.selected.deliveryId ne null}"/>
+
+                <h:outputText value="#{msgOrder['order.label.deliveryDate']}:"/>
+                <h:outputText value="#{orderController.selected.deliveryDate}"/>
+
+                <h:outputText value="#{msgOrder['order.label.method']}:"/>
+                <h:panelGroup>
+                    <h:outputText value="#{orderController.selected.method}:"/>
+                    <h:outputText value="#{msgOrder['order.label.method.FCA']}"
+                                  rendered="#{orderController.selected.method eq 'FCA'}"/>
+                    <h:outputText value="#{msgOrder['order.label.method.EXW']}"
+                                  rendered="#{orderController.selected.method eq 'EXW'}"/>
+                </h:panelGroup>
+
+                <!-- 20151022: SAP已修正, 一律不需輸入袋碼
+                <h:outputText value="#{msgOrder['order.label.siteLoc']}"
+                              rendered="#{orderController.canInputSiteLoc()}"/>
+                <p:inputText id="reviewOrderDialog_siteLoc"
+                             value="#{orderController.siteLoc}"
+                             maxlength="60"
+                             onblur="trimInput(this)"
+                             rendered="#{orderController.canInputSiteLoc()}"/>
+                -->
+                
+                <h:outputText value="#{msgOrder['order.label.createtime']}:"/>
+                <h:outputText value="#{orderController.selected.createtime}">
+                    <f:convertDateTime type="date" pattern="yyyy/MM/dd HH:mm"/>
+                </h:outputText>
+
+                <h:outputText value="#{msgOrder['order.label.member']}:"/>
+                <h:outputText value="#{orderController.selected.memberId.loginAccount}"/>
+            </h:panelGrid>
+            <hr/>
+            <h:panelGroup style="display:block; text-align:center;">
+<!--                <p:commandButton value="#{msgApp['app.button.ok']}"
+                                 icon="ui-icon-circle-check"
+                                 action="#{orderController.approve}"
+                                 update=":form:datalist :growl :messages"
+                                 onsuccess="PF('reviewOrderDialogVar').hide();"
+                                 />
+                <p:spacer width="4" />-->
+                <p:commandButton value="#{msgApp['app.button.close']}"
+                                 icon="ui-icon-circle-close"
+                                 onclick="PF('reviewOrderDialogVar').hide();
+                                         return false;"/>
+            </h:panelGroup>
+        </h:panelGroup>
+    </p:dialog>
+</ui:composition>

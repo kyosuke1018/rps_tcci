@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:ajaxStatus widgetVar="ajaxStatus"
+                  onstart="PF('ajaxStatusDlg').show();"
+                  onerror="PF('ajaxStatusDlg').hide();"
+                  onsuccess="PF('ajaxStatusDlg').hide();"
+                  rendered="#{not noajaxstatus}"/>
+    <p:dialog header="處理中"
+              widgetVar="ajaxStatusDlg"
+              modal="true" 
+              resizable="false"
+              draggable="false" 
+              closable="false">
+        <h:graphicImage library="images" name="loading9.gif"/>
+        <p:spacer width="4"/>
+        <h:outputText value="資料處理中，請稍候..." style="font-size: 16px;"/>
+    </p:dialog>
+    <script type="text/javascript">
+        //<![CDATA[
+        function downloadStart() {
+            PF('ajaxStatusDlg').show();
+        }
+        function downloadStop() {
+            PF('ajaxStatusDlg').hide();
+        }
+        function monitorDownload() {
+            PrimeFaces.monitorDownload(downloadStart, downloadStop);
+        }
+        //]]>
+    </script>
+</ui:composition>

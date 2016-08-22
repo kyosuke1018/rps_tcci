@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:panelGrid columns="4" style="width: 100%;">
+        <h:outputLabel value="#{msgUsermgmt['usermgmt.label.loginaccount']}:"/>
+        <p:inputText value="#{usermgmtController.filter.loginAccount}"
+                     onblur="trimInputToLower(this)"
+                     size="30"
+                     maxlength="60"/>
+        <h:outputLabel value="#{msgUsermgmt['usermgmt.label.empid']}:"/>
+        <p:inputText value="#{usermgmtController.filter.empId}"
+                     onblur="trimInput(this)"
+                     size="30"
+                     maxlength="20"/>
+        <h:outputLabel value="#{msgUsermgmt['usermgmt.label.cname']}:"/>
+        <p:inputText value="#{usermgmtController.filter.cname}"
+                     onblur="trimInput(this)"
+                     size="30"
+                     maxlength="20"/>
+        <h:outputLabel value="#{msgUsermgmt['usermgmt.label.group']}:"/>
+        <h:selectOneMenu value="#{usermgmtController.filter.groupId}"
+                         styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all">
+            <f:selectItem itemLabel="#{msgUsermgmt['usermgmt.label.selectgroup']}"
+                          itemValue=""/>
+            <f:selectItems value="#{usermgmtController.allGroup}"
+                           var="group"
+                           itemLabel="#{group.code} #{group.name}"
+                           itemValue="#{group.id}"/>
+        </h:selectOneMenu>
+        <h:outputLabel value="#{msgUsermgmt['usermgmt.label.email']}:"/>
+        <p:inputText value="#{usermgmtController.filter.email}"
+                     onblur="trimInput(this)"
+                     size="30"
+                     maxlength="60"/>
+    </h:panelGrid>
+</ui:composition>

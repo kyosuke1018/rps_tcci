@@ -1,0 +1,10 @@
+# To change this license header, choose License Headers in Project Properties.
+# To change this template file, choose Tools | Templates
+# and open the template in the editor.
+
+OPEN=\u5f85\u5be9\u6838
+OPEN_AUTO=\u81ea\u52d5\u5be9\u6838\u4e2d
+APPROVE=\u5df2\u6838\u51c6
+FAIL=\u5931\u6557
+CANCEL=\u5df2\u53d6\u6d88
+CLOSE=\u5df2\u51fa\u8ca8
