@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>風險類型 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("4-4"));
+		
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color4">
+				風險類型<span class="breadcrumb"></span>
+			</div>			
+			
+			<div class="title color4">災害風險管理</div>
+			<div class="ctx">
+				天然災害發生往往都會對企業營運造成重大的衝擊及影響，因此台泥一直秉持謹慎、預防的態度，訂定「緊急事件應變管理程序」，建立災害風險的管理機制，以預防或降低災害對公司造成的資產損毀、人員傷害以及營運停擺所帶來的財務損失。台泥除積極參與政府機關舉辦的各項演習、訓練外，更不定期在公司內部施行災害防救演練，增加員工對災害防範的認知以及應變能力。
+			</div>
+			</br>
+			
+			<div class="title color4">工作安全風險管理</div>
+			<div class="ctx">
+				台泥為了避免員工因作業活動而造成嚴重的職業災害，因此實施危害鑑別及風險評估，執行自主管理以消除潛在危害，預防職業災害發生，以嚴格尺度執行廠內工安各項規範，宣導工安事件處置程序，以杜絕工安事件發生。每年舉辦相關課程強化員工日常安全意識，於發生工安事件第一時間，立即啟動通報系統向相關單位及總處進行回報。
+			</div>
+			</br>
+			
+			<div class="title color4">營運風險管理</div>
+			<div class="ctx">
+				台泥企業營運向來重視「執行力」與「當責」，為降底企業營運風險以提昇管理績效。自2014年起建立台泥企業情資中心，發展內控預警系統。內控預警系統是將高階主管的管理經驗，輔以稽核人員的稽核經驗及內控問題產生的行為模式，轉化為企業的RuleBook，借由事前防止、即時監控、及異常預警等三種偵測模式，透過日報、月報將管理情資提供給業務、物料、工務與財務等功能單位使用。
+				</br></br>此外台泥企業導入MyGuiMini行動化資訊平台，將營運資訊展現於手機上，運用紅、黃、綠燈的表現方式，呈現管理情資，同仁可透過行動裝置，在最短的時間內掌控現場異常事件的發生，立即進行處理。
+			</div>
+			</br></br>
+		</div>		
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

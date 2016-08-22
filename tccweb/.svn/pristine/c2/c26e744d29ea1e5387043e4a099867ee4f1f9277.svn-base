@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>問卷調查 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("5-4"));
+        
+        if(getDomWideh() <= 350)
+            $("iframe").css("height", "3650px");
+        else if(getDomWideh() <= 400)
+            $("iframe").css("height", "3450px");
+        else if(getDomWideh() <= 800)
+            $("iframe").css("height", "3150px");
+        
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+    
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSddAbABhKOwqxLyTGYYfZJvfC5fk0hSi4z-ikxSIl_andz9rA/viewform?embedded=true" width="100%" height="3150px" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>空氣污染防制 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("7-6"));
+				
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color7">
+				空氣污染防制<span class="breadcrumb"></span>
+			</div>
+			
+			<div class="phoneSpace10"></div>
+			<div class="ctx">				
+				<span class="firstTxt">台</span>泥的工廠廢氣，依據其特性大致上區分為粒狀污染物（TSP）、氮氧化物（NOx）及硫氧化物（SOx）等3種。在粒狀污染物方面，建廠時即投下鉅資購置精良設備改善粉塵污染，每半年均對各類空氣污染物進行一次排放濃度檢測，排塵值均遠低於「固定污染源空氣污染物排放標準」以下。
+				</br></br>硫氧化物排放實際排放量僅約政府規定標準值之2-3%或達成無法測出的微量成果。歷年來投入數十億之經費，新設及汰換各式收塵設備、建置環保設施，其中更以和平廠為水泥業界之環保示範廠。
+				</br></br>氮氧化物排放方面，除採用連續自動監測以隨時嚴密調控外，更添購選擇性非觸媒還原（SNCR）設備抑制NOx之排放，和平廠更採用最新式低NOx-RSP系統及噴燃設備，可由製程本身有效抑制NOx之排放，達到污染預防的目的。目前台泥已完成旋窯控制室，增設連續自動監測系統（CEMS）畫面及氮氧化物（Nox），顯示連續24小時平均值，以利操作人員掌控因應。
+				</br></br>目前，台泥空氣污染防治設備處理能力均符合之相關規定，各廠空氣污染防治設備運轉亦十分穩定。根據歷年檢測結果，各廠空氣污染物排放濃度均遠低於環保署所規定之排放標準。2015年空氣污染排放總量為8,669公噸，其中又以氮氧化物為主要排放量，由於年產量調整之故，2015年較2014年減少5.05%之排放量。
+				</br></br>
+				
+				<div class="subTitle">歷年空氣汙染物排放量（單位：公噸/年）</div>
+                </br>
+                <div class="tableContainer">
+					<img src="img/img7-15.png" style="width:650px"/>
+				</div>
+                </br></br>
+				<div class="tableContainer">
+					<table width="650px" cellspacing="1">
+						<tr bgcolor="#7ebe25">
+							<th width="25%"></th>
+							<th width="25%">2013年</th>
+							<th width="25%">2014年</th>
+							<th width="25%">2015年</th>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#e9f2d9">粒狀汙染物</td>
+							<td>375</td>
+							<td>378</td>
+							<td>655</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#e9f2d9">硫氧化物</td>
+							<td>137</td>
+							<td>130</td>
+							<td>117</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#e9f2d9">氮氧化物</td>
+							<td>9,844</td>
+							<td>8,622</td>
+							<td>7,896</td>
+						</tr>
+					</table>
+				</div>
+				</br></br>
+			</div>			
+		</div>
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

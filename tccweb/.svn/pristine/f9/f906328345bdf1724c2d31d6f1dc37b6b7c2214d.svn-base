@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>藝文推廣 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("9-1"));
+		
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>	
+</head>
+
+<body>			
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color9">
+				藝文推廣<span class="breadcrumb"></span>
+			</div>
+			
+			<div class="ctx">
+				<span class="firstTxt">1</span>988年台泥董事長　辜振甫（公亮）先生設立「財團法人辜公亮文教基金會」。設立宗旨為透過國際（含兩岸）交流活動，推展台灣工商企業之經營管理、醫學研究、藝文及其有關活動。1991年成立京劇推廣組，由當時執行長辜懷群女士邀請名京劇表演藝術家李寶春先生與海峽兩岸京劇界精英，多次推出精緻經典好戲。多年來持續赴偏遠學校演出，向下紮根以培養戲劇人口；連年組團至歐、美、日等各地巡迴演出，於國際間宣揚傳統中華文化，為最活躍的私人基金會之一。
+				</br></br>基金會曾多次接受行政院文化建設委員會（現為文化部）之委託，承辦多項綜合性大型表演藝術活動，如1996年「盛秋藝宴：文建會週年慶展演」、1997年「出將入相：第一屆兒童傳統藝術節」及1999年「出將入相：第二屆兒童傳統藝術節」。自1992年起，連續數年辦理「傳薪遞火．光楊國劇」系列演出，演出收入所得全數設立基金，捐助國內年老失依的京劇藝人。
+				</br></br>
+				<img class="imgWrapR350" src="img/img9-11.jpg"/>
+				基金會於1998年成立附屬劇團「台北新劇團」（TaipeiLi-yuanChineseOperaTheatre），由京劇名武生李寶春先生，集合海內外有志一同的專業青年同好組成。劇團演出人員均為受過專業訓練，以及嚴格京劇表演之洗鍊、具備中國武術功夫、傳統技藝、民族舞蹈、與樂器吹奏訓練等技藝之台灣戲曲學校學生。除參與世界各地之巡迴演出外，自1999年起經營【臺北戲棚】，針對觀光族群推廣文化旅遊。全年固定於每週一、三、五、六演出，2015年於台北市台泥大樓士敏廳推出199場之「定目演出」，揉合台灣在地「原汁原味」的雜技（漢唐百戲）、掌中戲、傀儡戲、醒獅、原住民歌舞、京劇等多樣貌的民族藝術，屢獲觀光局與旅遊界之推薦與讚揚，以嶄新的方式詮釋戲曲，尤其吸引日、韓觀光客及歐美商務旅客，成功拓展台灣外交。
+				</br></br>「台北新劇團」為非營利性組織，一般人事及行政費用以公演自籌，不足數由辜公亮文教基金會與企業界贊助支持。2014年8月，納編擁有17年表演藝術內容製作與場地管理的原「新舞台」團隊，組織酷集劇場（TheKooCompany），從事表演藝術與活動製作、管理、顧問。酷集團隊成員曾經連年獲得文化部「文馨獎」特別獎、金獎，且屢次榮膺網路票選台北市最佳劇場服務。2015年亦承接台北市社教館「2015年度親子劇場」之前後台技術及服務管理，以及承攬國立傳統藝術中心之臺灣戲曲中心之節目規劃行銷與前後台管理服務，透過劇團之劇場管理專長，為藝文活動持續投入。
+				</br></br>2015年基金會製作了相當多的節目，包含創作老歌劇場，演出音樂劇「樂璇上海」，回味民國初年的老歌與場景；由文武老生李寶春與京劇小天后黃宇琳領銜的台北新劇團，於台北市政府親子劇場，再現京劇傳奇經典《雙姣奇緣》、《慶頂珠》、《一捧雪》；以宏觀規劃培訓優秀青年傳統戲曲人才，為展現優秀青年演員之專業技藝，舉辦台北新劇團青年匯演，演出《定軍山》、《慶頂珠》等節目；10月為紀念辜振甫先生逝世十年暨百歲冥誕，演出三天辜老在世時串演過的好老戲－《曹操與陳宮》、《鼎盛春秋》、《空城計》、《捧印》及《借東風、華容道》；10月底則巡迴大陸幾個大城市，表演新編京劇《知己》及新老戲《平貴別窯》、《路遙知馬力》。
+				</br></br>為增進傳統戲曲於國內普及度，除前述公演外，基金會也深入校園，辦理校園講座推廣傳統戲曲文化，此外，也成立臉書粉絲團，透過各式管道，期望能吸引更多年輕人理解、進而喜愛傳統戲曲藝術。
+			</div>
+			</br></br>
+		</div>
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

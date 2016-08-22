@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>工作生活平衡 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("6-6"));
+				
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color6">
+				工作生活平衡<span class="breadcrumb"></span>
+			</div>			
+
+			<div class="title color6">年度家庭日</div>
+			<div class="ctx">
+				台泥為感謝全體員工在工作崗位上認真努力的精神以及對公司的付出與支持，每年藉由舉辦「家庭日」活動，對員工本人及家人表達感恩之意，同時，增進員工之間彼此交流與互動，使眷屬對公司有進一步之認識，讓員工、眷屬、公司的關係更加緊密。				
+				</br></br>
+				<img class="imgWrapR450" src="img/img6-17.jpg"/>
+				<img class="imgWrapR450" src="img/img6-18.jpg"/>
+				<img class="imgWrapR450" src="img/img6-19.jpg"/>				
+				<div style="clear:both"></div>
+			</div>
+			</br>				
+				
+			<div class="title color6">身心健康</div>
+			<div class="ctx">
+				<img class="imgWrapR350" src="img/img6-20.jpg"/>
+				台泥致力給予員工安全舒適的工作環境，各廠針對員工衛教知識公布於佈告欄，且不定期更新健康相關資訊，以提供員工正確的健康教育知識，如：慢性腎臟病防治認知宣導、三高三檢要做好，健康人生來報到等健康促進活動。
+				</br></br>隨著現代人對於高血壓防治知識的重視，台泥於公司健身中心內擺放一台全自動電子血壓計，免費提供員工進行血壓測量。為鼓勵員工養成運動的習慣，讓員工在工作之餘，台泥總處設置完善的健身中心，設備多元，包含跑步機、立式健身車、橢圓機等各式健身器材，以及桌球台、撞球檯。另外亦提供按摩椅，給予員工紓壓解勞的服務，台泥期能夠透過完善設施、活動推廣，使員工維持強健體魄，以實踐健康的工作與生活。
+				<div style="clear:both"></div>
+				</br>
+				<div class="tableContainer">
+					<table width="100%" cellspacing="2">
+						<tr colspan="3" bgcolor="#d71d69">
+							<th>台泥大樓</th>
+						</tr>
+						<tr>
+							<td style="padding:0">
+								<img class="img33" src="img/img6-21.jpg"/>
+								<img class="img33" src="img/img6-22.jpg"/>
+								<img class="img33" src="img/img6-23.jpg"/>
+							</td>
+						</tr>
+						<tr colspan="3" bgcolor="#d71d69">
+							<th>和平廠區</th>
+						</tr>
+						<tr>
+							<td style="padding:0">
+								<img class="img33" src="img/img6-24.jpg"/>
+								<img class="img33" src="img/img6-25.jpg"/>
+								<img class="img33" src="img/img6-26.jpg"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			</br></br>
+		</div>
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

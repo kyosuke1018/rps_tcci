@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+<!--    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Production</param-value>
+    </context-param>-->
+<!--    <context-param>
+        <description>get default timezone from OS</description>
+        <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>RESOURCE_VERSION</param-name>
+        <param-value>1</param-value>
+    </context-param>
+    <context-param>
+        <param-name>X_UA_COMPATIBLE</param-name>
+        <param-value>IE=9</param-value>
+    </context-param>-->
+	
+<!--        <servlet>
+        <servlet-name>ServletAdaptor</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
+            <param-value>com.sun.jersey.api.container.filter.LoggingFilter</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>-->
+<!--    <servlet-mapping>
+        <servlet-name>ServletAdaptor</servlet-name>
+        <url-pattern>/service/*</url-pattern>
+    </servlet-mapping>    -->
+
+<!--<servlet>
+<servlet-name>CORS Filter</servlet-name>
+<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+ <init-param>
+    <param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
+    <param-value>com.tcci.tccweb.rs.filter.CORSFilter</param-value>
+ </init-param>
+</servlet>
+<servlet-mapping>
+    <servlet-name>CORS Filter</servlet-name>
+    <url-pattern>/service/*</url-pattern>
+</servlet-mapping>        -->
+    
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+	
+<!--    <welcome-file-list>
+        <welcome-file>faces/etlexec/batchJobs.xhtml</welcome-file> 
+    </welcome-file-list>
+    -->
+<!-- for REST Security -->
+<security-constraint>
+    <web-resource-collection>
+        <web-resource-name>RESTful Service</web-resource-name>
+        <url-pattern>/service/newsService/*</url-pattern>
+    </web-resource-collection>
+</security-constraint>    
+    
+<!-- 禁用HTTP的不安全方法 -->
+<!--<security-constraint>
+    <web-resource-collection>
+        <web-resource-name>All Pages</web-resource-name>
+        <url-pattern>*.xhtml</url-pattern>
+        <http-method>DELETE</http-method>
+        <http-method>PUT</http-method>
+        <http-method>HEAD</http-method>
+        
+        <http-method>OPTIONS</http-method>  
+        
+        <http-method>TRACE</http-method>
+    </web-resource-collection>
+    <auth-constraint/>
+</security-constraint>    -->
+</web-app>

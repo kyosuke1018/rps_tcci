@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>環境影響監測 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("7-8"));
+				
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color7">
+				環境影響監測<span class="breadcrumb"></span>
+			</div>
+			
+			<div class="phoneSpace10"></div>
+			<div class="ctx">				
+				<span class="firstTxt">台</span>台泥於花蓮「和平水泥工業區」雖已按環評承諾，執行各項監測控管，惟基於企業社會責任，希望能對對「和平水泥工業區」周邊整體環境資訊，做詳盡之調查與分析，自主性委託國立臺灣海洋大學進行環境整合調查計畫，將相關結果做為產官學界未來長期研究附近生態規劃監測參考。
+				</br></br>計畫涵蓋區域北起南澳溪口，南至立霧溪口為範圍，計畫時程自2015年1月1日起至2017年12月31日止，為期三年。計畫執行工作項目有：
+				</br></br>
+				
+				<ul style="margin:0; padding:0 0 0 20px">
+					<li>區域環境資料庫系統建置</li>
+					<li>計畫區近海海底生態棲地狀況及區域變化情形調查</li>
+					<li>海域底質調查及漂砂模擬分析</li>
+					<li>和平電廠溫排水影響範圍分析</li>
+					<li>和平港底泥重金屬背景分析</li>
+					<li>環境品質狀況整合分析及編製環境白皮書</li>
+				</ul>
+				</br>
+				
+				截至2015年底所進行之監測分析，和平電廠臨近海域四季海表溫度狀況，溫排水口之海表溫度隨季節在24.5∘C至27∘C間變動。距離溫排水口1,000公尺以外之海表溫度，則受到外洋水之影響，海表水溫落在23∘C至30∘C間。根據支持漁業所需之基礎生產力（PPR）研究分析，和平電廠附近海域內，有足夠之海洋基礎生產力，亦即海洋生物的食物來源相當充足，可支持宜蘭、花蓮之漁業活動無虞。
+				</br></br>				
+				
+				<div class="tableContainer">
+					<img src="img/img7-16.jpg" style="width:650px"/>				
+				</div>
+				</br></br>
+			</div>			
+		</div>
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

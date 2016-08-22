@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>關於報告書 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("0-1"));
+	
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color3">
+				關於報告書<span class="breadcrumb"></span>
+			</div>
+			
+			<div class="phoneSpace10"></div>
+			<div class="ctx">
+				<span class="firstTxt">本</span>報告書是台灣水泥股份有限公司（以下簡稱為「台泥」）2015年企業社會責任報告書（以下簡稱為「本報告書」），台泥以公開、透明、誠信的原則，忠實表達2015年台泥與各相關利害關係人之溝通，及企業社會責任議題上所投入的活動，希望透過本報告書，與各企業一同響應取之社會、回饋社會的經營理念，提升未來的生活品質。本報告書相關資訊如下所示：經驗」的最佳見證。
+			</div>
+			</br>
+			
+			<div class="subTitle">報告期間與揭露範疇</div>
+			<div class="ctx">
+				本次報告期間為2015年（2015年1月1日至12月31止），除財務績效以合併個體為範疇提供，其餘內容皆以台泥台灣為主要個體，又因台泥台灣與和平火力發電廠、和平工業港在環保投入方面，相輔相成、三位一體，故本報告書於環境保護議題上，包含子公司和平火力電廠與和平工業港之組織個體。考量資訊之可比較性，部分績效資訊將一併揭露近三年數據。
+				</br>
+				前次報告公告時間：2015年6月
+				</br>
+				本次報告公告時間：2016年6月
+				</br>
+				下次報告預定時間：2017年6月
+			</div>
+			</br>
+			
+			<div class="subTitle">報告書撰寫依據</div>
+			<div class="ctx">
+				本報告書依循全球報告倡議組織（Global Reporting Initiative, GRI）所頒布之G4永續性報告指南「核心選項」及「採礦及金屬行業別補充指引」之要求撰寫，揭露資訊亦參考ISO 26000指引等國際標準。
+			</div>
+			</br>			
+			
+			<div class="subTitle">資訊揭露</div>
+			<div class="ctx">
+				本報告書所揭露之數據，財務績效相關資訊係依據會計師簽證後公開發行之合併報告書為準，所有財務數字以新臺幣為計算單位，自2013年開始，上市櫃公司強制採用國際會計準則IFRSs（International Financial Reporting Standards）編製財務報表，因此，台泥財務數據採用IFRSs為基礎所揭露。其他數據係由台泥自行彙整與統計所得，以一般慣用的數值描述方式，採四捨五入為原則。此外，本報告書亦同步公開於台泥官方網站（http://www.taiwancement.com/#Csr_3_4）。
+			</div>
+			</br>			
+
+			<div class="subTitle">報告書審查</div>
+			<div class="ctx">
+				內部審查：本報告書所揭露之數據或資料，係由各權責部門提供經CSR報告書編撰小組確認，送交各部門長官後經董事長審閱通過。
+				</br>
+				外部審查：本報告書是由台灣檢驗科技股份有限公司（SGSTaiwanLtd.）依循GRI G4核心項準則及AA 1000AS第一類型中度保證等級進行查證，確認本報告書符合GRI G4核心選項要求，相關保證／確信方法與結果請參閱本報告書附錄。
+			</div>
+			</br>			
+
+			<div class="subTitle">聯絡資訊</div>
+			<div class="ctx">
+				對於本報告書有任何疑問，或是對台泥有任何建議，歡迎透過下列方式與我們聯絡。
+				</br>
+				台泥總經理特別助理陳世明
+				</br>
+				電話：(02)7719-7368
+				</br>
+				傳真：(02)2531-6897
+				</br>
+				郵件：sherman.chen@taiwancement.com
+				</br>
+				網址：<a href="www.taiwancement.com"><u>www.taiwancement.com</u></a>
+			</div>
+			</br></br>
+		</div>
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

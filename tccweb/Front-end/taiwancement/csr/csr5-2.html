@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>研發創新 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("5-2"));
+		
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color5">
+				研發創新<span class="breadcrumb"></span>
+			</div>
+			
+			<div class="title color5">研發創新成效</div>
+			<div class="ctx">
+				台泥成立全台唯一的水泥及混凝土專業研究室，目前範疇集中在水泥、混凝土及資源再利用等三大領域之開發與推展，應用既有之各項產品開發技術，結合通路及外部資源，以及集團內部之多元人才養成計畫，確保水泥及混凝土品質穩定度能持續優於同業。
+			    </br></br>此外，也執行各項新技術或製程的開發及導入評估，持續投入在水泥、發電、環境保護及資源化再利用，與捕獲二氧化碳進行再利用之生物技術加值化計畫。
+				</br></br>目前已開發成功之技術或產品包括：
+				</br>
+				<ul style="padding:0 0 0 20px">						
+					<li>量產Ⅱ型高性能水泥及Ⅱ／Ⅴ型高強水泥</li>
+					<li>量產IV型水泥，品質符合CNS規範及特殊工程要求泥</li>
+					<li>開發10000psi高性能混凝土之量產</li>
+					<li>開發自充填高抗滲性能混凝土之量產力</li>
+					<li>開發高抗滲性能混凝土之量產力</li>
+					<li>開發氟化鈣污泥之檢測與再利用技術</li>
+					<li>開發水泥微量元素檢測技術</li>
+					<li>油泥灰渣應用之技術</li>
+					<li>降低水泥旋窯預設機結皮之處理技術</li>
+					<li>捕獲及再利用CO2系統之失活吸附劑再利用及封存CO2的方法</li>
+					<li>迴流懸浮式鍛燒爐系統及其使用方法</li>
+					<li>循環塔二氧化碳捕獲系統、碳酸化爐、鍛燒爐及其使用方法</li>
+					<li>二氧化碳捕獲裝置與方法</li>
+					<li>粉體輸送裝置</li>
+				</ul>				
+				</br>
+				
+				未來研究發展計劃及計劃開發之新商品包括：				
+				<ul style="padding:0 0 0 20px">
+					<li>鈣迴路捕獲技術驗證與放大技術研發</li>
+					<li>以煙道氣或結合鈣廻路捕獲二氧化碳技術進行微藻養殖技術開發研究（CCSU）</li>
+					<li>戶外微藻固碳系統及高單價微藻培養研究</li>
+				</ul>
+				</br>
+				
+				台泥將以「高生產力、高顧客滿意度、高創新、高合作、高文化、高國際化」之六大方向為經、以環保經濟為緯，配合社會環境脈動，以「提昇競爭力、資源再利用極大化、降低單位能源消耗量、減少廢棄物、利用水泥窯協助其他企業處理廢棄物」等改善為主軸，期望建立環保經濟的良性循環，達到企業永續經營的目標。
+				</br></br>
+				
+				<div class="tableContainer">
+					<img src="img/img5-13.jpg" style="width:600px"/>
+				</div>
+				</br></br>
+			</div>			
+		</div>
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

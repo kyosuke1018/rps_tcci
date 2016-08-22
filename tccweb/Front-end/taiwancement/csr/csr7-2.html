@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>溫室氣體管理 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("7-2"));
+				
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color7">
+				溫室氣體管理<span class="breadcrumb"></span>
+			</div>
+			
+			<div class="phoneSpace10"></div>
+			<div class="ctx">
+				<span class="firstTxt">溫</span>室氣體盤查是提供執行減量之依據，藉由盤查結果訂出減量標的與優先順序，同時亦可確認減量成果。自2007年起進行溫室氣體盤查，且取得SGS核發ISO 14064溫室氣體查證聲明書，同時，台泥三座水泥廠分別於2007年、2008年、2009年獲得經濟部工業局頒發產業自願性溫室氣體排放減量績優廠商。2014年自願申請加入經濟部工業局製造業能源管理系統示範應用與推廣輔導計畫，花蓮廠亦再度榮獲水泥業唯一之溫室氣體自願減量績優廠商。台泥2015年溫室氣體排放量約為524萬噸・二氧化碳當量，略少於2014年之排放量，惟因單價降低導致之營收減少，且受生產特性影響，廠內生產設備仍需持續運作，因此單位排放量由2014年之45.48提高至55.93（單位：噸・二氧化碳當量 (ton CO2e)／百萬元）。
+				</br></br>
+				
+				<div class="subTitle">歷年溫室氣體排放量</div>
+				<div class="tableContainer">
+					<img src="img/img7-3.png" style="width:700px"/>
+				</div>
+				</br>
+				註：由於能源局尚未公告2015年度電力排放係數，故2015年度範疇二外購電力排放量以2014年度電力排放係數0.521 kg CO2e/度進行計算
+				</br></br></br>
+
+				<div class="subTitle">歷年單位溫室氣體排放量</div>
+				<div class="tableContainer">
+					<img src="img/img7-4.png" style="width:570px"/>
+				</div>
+				</br></br>
+			</div>			
+		</div>
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

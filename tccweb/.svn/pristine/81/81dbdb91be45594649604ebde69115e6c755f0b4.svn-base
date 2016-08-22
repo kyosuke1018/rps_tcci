@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>儲備幹部訓練 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("6-2"));
+				
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color6">
+				儲備幹部訓練<span class="breadcrumb"></span>
+			</div>
+			
+			<div class="phoneSpace10"></div>
+			<div class="ctx">
+				<span class="firstTxt">台</span>泥自2007年起啟動第一屆儲備幹部計畫，培訓期間採跨廠學習、學習評鑑及實務應用等方式，強化專業與管理之應用。迄今已培育逾100位管理幹部，目前這些幹部皆服務於臺灣或大陸各水泥廠、總處及研究室等地。
+				</br></br>儲備幹部計畫以培育企業接班人為目的，結合理論基礎與現場實務操作，透過密集式的系統化培訓，讓每位儲備幹部能跳出思維框架且在實務中歷練，逐步建立成熟而長遠的企業宏觀，完成12至15個月之紮實訓練後，每位儲備幹部將進階為公司管理人才，為將來經營團隊預作準。
+				</br></br>
+				<div class="tableContainer">
+					<img src="img/img6-11.png" style="width:650px"/>
+				</div>
+			</div>
+			</br>
+			
+			<div class="title color6">儲備幹部訓練計畫特色</div>
+			<div class="tableContainer">
+				<img src="img/img6-12.png" style="width:650px"/>
+			</div>
+			</br></br>
+
+			<div class="title color6">職涯發展與獎酬</div>
+			<div class="ctx">
+				<ul style="padding:0 0 0 20px">
+					<li>12-15個月系統化的訓練結構，採輪調式學習方式，充分了解水泥製程運作與管理，提供完整的學習計畫內容與師徒制專業教導的模式</li>
+					<li>通過結業：晉升襄理，薪資調幅超過20%，正式邁入管理職第一步</li>
+					<li>職務分發地點包含台灣、大陸各大水泥生產基地；未來發展機會更涵蓋集團內其他海內外關係企業之管理職</li>
+					<li>優渥的派駐津貼及專人式貼心生活照應。外派職務提供：
+						<ul style="padding:0 0 0 20px; list-style-type:square;">
+							<li>享有職務崗位津貼、優渥績效獎金</li>
+							<li>年假20天、來回機票五趟／年</li>
+							<li>派駐3年以上，年假25天、來回機票六趟／年</li>
+							<li>五星級住宿環境及配套措施</li>
+							<li>免費三餐、單人套房、貼身管家</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			</br>
+						
+			<div class="ctx" style="padding:15px; box-sizeing:border-box; background:#fceef4">				
+				<div class="title color6">MA2楊正妮(蘇澳廠副廠長)心得分享</div>
+				<img class="imgWrapR250" src="img/img6-13.jpg"/>
+				目前我任職於蘇澳廠副廠長一職，統籌製造、儲運、品質及人員管理等方面事務，近幾年職務調動與歷練，發揮了我前期在大陸水泥廠及總處工務部的學習經驗，藉由副廠長之職務，將我的職涯發展從專業職延伸為管理職。加入儲備幹部計畫之前，我原本常有懶惰的習慣，對於任務比較沒有持續的毅力、喜歡輕輕鬆鬆完成的工作；但自進入台泥公司儲備幹部（MA）訓練後，評核主管發現我這個缺點，藉由實務工作報告與要求仍未有明顯進步時，在某次月評核會議中給了「不及格」的考核，這對我來說是一個刺激和挫折，不服輸的我以此為鑑，調整自我，日後做任何事都盡我的全力，因為我知道我所做的事都代表我自己，不可以被看輕；如同我現在擔任副廠長的職務，時時刻刻提醒自己，將每一天工作表現視為一次一次的信用累積，為自己、為公司留下一個令人讚賞的典範。MA計畫最好的特色是讓我能夠在各廠各部門輪調學習，不僅見識的廣度增加，而且在不同領域能快速吸收要領，所以無論在人脈或專業上，我都覺得有顯著的提升，感謝MA計劃給我快速成長機會，讓我在自己的職涯上向前邁進一大步。
+			</div>
+			</br></br>
+		</div>
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

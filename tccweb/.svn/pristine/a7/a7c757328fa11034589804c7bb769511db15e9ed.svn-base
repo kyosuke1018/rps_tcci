@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>水資源管理 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("7-5"));
+		
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});		
+	});
+	</script>	
+</head>
+
+<body>		
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color7">
+				水資源管理<span class="breadcrumb"></span>
+			</div>		
+			
+			<div class="ctx">
+				<span class="firstTxt">水</span>水資源管理亦是台泥氣候變遷中重要之管理議題，2009年以來，台灣地區雨季與旱季降雨量的豐枯變化逐漸極端化，缺水與水災的風險日益明顯。台泥透過生產流程的改善，在水資源耗用上明顯有所改善，最近三年，水資源耗用呈現逐年遞減的趨勢。各工廠排放水之處理方式為：
+				<ul style="margin:0; padding:0 0 0 20px">					
+					<li>水泥廠生產排放水排至廢水處理場，經刮油機去除油污及沉澱處理，達廢水排放標準進行排放</li>
+					<li>預拌廠生產排放水皆回收貯留用於洗車、製程使用，零排放</li>
+					<li>道路雨水經由地下管溝收集後，匯流至廢水處理場緩衝池內，做為道路灑水、出廠卡車洗胎、景觀路樹灌溉用</li>
+				</ul>
+				</br>
+				
+				2015年台泥總用水量約為348萬立方公尺，由於年度產量調整之故，相較於2014年減少用水達近42萬立方公尺；單位產品用水量則因營收減少，由36.73微幅增加至37.18（單位為立方公尺／百萬元）。
+				</br></br>
+				
+				<div class="subTitle">2015年之節水方案及成效</div>
+				<div class="tableContainer">
+					<img src="img/img7-9.png" style="width:650px"/>
+				</div>
+				</br></br>
+				
+				<div class="subTitle">歷年水泥廠水資源耗用量（單位：立方公尺）</div>
+				<div class="tableContainer">
+					<img src="img/img7-10.png" style="width:650px"/>
+				</div>
+				*工業用水僅供和平水泥廠使用
+				</br></br></br>
+
+				<div class="subTitle">歷年預拌廠水資源耗用量(單位：立方公尺)</div>
+				<div class="tableContainer">
+					<img src="img/img7-11.png" style="width:650px"/>
+				</div>
+				</br></br>
+
+				<div class="subTitle">歷年水資源耗用總量（單位：立方公尺）</div>
+				<div class="tableContainer">
+					<img src="img/img7-12.png" style="width:650px"/>
+				</div>
+				</br></br>				
+				
+				<div class="tableContainer">
+					<table width="650px" cellspacing="1">
+						<tr bgcolor="#7ebe25">
+							<th width="25%"></th>
+							<th width="25%">2013年</th>
+							<th width="25%">2014年</th>
+							<th width="25%">2015年</th>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#e9f2d9"><font color="c3d600">■</font> 自來水　　　</td>
+							<td>675,895</td>
+							<td>642,900</td>
+							<td>654,217</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#e9f2d9"><font color="7ebe25">■</font> 地下水　　　</td>
+							<td>2,011,502</td>
+							<td>1,796,291</td>
+							<td>1,692,894</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#e9f2d9"><font color="44b034">■</font> 工業用水　　</td>
+							<td>1,430,744</td>
+							<td>1,196,431</td>
+							<td>844,323</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#e9f2d9"><font color="008842">■</font> 製程回收用水</td>
+							<td>231,863</td>
+							<td>244,347</td>
+							<td>269,533</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#e9f2d9"><font color="c8c9ca">■</font> 雨水回收用水</td>
+							<td>24,079</td>
+							<td>22,933</td>
+							<td>21,938</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			</br></br>
+			
+			<div class="title color7">水土保持</div>
+			<div class="ctx">
+				<ul style="margin:0; padding:0 0 0 20px">					
+					<li>澳廠水泥磨及#6K系統空壓機更新（各2台），共節電300,000度</li>
+					<li>花蓮廠餘熱發電AQC爐管更新，共節電2,211,360度</li>
+					<li>和平廠空壓機汰舊換新、冷卻機系統風車裝設變頻器，節約648,370度</li>
+				</ul>
+				</br>
+				<div class="tableContainer">
+					<img src="img/img7-13.png" style="width:600px"/>
+				</div>
+				</br>
+				<div class="subTitle">礦石豎井運輸剖面圖</div>
+				</br>
+				<div class="tableContainer">
+					<img src="img/img7-14.jpg" style="width:750px"/>
+				</div>
+			</div>
+			</br></br>
+		</div>		
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>原料使用 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("7-3"));
+				
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color7">
+				原料使用<span class="breadcrumb"></span>
+			</div>			
+
+			<div class="phoneSpace10"></div>
+			<div class="ctx">
+				<span class="firstTxt">台</span>泥之主要原物料為石灰石、黏土、矽砂、鐵渣、高矽砂及煤灰。其中，石灰石自廠區之礦區自行開採；鐵渣、高矽砂則為外購；黏土、矽砂及煤灰均為再利用之原料，共1,045,838噸，占2015年總原物料使用量之12%，其中煤灰取自和平火力發電廠發電或國內其他電廠發電過程中而得，黏土與矽砂則來自公共工程與建築工程剩餘營建土石及合法土資場所供應。
+				</br></br>基於自然資源有限，台泥積極在生產過程中減少原物料使用之浪費，積極研究可再生原物料之使用，以減少生產過程所耗用之數量。2015年原物料總耗用量約873.5萬噸，較2014年減少近100萬噸，其中石灰石即減少約70萬噸。
+				</br></br>
+				<div class="subTitle">歷年原物料耗用量(單位：噸)</div>
+				</br>
+				<div class="tableContainer">
+					<img src="img/img7-5.png" style="width:600px"/>
+				</div>
+			</div>
+			</br></br>
+
+			<div class="title color7">原料使用</div>
+			<div class="ctx">
+				董事持續進修為建立董事進修學習之機制與管道，活化董事之進修學習效益，使之便利取得相關資訊，維持其核心價值及專業優勢與能力，台泥董事會祕書室不定期提供主管機關、民間機構所舉辦之公司治理進修課程，提供予董監事參考及選擇。
+				</br></br>
+				<div class="tableContainer">
+					<table width="700px" cellspacing="1">
+						<tr bgcolor="#7ebe25">
+							<th width="25%"></th>
+							<th width="25%">2013年</th>
+							<th width="25%">2014年</th>
+							<th width="25%">2015年</th>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#e9f2d9"><font color="77b322">■</font> 石灰石</td>
+							<td>10,408,134</td>
+							<td>8,180,464</td>
+							<td>7,485,655</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#e9f2d9"><font color="c3d600">■</font> 黏土　</td>
+							<td>601,044</td>
+							<td>617,734</td>
+							<td>568,779</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#e9f2d9"><font color="7ebe25">■</font> 矽砂　</td>
+							<td>995,250</td>
+							<td>342,217</td>
+							<td>154,407</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#e9f2d9"><font color="44b034">■</font> 鐵渣　</td>
+							<td>294,353</td>
+							<td>169,681</td>
+							<td>147,819</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#e9f2d9"><font color="008842">■</font> 高矽砂</td>
+							<td>-</td>
+							<td>44,500</td>
+							<td>56,463</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#e9f2d9"><font color="c8c9ca">■</font> 煤灰　</td>
+							<td>390,910</td>
+							<td>372,436</td>
+							<td>322,652</td>
+						</tr>						
+					</table>
+				</div>
+			</div>
+			</br></br>
+		</div>		
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

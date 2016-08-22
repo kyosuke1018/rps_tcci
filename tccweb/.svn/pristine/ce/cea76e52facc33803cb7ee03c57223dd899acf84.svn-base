@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>報告書下載 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("other"));
+		
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>	
+</head>
+
+<body>			
+	<div id="headerField">
+		<div id="header"></div>		
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption">
+				報告書下載<span class="breadcrumb"></span>
+			</div>
+
+			<div class="reportList">
+				<div class="report reportCurrent">
+					<a href="report/report_2015.pdf" target="_blank">
+						<img src="report/cover_2015.jpg"/>
+						<span>2015 報告書</span>
+					</a>
+				</div>
+				</br></br>
+				<div class="title" align="left">- 歷年報告書</div>
+				<div class="containerDivideDash"></div>
+				</br>
+				<div class="report">
+					<a href="report/report_2014.pdf" target="_blank">
+						<img src="report/cover_2014.jpg"/>
+						<span>2014 報告書</span>
+					</a>
+				</div>
+				<div class="report">
+					<a href="report/report_2013.pdf" target="_blank">
+						<img src="report/cover_2013.jpg"/>
+						<span>2013 報告書</span>
+					</a>
+				</div>
+				<div class="report">
+					<a href="report/report_2012.pdf" target="_blank">
+						<img src="report/cover_2012.jpg"/>
+						<span>2012 報告書</span>
+					</a>
+				</div>
+				<div class="report">
+					<a href="report/report_2011.pdf" target="_blank">
+						<img src="report/cover_2011.jpg"/>
+						<span>2011 報告書</span>
+					</a>
+				</div>
+				<div class="report">
+					<a href="report/report_2010.pdf" target="_blank">
+						<img src="report/cover_2010.jpg"/>
+						<span>2010 報告書</span>
+					</a>
+				</div>
+			</div>
+			</br>			
+		</div>
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

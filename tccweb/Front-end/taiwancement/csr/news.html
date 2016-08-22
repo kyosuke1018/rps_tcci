@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>新聞內容 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		var id;
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("other"));		
+		
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+		
+		id = GetUrlString("id");
+		id = decodeURI(id);
+		
+		$.ajax({ 
+          url: 'http://192.168.203.50/tccweb/service/tccNewsService/findNewsById?newsId='+id
+		}).then(
+			function (data){
+				var html = '';				
+				
+				$.each(data, function(i, element){
+					// alert('data[i].idnum = '+data[i].idnum);
+				
+						html += '<div class="news">';
+						html += '	<div class="title">' + data[i].subject + '</div>';
+						html += '	<div class="date">'  + data[i].yy + '</div>';				
+						html += '	<div class="cont">'  + data[i].memo + '</div>';
+						html += '</div>';
+				});				
+				
+				$("#news").html(html);
+				$("#news img").each(function(index){
+					var src = $("#news img:eq(" + index + ")").attr("src");
+					src = src.substr(1);
+					$("#news img:eq(" + index + ")").attr("src", src);
+					$("#news img:eq(" + index + ")").css("width", "auto");
+				});
+			}
+	)}            
+		);
+	</script>	
+</head>
+
+<body>			
+	<div id="headerField">
+		<div id="header"></div>		
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption">
+				新聞內容<span class="breadcrumb"></span>
+			</div>			
+
+			<div id="news"></div>
+			</br></br>
+		</div>
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

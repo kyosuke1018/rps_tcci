@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>審計委員會及薪酬委員會 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("4-2"));
+				
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color4">
+				審計委員會及薪酬委員會<span class="breadcrumb"></span>
+			</div>			
+
+			<div class="phoneSpace10"></div>
+			<div class="ctx">
+				<span class="firstTxt">為</span>協助董事會評估與監督公司董事及經理人之薪酬水準，台泥於2011年起設置「薪資報酬委員會」與制定「薪資報酬委員會組織規程」。2015年董監事改選，完成第3屆委員之委任，同時亦成立審計委員會，以取代監察人之職權。
+			</div>
+			</br>			
+
+			<div class="title color4">董、監事進修情形</div>
+			<div class="ctx">
+				董事持續進修為建立董事進修學習之機制與管道，活化董事之進修學習效益，使之便利取得相關資訊，維持其核心價值及專業優勢與能力，台泥董事會祕書室不定期提供主管機關、民間機構所舉辦之公司治理進修課程，提供予董監事參考及選擇。
+				</br></br>
+				<div class="tableContainer">
+					<table width="730px" cellspacing="1">
+						<tr>
+							<th style="width:10%; background:#f39700">職稱</th>							
+							<th style="width:12%; background:#f39700">代表人</th>							
+							<th style="width:45%; background:#f39700">主要經(學)歷</th>
+							<th style="width:8%;  background:#f39700">應出席次數</th>
+							<th style="width:8%;  background:#f39700">實際出席次數</th>
+							<th style="width:8%;  background:#f39700">委託席次數</th>
+							<th style="width:9%;  background:#f39700">實際出席率(%)</th>
+						</tr>
+						<tr>
+							<td style="padding:10px;      text-align:center; background:#fdebd1">委員</td>
+							<td style="padding:10px;      text-align:center; background:#eeeeef">焦佑鈞*</td>							
+							<td style="padding:10px 20px; text-align:left;   background:#eeeeef">交通大學電信工程系學士</br>美國華盛頓大學電機碩士</br>華邦電子公司董事長</td>
+							<td style="padding:10px;      text-align:center; background:#eeeeef">4</td>
+							<td style="padding:10px;      text-align:center; background:#eeeeef">4</td>
+							<td style="padding:10px;      text-align:center; background:#eeeeef">0</td>
+							<td style="padding:10px;      text-align:center; background:#eeeeef">100%</td>
+						</tr>
+						<tr>
+							<td style="padding:10px;      text-align:center; background:#fdebd1">委員</td>
+							<td style="padding:10px;      text-align:center; background:#e5e6e6">魏永篤**</td>
+							<td style="padding:10px 20px; text-align:left;   background:#e5e6e6">東吳大學會計系學士</br>美國喬治亞大學企管碩士</br>曾任勤業眾信聯合會計師事務所總裁</td>
+							<td style="padding:10px;      text-align:center; background:#e5e6e6">4</td>
+							<td style="padding:10px;      text-align:center; background:#e5e6e6">4</td>
+							<td style="padding:10px;      text-align:center; background:#e5e6e6">0</td>
+							<td style="padding:10px;      text-align:center; background:#e5e6e6">100%</td>
+						</tr>
+						<tr>
+							<td style="padding:10px;      text-align:center; background:#fdebd1">委員</td>
+							<td style="padding:10px;      text-align:center; background:#eeeeef">王金山</td>
+							<td style="padding:10px 20px; text-align:left;   background:#eeeeef">東吳大學會計系</br>台灣大學EMBA</br>曾任勤業眾信聯合會計師事務所審計服務部門營運長、副董事長</td>
+							<td style="padding:10px;      text-align:center; background:#eeeeef">4</td>
+							<td style="padding:10px;      text-align:center; background:#eeeeef">4</td>
+							<td style="padding:10px;      text-align:center; background:#eeeeef">4</td>
+							<td style="padding:10px;      text-align:center; background:#eeeeef">100%</td>
+						</tr>							
+					</table>					
+				</div>
+			</div>
+			</br></br>
+			
+			<div class="subTitle">薪資報酬委員會職權</div>
+				<div class="tableContainer">
+					<img src="img/img4-3.png" style="width:600px"/>
+				</div>
+			</br></br>
+			
+			<div class="subTitle">審計委員會職權</div>
+				<div class="tableContainer">
+					<img src="img/img4-4.png" style="width:600px"/>
+				</div>
+			</br></br>
+		</div>		
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>人力概況 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("6-1"));
+				
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color6">
+				人力概況<span class="breadcrumb"></span>
+			</div>			
+
+			<div class="title color6">人員招募</div>
+			<div class="ctx">
+				<img class="imgWrapR250" src="img/img6-1.jpg"/>
+				台泥透過公開招募管道與適當之遴選方式，積極延攬優秀人才，依其學識、經驗、人格特質及工作經歷派任適當工作，且不因性別、宗教、種族或政黨等而有不同待遇。
+				</br></br>台泥除提供優渥之薪酬外，恪遵政府勞動法令相關規範，未僱用未滿16歲員工、不強迫與強制勞動，同時遵守法規規範，未安排妊娠中或產後未滿一年之女性或具有學生身份者，擔任具有危險性或有害性之工作。
+				</br></br>台泥於公司網站中詳細介紹公司文化、工作環境、薪酬福利等訊息，提供求職者進一步了解就業相關資訊。同時，不僅於人力銀行網站公布工作職缺，延攬各方人才，亦定期於校園、軍中、外貿協會、勞工局就業訓練中心等地舉辦徵才活動，期能透過活動進行互動與交流，藉此發掘公司所需之優秀人才投入公司的行列。
+				</br></br></br>
+				<div class="tableContainer">
+					<img src="img/img6-2.png" style="width:700px"/>
+				</div>
+			</div>
+			</br>
+			
+			<div class="title color6">人力概況</div>
+			<div class="ctx">
+				員工是台泥持續進步向前的關鍵因素之一，亦是公司最重要的資產，截至2015年底，台泥正職同仁總數為789人，另有定期契約人員23人、派遣人員48人，總勞動人力為860人。2015年女性同仁88人，與2014年人數相同；在年齡部分，51歲以上之同仁262人，較2014年增加2人；大學學歷以上佔35.9%，較2014年增加2%。
+				</br></br>
+				<div class="subTitle">歷年正職同仁人數（依性別）</div>
+				<div class="tableContainer">
+					<img src="img/img6-3.png" style="width:700px"/>
+				</div>
+				</br></br>
+				<div class="subTitle">歷年正職同仁人數（依年齡）</div>
+				<div class="tableContainer">
+					<img src="img/img6-4.png" style="width:700px"/>
+				</div>
+				</br></br>
+				<div class="subTitle">歷年正職同仁學歷概況</div>
+				<div class="tableContainer">
+					<img src="img/img6-5.png" style="width:700px"/>
+				</div>
+				</br></br>
+				
+				2015年基層主管以上共108人，較2014年減少15人，其中女性減少4人；高階主管增加6人，分別於31-50歲族群增加3人、50歲以上增加3人。
+				</br></br>
+				<div class="tableContainer">
+					<table width="800px" cellspacing="1">
+						<tr bgcolor="#d71d69">
+							<th rowspan="2">歷年正職同仁職級別人數</br>（依性別）</th>
+							<th colspan="2">2013年</th>
+							<th colspan="2">2014年</th>
+							<th colspan="2">2015年</th>
+						</tr>
+						<tr bgcolor="#d71d69">
+							<th>女</th>
+							<th>男</th>
+							<th>女</th>
+							<th>男</th>
+							<th>女</th>
+							<th>男</th>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td width="25%" bgcolor="#f7dce1">高階主管</td>
+							<td width="12%">3</td>
+							<td width="12%">5</td>
+							<td width="12%">2</td>
+							<td width="12%">5</td>
+							<td width="12%">2</td>
+							<td width="12%">11</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">中階主管</td>
+							<td>16</td>
+							<td>79</td>
+							<td>13</td>
+							<td>74</td>
+							<td>11</td>
+							<td>54</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#f7dce1">基層主管</td>
+							<td>7</td>
+							<td>20</td>
+							<td>10</td>
+							<td>19</td>
+							<td>8</td>
+							<td>22</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">專業人員</td>
+							<td>28</td>
+							<td>99</td>
+							<td>31</td>
+							<td>90</td>
+							<td>36</td>
+							<td>82</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#f7dce1">直接人員</td>
+							<td>38</td>
+							<td>609</td>
+							<td>32</td>
+							<td>579</td>
+							<td>31</td>
+							<td>532</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">總計</td>
+							<td>92</td>
+							<td>812</td>
+							<td>88</td>
+							<td>767</td>
+							<td>88</td>
+							<td>701</td>
+						</tr>
+					</table>
+				</div>
+				</br>
+				
+				<div class="tableContainer">
+					<table width="800px" cellspacing="1">
+						<tr bgcolor="#d71d69">
+							<th rowspan="2">歷年正職同仁職級別人數（依年齡）</th>
+							<th colspan="3">2013年</th>
+							<th colspan="3">2014年</th>
+							<th colspan="3">2015年</th>
+						</tr>
+						<tr bgcolor="#d71d69">
+							<th>30歲以下</th>
+							<th>31~50歲</th>
+							<th>51歲以上</th>
+							<th>30歲以下</th>
+							<th>31~50歲</th>
+							<th>51歲以上</th>
+							<th>30歲以下</th>
+							<th>31~50歲</th>
+							<th>51歲以上</th>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td width="18%" bgcolor="#f7dce1">高階主管</td>
+							<td width="9%">0</td>
+							<td width="9%">1</td>
+							<td width="9%">7</td>
+							<td width="9%">0</td>
+							<td width="9%">0</td>
+							<td width="9%">7</td>
+							<td width="9%">0</td>
+							<td width="9%">3</td>
+							<td width="9%">10</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">中階主管</td>
+							<td>0</td>
+							<td>70</td>
+							<td>25</td>
+							<td>0</td>
+							<td>62</td>
+							<td>25</td>
+							<td>0</td>
+							<td>39</td>
+							<td>26</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#f7dce1">基層主管</td>
+							<td>6</td>
+							<td>21</td>
+							<td>0</td>
+							<td>3</td>
+							<td>26</td>
+							<td>0</td>
+							<td>0</td>
+							<td>30</td>
+							<td>0</td>							
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">專業人員</td>
+							<td>37</td>
+							<td>86</td>
+							<td>4</td>
+							<td>29</td>
+							<td>86</td>
+							<td>6</td>
+							<td>29</td>
+							<td>82</td>
+							<td>7</td>							
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#f7dce1">直接人員</td>
+							<td>37</td>
+							<td>373</td>
+							<td>237</td>
+							<td>35</td>
+							<td>354</td>
+							<td>222</td>
+							<td>38</td>
+							<td>306</td>
+							<td>219</td>							
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">總計</td>
+							<td>80</td>
+							<td>551</td>
+							<td>273</td>
+							<td>67</td>
+							<td>528</td>
+							<td>260</td>
+							<td>67</td>
+							<td>460</td>
+							<td>262</td>
+						</tr>
+					</table>
+				</div>
+				* 高階主管為協理級（含）以上　　** 中階主管為經理級、副理級　　*** 基層主管為襄理級、主任　　**** 專業人員為工程師、管理師				
+				</br></br></br>
+				
+				2015年總公司及各廠之正職人數，除和平廠減少18人較為顯著之外，其餘各據點減少之人數均在10人以下 。
+				</br></br>
+				<div class="subTitle">歷年依營運據點別正職同仁人數</div>
+				<div class="tableContainer">
+					<img src="img/img6-6.png" style="width:700px"/>
+				</div>
+				</br></br>
+				
+				2015年新進同仁 共109人，其中女性27人，佔24.8%，遠較正職同仁比例11.2%為高；31-50歲新進同仁66人，佔60.6%，亦略高於正職同仁比例之58.3%。離職同仁則有182人，其中女性28人，佔15.4%，略高於正職同仁4.2%；31-50歲離職同仁100人，佔55.0%，略少於正職同仁3.3%。
+				<hr>
+				<ul style="padding:0 0 0 20px; list-style-type:decimal; font-size:11px">
+					<li>各營運據點之歸類，台北廠包含台北本廠、八德分廠、土城分廠、中壢分廠、宜蘭分廠、東大分廠、桃園分廠、新竹分廠、龜山分廠、台中廠包含台中廠本廠、太平分廠、大肚分廠、大里分廠、草屯分廠、台中水泥發貨站、鼓山廠包含鼓山廠本廠、仁武分廠、台南分廠、善化分廠、路竹分廠、嘉義分廠、安平分廠、小港分廠、高雄水泥發貨站、花蓮廠包含花蓮廠及花蓮廠預拌土工場。</li>
+					<li>進同仁為當年度到任，有完成報到手續者；離職同仁為當年度離職者</li>
+				</ul>
+				
+				<div class="subTitle">歷年新進同仁人數統計（依性別）</div>
+				<div class="tableContainer">
+					<img src="img/img6-7.png" style="width:700px"/>
+				</div>
+				</br></br>		
+
+				<div class="subTitle">歷年新進同仁人數統計（依年齡）</div>
+				<div class="tableContainer">
+					<img src="img/img6-8.png" style="width:700px"/>
+				</div>
+				</br></br>		
+
+				<div class="subTitle">歷年離職同仁人數統計（依性別）</div>
+				<div class="tableContainer">
+					<img src="img/img6-9.png" style="width:700px"/>
+				</div>
+				</br></br>
+
+				<div class="subTitle">歷年離職同仁人數統計（依年齡）</div>
+				<div class="tableContainer">
+					<img src="img/img6-10.png" style="width:700px"/>
+				</div>
+				</br></br>
+			</div>
+			</br>	
+		</div>		
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

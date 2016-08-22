@@ -1,2 +1,0 @@
-select t.login_account,t.cname,to_char(t2.createtimestamp,'YYYY/MM/dd HH24:MI'),g.name from tc_user t,sk_access_log t2,tc_group g,tc_usergroup ug 
-where t.id=t2.user_id and t.id=ug.user_id(+) and ug.group_id=g.id order by t2.createtimestamp;

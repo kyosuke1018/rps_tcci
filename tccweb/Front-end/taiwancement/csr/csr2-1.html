@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>永續議題管理 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("2-1"));
+				
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color2">
+				永續議題管理<span class="breadcrumb"></span>
+			</div>
+			
+			<div class="phoneSpace10"></div>
+			<div class="ctx">				
+				<span class="firstTxt">台</span>泥針對與利害關係人之溝通及議和的內容，作為重大議題評估之重要依據，執行相關程序。參考GRI G4永續性報告指南及產業特性，擬定重大議題調查問卷，期望能透過利害關係人之議和結果，找出利害關係人關注之重大議題，納入公司營運之重要考量，同時也針對具有重大性的議題，予以優先處置與回應，以符合利害關係人之期望。
+				</br></br>
+				<div class="subTitle">利害關係人與重大議題評估流程</div>
+				<div class="tableContainer">
+					<img src="img/img2-1.png" style="width:600px"/>
+				</div>
+			</div>
+			</br>
+			
+			<div class="title color2">鑑別利害關係人</div>
+			<div class="ctx">
+				為完整識別利害關係人，並確認利害關係人與台泥之關係程度，台泥檢視集團內部與外部，識別2015年與營運相關之各利害關係人類別，再依據國際標準AA1000 利害關係人議合之原則，使用其五大面向評估方法，考量責任、影響力、張力、多元觀點及依賴性，評估各類利害關係人與台泥之關係程度。
+				</br></br>
+				<div class="subTitle">2015利害關係人類別列表(依關係程度高至低排列)</div>
+				<div class="tableContainer">
+					<table width="720px" cellspacing="1">
+						<tr>
+							<th style="width:21%; padding:6px; text-align:center; background:#00936f">2015利害關係人</th>
+							<th style="width:79%; padding:6px; text-align:center; background:#00936f">對台泥之意義</th>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; background:#d4e9e1">政府機關</td>
+							<td style="padding:10px 20px; text-align:left;   background:#eeeeef">台泥遵循政府機關相關規範，同時積極配合政策施行，並提供產業經驗供施政者參考</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; background:#d4e9e1">客戶</td>
+							<td style="padding:10px 20px; text-align:left;   background:#e5e6e6">為顧客提出多樣化的解決方案，提供雞尾酒式客製服務是台泥客戶服務的宗旨</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; background:#d4e9e1">股東</td>
+							<td style="padding:10px 20px; text-align:left;   background:#eeeeef">股東是督促台泥追求穩定成長、持續獲利的重要角色</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; background:#d4e9e1">員工</td>
+							<td style="padding:10px 20px; text-align:left;   background:#e5e6e6">員工是台泥持續進步向前的關鍵因素之一</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; background:#d4e9e1">銀行/保險公司</td>
+							<td style="padding:10px 20px; text-align:left;   background:#eeeeef">銀行/保險公司為台泥營運中的重要夥伴</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; background:#d4e9e1">鄰近社區</td>
+							<td style="padding:10px 20px; text-align:left;   background:#e5e6e6">透過關懷與聆聽鄰近社區，台泥能夠更適切的經營環境保護</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; background:#d4e9e1">供應商/承攬商</td>
+							<td style="padding:10px 20px; text-align:left;   background:#eeeeef">永續發展需要供應商/承攬商的共同合作與協助</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			</br>
+			
+			<div class="title color2">利害關係人溝通</div>
+			<div class="ctx">
+				台泥以多元溝通管道與公開透明的方式揭露資訊，以確保與利害關係人之溝通能獲得有效且良好之成果。此外，亦重視各利害關係人對公司之期許，針對溝通過程所收集之關注議題，納入公司營運及推動企業永續發展策略之參考，得以讓台泥在永續經營之推動上更臻完善，落實企業社會責任。台泥相信，唯有與利害關係人建立順暢與有效的溝通管道，才得以掌握市場、經濟、社會及環境之脈動，讓營運持續向上提升、創造價值。
+				</br></br>
+				<div class="tableContainer">
+					<table width="820px" cellspacing="1">
+						<tr>
+							<th style="width:17%; background:#00936f">利害關係人</th>
+							<th style="width:23%; background:#00936f">議題</th>
+							<th style="width:45%; background:#00936f">溝通方式與頻率</th>
+							<th style="width:15%; background:#00936f">回應章節</th>
+						</tr>
+						<tr>
+							<td style="padding:10px 0; text-align:center; background:#d4e9e1">政府機關</td>
+							<td style="padding:10px 0; text-align:center; background:#eeeeef">永續策略</br>公司治理</br>風險控管</br>法令遵循</br>能資源使用與節能減碳</br>環境保護及生態保育</br>職場安全</td>
+							<td style="padding:10px 0; text-align:left;   background:#eeeeef"><ul><li>每季召開董事會</li><li>每年召開股東常會</li><li>定時更新公司網站、公開資訊觀測站之資訊</li><li>不定時配合訪談、參與座談會、研討會</li><li>不定時透過公文、信函溝通事宜</li></ul></td>
+							<td style="padding:10px 0; text-align:center; background:#eeeeef">3 公司簡介</br>4 公司治理</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 0; text-align:center; background:#d4e9e1">客戶</td>
+							<td style="padding:10px 0; text-align:center; background:#e5e6e6">服務與客戶滿意度</br>產品品質與產品風險</td>
+							<td style="padding:10px 0; text-align:left;   background:#e5e6e6"><ul><li>每年定時進行客戶滿意度調查</li><li>不定時以電話、外部溝通信箱與客戶溝通</li></ul></td>
+							<td style="padding:10px 0; text-align:center; background:#e5e6e6">5 低碳產品</br>8-1 客戶服務</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 0; text-align:center; background:#d4e9e1">股東</td>
+							<td style="padding:10px 0; text-align:center; background:#eeeeef">永續策略</br>公司治理</br>風險控管</br>資訊揭露透明</br>營運績效</td>
+							<td style="padding:10px 0; text-align:left;   background:#eeeeef"><ul><li>每年召開股東常會</li><li>定時更新公司網站、公開資訊觀測站之資訊</li><li>不定時以電話、信函回覆股東疑問</li></ul></td>
+							<td style="padding:10px 0; text-align:center; background:#eeeeef">4 公司治理</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 0; text-align:center; background:#d4e9e1">員工</td>
+							<td style="padding:10px 0; text-align:center; background:#e5e6e6">永續策略</br>公司治理</br>風險控管</br>資訊揭露透明</br>法令遵循</br>申訴機制</br>營運績效</br>人才招募與培育</br>薪酬福利</br>勞資關係</br>人權及平等</br>職場安全</br>服務與客戶滿意度</br>產品品質與產品風險</td>
+							<td style="padding:10px 0; text-align:left;   background:#e5e6e6"><ul><li>每年進行績效考核與主管面談會議</li><li>每月召開部門會議</li><li>不定時舉辦教育訓練</li><li>不定時透過電話、電子郵件進行溝通</li></ul></td>
+							<td style="padding:10px 0; text-align:center; background:#e5e6e6">6 最佳職場</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 0; text-align:center; background:#d4e9e1">銀行／保險公司</td>
+							<td style="padding:10px 0; text-align:center; background:#eeeeef">永續策略</br>公司治理</br>風險控管</br>資訊揭露透明</br>法令遵循</br>營運績效</td>
+							<td style="padding:10px 0; text-align:left;   background:#eeeeef"><ul><li>不定時以電話與電子郵件溝通</li><li>每年召開股東常會</li><li>定時更新公司網站、公開資訊觀測站之資訊</li><li>不定時配合訪談、參與座談會、研討會</li><li>不定時透過公文、信函溝通事宜</li></ul></td>
+							<td style="padding:10px 0; text-align:center; background:#eeeeef">4 公司治理</br>6 最佳職場</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 0; text-align:center; background:#d4e9e1">鄰近社區</td>
+							<td style="padding:10px 0; text-align:center; background:#e5e6e6">環境保護及生態保育</br>社會關懷</br>交通運輸</td>
+							<td style="padding:10px 0; text-align:left;   background:#e5e6e6"><ul><li>每年訪視鄰近社區</li><li>不定時以電話及電子郵件溝通</li></ul></td>
+							<td style="padding:10px 0; text-align:center; background:#e5e6e6">7 環境管理</br>9 社會參與</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 0; text-align:center; background:#d4e9e1">供應商／承攬商</td>
+							<td style="padding:10px 0; text-align:center; background:#eeeeef">永續策略</br>風險控管</br>法令遵循</br>營運績效</br>供應商管理</td>
+							<td style="padding:10px 0; text-align:left;   background:#eeeeef"><ul><li>每年進行稽核</li><li>不定時召開招標會議</li><li>不定時透過外部溝通信箱、電話及電子郵件溝通</li></ul></td>
+							<td style="padding:10px 0; text-align:center; background:#eeeeef">8-2 供應商管理</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			</br>
+			
+			<div class="title color2">關注議題與衝擊評估</div>
+			<div class="ctx">
+				針對利害關係人鑑別結果，向重要之利害關係人發出問卷，回收有效問卷49份，進行關注議題之統計分析，再由公司高階長官針對利害關係人關注議題進行衝擊程度評估，決定議題之優先順序與列為重大性之議題。2015年共有7項重大性議題，於本報告書中進行完整揭露。而在次重大議題部分，除依關注議題統計分析結果進行鑑別外，參考近年永續發展趨勢及營運情形，將供應商管理亦納入次要性議題，故本年度次重大議題共有5項，採部分揭露方式，以適切展現台泥之永續績效。
+				</br></br>
+				<div class="tableContainer">
+					<img src="img/img2-2.png" style="width:750px"/>
+				</div>
+			</div>
+			</br>
+			
+			<div class="title color2">重大議題與考量面之對應</div>
+			<div class="ctx">
+				依衝擊分析後確認之重大議題，將其對應至GRI G4考量面，由各部門確認應揭露之指標、管理方針及績效成果，完成本次報告書撰寫成果。相關議題之對應考量面、管理方針如下表所示：
+				</br></br>
+				<div class="tableContainer">
+					<table width="900px" cellspacing="1">
+						<tr>
+							<th style="width:13%; background:#00936f">議題類別</th>
+							<th style="width:17%; background:#00936f">重大議題</th>
+							<th style="width:17%; background:#00936f">重大考量面</th>
+							<th style="width:40%; background:#00936f">管理方針</th>
+							<th style="width:13%; background:#00936f">對應章節</th>
+						</tr>
+						<tr>
+							<td rowspan="3" style="padding:10px 0; text-align:center; background:#d4e9e1">公司治理</td>
+							<td style="padding:10px 0; text-align:center; background:#eeeeef">風險控管</td>
+							<td style="padding:10px 0; text-align:center; background:#eeeeef">(一般標準揭露)</td>
+							<td style="padding:10px 0; text-align:center; background:#eeeeef">-</td>
+							<td style="padding:10px 0; text-align:center; background:#eeeeef">4.4 風險類型</td>
+						</tr>
+						<tr>							
+							<td style="padding:10px 0; text-align:center; background:#e5e6e6">永續策略</td>
+							<td style="padding:10px 0; text-align:center; background:#e5e6e6">(一般標準揭露)</td>
+							<td style="padding:10px 0; text-align:center; background:#e5e6e6">-</td>
+							<td style="padding:10px 0; text-align:center; background:#e5e6e6">董事長的話</td>
+						</tr>
+						<tr>							
+							<td style="padding:10px 0;           text-align:center; background:#eeeeef">法規遵循</td>
+							<td style="padding:10px 0;           text-align:center; background:#eeeeef">法規遵循(環境)</br>法規遵循(環境)</br>法規遵循(產品責任)</td>
+							<td style="padding:10px 25px 10px 0; text-align:left;   background:#eeeeef"><ul><li>持續關注法規變化與發展，各權責單位依所屬部門確保營運執行符合相關規範</li></ul></td>
+							<td style="padding:10px 0;           text-align:center; background:#eeeeef">4.3 誠信經營</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 0;           text-align:center; background:#d4e9e1">經濟議題</td>
+							<td style="padding:10px 0;           text-align:center; background:#e5e6e6">營運績效</td>
+							<td style="padding:10px 0;           text-align:center; background:#e5e6e6">經濟績效</br>間接經濟衝擊</td>
+							<td style="padding:10px 25px 10px 0; text-align:left;   background:#e5e6e6"><ul><li>台泥以穩定成長、持續獲利為目標，滿足股東及投資人之期待</li><li>將年度設定目標連結至部門及個人績效考核，以激勵員工達成目標並進一步提升營運績效</li><li>台泥秉持社區好鄰居之精神，樂於協助鄰里進行必要建設與維護，與鄰近居民共好</li></ul></td>
+							<td style="padding:10px 0;           text-align:center; background:#e5e6e6">4.5 財務績效</br>9.1 社會關懷</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 0;           text-align:center; background:#d4e9e1">環境議題</td>
+							<td style="padding:10px 0;           text-align:center; background:#eeeeef">能資源使用</br>及節能減碳</td>
+							<td style="padding:10px 0;           text-align:center; background:#eeeeef">原物料</br>能源</br>水</br>排放</br>廢污水和廢棄物</br>交通運輸</td>
+							<td style="padding:10px 25px 10px 0; text-align:left;   background:#eeeeef"><ul><li>環保是責任，不是成本。台泥持續往綠色製程邁進，以降低對環境的影響</li><li>各廠皆以節約能源、資源整合為目標，朝低碳生產邁進</li></ul></td>
+							<td style="padding:10px 0;           text-align:center; background:#eeeeef">7.1 環境管理</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 0;           text-align:center; background:#d4e9e1">勞工人權議題</td>
+							<td style="padding:10px 0;           text-align:center; background:#e5e6e6">職場安全</td>
+							<td style="padding:10px 0;           text-align:center; background:#e5e6e6">職業健康與安全</td>
+							<td style="padding:10px 25px 10px 0; text-align:left;   background:#e5e6e6"><ul><li>台泥重視工安與環保，期望各廠皆零職災；若有相關情事發生，皆依規進行追蹤與改善</li></ul></td>
+							<td style="padding:10px 0;           text-align:center; background:#e5e6e6">6.2 安全照顧</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 0;           text-align:center; background:#d4e9e1">產品責任議題</td>
+							<td style="padding:10px 0;           text-align:center; background:#eeeeef">產品品質與產品風險</td>
+							<td style="padding:10px 0;           text-align:center; background:#eeeeef">產品及服務標示</td>
+							<td style="padding:10px 25px 10px 0; text-align:left;   background:#eeeeef"><ul><li>台泥具高度研發能力及嚴謹控管製程，且所有產品皆依規範進行標示</li></ul></td>
+							<td style="padding:10px 0;           text-align:center; background:#eeeeef">5.1 產品介紹</td>
+						</tr>
+					</table>				
+				</div>
+				</br></br>
+				<div class="tableContainer">
+					<table width="900px" cellspacing="1">
+						<tr>
+							<th style="width:13%; padding:6px 0;background:#00936f">議題類別</th>
+							<th style="width:17%; padding:6px 0; text-align:center; background:#00936f">次重大議題</th>
+							<th style="width:17%; padding:6px 0; text-align:center; background:#00936f">次重大考量面</th>
+							<th style="width:40%; padding:6px 0; text-align:center; background:#00936f">管理方針</th>
+							<th style="width:13%; padding:6px 0; text-align:center; background:#00936f">對應章節</th>
+						</tr>
+						<tr>
+							<td rowspan="2" style="padding:10px 0; text-align:center; background:#d4e9e1">公司治理</td>
+							<td style="padding:10px 0;             text-align:center; background:#eeeeef">公司治理</td>
+							<td style="padding:10px 0;             text-align:center; background:#eeeeef">反貪腐</br>(一般標準揭露)</td>
+							<td style="padding:10px 25px 10px 0;   text-align:left;   background:#e5e6e6"><ul><li>正直與誠信為台泥重視的經營精神，也是對所有台泥人的期許，並以無貪腐事件發生為目標</li></ul></td>
+							<td rowspan="2" style="padding:10px 0; text-align:center; background:#e5e6e6">3 公司簡介</td>
+						</tr>
+						<tr>							
+							<td style="padding:10px 0; text-align:center; background:#e5e6e6">資訊揭露透明</td>
+							<td style="padding:10px 0; text-align:center; background:#e5e6e6">(一般標準揭露)</td>
+							<td style="padding:10px 0; text-align:center; background:#e5e6e6">-</td>							
+						</tr>
+						<tr>
+							<td style="padding:10px 0;           text-align:center; background:#d4e9e1">環境議題</td>
+							<td style="padding:10px 0;           text-align:center; background:#eeeeef">環境保護</br>及生態保育</td>
+							<td style="padding:10px 0;           text-align:center; background:#eeeeef">生物多樣性</br>整體情況(環境)</td>
+							<td style="padding:10px 25px 10px 0; text-align:left;   background:#eeeeef"><ul><li>身為水泥業領航者，矢志從產品價值鏈之完整構面推動節能和環保，建立管理體系，並持續推動各項環保作為</li><li>為確保地球上之生物多樣性，台泥藉由成立基金會及保種中心進行保育及復育的管理</li></ul></td>
+							<td style="padding:10px 0;           text-align:center; background:#eeeeef">9.2 永續生態</br>7 環境管理</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 0;           text-align:center; background:#d4e9e1">勞工人權議題</td>
+							<td style="padding:10px 0;           text-align:center; background:#e5e6e6">人才招募與培育</td>
+							<td style="padding:10px 0;           text-align:center; background:#e5e6e6">經濟績效</br>員工多元化與平等機會</br>訓練與教育</br>勞僱關係</br>投資</td>
+							<td style="padding:10px 25px 10px 0; text-align:left;   background:#e5e6e6"><ul><li>台泥視員工為持續進步的關鍵因素之一，首創儲備幹部培訓、照顧員工身心健康、維持多元福利項目，並期望全體員工皆能達到工作與生活平衡</li><li>持續關注勞工與人權相關法規情形；並依相關規範執行管理與作業</li></ul></td>
+							<td style="padding:10px 0;           text-align:center; background:#e5e6e6">6 最佳職場</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 0;           text-align:center; background:#d4e9e1">產品責任議題</td>
+							<td style="padding:10px 0;           text-align:center; background:#eeeeef">服務與客戶滿意度</td>
+							<td style="padding:10px 0;           text-align:center; background:#eeeeef">產品及服務標示</br>行銷溝通</br>顧客隱私</td>
+							<td style="padding:10px 25px 10px 0; text-align:left;   background:#eeeeef"><ul><li>雞尾酒式的整合服務，結合內部各權責單位，提升客戶滿意度</li><li>結合數位趨勢，發展多元訂單系統，提供客戶更便利的服務，並關注隱私及交易安全等相關保護</li></ul></td>
+							<td style="padding:10px 0;           text-align:center; background:#eeeeef">8.1 客戶服務</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 0;           text-align:center; background:#d4e9e1">供應商管理</td>
+							<td style="padding:10px 0;           text-align:center; background:#e5e6e6">供應商管理</td>
+							<td style="padding:10px 0;           text-align:center; background:#e5e6e6">供應商環境評估</br>供應商勞工實務評估</br>供應商社會衝擊評估</br>採購實務</td>
+							<td style="padding:10px 25px 10px 0; text-align:left;   background:#e5e6e6"><ul><li>秉持「就地開發、就近供應」原則，積極開發在地供應商及管理既有供應商</li><li>持續關注供應商相關之永續議題，並考量未來擴大管理項目</li></ul></td>
+							<td style="padding:10px 0;           text-align:center; background:#e5e6e6">8.2 供應商管理</td>
+						</tr>
+					</table>				
+				</div>
+				</br>
+				<div class="subTitle">價值鏈有效整合</div>				
+				<div class="tableContainer">
+					<table width="900px" cellspacing="1">
+						<tr>
+							<th colspan="2" rowspan="2" style="padding:6px; text-align:center; background:#00936f">考量面</th>
+							<th colspan="2"             style="padding:6px; text-align:center; background:#00936f">組織內</th>
+							<th colspan="5"             style="padding:6px; text-align:center; background:#00936f">組織外</th>
+						</tr>
+						<tr>
+							<th style="padding:6px; text-align:center; color:#303030; background:#d4e9e1">台泥</th>
+							<th style="padding:6px; text-align:center; color:#303030; background:#d4e9e1">集團內</br>其他公司</th>
+							<th style="padding:6px; text-align:center; color:#303030; background:#d4e9e1">客戶</th>
+							<th style="padding:6px; text-align:center; color:#303030; background:#d4e9e1">股東</th>
+							<th style="padding:6px; text-align:center; color:#303030; background:#d4e9e1">銀行/</br>保險公司</th>
+							<th style="padding:6px; text-align:center; color:#303030; background:#d4e9e1">供應商</th>
+							<th style="padding:6px; text-align:center; color:#303030; background:#d4e9e1">鄰近社區</th>
+						</tr>
+						<tr>
+							<td rowspan="12" style="padding:10px 10px; text-align:center; color:#303030; background:#d4e9e1">重大考量面</td>
+							<td style="width:18%; padding:10px 10px; text-align:center; color:#303030; background:#eeeeef">經濟績效</td>
+							<td style="width:10%; padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="width:10%; padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="width:10%; padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="width:10%; padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="width:10%; padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="width:10%; padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="width:10%; padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#e5e6e6">職業健康與安全</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#eeeeef">法規遵循(社會)</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#e5e6e6">原物料</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#eeeeef">能源</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+						</tr>					
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#e5e6e6">水</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#eeeeef">排放</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#e5e6e6">廢污水和廢棄物</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#eeeeef">交通運輸</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#e5e6e6">法規遵循(環境)</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+						</tr>					
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#eeeeef">產品及服務標示</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#e5e6e6">法規遵循(產品責任)</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+						</tr>
+						<tr>
+							<td rowspan="12" style="padding:10px 10px; text-align:center; color:#303030; background:#d4e9e1">次重大考量面</td>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#eeeeef">生物多樣性</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#e5e6e6">整體情況(環境)</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#eeeeef">員工多元化與平等機會</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#e5e6e6">訓練與教育</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#eeeeef">勞僱關係</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#e5e6e6">行銷溝通</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#eeeeef">顧客隱私</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#e5e6e6">供應商環境評估</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#eeeeef">供應商勞工實務評估</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#eeeeef"></td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#e5e6e6">供應商社會衝擊評估</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6">●</td>
+							<td style="padding:10px 20px; text-align:center; color:#7ebe25; background:#e5e6e6"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			</br></br>
+		</div>		
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

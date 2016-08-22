@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>安全照顧 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("6-3"));
+				
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color6">
+				安全照顧<span class="breadcrumb"></span>
+			</div>
+			
+			<div class="title color6">勞工安全</div>
+			<div class="ctx">
+				台泥設有勞工安全衛生管理室，負責勞工安全衛生相關事務，除持續進行同仁之安全衛生教育之外，亦定期舉行模擬演練。平時針對同仁針對工作環境、設備、有害物質面向強化管理教育訓練宣導，同時也定期召開勞工安全衛生委員會議，追蹤各項工作之執行成果與專案進度。
+				</br></br>各水泥廠設立品保課，統籌廠端環安衛工作之管理及推動，台北總管理處工務部則負責各廠之執行成效督導。各廠定期報告安全衛生改善計畫之執行成果，包括意外事件事故之處理與預防，以及承攬商管理施工之安全管理，以檢討現狀及持續改善。
+			</div>
+			</br></br>
+			
+			<div class="title color6">強化工安意識</div>
+			<div class="ctx">
+				為強化員工日常安全意識、預防發生嚴重職業災害，台泥實施危害鑑別及風險評估，執行自主管理以消除潛在危害，以嚴格尺度執行廠內工安重要性，宣導工安事件處置標準作業程序，以降低工安事件發生之傷害及損失。各廠發生工安事件第一時間立即啟動通報系統向相關單位及總管理處進行回報。另外，每年亦依消防防護計畫舉辦自衛消防訓練。2015年各項防災演習舉行類型及項目如下：				</br></br>
+				<div class="tableContainer">
+					<table width="750px" cellspacing="1">
+						<tr bgcolor="#d71d69">
+							<th width="10%">職稱</th>
+							<th width="20%">防災演習類別</th>
+							<th width="60%">項目說明</th>
+							<th width="10%">月份</th>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td style="padding:10px;      text-align:center; background:#f7dce1" rowspan="3">蘇澳廠</td>
+							<td style="padding:10px;      text-align:center">環保</td>
+							<td style="padding:10px 20px; text-align:left"  >空氣污染緊急事件(大量粉塵排放)</td>
+							<td style="padding:10px;      text-align:center">3</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td style="padding:10px;      text-align:center">消防</td>
+							<td style="padding:10px 20px; text-align:left"  >柴油庫火災緊急</td>
+							<td style="padding:10px;      text-align:center">3</td>							
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td style="padding:10px;      text-align:center">工安</td>
+							<td style="padding:10px 20px; text-align:left"  >粉料清除燙傷緊急事件</td>
+							<td style="padding:10px;      text-align:center">3</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td style="padding:10px;      text-align:center; background:#f7dce1" rowspan="2">和平廠</td>
+							<td style="padding:10px;      text-align:center">消防</td>
+							<td style="padding:10px 20px; text-align:left"  >廠區消防演練</td>
+							<td style="padding:10px;      text-align:center">5、11</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td style="padding:10px;      text-align:center">工安</td>
+							<td style="padding:10px 20px; text-align:left"  >傷患搶救演練</td>
+							<td style="padding:10px;      text-align:center">5</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td style="padding:10px;      text-align:center; background:#f7dce1" rowspan="2">台北廠</td>
+							<td style="padding:10px;      text-align:center">工安教育訓練</td>
+							<td style="padding:10px 20px; text-align:left"  >職災宣導</td>
+							<td style="padding:10px;      text-align:center">11</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td style="padding:10px;      text-align:center">消防教育訓練</td>
+							<td style="padding:10px 20px; text-align:left"  >防災宣導（實作部分每年不同，如油盤滅火、CPR）</td>
+							<td style="padding:10px;      text-align:center">11</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td style="padding:10px;      text-align:center; background:#f7dce1">鼓山廠</td>
+							<td style="padding:10px;      text-align:center">一般性防災演練</td>
+							<td style="padding:10px 20px; text-align:left"  >滅火器、逃生指引演練</td>
+							<td style="padding:10px;      text-align:center">12</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td style="padding:10px;      text-align:center; background:#f7dce1" rowspan="3">花蓮廠</td>
+							<td style="padding:10px;      text-align:center">環保</td>
+							<td style="padding:10px 20px; text-align:left"  >空氣污染緊急事件（大量粉塵排放）</td>
+							<td style="padding:10px;      text-align:center">11</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td style="padding:10px;      text-align:center">消防</td>
+							<td style="padding:10px 20px; text-align:left"  >宿舍火災緊急應變</td>
+							<td style="padding:10px;      text-align:center">11</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td style="padding:10px;      text-align:center">工安</td>
+							<td style="padding:10px 20px; text-align:left"  >屋頂作業安全程序演練</td>
+							<td style="padding:10px;      text-align:center">11</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td style="padding:10px;      text-align:center; background:#f7dce1" rowspan="2">台中廠</td>
+							<td style="padding:10px;      text-align:center">消防</td>
+							<td style="padding:10px 20px; text-align:left"  >自衛消防編組與滅火演練</td>
+							<td style="padding:10px;      text-align:center">12</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td style="padding:10px;      text-align:center">工安</td>
+							<td style="padding:10px 20px; text-align:left"  >預拌混凝土安全作業標準與工安缺失及現場危害防護教育訓練</td>
+							<td style="padding:10px;      text-align:center">12</td>
+						</tr>						
+					</table>
+				</div>
+			</div>
+			</br>		
+			
+			<div class="title color6">歷年工傷概況</div>
+			<div class="ctx">
+				2015年台中廠因1位同仁進入廢水處理作業區時，未依規定配戴個人防護器具安全帶，發生意外溺水窒息死亡，經後續之檢討改善，除持續加強作業人員之安全教育訓練、落實安全作業標準程序外，亦要求進入作業區時須填寫申請單，穿著救生衣、配戴個人防護器具安全帶，同時於作業區加寬走道及增設護欄等設施，以及加強安全管控，平時上鎖、設置安全作業標示。台泥台灣各廠歷年工傷統計概況如下表(以下工傷數據以各廠區每月申報之職災統計表為準、不包含上下班交通事故)：
+				</br></br>
+				<div class="tableContainer">
+					<table width="970px" cellspacing="1">
+						<tr bgcolor="#d71d69">
+							<th rowspan="2">年度</th>
+							<th rowspan="2">廠別</th>
+							<th colspan="2">失能傷害頻率（FR）</th>
+							<th colspan="2">失能傷害嚴重率（SR）</th>
+							<th colspan="2">總和傷害指數(FSI)</th>
+							<th colspan="2">職業病發生率（ODR）</th>
+							<th colspan="2">工傷損失日數比例（LDR）</th>
+							<th colspan="2">缺勤率（AR）</th>
+							<th colspan="2">工傷死亡人數</th>
+						</tr>
+						<tr bgcolor="#d71d69">
+							<th>男性</th>
+							<th>女性</th>
+							<th>男性</th>
+							<th>女性</th>
+							<th>男性</th>
+							<th>女性</th>
+							<th>男性</th>
+							<th>女性</th>
+							<th>男性</th>
+							<th>女性</th>
+							<th>男性</th>
+							<th>女性</th>
+							<th>男性</th>
+							<th>女性</th>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td width="5%" rowspan="6" bgcolor="#f7dce1">2013</td>
+							<td width="11%">台北各廠</td>
+							<td width="5%">5.61</td>
+							<td width="5%">0.00</td>
+							<td width="5%">292</td>
+							<td width="5%">0</td>
+							<td width="5%">1.64</td>
+							<td width="5%">0.00</td>
+							<td width="5%">0</td>
+							<td width="5%">0</td>
+							<td width="5%">58.37</td>
+							<td width="5%">0.00</td>
+							<td width="5%">467</td>
+							<td width="5%">0</td>
+							<td width="5%">0</td>
+							<td width="5%">0</td>							
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td>台中廠</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td>鼓山廠</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td>蘇澳廠</td>
+							<td>2.38</td>
+							<td>0.00</td>
+							<td>48</td>
+							<td>0</td>
+							<td>0.11</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>9.53</td>
+							<td>0.00</td>
+							<td>76</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td>花蓮廠</td>
+							<td>5.55</td>
+							<td>0.00</td>
+							<td>261</td>
+							<td>0</td>
+							<td>1.45</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>52.31</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td>和平廠</td>
+							<td>92</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td rowspan="6" bgcolor="#f7dce1">2014</td>
+							<td>台北各廠</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>							
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td>台中廠</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td>鼓山廠</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td>蘇澳廠</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td>花蓮廠</td>
+							<td>5.62</td>
+							<td>0.00</td>
+							<td>34</td>
+							<td>0</td>
+							<td>0.19</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>6.75</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td>和平廠</td>
+							<td>92</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td rowspan="6" bgcolor="#f7dce1">2015</td>
+							<td>台北各廠</td>
+							<td>4.14</td>
+							<td>0.00</td>
+							<td>83</td>
+							<td>0</td>
+							<td>0.34</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>16.55</td>
+							<td>0.00</td>
+							<td>132</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>							
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td>台中廠</td>
+							<td>16.87</td>
+							<td>0.00</td>
+							<td>101,191</td>
+							<td>0</td>
+							<td>1,706.59</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>20,238.14</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>1</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td>鼓山廠</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td>蘇澳廠</td>
+							<td>2.64</td>
+							<td>0.00</td>
+							<td>55</td>
+							<td>0</td>
+							<td>0.15</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>11.08</td>
+							<td>0.00</td>
+							<td>89</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td>花蓮廠</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td>和平廠</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>						
+					</table>					
+				</div>
+				<ul style="padding:0 0 0 20px">
+					<li>失能傷害頻率(FR) =（失能傷害人數×106）÷ 總經歷工時</li>
+ 					<li>失能傷害嚴重率(SR) =（失能傷害損失日數×106）÷ 總經歷工時</li>
+ 					<li>總和傷害指數(FSI) =[ (FR×SR) ÷ 1000]0.5</li>
+					<li>職業病發生率(ODR) = 職業病發生件數 X 200,000 ÷ 總經歷工時</li>
+ 					<li>工傷損失日數比例(LDR) =總損失工作日( 天) X 200,000 ÷ 總經歷工時</li>
+ 					<li>缺勤率(AR) = 總缺勤天數 ÷ 總工作天數 × 200,000 (本年度缺勤天數僅含因工傷造成之</li>
+ 					<li>缺勤天數，未來將納入病假等缺勤天數)</li>
+ 					<li>工傷之判定標準參考「勞工保險被保險人因執行職務而致傷病審查準則」</li>
+ 				</ul>
+			</div>
+			</br>
+			
+			<div class="title color6">承攬商夥伴</div>
+			<div class="ctx">
+				台泥合作之承攬商除應遵守相關合約規定外，且須遵守勞工安全衛生相關法規與台泥制定之「承攬商工作安全衛生環保管理規則與罰則」等管理規則。入廠時須填寫「工作場所環境危害因素告知單」，以確保其瞭解台泥之相關環安衛規定與「工作場所環境危害因素告知事項」，簽署以確實其遵守規範。另外，台泥亦要求承攬商簽訂安全衛生責任承諾書，以確保承攬商要求其所屬工作人員保證遵照相關安全衛生工作規定進廠工作。
+				</br></br>2015年度台泥承攬商工傷統計數據則如下表，近三年台泥承攬商僅有2015年於花蓮廠發生一起工傷意外，其餘年度皆無承攬商工傷事件發生。
+				</br></br>
+				<div class="tableContainer">
+					<table width="970px" cellspacing="1">
+						<tr bgcolor="#d71d69">
+							<th rowspan="2">年度</th>
+							<th rowspan="2">廠別</th>
+							<th colspan="2">失能傷害頻率（FR）</th>
+							<th colspan="2">失能傷害嚴重率（SR）</th>
+							<th colspan="2">總和傷害指數(FSI)</th>
+							<th colspan="2">職業病發生率（ODR）</th>
+							<th colspan="2">工傷損失日數比例（LDR）</th>
+							<th colspan="2">缺勤率（AR）</th>
+							<th colspan="2">工傷死亡人數</th>
+						</tr>
+						<tr bgcolor="#d71d69">
+							<th>男性</th>
+							<th>女性</th>
+							<th>男性</th>
+							<th>女性</th>
+							<th>男性</th>
+							<th>女性</th>
+							<th>男性</th>
+							<th>女性</th>
+							<th>男性</th>
+							<th>女性</th>
+							<th>男性</th>
+							<th>女性</th>
+							<th>男性</th>
+							<th>女性</th>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td width="5%" rowspan="6" bgcolor="#f7dce1">2015</td>
+							<td width="11%">台北各廠</td>
+							<td width="5%">0.00</td>
+							<td width="5%">0.00</td>
+							<td width="5%">0</td>
+							<td width="5%">0</td>
+							<td width="5%">0.00</td>
+							<td width="5%">0.00</td>
+							<td width="5%">0</td>
+							<td width="5%">0</td>
+							<td width="5%">0.00</td>
+							<td width="5%">0.00</td>
+							<td width="5%">0</td>
+							<td width="5%">0</td>
+							<td width="5%">0</td>
+							<td width="5%">0</td>							
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td>台中廠</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td>鼓山廠</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td>蘇澳廠</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td>花蓮廠</td>
+							<td>6.18</td>
+							<td>0.00</td>
+							<td>19</td>
+							<td>0</td>
+							<td>0.11</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>3.71</td>
+							<td>0.00</td>
+							<td>30</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td>和平廠</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			</br></br>
+		</div>		
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

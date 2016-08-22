@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>供應商管理 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("8-2"));
+		
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>	
+</head>
+
+<body>			
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color8">
+				供應商管理<span class="breadcrumb"></span>
+			</div>		
+			
+			<div class="ctx">
+				<span class="firstTxt">台</span>泥在符合目標成本的前提下，秉持「就地開發、就近供應」原則，積極開發當地供應商、落實在地採購，以創造地方的就業機會與經濟繁榮，除部分燃料外，原料之供應商皆來自於當地。同時也積極開發新供應商，培植表現良好的廠商。
+				</br></br>開發新供應商前，必須由物料部門視情況會同研究室、工廠使用部門及財務部門等，進行調查研究，除了取得相關資訊之外，亦須實地瞭解產線及礦源，做成制式報告上傳系統。針對既有合格供應商，則每年定期評核其品質、交期、價格及服務，對不合格供應商通知限期改善，未能於期限內有效改善者，則撤銷其登錄。
+				</br></br>
+				
+				<div class="subTitle">台泥2015年供應鏈概況</div>
+				<div class="tableContainer">
+					<table width="600px" cellspacing="1">
+						<tr bgcolor="#862d83">
+							<th></th>
+							<th>石灰石</th>
+							<th>黏土</th>
+							<th>石膏</th>
+							<th>設備運輸</th>
+							<th>礦泥</th>
+							<th>砂石</th>
+							<th>摻剤</th>
+							<th>耐火材</th>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#e4d6e7">家數</td>
+							<td>14</td>
+							<td bgcolor="#e5e6e6">4</td>
+							<td>2</td>
+							<td bgcolor="#e5e6e6">5</td>
+							<td>1</td>
+							<td bgcolor="#e5e6e6">18</td>
+							<td>2</td>
+							<td bgcolor="#e5e6e6">1</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			</br></br>
+			
+			<div class="title color8">綠色供應鏈管理機制</div>
+			<div class="ctx">
+				響應全球對於環保議題的關注與重視，台泥在環保上的實際行動，除自身致力於節能減排以外，亦致力於建立「綠色供應鏈管理機制」，同時向所屬供應商推廣國際通行的ISO環境標準，並督導其達到要求水平，以落實「環保是責任、不是成本」的理念。納入供應商管理之廠商主要為石灰石、黏土等原料，以及RMC砂石及藥劑等原料廠商。2015年針對47家在地廠商進行稽核並全數通過，其稽核項目包含品管管理與認證狀況、財務狀況、供貨能力、運輸、原料供應狀況等，並依實際品質、交期與服務進行評分。 
+				</br></br>
+				<div class="subTitle">供應商稽核概況</div>
+				<div class="tableContainer">
+					<img src="img/img8-3.png" style="width:600px"/>
+				</div>
+			</div>
+			</br></br>
+		</div>		
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

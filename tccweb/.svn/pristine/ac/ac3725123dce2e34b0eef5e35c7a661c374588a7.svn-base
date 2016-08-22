@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>公司概況 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("3-1"));
+		
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color3">
+				公司概況<span class="breadcrumb"></span>
+			</div>
+
+			<div class="ctx">
+				<img class="imgWrapR550" src="img/img3-1.png"/>
+				<span class="firstTxt">台</span>泥移轉民營迄今逾六十年，一甲子以來，除了積極參與國家重大經濟建設，在國家建設過程中成長茁壯；同時也伴隨著台灣社會變遷與經濟發展，成為「傳統產業台灣經驗」的最佳見證。
+				</br></br>台泥目前為台灣最大水泥公司，近年積極投資大陸設廠，努力開拓中國大陸市場，目前已成為大陸華南地區三大水泥公司之一，依據中國水泥網(http://www.ccement.com/)統計資料，台泥已擠身中國水泥熟料產能第七大，同時，依據Intercem BNP出版之2015全球水泥展望(2015 Global Cement Outlook)分析資料顯示，台泥產能亦具世界第十大水準。實收資本額由移轉民營時之新台幣2.7億元擴增至今日369億餘元，台灣產能則從50萬公噸增加到1,000餘萬公噸，台灣營業額由新台幣2.4億萬元增加到213餘億元，堪為政府公營事業移轉民營之典範。以『堅持品質、一以貫之』生產高品質水泥；響應節能減碳、優化製程，貫徹『環保是責任，不是成本』之理念，善盡企業社會責任。
+			</div>
+			</br>
+			
+			<div class="title color3">核心價值</div>
+			<div class="ctx">
+				台泥企業核心價值為水泥、能源、環保；為貫徹「環保是責任不是成本的理念」，善盡社會公民責任，台泥涉足水泥本業、發電及廢棄物處理等事業，致力成為一個落實環境保護，以行動愛護地球的綠色企業。
+			</div>
+			</br>
+			
+			<div class="title color3">組織架構</div>
+			<div class="ctx">
+				台泥秉持儒商精神，利益合於信義中心價值，對外誠信透明，注重股東權益；對內講求精準效率，堅持正確的目標與適當迅速的方法。在公司治理上，台泥董事會設置審計委員會及薪資報酬委員會，協助董事會履行監督職責。各委員會的組織章程皆經董事會核准，且各委員會的主席定期向董事會報告其活動和決議。
+				</br></br>基於環保政策在台泥永續經營理念上的重要性，及環保議題本身的專業性，2014年起台泥於總管理處成立一專職單位『環保事業推行委員會』，負責台泥在生產製程與配銷過程中的環保政策，以落實『環保不是成本，而是責任』的理念，希望環保不僅僅降低環境污染，更該努力淨化生態，提升環境品質。
+				</br></br>此外，台泥於2015年成立審計委員會，進一步強化公司治理結構與體質。
+				</br></br><div class="subTitle">台泥組織系統表</div>
+				<div class="tableContainer">
+					<img src="img/img3-2.png" style="width:700px"/>
+				</div>
+				<center>註：台北、台中及鼓山水泥製品廠為母廠，下轄17個預拌土分廠，及2個水泥發貨站；花蓮廠另設有預拌土工廠。</center>
+			</div>
+			</br></br>
+			
+			<div class="title color3">需求市場</div>
+			<div class="ctx">
+				以臺灣地區而言，地狹人口稠密，重大公共工程及民間投資之推動有限，對於生產原料（石灰石礦）的開採申請，受到諸多限制與挑戰，又因應臺灣地區水泥市場已是成熟產業，需求不易成長，由於相關基礎建設產業對水泥、預拌混凝土等的需求遞減。
+				</br></br>台泥在台灣水泥產能共1,000萬噸，為台灣最大、歷史最悠久之水泥暨RMC產銷公司，亦為國內產品垂直整合成功之典範公司，由於研發能力強、製程控管嚴謹，因此所生產之產品一向以品質優良、形象優越著稱。另外，水泥發貨據點及RMC廠遍及全台，在各大都會區擁有完整據點及銷售網，提供客戶最完善之產品及服務，此為最大之競爭利基。
+				</br></br>台泥的產品行銷國際超過30年，已覆蓋日本、韓國、香港、中國、美國、菲律賓、科威特、沙烏地阿拉伯、帛琉、宏都拉斯、孟加拉、印度、新加坡、馬來西亞、汶萊、越南、奈及利亞及西非等國家。
+			</div>
+			</br>
+			
+			<div class="title color3">大陸布局</div>
+			<div class="ctx">
+				台泥本著『精、簡、準』之經營理念，力行「擁抱改變、熱情學習」的變革管理，深耕臺灣與大陸水泥市場，強調團隊合作精神與執行力，除了維持台泥在臺灣為第一品牌外，配合大陸水泥廠及研磨廠的設立，未來將於水泥目標市場，投資興建骨料廠或預拌混凝土廠，以作為水泥上下游產品之延伸，並創造加工附加價值，另於大陸華南、西南、華東地區亦將致力提升產品品質及顧客服務，期能根留台灣、放眼大陸，以華南市場第一品牌，持續為大陸境內發展領先的水泥龍頭企業之一。為橫跨兩岸的經營版圖與市場連動，藉由縝密規劃的ERP系統，導入自行開發的內控預警、戰情室等決策支援系統，以及電商APP，加速整合銷售、生產、物流等資源，資訊共享、經驗傳承，以永續發展共同打造台泥成為誠信、迅速、確實的企業體。截至2015年，台泥在大陸年產能達6,500萬公噸，布局於大陸地區已涵蓋九省（四川、貴州、雲南、安徽、遼寧、江蘇、福建、廣東、湖南）、一自治區（雲南）及一市（重慶）。未來將持續大陸投資併購、增加產能，視大陸經濟情勢，以達年產能1億公噸為目標。
+				</br></br>
+				
+				<div class="subTitle">台泥兩岸各場分布</div>
+				<div class="tableContainer">
+					<img src="img/img3-3.png" style="width:900px"/>
+				</div>
+				</br></br>
+				
+				<div class="subTitle">台泥環安衛政策</div>
+				<div class="tableContainer">
+					<img src="img/img3-4.png" style="width:600px"/>
+				</div>
+				</br></br>
+				
+				<div class="subTitle">2015年獲獎事蹟</div>
+				<div class="tableContainer">
+					<table width="630px" cellspacing="1">
+						<tr>
+							<th style="width:180px; background:#ac2907">主辦單位</th>
+							<th style="width:440px; background:#ac2907">獎項</th>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; background:#efd4c2">機構投資人雜誌</td>
+							<td style="padding:10px 40px; text-align:left;   background:#eeeeef">2015年亞洲經營團隊最受尊崇公司之一</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; background:#efd4c2">遠見雜誌</td>
+							<td style="padding:10px 40px; text-align:left;   background:#e5e6e6">2015年第三度獲選A+企業模範生，水泥產業唯一入選公司</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; background:#efd4c2">投資人關係雜誌</td>
+							<td style="padding:10px 40px; text-align:left;   background:#eeeeef">2014/2015年度大中華地區150強</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; background:#efd4c2">花蓮縣政府環保局</td>
+							<td style="padding:10px 40px; text-align:left;   background:#e5e6e6">道路認養評比第一名</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; background:#efd4c2">台北市政府環保局</td>
+							<td style="padding:10px 40px; text-align:left;   background:#eeeeef">企業認養道路洗掃感謝狀</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			</br>
+			
+			<div class="title color3">公會與協會</div>
+			<div class="ctx">
+				台泥除積極參與產業相關之公會與協會活動如混凝土學會、中國鑛冶工程學會、石礦業同業公會、水泥工業同業公會及預拌混凝土同業公會等活動擔任理、監事等職務，以扮演產業領導者的角色外，公司內各功能單位也依其負責之業務屬性，分別參與各項公會或協會組織活動，如股務協會、工總雇主協會、工商協進會、國際商會、中華公司治理協會等理、監事會員活動，以促進與地區社群之交流，藉由各種方式及管道與了解溝通公司與利害關係人及實踐企業社會責任之永續發展。
+				</br></br>
+				<div class="tableContainer">
+					<table width="740px" cellspacing="1">
+						<tr>
+							<th style="width:270px; background:#ac2907">參與協會名稱</th>
+							<th style="width:150px; background:#ac2907">理監事會</th>
+							<th style="width:150px; background:#ac2907">專業委員會</th>
+							<th style="width:150px; background:#ac2907">會員</th>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">台灣區水泥同業公會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">台灣區預拌混凝土工業同業公會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">台灣區石礦業同業工會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">中國鑛冶工程學會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">社團法人臺灣混凝土學會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+						</tr>					
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">中華民國全國工業總會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">中華民國工商協進會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">社團法人中華公司治理協會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">中華民國國際經濟合作協會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">兩岸企業家峰會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+						</tr>					
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">社團法人台灣玉山科技協會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">中華民國公開發行公司股務協會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">中華民國公司組織研究發展協會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">中華民國三三企業交流會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">財團法人中華民國發行公信會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">中華民國正字標記協會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">中華民國仲裁協會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">財團法人全國認證基金會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">中華民國內部稽核協會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#eeeeef">●</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 10px; text-align:center; color:#303030; background:#efd4c2">台灣碳補存再利用協會</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6"></td>
+							<td style="padding:10px 50px; text-align:center; color:#f4a21a; background:#e5e6e6">●</td>
+						</tr>
+					</table>					
+				</div>
+				<center>註：台泥於中華民國正字標記協會擔任監事委員；每年贊助兩萬元廣告費</center>
+			</div>
+			</br></br>
+		</div>		
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

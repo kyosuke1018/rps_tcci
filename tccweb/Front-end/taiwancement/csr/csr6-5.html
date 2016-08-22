@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>人才培育 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("6-5"));
+				
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color6">
+				人才培育<span class="breadcrumb"></span>
+			</div>
+			
+			<div class="phoneSpace10"></div>
+			<div class="ctx">				
+				<span class="firstTxt">台</span>泥積極培訓水泥專才以因應公司未來發展之需，並且定期舉辦員工各項管理及專業培訓課程，或與其他訓練機構、學校合作委託訓練。台泥亦重視員工的培訓，透過一系列以成果導向為目標的專業訓練，及為員工個人量身定作水泥專才的職涯發展計劃，在水泥產業中，持續保有具競爭力專業。2015年共開課90次。
+				</br></br>				
+				<div class="tableContainer">
+					<table width="500px" cellspacing="1">
+						<tr bgcolor="#d71d69">
+							<th></th>
+							<th>2013年</th>
+							<th>2014年</th>
+							<th>2015年</th>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td width="25%" bgcolor="#f7dce1">開課次數</td>
+							<td width="25%">90</td>
+							<td width="25%">79</td>
+							<td width="25%">90</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">受訓人次</td>
+							<td>835</td>
+							<td>874</td>
+							<td>705</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#f7dce1">開課總時數</td>
+							<td>7,298.5</td>
+							<td>5,313</td>
+							<td>5,138.5</td>
+						</tr>					
+					</table>
+				</div>
+				</br></br>2015年教育經費總計2,450,676元，較2014年增加約23萬元，平均每人受訓費用達3,106元。依各階層別統計，全年受訓課程時數總和為6,752小時，較2014年減少732小時，平均受訓時數為8.56小時，較2014年減少0.19小時。其中專業人員之訓練為2015之重點，平均每人受訓時數增加6小時；依性別分析，近三年來女性與男性之平均受訓時數相當。
+				</br></br>
+				<div class="subTitle">歷年教育訓練經費統計（單位：元）</div>
+				</br>
+				<div class="tableContainer">
+					<img src="img/img6-16.png" style="width:700px"/>
+				</div>
+				</br></br>
+				<div class="tableContainer">
+					<table width="700px" cellspacing="1">
+						<tr bgcolor="#d71d69">
+							<th rowspan="2"></th>
+							<th colspan="3">受訓總時數</th>
+							<th colspan="3">每人平均受訓時數</th>
+						</tr>
+						<tr bgcolor="#d71d69">
+							<th>2013年</th>
+							<th>2014年</th>
+							<th>2015年</th>
+							<th>2013年</th>
+							<th>2014年</th>
+							<th>2015年</th>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td width="16%" bgcolor="#f7dce1">高階主管</td>
+							<td width="14%">60.5</td>
+							<td width="14%">29.5</td>
+							<td width="14%">51.5</td>
+							<td width="14%">7.56</td>
+							<td width="14%">4.21</td>
+							<td width="14%">3.96</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">中階主管</td>
+							<td>641.5</td>
+							<td>1,276.5</td>
+							<td>159.0</td>
+							<td>6.75</td>
+							<td>14.67</td>
+							<td>2.45</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#f7dce1">基層主管</td>
+							<td>1,583.0</td>
+							<td>1,287.5</td>
+							<td>474</td>
+							<td>58.63</td>
+							<td>44.40</td>
+							<td>15.80</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">專業人員</td>
+							<td>3,124.0</td>
+							<td>285.5</td>
+							<td>3,063.5</td>
+							<td>24.60</td>
+							<td>2.36</td>
+							<td>25.96</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#f7dce1">直接人員</td>
+							<td>5,854.0</td>
+							<td>4,605.0</td>
+							<td>3,004.0</td>
+							<td>9.05</td>
+							<td>7.54</td>
+							<td>5.34</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">總計</td>
+							<td>11,263.0</td>
+							<td>7,484.0</td>
+							<td>6,752.0</td>
+							<td>12.46</td>
+							<td>8.75</td>
+							<td>8.56</td>
+						</tr>						
+					</table>
+				</div>
+				註：部分課程受訓對象包括多階層人員，故人員受訓總時數與開課時數不一定相符
+			</div>
+			</br></br>
+		</div>		
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

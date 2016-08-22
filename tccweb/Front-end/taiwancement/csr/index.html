@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="台泥以公開、透明、誠信的原則，呈現此CSR，忠實表達台泥與各相關利害關係人之溝通，及企業社會責任議題上所投入的活動，希望透過CSR，與各企業一同響應取之社會、回饋社會的經營理念，提升未來的生活品質。"/>
+<meta name="keywords" content="台泥、水泥、台灣水泥、CSR、企業永續發展、企業社會責任">
+<meta name="viewport" content="width=device-width" />
+<title>台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" 		href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+</head>
+
+<body>
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>	
+
+	<div id="container" style="width:100%">
+		<img id="solgan1" class="solgan" src="img/x.png"/>
+		<img id="solgan2" class="solgan" src="img/x.png"/>
+        <img id="solgan3" class="solgan" src="img/x.png"/>
+		<img id="homePic"  src="img/x.jpg">
+		<img id="homePic2" src="img/x.jpg">
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+    
+    <script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		var domWidth = document.documentElement.clientWidth;
+		var domHeight = document.documentElement.clientHeight;
+		var windowWidth = $(window).width();
+		var searchBarStatus = 0;
+
+		$("#solgan1").fadeOut(0);
+		$("#solgan2").fadeOut(0);
+        $("#solgan3").fadeOut(0);
+
+		$("#header").html(getHeader());
+		$("#webMap").html(getWebMap());
+		$("#footer").html(getFooter());		
+
+		$("#homePic").attr("src", "img/cover_csr.jpg" + "?" + new Date().getTime());
+		$("#homePic2").attr("src", "img/cover_csr2.jpg" + "?" + new Date().getTime());        
+		$("#solgan1").attr("src", "img/solgan_1.png" + "?" + new Date().getTime());
+		$("#solgan2").attr("src", "img/solgan_2.png" + "?" + new Date().getTime());
+        $("#solgan3").attr("src", "img/solgan_3.png" + "?" + new Date().getTime());
+
+        
+        if(domWidth > 980){
+            $("#homePic").load(function(){
+                if(domWidth < 1050){
+                    $("#solgan1").css("width", "300px");
+                    $("#solgan2").css("width", "300px");
+                    $("#solgan3").css("width", "300px");
+
+                    $("#solgan1").css("left", "60px");
+                    $("#solgan1").css("top",  "280px");
+                    $("#solgan2").css("left", "90px");
+                    $("#solgan2").css("top",  "330px");
+                    $("#solgan3").css("left", "130px");
+                    $("#solgan3").css("top",  "380px");
+                }else if(domWidth > 1600){
+                    $("#solgan1").css("width", "420px");
+                    $("#solgan2").css("width", "455px");
+                    $("#solgan3").css("width", "455px");
+
+                    $("#solgan1").css("left", domWidth * 0.1 + 30 + "px");
+                    $("#solgan1").css("top",  domHeight * 0.42 + "px");
+                    $("#solgan2").css("left", domWidth * 0.1 + 20 + "px");
+                    $("#solgan2").css("top",  domHeight * 0.5 + "px");
+                    $("#solgan3").css("left", domWidth * 0.1 + 20 + "px");
+                    $("#solgan3").css("top",  domHeight * 0.5 + "px");
+                }else{
+                    $("#solgan1").css("left", domWidth * 0.07 + "px");
+                    $("#solgan1").css("top",  "310px");
+                    $("#solgan2").css("left", domWidth * 0.09 + "px");
+                    $("#solgan2").css("top",  "365px");
+                    $("#solgan3").css("left", domWidth * 0.12 + "px");
+                    $("#solgan3").css("top",  "420px");
+                }
+
+                setTimeout(function(){
+                    $("#solgan1").fadeIn(2000);
+                }, 500);
+
+                setTimeout(function(){
+                    $("#solgan2").fadeIn(2000);			
+                }, 2000);
+
+                setTimeout(function(){
+                    $("#solgan3").fadeIn(2000);
+                }, 3500);
+
+                /*
+                $(this).attr("width", domWidth + "px");
+
+                setTimeout(function(){
+                    windowWidth = $(window).width();
+                    $("#homePic").attr("width", domWidth - (domWidth - windowWidth) + "px");
+                },100);
+                */
+            });
+        }else{
+            $("#homePic2").load(function(){
+                var multi = getDomWideh() < 600 ? 0.95 : 1.7;                
+                $("#solgan1").css("width",  "70%");
+                $("#solgan1").css("left", domWidth/2 - $("#solgan1").outerWidth()/2 + "px");
+                $("#solgan1").css("top",  100 * multi + "px");
+                $("#solgan2").css("width",  "70%");
+                $("#solgan2").css("left", domWidth/2 - $("#solgan2").outerWidth()/2 + "px");
+                $("#solgan2").css("top",  140 * multi + "px");
+                $("#solgan3").css("width",  "70%");
+                $("#solgan3").css("left", domWidth/2 - $("#solgan3").outerWidth()/2 + "px");
+                $("#solgan3").css("top",  180 * multi + "px");
+
+                setTimeout(function(){
+                    $("#solgan1").fadeIn(2000);
+                }, 500);
+
+                setTimeout(function(){
+                    $("#solgan2").fadeIn(2000);			
+                }, 2000);
+
+                setTimeout(function(){
+                    $("#solgan3").fadeIn(2000);			
+                }, 3500);
+            });
+        }
+        
+        window.onresize = function(){
+            if(!isMobile.any())
+                window.location.href = window.location.href;
+        }
+	});
+	</script>
+</body>
+</html>

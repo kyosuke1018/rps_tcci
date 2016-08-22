@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>誠信經營 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("4-3"));		
+		
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color4">
+				誠信經營<span class="breadcrumb"></span>
+			</div>			
+
+			<div class="title color4">經營理念</div>
+			<div class="tableContainer">
+				<img src="img/img4-5.png" style="width:650px"/>
+			</div>
+			</br>
+			
+			<div class="title color4">道德規範</div>
+			<div class="ctx">
+				台泥「道德行為準則」中明訂董事及經理人執行職務應秉持積極進取、認真負責之態度，摒棄本位主義、注重團隊精神，恪遵誠實信用原則，以維護公司資產與保障相關利害關係人之權益。且應公平對待公司進（銷）貨廠商客戶、競爭對手及員工，不得透過操縱、隱匿、濫用其基於職務所獲悉之資訊、對重要事項做不實陳述或其他不公平交易方式而獲取不當利益，而於執行職務時，除餽贈或招待為社會禮儀習俗或公司規定所允許者外，不得為個人、公司或第三人之利益，而有要求、期約、交付或收受任何形式之餽贈、招待、回扣、賄賂或其他不正當利益之行為。
+				</br></br>台泥鼓勵員工呈報任何非法或違反道德行為準則之行為，透過加強宣導道德觀念，鼓勵員工於懷疑或發現有違反法令規章或道德行為準則之行為時，向審計委員會、經理人、內部稽核主管或其他適當人員呈報，提供足夠資訊使公司得以適當處理後續事宜。公司將以保密方式處理呈報案件，讓員工知悉公司將盡全力保謢善意呈報者的安全。
+				</br></br>在「誠信經營守則」中明訂應遵守公司法、證券交易法、商業會計法、政治獻金法、貪污治罪條例、政府採購法、公職人員利益衝突迴避法、上市上櫃相關規章或其他商業行為有關法令，以作為落實誠信經營之基本前提。由稽核室負責誠信經營政策之監督執行對董事會報告。
+				</br></br>在「企業社會責任實務守則」中明訂履行企業社會責任時，應本於尊重社會倫理與注意其他利害關係人之權益，在追求永續經營與獲利之同時，重視環境、社會與公司治理之因素，將其納入公司管理與營運之考量，2015年無相關違反行為準則（如貪腐事件）之申訴案件。
+			</div>
+			</br>
+
+			<div class="title color4">道德規範</div>
+			<div class="ctx">
+				台泥為上市公司，除了遵循公司法及其他相關法令規定外，也落實相關公司治理之政策，以確保利害關係人之權益；於產品銷售方面，台泥恪守相關規範進行產品之行銷與標示，並以高標準要求產品品質；同時遵循空氣污染防制法等相關環保法令規定，以善盡環境保護之責任。台泥以廉潔、透明及負責之經營理念，制定以誠信為基礎之政策，守法為最高依循準則。此外，透過研習營、教育訓練、講座等方式強化主管及員工的守法意識，以及藉由內部稽核機制的建立與落實，確保法令遵循及有效的防範企業經營風險，進而提升公司經營成效。
+				</br></br>2015年違反環境相關法規共7件、罰款2,049,000元，違反勞工相關法規3件、罰款80,000元。另預拌廠部分，違反環境相關法規5件、罰款668,000元。並無其餘違反法規或自願性準則之事件發生。罰款事件中，最主要之事件及檢討改善做為如下表所示：
+				</br></br>
+				<div class="tableContainer">
+					<table width="800px" cellspacing="1">
+						<tr>
+							<th style="width:20%; background:#f39700">罰款事件</th>							
+							<th style="width:38%; background:#f39700">發生原因</th>							
+							<th style="width:42%; background:#f39700">檢討與改善</th>
+						<tr>
+							<td style="padding:10px 20px; text-align:left; background:#fdebd1">未依規延續申辦生煤使用許可證</td>
+							<td style="padding:10px 20px; text-align:left; background:#eeeeef">和平廠因主辦人員異動，生煤使用許可過期未及時延續申辦。</td>
+							<td style="padding:10px 20px; text-align:left; background:#eeeeef">增加證照管理系統，自動管理相關許可，於到期日前發報警示，避免類似情形再次發生。</td>
+						</tr>
+						<tr>
+							<td style="padding:10px 20px; text-align:left; background:#fdebd1">蘇澳廠生料#5K噴霧塔正壓逸散</td>
+							<td style="padding:10px 20px; text-align:left; background:#e5e6e6">因連續多日大雨造成原料過使濕導致風析機堵料，及人員操作設備不慎。</td>
+							<td style="padding:10px 20px; text-align:left; background:#e5e6e6">加強磨機操作員教育訓練，重新訂定生料磨各崗位之工作職責，以避免類似情形再次發生。</td>
+						</tr>
+					</table>					
+				</div>
+			</div>
+			</br>
+			
+			<div class="title color4">內部稽核</div>
+			<div class="ctx">
+				台泥稽核室依年度稽核計畫執行內部稽核作業，包括召開稽核前會議進行稽核工作、撰寫內部稽核建議書、召開結束會議及提出稽核報告。稽核報告經董事長核准後即發函通知受查單位限期改善。稽核報告及追蹤報告呈核後，於稽核項目完成之次月底前送呈審計委員會各委員核閱。對於追蹤內部稽核所見異常事項改善情形，依受查單位所擬改善措施，編製內部稽核追蹤報告，五月底前編製「年度內部稽核內部控制缺失及異常事項改善情形申報表」由董事長核定後，以網際網路資訊系統申報主管機關備查。
+			</div>
+			</br></br>
+		</div>		
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

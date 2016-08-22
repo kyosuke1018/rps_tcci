@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>新聞訊息 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("other"));		
+		
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+		
+
+
+		$.ajax({ 
+          url: 'http://192.168.203.50/tccweb/service/tccNewsService/listAllReleasedNews?fromYY=2014&toYY=2016&orderBy=0'
+		}).then(function (data){
+				var html = '';
+				html += '<table class="newsList">';
+				
+				$.each(data, function(i, element){
+					html += '<tr>';
+					html += '<td><a href="news.html?id=' + data[i].idnum + '">' + data[i].yy + '</a></td>';
+					html += '<td><a href="news.html?id=' + data[i].idnum + '">' + data[i].subject + '</a></td>';
+					html += '</tr>';
+				});
+				
+				html += '</table>';				
+				$("#newsList").html(html);
+			}
+	)}
+		);
+	</script>	
+</head>
+
+<body>			
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption">
+				新聞訊息<span class="breadcrumb"></span>
+			</div>			
+
+			<div id="newsList"></div>
+			</br></br>
+		</div>
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

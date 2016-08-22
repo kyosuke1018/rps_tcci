@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>關聯企業 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("3-2"));
+				
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color3">
+				關聯企業<span class="breadcrumb"></span>
+			</div>
+			
+			<div class="phoneSpace10"></div>
+			<div class="ctx">
+				<span class="firstTxt">台</span>泥為資源有效整合，評估於水泥、電力、垃圾焚化爐三種行業的基本科技相同，且彼此所需要材料具有共同性與相容性，將「水泥、能源、環保」設定為三大核心事業，三位一體資源互補，達到資源整合的效應。
+				</br></br>水泥產業鏈中，台泥關聯企業各自獨立運作，各司其職，也相互支援。台泥負責水泥生產，原物料部分，由光和耐火公司供應耐火材料、和平電力公司與和平港提供再生資源；貨運部分，則由臺灣通運倉儲負責陸上運輸業務、達和航運負責海上運輸業務；關聯企業間之線上資料處理由台泥資訊負責。關係企業間業務往來，皆訂立合約書或訂購單，載明雙方權利義務，依一般市場行情作為定價決策的依據，如無市場行情則由雙方依公平原則簽訂合理價格。經驗」的最佳見證。
+				</br></br>
+				
+				<div class="subTitle">價值鏈有效整合</div>
+				<div class="tableContainer">
+					<img src="img/img3-5.png" style="width:700px"/>
+				</div>
+				</br></br></br>
+
+				<div class="subTitle">關係企業</div>
+				<div class="tableContainer">
+					<img src="img/img3-6.png" style="width:980px"/>
+				</div>
+				</br></br>
+			</div>			
+		</div>
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

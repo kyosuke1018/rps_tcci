@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>能源管理 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("7-4"));
+		
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>	
+</head>
+
+<body>
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color7">
+				能源管理<span class="breadcrumb"></span>
+			</div>
+		
+			<div class="title color7">能源管理系統</div>
+			<div class="ctx">
+				能源耗用在水泥生產過程中是一直被關注的重點，不僅是因為能源成本在水泥生產上具有很重要的佔比，同時亦是台泥內部以「環保是責任、不是成本」之企業核心經營理念。2014年導入ISO 50001能源管理系統，是一種系統化實現節能績效目標之工具，台泥透過ISO 50001持續追求能源使用之改善績效，降低能源使用成本，以能源基線調查、改善計畫提出、管理制度建置之手法，提升能源管理之強度。
+				</br></br>台泥耗用最多之能源為煤炭、柴油及外購電力，2015年能源使用轉換為GJ後為3,293萬GJ，較2014年減少約400萬GJ，單位產品能源耗用量則為351.57（GJ／百萬元），較2014年度約增加12.3%，主要原因在於2015年產量下降，但受製程特性限制，水泥生產設備仍需持續運轉，造成單位水泥耗能量增加。歷年能源使用情形如下：
+				</br></br>
+				<div class="subTitle">單位產品能源耗用量（單位：GJ/百萬元）</div>
+				<div class="tableContainer">
+					<table width="700px" cellspacing="1">
+						<tr bgcolor="#7ebe25">
+							<th rowspan="2">種類</th>
+							<th colspan="3">數量</th>
+							<th colspan="3">數量 (單位:GJ)</th>
+						</tr>
+						<tr bgcolor="#7ebe25">							
+							<th>2013年</th>
+							<th>2014年</th>
+							<th>2015年</th>
+							<th>2013年</th>
+							<th>2014年</th>
+							<th>2015年</th>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#e9f2d9">煤炭(噸)</td>
+							<td>1,708,594</td>
+							<td>1,476,097</td>
+							<td>1,293,286</td>
+							<td>41,885,254</td>
+							<td>33,663,284</td>
+							<td>29,277,126</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#e9f2d9">柴油(噸)</td>
+							<td>2,733</td>
+							<td>2,261</td>
+							<td>2,079</td>
+							<td>100,618</td>
+							<td>83,257</td>
+							<td>76,546</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#e9f2d9">外購電力(度)</td>
+							<td>940,733,961</td>
+							<td>917,209,369</td>
+							<td>995,177,610</td>
+							<td>3,384,987</td>
+							<td>3,300,339</td>
+							<td>3,580,888</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td colspan="4" bgcolor="#e9f2d9">合計</td>
+							<td>45,370,858</td>
+							<td>37,046,881</td>
+							<td>32,934,560</td>
+						</tr>
+					</table>
+				</div>
+				</br></br></br>
+				<div class="tableContainer">
+					<img src="img/img7-6.png" style="width:500px"/>
+				</div>
+			</div>
+			</br>
+			
+			<div class="title color7">2015年節能成果</div>
+			<div class="ctx">
+				<ul style="margin:0; padding:0 0 0 20px">					
+					<li>澳廠水泥磨及#6K系統空壓機更新（各2台），共節電300,000度</li>
+					<li>花蓮廠餘熱發電AQC爐管更新，共節電2,211,360度</li>
+					<li>和平廠空壓機汰舊換新、冷卻機系統風車裝設變頻器，節約648,370度</li>
+				</ul>
+				<div class="subTitle">近三年能源減量統計（單位：度）</div>
+				<div class="tableContainer">
+					<img src="img/img7-7.png" style="width:600px"/>
+				</div>
+			</div>
+			</br>
+			
+			<div class="title color7">總公司節能措施</div>
+			<div class="ctx">
+				台泥貫徹「環保是責任不是成本」理念，向來重視節能減碳措施。自2011年起設置太陽能光電發電系統，每年約可發電10,000餘度；另設置雨水回收系統，回收之雨水用於戶外景觀維護與環境清潔用水；另也更換節能燈具、節水裝置及變頻冰水主機等。2015年台泥大樓節電效益約150萬元，占全年度電費10.43%。台泥大樓節能減碳有成，於2015年提升申請台灣綠建築標章－舊建築改善類，預計於2016年完成審查，以彰顯台泥對環保節能減碳之努力。
+				</br></br>
+				<div class="tableContainer">
+					<img src="img/img7-8.png" style="width:650px"/>
+				</div>
+			</div>
+			</br></br>
+		</div>		
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

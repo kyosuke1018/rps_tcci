@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>餘熱發電 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("5-4"));
+		
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color5">
+				餘熱發電<span class="breadcrumb"></span>
+			</div>			
+
+			<div class="phoneSpace10"></div>
+			<div class="ctx">
+				<span class="firstTxt">台</span>泥除不斷致力於優化水泥生產製程，降低產品單位產生之熱量。自1991年起亦於各水泥廠設置餘熱發電系統，回收水泥旋窯生產時，將預熱器及冷卻機所排放廢氣中的熱量用於發電，以達節能減排的目的，餘熱發電系統採用日本KHI或NKK(JFE)最先進的閃蒸技術，提高回收熱量之效能，以發揮最大效益，將回收熱量用於發電。近三年來，回收餘熱產生之發電量已達4.77億度，依103年度能源局公告之電力排放係數(0.521 kg CO2e/度)換算，相當於減少近25萬噸二氧化碳的排放量。2015年餘熱發電量為1.2億度，較2014年減少約2,221萬度。
+				</br></br>
+				
+				<div class="subTitle">餘熱發電量（單位：度）</div>
+				<div class="tableContainer">
+					<img src="img/img5-17.png" style="width:600px"/>
+				</div>
+				</br></br>
+			</div>
+		</div>
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

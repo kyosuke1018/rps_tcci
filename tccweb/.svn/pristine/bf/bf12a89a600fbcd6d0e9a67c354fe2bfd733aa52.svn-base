@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>福利制度 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("6-4"));
+				
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color6">
+				福利制度<span class="breadcrumb"></span>
+			</div>			
+
+			<div class="title color6">薪酬與績效</div>
+			<div class="ctx">
+				<img class="imgWrapR250" src="img/img6-14.jpg"/>
+				台泥提供具市場競爭性的薪資水準以及優渥的績效獎金，績效獎金依公平與激勵的績效獎金辦法，將公司整體營運獲利與員工個人績效表現充份連結，回饋績效表現卓越的員工，所有通過3個月試用期之正職員工，皆需接受績效考核，2015年符合資格者，皆接受績效考核，比例為100%。				</br></br>
+				<div style="clear:both"></div>
+				</br>				
+				<div class="subTitle">接受績效考核人數</div>
+				<div class="tableContainer">
+					<table width="700px" cellspacing="1">
+						<tr bgcolor="#d71d69">
+							<th>歷年正職同仁職級別人數</th>
+							<th colspan="2">2013年</th>
+							<th colspan="2">2014年</th>
+							<th colspan="2">2015年</th>
+						</tr>
+						<tr bgcolor="#d71d69">
+							<th>性別</th>
+							<th>女</th>
+							<th>男</th>
+							<th>女</th>
+							<th>男</th>
+							<th>女</th>
+							<th>男</th>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td width="34%" bgcolor="#f7dce1">高階主管</td>
+							<td width="11%">3</td>
+							<td width="11%">5</td>
+							<td width="11%">2</td>
+							<td width="11%">5</td>
+							<td width="11%">2</td>
+							<td width="11%">10</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">中階主管</td>
+							<td>15</td>
+							<td>79</td>
+							<td>13</td>
+							<td>71</td>
+							<td>11</td>
+							<td>53</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#f7dce1">基層主管</td>
+							<td>7</td>
+							<td>20</td>
+							<td>10</td>
+							<td>19</td>
+							<td>8</td>
+							<td>21</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">專業人員 (工程師、管理師)</td>
+							<td>28</td>
+							<td>69</td>
+							<td>25</td>
+							<td>71</td>
+							<td>27</td>
+							<td>61</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#f7dce1">直接人員</td>
+							<td>38</td>
+							<td>593</td>
+							<td>32</td>
+							<td>565</td>
+							<td>30</td>
+							<td>515</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">總計</td>
+							<td>92</td>
+							<td>866</td>
+							<td>82</td>
+							<td>731</td>
+							<td>78</td>
+							<td>660</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			</br>
+			
+			<div class="title color6">員工福利</div>
+			<div class="ctx">
+				為完整保障員工權益，台泥具有多元化的福利制度及具完備法令退休辦法，台泥正式員工皆享有完善福利如下：
+				<ul style="padding:0 0 0 20px">
+					<li>健康關懷：年度健檢／醫療補助／分娩補助</li>
+					<li>生活關懷：旅遊補助／儲蓄陪存金／員工宿舍／結婚、生育賀禮／退休及退職慰問金、喪葬慰問金</li>
+					<li>學習關懷：進修補助／子女教育獎學金</li>
+					<li>節慶關懷：勞動節／春節／端午節／中秋節禮券／生日禮券／年節贈禮</li>
+					<li>保險關懷：勞健保／團體保險（定期壽險／傷害險／癌症險／員工及眷屬醫療險）</li>
+				</ul>
+				依法設置「勞工退休準備金監督委員會」定期提撥退休金提存於臺灣銀行，且定期召開委員會，審核退休金提撥及運用情形，以保障同仁之權益。另針對選擇採用勞工退休金新制之員工，依法令規定依員工每月薪資6%提撥退休金至員工在勞保局之個人帳戶，以維護員工權益。
+				<br>截至2015年12月31日止，列入合併資產負債表之確定福利計畫金額如下：
+				</br></br>				
+				<div class="tableContainer">
+					<img src="img/img6-15.png" style="width:700px"/>
+				</div>
+			</div>
+			</br></br>
+			
+			<div class="title color6">育嬰留停</div>
+			<div class="ctx">
+				到職滿6個月之正職員工，皆享有育嬰留停之資格。
+				</br></br>
+				<div class="tableContainer">
+					<table width="750px" cellspacing="1">
+						<tr bgcolor="#d71d69">
+							<th>歷年正職同仁職級別人數</th>
+							<th colspan="2">2013年</th>
+							<th colspan="2">2014年</th>
+							<th colspan="2">2015年</th>
+						</tr>
+						<tr bgcolor="#d71d69">
+							<th>性別</th>
+							<th>女</th>
+							<th>男</th>
+							<th>女</th>
+							<th>男</th>
+							<th>女</th>
+							<th>男</th>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td width="40%" bgcolor="#f7dce1">該年度享有育嬰留停資格人數</td>
+							<td width="10%">2</td>
+							<td width="10%">18</td>
+							<td width="10%">3</td>
+							<td width="10%">21</td>
+							<td width="10%">2</td>
+							<td width="10%">18</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">該年度申請育嬰留停人數(A)</td>
+							<td>0</td>
+							<td>1</td>
+							<td>1</td>
+							<td>1</td>
+							<td>0</td>
+							<td>1</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#f7dce1">預定該年度復職人數(B)</td>
+							<td>0</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>1</td>
+							<td>1</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">實際復職人數(C)</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>1</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#f7dce1">復職後12個月仍在職人數(D)</td>
+							<td>2</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#f7dce1">留職期滿復職率(C/B)</td>
+							<td>-</td>
+							<td>0%</td>
+							<td>-</td>
+							<td>-</td>
+							<td>100%</td>
+							<td>0%</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#f7dce1">復職週年留任率(D/前一年度實際復職人數)</td>
+							<td>100%</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+					</table>
+				</div>
+				註：該年度享有育嬰留停資格人數計算基準：該年度申請產假／陪產假之正職員工
+			</div>
+			</br></br>
+		</div>		
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>	
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

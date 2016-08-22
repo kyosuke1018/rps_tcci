@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>廢棄資源管理 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("7-7"));
+				
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color7">
+				廢棄資源管理<span class="breadcrumb"></span>
+			</div>
+			
+			<div class="phoneSpace10"></div>
+			<div class="ctx">				
+				<span class="firstTxt">於</span>1970年代，台泥高雄水泥廠即已開始利用中油下腳料石油焦、及中鋼之高爐爐石，分別做為替代燃料及原料，民國80年更試用以廢輪胎碎片做為替代燃料，取得良好的經驗。
+				</br></br>台泥多年來整合利用的再生資源包括:
+				</br></br>
+				
+				<ul style="margin:0; padding:0 0 0 20px">
+					<li>發電廠之脫硫石膏、煤灰、脫硫渣</li>
+					<li>光電及半導體等產業之氟化鈣污泥、廢溶劑</li>
+					<li>造紙業之紙漿污泥</li>
+					<li>石材廢泥</li>
+					<li>淨水廠污泥</li>
+					<li>化工廠之無機污泥</li>
+					<li>鋼鐵廠礦泥</li>
+					<li>化學原料廠之鋁礦土渣</li>
+					<li>工程廢棄土</li>
+				</ul>
+				</br>
+				
+				目前台泥製程中產生之廢棄物如煤灰等皆可全數循環再利用作為水泥製程之原物料或添加物，故水泥製程並無任何事業廢棄物產生量。2015年使用之事業性廢棄物約90萬噸，較2014年減少近7萬噸，每噸水泥廢棄物使用量微幅增加0.4公斤。下表為近三年台泥針對事業廢棄物再利用量統計表：
+				</br></br>				
+				
+				<div class="tableContainer">
+					<table width="650px" cellspacing="1">
+						<tr bgcolor="#7ebe25">
+							<th width="40%">項目</th>
+							<th width="20%">2013年</th>
+							<th width="20%">2014年</th>
+							<th width="20%">2015年</th>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#e9f2d9">年度事業性廢棄物使用量（噸）</td>
+							<td>935,131</td>
+							<td>962,592</td>
+							<td>896,376</td>
+						</tr>
+						<tr bgcolor="#e5e6e6">
+							<td bgcolor="#e9f2d9">年度水泥產量（噸）</td>
+							<td>6,422,432</td>
+							<td>5,882,180</td>
+							<td>5,463,443</td>
+						</tr>
+						<tr bgcolor="#eeeeef">
+							<td bgcolor="#e9f2d9">每噸水泥廢棄物使用量（KG/噸）</td>
+							<td>145.60</td>
+							<td>163.65</td>
+							<td>164.07</td>
+						</tr>
+					</table>
+				</div>
+				</br></br>
+			</div>			
+		</div>
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

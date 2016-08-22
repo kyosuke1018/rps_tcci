@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>產品介紹 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("5-1"));
+
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+	});
+	</script>
+</head>
+
+<body>	
+	<div id="headerField">
+		<div id="header"></div>
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption color5">
+				產品介紹<span class="breadcrumb"></span>
+			</div>			
+
+			<div class="phoneSpace10"></div>
+			<div class="ctx">
+				<span class="firstTxt">台</span>泥重視環保議題，將環保政策落實於產品製造與配銷流程，針對剩餘資源進行再生利用，淨化環境，進而達到資源整合精實管理。這些年，台泥在環保上的耕耘，陸續受到肯定。2014年與工研院、能源局合作的鈣迴路捕獲CO2技術，榮獲全球百大科技研發獎項。這些成績都是凸顯台泥落實節能減碳的成果，未來將延續這股動力，履行企業企業責任，追求更好的成效。
+			</div>
+			</br>
+			
+			<div class="title color5">水泥產業價值鏈</div>
+			<div class="ctx">				
+				水泥是建築工程中主要的材料之一，需要各種礦石原料經研磨燒窯而成，從石灰石礦石原料採礦的礦權取得，到其他項目的原料採購，以及石灰石採礦後的原料運輸，以及生產過程中的二氧化碳減排、工業廢棄物再利用等生產過程，近年來台泥不斷流程中改善採礦技術、優化運輸方式，以及研發碳捕捉技術、工業廢棄物再利用等，希望能從減少碳排放量、工業廢棄物減量等著手，為環境永續盡一份心力。					
+				</br></br>
+				<div class="subTitle">水泥產業價值鏈圖示</div>
+				<div class="tableContainer">
+					<img src="img/img5-1.png" style="width:500px"/>
+				</div>			
+			</div>
+			</br></br>
+			
+			<div class="title color5">主要製程</div>
+			<div class="tableContainer">
+				<img src="img/img5-2.png" style="width:700px"/>
+			</div>
+			</br></br>			
+			
+			<div class="title color5">水泥產能</div>
+			<div class="ctx">				
+				因應產業全球化趨勢，台泥積極擴張水泥版圖，兩岸水泥產能由2010年5,190萬噸，至2014年底大幅增加至7,570萬噸，成長46%，2015年則因無新增生產線及購併廠 設製程設備，產能維持平穩。
+				</br></br>
+				<div class="subTitle">歷年水泥產能（單位：仟噸）</div>
+				<div class="tableContainer">
+					<img src="img/img5-3.png" style="width:700px"/>
+				</div>			
+			</div>
+			</br></br>
+			
+			<div class="title color5">產品品質</div>
+			<div class="ctx">				
+				台泥透過全面品質改善之手法，持續不斷改善產品品質，確保優於世界上重要國家之標準規範，近三年水泥重要品質特性－各期齡耐壓強度、維持穩定之強度，均優於國家標準規範，所有產品皆經品質與使用安全性相關評估，以確保最終使用者之安全。同時因骨材品質變異過大，恐摻混有害工業物質，易造成重大客訴案件，因此台泥骨材管控採取四道把關：就源管理、入料檢驗、分級檢驗及查核檢驗，除確保產品品質外，也盡力降低產品摻雜有害物質之可能性，為最終使用者之健康把關。
+				</br></br>
+				<div class="subTitle">歷年水泥強度(psi)</div>
+				<div class="tableContainer">
+					<img src="img/img5-4.png" style="width:700px"/>
+				</div>
+				</br>
+				<center>註：上圖水泥強度數值為台泥研究室自主檢測結果</center>
+			</div>			
+			</br>			
+			
+			<div class="title color5">水泥及熟料</div>
+			<div class="ctx">				
+				水泥係以石灰石、黏土、矽砂、鐵渣為原料，經適當配料研磨、混合均勻成生料，於旋轉窯內以高溫燒結後成為熟料，再加適量石膏研磨而成。台灣所銷售的水泥以「品牌水泥」為代表名稱，型別為ASTM第Ⅰ型、第Ⅰ型低鹼及第Ⅱ型低鹼水泥，另可依客戶需要提供其他類型的產品。在外銷市場方面，除主要供應美國Ⅰ/Ⅱ及Ⅱ/Ⅴ水泥外，亦供應歐洲、南美洲、非洲及東南亞等地區，符合當地不同規範與需求的水泥及熟料。大陸所生產的水泥品種等級有P.I52.5R、P.II52.5R、P.II42.5R、P.O42.5R、P.O42.5、P.C32.5R、P.S.A32.5等七種，可涵蓋不同階層客戶及工程的需求。
+			</div>
+			</br></br>
+			
+			<div class="title color5">預拌混凝土</div>
+			<div class="ctx">
+				<img class="imgWrapR250" src="img/img5-5.png"/>
+				預拌混凝土是由不同比例的填充材、水與膠結材，配合適量的化學摻劑，以固定式拌合機拌勻後，藉由預拌車送達工地澆置之建築材料。台泥銷售不同規格的傳統混凝土、自充填混凝土（Self-Compacting Concrete, SCC）及高流動混凝土（High Flowing Concrete, HFC），也可依照客戶需求製供其它的高性能混凝土。
+				</br></br>台泥目前在台灣有22座預拌混凝土廠，為因應市場之需要，已成功研發出自充填混凝土（SCC）、高流動混凝土（HFC）及高性能混凝土等，以供應如台北101國際金融中心及高鐵車站等特殊工程使用，成效良好。台泥所提供的混凝土主要有以下類型：				
+				<div style="clear:both"></div>
+				</br>
+				<div class="tableContainer">
+					<table width="850px" cellspacing="0">
+						<tr>
+							<th style="width:11%; background:#0074c1">混凝土</th>							
+							<th style="width:89%; background:#0074c1">說明</th>	
+						</tr>
+						<tr>
+							<td style="padding:5px;  border-bottom:solid 1px #0074c1; text-align:center"><img src="img/img5-6.jpg"/></td>							
+							<td style="padding:20px; border-bottom:solid 1px #0074c1; text-align:left">混凝土是由填充材（骨材）、水與膠結材（水泥、飛灰、爐石、矽灰等），調配化學摻劑以適當的比例（配比設計），均勻混合後經震動拌合成型，在一定條件下養護而成，一般普通建築結構用混凝土，係指坍度在15 - 18cm而抗壓強度介於2000 psi - 5000 psi之間。</td>
+						</tr>
+						<tr>
+							<td style="padding:5px;  border-bottom:solid 1px #0074c1; text-align:center"><img src="img/img5-7.jpg"/></td>
+							<td style="padding:20px; border-bottom:solid 1px #0074c1; text-align:left">SCC具有高流動性，良好之模版間充填能力，不需振動、搗實，藉由自身重力即可充填成型。由於具有足夠之稠度，在施工時可抵抗析離現象的發生，材料之均勻性優於經過振動搗實之傳統混凝土，且成型後一般均較同規格之傳統混凝土強度為高，大幅提高鋼筋混凝土構造物整體的品質及耐久性。</td>
+						</tr>
+						<tr>
+							<td style="padding:5px;  border-bottom:solid 1px #0074c1; text-align:center"><img src="img/img5-8.jpg"/></td>							
+							<td style="padding:20px; border-bottom:solid 1px #0074c1; text-align:left">因自充填混凝土生產成本及技術門檻較高，台泥乃自行開發工作性佳，且生產成本及技術門檻低於SCC之品牌高流動混凝土（High Flowing Concrete, HFC），HFC具有一免（免加水）、二低（低坍損、低浮水）及三高（高流動性、高水密性、高抗析離）的特性，解決了傳統混凝土易發生壓送車加水、蜂巢、泌水、浮灰、乾縮龜裂等缺失。</td>
+						</tr>
+						<tr>
+							<td style="padding:5px;  border-bottom:solid 1px #0074c1; text-align:center"><img src="img/img5-9.jpg"/></td>
+							<td style="padding:20px; border-bottom:solid 1px #0074c1; text-align:left">台泥於2000年投入高性能混凝土與自充填混凝土技術開發，成功的將此技術應用於台灣新地標－台北101柱內灌漿（CFT工法）部分，其規格為90天設計抗壓強度10,000 psi，大幅提升了台灣混凝土的產製技術。</td>
+						</tr>									
+						<tr>
+							<td style="padding:5px;  border-bottom:solid 1px #0074c1; text-align:center"><img src="img/img5-10.jpg"/></td>							
+							<td style="padding:20px; border-bottom:solid 1px #0074c1; text-align:left">配合不同特性之工程及客戶需求生產無收縮混凝土，其具有不泌水、不收縮、強度高等特性，適用於鋼構底座、各式基樁、橋樑支撐墊、機械安基座、橋樑伸縮縫、修補等。</td>
+						</tr>
+						<tr>
+							<td style="padding:5px;  border-bottom:solid 1px #0074c1; text-align:center"><img src="img/img5-11.jpg"/></td>
+							<td style="padding:20px; border-bottom:solid 1px #0074c1; text-align:left">為了解決連續壁施工後容易產生滲水的問題，台泥已研發及成功量產高抗滲混凝土，該產品主要特色為水密性及抗滲性遠優於一般混凝土，此外，其具有高流動性，工作性佳以及用水量特低，乾縮潛變小，耐久性佳等優點。</td>
+						</tr>									
+						<tr>
+							<td style="padding:5px;  border-bottom:solid 1px #0074c1; text-align:center"><img src="img/img5-12.jpg"/></td>							
+							<td style="padding:20px; border-bottom:solid 1px #0074c1; text-align:left">台泥除成功研發自充填混凝土（Self-Compacting Concrete, SCC）與高流動混凝土（High Flowing Concrete, HFC）等高性能混凝土外，尚有其它開發成功之產品，如超高強混凝土（>10000 psi）、無收縮混凝土及高抗滲混凝土（High Permeability-Resistant Concrete, HPRC）等客製化產品，供不同特性之工程需求使用。</td>
+						</tr>
+					</table>	
+				</div>			
+			</div>
+			</br></br>	
+		</div>		
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>

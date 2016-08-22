@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>新聞內容 | 台泥企業永續發展</title>
+<link rel="icon" 	   type="image/x-icon"	href="img/logo.png"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.11.1.min.js"></script>
+<script src="content.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		var id;
+		getSearchAPI();
+		$("#header").html(getHeader());
+		$("#footer").html(getFooter());
+		$("#webMap").html(getWebMap());
+		$(".breadcrumb").html(breadcrumb("other"));		
+		
+		$(".goTop").click(function(){
+			$("html, body").animate({scrollTop:0}, 1000);
+		});
+		
+		$(".goBottom").click(function(){
+			$("html, body").animate({scrollTop: parseInt($("body").css("height")) - getDomHeight() }, 1000);			
+		});
+		
+		id = GetUrlString("id");
+		id = decodeURI(id);
+		
+		$.ajax({ 
+			type: 'GET', 
+			url: 'newsX.xml',
+//          url: 'newsX.json',
+//          url: 'http://192.168.203.50/tccweb/service/newsService/listAllReleasedNews?fromYY=2016&toYY=2016&orderBy=1',
+            dataType: 'xml',
+//			success: function (data){
+//				var html = '';				
+//				
+//				$.each(data, function(i, element){
+//					if(data[i].idnum == id){						
+//						html += '<div class="news">';
+//						html += '	<div class="title">' + data[i].subject + '</div>';
+//						html += '	<div class="date">'  + data[i].yy + '</div>';						
+//						html += '	<div class="cont">'  + data[i].memo + '</div>';
+//						html += '</div>';
+//					}
+//				});				
+//				
+//				$("#news").html(html);
+//				$("#news img").each(function(index){
+//					var src = $("#news img:eq(" + index + ")").attr("src");
+//					src = src.substr(1);
+//					$("#news img:eq(" + index + ")").attr("src", src);
+//					$("#news img:eq(" + index + ")").css("width", "auto");
+//				});
+//			}
+            
+            success: function(xml){
+                var html = '';
+				html += '<table class="newsList">';
+                
+                $(xml).find('Table1').each(function(){                    
+                    if($(this).find('idnum').text() == id){                        
+                        var yy = $(this).find('yy').text();
+                        var subject = $(this).find('subject').text();
+                        var memo = $(this).find('memo').text();                        
+                        html += '<div class="news">';
+                        html += '	<div class="title">' + subject + '</div>';
+                        html += '	<div class="date">'  + yy + '</div>';						
+                        html += '	<div class="cont">'  + memo + '</div>';
+                        html += '</div>';
+                    }
+                });
+                
+                html += '</table>';				
+				$("#news").html(html);                
+                $("#news img").each(function(index){
+                    var src = $("#news img:eq(" + index + ")").attr("src");
+                    src = src.substr(1);                    
+                    $("#news img:eq(" + index + ")").attr("src", src);
+                    
+                    if(getDomWideh() < 980){
+                        $("#news img:eq(" + index + ")").css("width", "100%");
+                        $("#news img:eq(" + index + ")").css("height", "auto");
+                    }else
+                        $("#news img:eq(" + index + ")").css("width", "auto");
+                });
+            }
+		});
+	});
+	</script>	
+</head>
+
+<body>			
+	<div id="headerField">
+		<div id="header"></div>		
+		<div class="containerDivide">&nbsp;</div>
+	</div>
+
+	<div id="container">
+		<div class="content">
+			<div class="caption">
+				新聞內容<span class="breadcrumb"></span>
+			</div>			
+
+			<div id="news"></div>
+			</br></br>
+		</div>
+	</div>	
+
+	<div id="footerField">
+		<div class="containerDivide">&nbsp;</div>
+		<div id="webMap"></div>
+		<div id="footer"></div>
+	</div>
+	
+	<div class="goButton goTop">▲</div>
+	<div class="goButton goBottom">▼</div>
+</body>
+</html>
