@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!-- BEGIN: 查詢條件區 -->
+    <p:fieldset id="fsQueryConds" legend="#{msg['search.critical']}" toggleable="true" collapsed="false" >
+        <p:panelGrid columns="4" >
+            <p:outputLabel value="資料別：" styleClass="fieldname" />
+            <p:selectOneMenu value="#{genericOptions.criteriaVO.type}" >
+                <f:selectItems value="#{ui.sysOptions}" />
+                <p:ajax event="change" listener="#{genericOptions.changeType()}" update="listGroup" />
+            </p:selectOneMenu>
+            
+            <p:outputLabel value="關鍵字查詢：" styleClass="fieldname" />
+            <p:inputText value="#{genericOptions.criteriaVO.keyword}" size="40" />
+        </p:panelGrid>
+        <p:separator />
+        <p:outputPanel id="opQueryBtn" >
+            <p:spacer width="10" height="20" />
+            <!--確定按鈕-->
+            <p:commandButton value="#{msg['button.search']}" icon="ui-icon-search"
+                             action="#{genericOptions.doQuery()}"
+                             oncomplete="doResize();" 
+                             update="listGroup"/>
+            <p:spacer width="5px"/>
+            <!--清除按鈕-->
+            <p:commandButton value="#{msg['common.button.clear']}" icon="ui-icon ui-icon-cancel"
+                             action="#{genericOptions.doReset()}" 
+                             update="fsQueryConds listGroup"
+                             />
+            <p:spacer width="10px"/>
+        </p:outputPanel>
+    </p:fieldset>
+    
+    <!-- BEGIN: 查詢條件區 -->
+    <p:fieldset id="fsQueryResult" legend="#{msg['search.result']}" collapsed="false"
+                toggleable="true" toggleSpeed="500">
+        <h:panelGroup id="listGroup">
+            <!-- 共 ? 筆 -->
+            <h:outputText id="otRowCount" value="(共#{genericOptions.lazyModel.rowCount}筆)" 
+                          rendered="#{not empty genericOptions.lazyModel}" />
+            <p:remoteCommand name="getRowCountAfterFiltered" update=":fmMain:otRowCount" />
+            
+            <p:dataTable id="dtResult" var="row" lazy="true"
+                         widgetVar="wvDTResult"
+                         value="#{genericOptions.lazyModel}" 
+                         filteredValue="#{genericOptions.filterResultList}"
+                         styleClass="ui-datatable-hor-scroll"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         rows="30"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         >
+                <p:ajax event="filter" oncomplete="getRowCountAfterFiltered();doResize('dtResult');" />
+                <p:ajax event="page" process="@none" immediate="true" oncomplete="doResize('dtResult');" />
+                <p:ajax event="sort" process="@none" immediate="true" oncomplete="doResize('dtResult');" />
+                
+                <f:facet name="header" >
+                    <div style="text-align: center">
+                        <p:outputLabel value="查詢結果列表　" />
+                        <p:spacer width="5" height="5" />
+                        <!-- 新增 (植物蒐藏項目除外) -->
+                        <p:commandButton icon="ui-icon-plus" 
+                                         rendered="#{(!genericOptions.readOnly) and (genericOptions.criteriaVO.type ne 'C') or (tcSessionController.administrator)}"
+                                         value="#{msg['common.add']}"
+                                         actionListener="#{genericOptions.prepareCreate()}"
+                                         update=":sysOptionsEditForm" 
+                                         oncomplete="openSysOptionsEditDlg(xhr, status, args);"
+                                         />
+                        <p:outputLabel rendered="#{genericOptions.category eq 1}" 
+                                       value="（新增[蒐藏項目]，請務必通知台訊同時新增前端代表圖片）" ></p:outputLabel>
+                        
+                        <h:panelGroup rendered="#{genericOptions.lazyModel!=null and genericOptions.lazyModel.rowCount gt 0}">
+                            <p:spacer width="5"/>
+                            <!-- 匯出 -->
+                            <p:commandButton value="#{msg['common.export']}" 
+                                             icon="ui-icon-print" ajax="false" onclick="setUpBlockUI();"
+                                             actionListener="#{genericOptions.prepareExport()}">
+                                <p:dataExporter type="xls" fileName="application" target=":fmMain:dtResult" 
+                                                postProcessor="#{genericOptions.postProcessXLS}" />
+                            </p:commandButton>
+                        </h:panelGroup>
+                    </div>
+                </f:facet>
+                
+                <!-- 操作 -->
+                <p:column headerText="#{msg['table.action']}" 
+                          style="text-align: center;" exportable="false"
+                          width="45">
+                    <p:tooltip for="mbOptions" value="操作(#{row.id})#{row.readonly?'-本項目系統有特殊用途不可編輯或刪除':''}" />
+                    <p:menuButton id="mbOptions" value="　" disabled="#{genericOptions.readOnly || row.readonly}" >
+                        <!-- 編輯 -->
+                        <p:menuitem value="#{msg['button.edit']}"
+                                    actionListener="#{genericOptions.prepareEdit(row.id)}"
+                                    update=":sysOptionsEditForm" 
+                                    oncomplete="openSysOptionsEditDlg(xhr, status, args);"
+                                    rendered="#{(!genericOptions.readOnly) and genericOptions.canEdit(row)}"
+                                    icon="ui-icon-pencil"/>
+                        <!-- 刪除 --><!-- 確定要刪除嗎? -->
+                        <p:menuitem value="#{msg['button.delete']}"
+                                    onstart="if( !confirm('確定要刪除嗎?') ){ return false; }"
+                                    actionListener="#{genericOptions.delete(row)}"
+                                    rendered="#{(!genericOptions.readOnly) and genericOptions.canDelete(row)}"
+                                    update=":fmMain:listGroup" 
+                                    icon="ui-icon-closethick"/>
+                    </p:menuButton>
+                </p:column>
+                <p:column headerText="中文名稱" sortBy="#{row.cname}" >
+                    <h:outputText value="#{row.cname}" />
+                </p:column>
+                <p:column headerText="英文名稱" sortBy="#{row.ename}" >
+                    <h:outputText value="#{row.ename}" />
+                </p:column>
+                <p:column headerText="顯示順序" sortBy="#{row.sortnum}" style="text-align:right;" >
+                    <h:outputText value="#{row.sortnum}" />
+                </p:column>
+                <p:column headerText="備註" sortBy="#{row.memo}" >
+                    <h:outputText value="#{row.memo}" />
+                </p:column>
+                <!-- 建立日期時間 -->
+                <p:column headerText="建立日期時間" width="130" sortBy="#{row.createtime}" >
+                    <h:outputText value="#{row.createtime}">
+                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
+                    </h:outputText>
+                </p:column>
+                <!-- 最後修改人 -->
+                <p:column headerText="最後修改人" width="100" sortBy="#{row.lastUserName}" >
+                    <h:outputText value="#{row.lastUserName}" />
+                </p:column>
+                <!-- 最後更改時間 -->
+                <p:column headerText="最後更改時間" width="130" >
+                    <h:outputText value="#{row.lastUpdateTime}">
+                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+        </h:panelGroup>
+    </p:fieldset>
+</ui:composition>

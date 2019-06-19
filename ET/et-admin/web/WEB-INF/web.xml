@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>server</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.FONT_AWESOME</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.primefaces.extensions.DELIVER_UNCOMPRESSED_RESOURCES</param-name>
+        <param-value>false</param-value>
+    </context-param>
+    <!--
+    <context-param>
+      <param-name>primefaces.LEGACY_WIDGET_NAMESPACE</param-name>
+      <param-value>true</param-value>
+    </context-param>
+    -->
+    <context-param>
+        <description>get default timezone from OS</description>
+        <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <!--omega -->
+        <!--<param-value>pepper-grinder</param-value>--> 
+        <param-value>omega</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>RESOURCE_VERSION</param-name>
+        <param-value>0.1</param-value>
+    </context-param>
+    <context-param>
+        <param-name>velocity.webapp.resource.loader.path</param-name>
+        <param-value>/WEB-INF/emailtemplates/</param-value>
+    </context-param>
+    <listener>
+        <listener-class>com.tcci.cm.servlet.listener.TCApplicationListener</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Resource Servlet</servlet-name>
+        <servlet-class>org.primefaces.resource.ResourceServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Resource Servlet</servlet-name>
+        <url-pattern>/primefaces_resource/*</url-pattern>
+    </servlet-mapping>
+    <!--
+    <servlet>
+        <servlet-name>ServletAdaptor</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletAdaptor</servlet-name>
+        <url-pattern>/service/*</url-pattern>
+    </servlet-mapping>
+    -->
+    <filter>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+        <init-param>
+            <param-name>thresholdSize</param-name>
+            <param-value>51200</param-value>
+            <!-- 50 kb -->
+        </init-param>
+        <!--
+        <init-param>
+            <param-name>uploadDirectory</param-name>
+            <param-value>C:\etc</param-value>
+        </init-param>
+        -->
+    </filter>
+    <filter-mapping>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <servlet-name>Faces Servlet</servlet-name>
+    </filter-mapping>
+    <security-role>
+        <role-name>valid-users</role-name>
+    </security-role>
+    <security-role>
+        <role-name>ADMINISTRATORS</role-name>
+    </security-role>
+    <security-role>
+        <role-name>REST_USER</role-name>
+    </security-role>
+
+    <!-- 防止JSF漏洞 -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>faces security vulnerability</web-resource-name>
+            <url-pattern>/faces/faces/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint/>
+    </security-constraint>
+
+    <!-- SSO security -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>All JSF Pages</web-resource-name>
+            <url-pattern>*.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>valid-users</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>管理</web-resource-name>
+            <url-pattern>/faces/admin/*</url-pattern>
+            <url-pattern>/faces/bpmadmin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ADMINISTRATORS</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <!-- for REST Security
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>RESTful Service</web-resource-name>
+            <url-pattern>/webresources/amsNoticeREST/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ADMINISTRATORS</role-name>
+            <role-name>REST_USER</role-name>
+        </auth-constraint>
+    </security-constraint>
+    -->
+    
+    <!-- 禁用HTTP的不安全方法 -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>All JSF Pages</web-resource-name>
+            <url-pattern>*.xhtml</url-pattern>
+            <http-method>DELETE</http-method>
+            <http-method>PUT</http-method>
+            <http-method>HEAD</http-method>
+            <!--
+            <http-method>OPTIONS</http-method>  
+            -->
+            <http-method>TRACE</http-method>
+        </web-resource-collection>
+        <auth-constraint/>
+    </security-constraint>
+    <!--
+    <error-page>
+        <error-code>500</error-code>
+        <location>/exception/exception.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/exception/exception.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/exception/exception.xhtml</location>
+    </error-page>
+    -->
+    <mime-mapping>
+        <extension>eot</extension>
+        <mime-type>application/vnd.ms-fontobject</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>otf</extension>
+        <mime-type>font/opentype</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>ttf</extension>
+        <mime-type>application/x-font-ttf</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff</extension>
+        <mime-type>application/x-font-woff</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff2</extension>
+        <mime-type>application/x-font-woff2</mime-type>
+    </mime-mapping>
+
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>faces/index.xhtml</welcome-file>
+    </welcome-file-list>
+</web-app>

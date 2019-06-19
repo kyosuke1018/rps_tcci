@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dataTable value="#{confs}"
+                 var="row"
+                 paginator="true"
+                 rows="10"
+                 paginatorPosition="bottom"
+                 tableStyle="table-layout: auto;">
+        <f:facet name="header">
+            <h:outputText value="#{title}"/>
+        </f:facet>
+        <p:column headerText="ID">
+            <h:outputText value="#{row.id}"/>
+        </p:column>
+        <p:column headerText="#{msgBpm['label.approver']}">
+            <h:outputText value="#{row.owner.displayIdentifier}"/>
+        </p:column>
+        <p:column headerText="#{msgBpm['label.approveragent']}">
+            <h:outputText value="#{row.newowner.displayIdentifier}"/>
+        </p:column>
+        <p:column headerText="#{msgBpm['label.starttimestamp']}">
+            <h:outputText value="#{row.starttime}">
+                <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="#{msgBpm['label.endtimestamp']}">
+            <h:outputText value="#{row.endtime}">
+                <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="#{msgBpm['label.reassigncomments']}">
+            <h:outputText value="#{row.comments}"/>
+        </p:column>
+        <p:column headerText="#{msgBpm['label.active']}">
+            <h:outputText value="#{row.enable}"/>
+        </p:column>
+        <p:column headerText="#{msgBpm['label.processname']}">
+            <h:outputText value="#{row.processname}"/>
+        </p:column>
+        <p:column headerText="#{msgBpm['label.modifytime']}">
+            <h:outputText value="#{row.modifytime}">
+                <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="#{msgApp['app.label.action']}" rendered="#{editable}">
+            <p:commandLink action="#{bpmReassignConf.edit(row)}"
+                           update=":editForm"
+                           oncomplete="PF('wvEditDlg').show()">
+                <h:graphicImage title="#{msgApp['app.button.edit']}"
+                                library="images"
+                                name="page_edit.png"/>
+            </p:commandLink>
+            <p:commandLink action="#{bpmReassignConf.remove(row)}"
+                           onstart="return confirm('#{msgBpm['msg.removeconfirm']}');"
+                           update="@(#form .ui-datatable:first)">
+                <h:graphicImage title="#{msgApp['app.button.remove']}"
+                                library="images"
+                                name="delete.png"/>
+            </p:commandLink>
+        </p:column>
+    </p:dataTable>
+</ui:composition>

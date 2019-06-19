@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!-- 關聯文章選取對話框 -->
+    <h:form id="docSelEditForm" prependId="false" >
+        <p:dialog header="關聯媒體報導選取對話框" id="docSelEditDlg" widgetVar="vwDocSelEditDlg" 
+                  modal="true" draggable="true" resizable="true" showEffect="clip" hideEffect="clip" 
+                  onShow="hideBodyScrollY();"
+                  onHide="doResize('dtResult'); showBodyScrollY();" 
+                  closeOnEscape="true" >
+            <p:fieldset legend="媒體報導列表" toggleable="true" style="max-height:360px;overflow-y: scroll;"  >
+                <p:selectManyCheckbox value="#{publication.selectedRpts}" layout="grid" columns="1" >
+                    <f:selectItems value="#{publication.reportOps}" />
+                </p:selectManyCheckbox>
+            </p:fieldset>
+            
+            <p:separator />
+            
+            <p:panelGrid columns="1" styleClass="pgDlgActionBtns" >
+                <h:panelGroup id="pgDocSelEditSubmit" >
+                    <p:commandButton id="cbDocSelEditSave" value="確定"  
+                                     actionListener="#{publication.setSelDocs()}" 
+                                     update=":fmMain" 
+                                     oncomplete="saveDocSelEditDlg(xhr, status, args);" 
+                                     icon="ui-icon-disk" ></p:commandButton><!-- update all form -->
+                    <p:spacer width="5" />
+                    <p:commandButton id="cbDocSelEditClose" value="取消" immediate="true" 
+                                     onclick="closeDocSelEditDlg();" 
+                                     icon="ui-icon-circle-close" ></p:commandButton>
+                </h:panelGroup>
+            </p:panelGrid>
+        </p:dialog>
+    </h:form>
+
+    <script type="text/javascript">
+    //<![CDATA[
+    function openDocSelEditDlg(xhr, status, args){
+        if( afterCallBackHandler(xhr, status, args) ){
+            showDocSelEditDlg();
+        }
+    }
+    function saveDocSelEditDlg(xhr, status, args){
+        if( afterCallBackHandler(xhr, status, args) ){
+            closeDocSelEditDlg();
+        }
+    }
+    
+    function showDocSelEditDlg(){
+        PF('vwDocSelEditDlg').show();
+    }
+    function closeDocSelEditDlg(){
+        PF('vwDocSelEditDlg').hide();
+    }
+    //]]>
+    </script>
+</ui:composition>

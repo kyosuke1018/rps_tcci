@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <h:form id="authorizationForm" prependId="false" >
+        <!-- 功能權限檢核 -->
+        <p:dialog header="#{msg['label.checkPermission']}"  
+                  widgetVar="wvAuthorizationDlg" 
+                  modal="true" 
+                  width="400"
+                  resizable="false"
+                  draggable="false" 
+                  closable="false"
+                  visible="#{controller.functionDenied}" >
+            <h:graphicImage library="images" name="agt_action_fail.png" />
+            <p:spacer width="4" />
+             <!-- 您無此功能權限，若有此功能需求請提出申請。 -->
+            <h:outputText value="#{msg['label.noPermission']}" style="font-size: 16px;"/>
+            <!-- (外部網路系統使用權) -->
+            <h:panelGroup rendered="#{controller.internetDenied}" >
+                <br/>
+                <p:spacer width="30" />
+                <h:outputText value="#{msg['label.internet.permission']}" style="font-size: 16px;" styleClass="info" />
+            </h:panelGroup>
+            
+            <p:separator />
+            <p:outputPanel style="width:100%; text-align: center" >
+                 <!-- 回首頁 -->
+                <p:commandButton value="#{msg['label.gohome']}" onclick="goHome();" global="false" immediate="true" />
+                <p:spacer width="20" />
+                 <!-- 登出 -->
+                <p:button outcome="/logout" value="#{msg['header.logout']}" />
+            </p:outputPanel>
+        </p:dialog>
+    </h:form>
+    
+    <script type="text/javascript">
+        //<![CDATA[
+        function goHome(){
+            // window.location.href='#{facesContext.externalContext.request.contextPath}';
+            window.location.href='#{facesContext.externalContext.request.contextPath}#{tcSessionController.homePage}';
+        }
+        //]]>
+    </script>
+</ui:composition>

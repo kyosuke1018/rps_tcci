@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <h:form id="globalMessageForm" prependId="false">
+        <h:panelGroup id="messagesGroup">
+            <p:messages id="messages" showDetail="false" closable="true"/> 
+            <p:growl id="growl" showDetail="false" sticky="false"/>
+            <p:autoUpdate />
+        </h:panelGroup>
+    </h:form>
+</ui:composition>

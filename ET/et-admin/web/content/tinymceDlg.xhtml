@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/popupPageTemplate.xhtml"
+                >
+    <ui:define name="title">
+        <h:outputText value="#{publication.funcTitle}" />
+    </ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+            body {
+                background-color: rgb(236, 234, 223);
+            } 
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            function afterUploadFiles(widgetVar){
+                if( PF(widgetVar).files.length === 0 ){// 因多檔上傳，控制只呼叫最後一次
+                    if( widgetVar === "wvImgUpload" ){
+                        rcGenResultHtml();// 產出Inser HTML內容
+                    }else if( widgetVar === "wvDocUpload" ){
+                        rcPrepareEditDesc();// 準備編輯上傳文件敘述
+                    }
+                }
+            }
+            function afterSaveVideo(xhr, status, args){
+                if( afterCallBackHandler(xhr, status, args) ){
+                    rcGenVideoResultHtml();
+                }
+            }
+            
+            // 傳回Inser HTML內容至 tinymce
+            function sendResultHtml(){
+                afterSuccess();
+                if (typeof parent.tinymce !== "undefined") {
+                    var result = $('#resultHtml').val();
+                    parent.tinymce.activeEditor.windowManager.getParams().onupload(result);//, elf);
+                    parent.tinymce.activeEditor.windowManager.close();
+                }
+            }
+            // 取消
+            function doCancel(){
+                if (typeof parent.tinymce !== "undefined") {
+                    parent.tinymce.activeEditor.windowManager.close();
+                }
+                return false;
+            }
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <h:form id="fmMain" enctype="multipart/form-data" prependId="false" rendered="#{!publication.functionDenied}" >
+            <h:panelGroup>
+                <div style="width:100%;height:100%;vertical-align:middle;" >
+                    <!-- for images -->
+                    <div style="max-height:300px; overflow-y: auto;" >
+                        <p:fileUpload rendered="#{publication.type.code eq ui.uploadImageCode}"
+                                      fileUploadListener="#{fileController.handleFileUpload}"
+                                      style="width:100%; height:100%" 
+                                      mode="advanced"
+                                      dragDropSupport="true"                                                                                        
+                                      multiple="true"
+                                      auto="true"
+                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                      widgetVar="wvImgUpload" 
+                                      oncomplete="afterUploadFiles('wvImgUpload');" 
+                                      onerror="afterError();" 
+                                      label="#{msg['label.upload.selectUploadFile']}" />
+                    </div>
+                    <!-- for documents -->
+                    <div style="max-height:300px; overflow-y: auto;" >
+                        <p:fileUpload rendered="#{publication.type.code eq ui.uploadDocCode}"
+                                      fileUploadListener="#{fileController.handleFileUpload}"
+                                      style="width:100%; height:100%" 
+                                      mode="advanced"
+                                      multiple="true"
+                                      dragDropSupport="true"
+                                      auto="true"
+                                      allowTypes="/(\.|\/)(pdf|doc|docx|ppt|pptx|xls|xlsx)$/"
+                                      widgetVar="wvDocUpload" 
+                                      oncomplete="afterUploadFiles('wvDocUpload');" 
+                                      onerror="afterError();" 
+                                      fileLimitMessage="一次最多上傳10個檔案"
+                                      invalidFileMessage="不支援的檔案格式"
+                                      invalidSizeMessage="檔案大小超過限制"
+                                      label="#{msg['label.upload.selectUploadFile']}" />
+                    </div>
+                </div>
+            </h:panelGroup>
+            
+            <!-- for 上傳圖片 Only -->
+            <h:panelGroup id="pgImages" rendered="#{publication.type.code eq ui.uploadImageCode}" >
+                <!-- 產出Inser HTML內容 -->
+                <p:remoteCommand name="rcGenResultHtml"
+                                 actionListener="#{publication.genResultHtmlAfterUpload()}" 
+                                 oncomplete="sendResultHtml();" 
+                                 update="pgResult" />
+            </h:panelGroup>
+            
+            <!-- for 上傳文件 Only -->
+            <h:panelGroup id="pgDocs" rendered="#{publication.type.code eq ui.uploadDocCode}" >
+                <!-- 準備編輯上傳文件敘述 -->
+                <p:remoteCommand name="rcPrepareEditDesc"
+                                 actionListener="#{fileController.handleFileUploadToAttachment()}" 
+                                 update="pgDocs" />
+                <p:fieldset legend="編輯文件顯示連結文字" >
+                    <ui:repeat value="#{fileController.attachments}" var="doc" >
+                        <p:inputText size="20" value="#{doc.description}" maxlength="100" />
+                        <h:graphicImage library="images" name="rightArrow_1.png" styleClass="icons" />
+                        <p:outputLabel value="#{doc.fileName}" /><br/>
+                    </ui:repeat>
+                    <p:outputLabel value="(未輸入預設顯示檔名)" styleClass="info" rendered="#{!empty fileController.attachments}" ></p:outputLabel>
+                </p:fieldset>
+                <h:panelGroup>
+                    <br/><p:spacer width="5" height="5" />
+                    <h:graphicImage library="images" name="info.png" styleClass="icons" />
+                    <p:outputLabel value="先上傳檔名，再針對每個檔案的連結輸入顯示文字。" styleClass="info" ></p:outputLabel>
+                    <p:separator />
+                    <div style="width:100%; text-align: center;" >
+                        <p:commandButton value="確定加入" 
+                                         actionListener="#{publication.genResultHtmlAfterUpload()}" 
+                                         rendered="#{!empty fileController.attachments}" 
+                                         update="pgResult"
+                                         oncomplete="sendResultHtml();" 
+                                         icon="ui-icon-disk" ></p:commandButton><!-- update all form -->
+                        <p:spacer width="5" height="5" />
+                        <p:commandButton value="取消" immediate="true" 
+                                         onstart="return doCancel();" 
+                                         icon="ui-icon-circle-close" ></p:commandButton>
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+            
+            <!-- for videos -->
+            <p:fieldset legend="影片資訊" toggleable="false" rendered="#{publication.type.code eq ui.uploadVideoCode}" >
+                <h:panelGrid columns="2" styleClass="vmCol,vmCol" >
+                    <p:outputLabel value="標題：" styleClass="fieldname required" />
+                    <p:inputText size="50" value="#{publication.videoVO.title}" />
+                    
+                    <p:outputLabel value="影片網址：" styleClass="fieldname" />
+                    <p:inputText size="50" value="#{publication.videoVO.url}" />
+                    <!--
+                    <p:outputLabel value="簡介：" styleClass="fieldname" />
+                    <p:inputTextarea cols="50" rows="3" value="#{publication.videoVO.description}" />
+                    -->
+                    <p:outputLabel value="尺寸：" styleClass="fieldname" />
+                    <h:panelGroup >
+                        <p:inputText value="#{publication.videoVO.width}" size="4" />X
+                        <p:inputText value="#{publication.videoVO.height}"  size="4" />
+                    </h:panelGroup>
+                    
+                    <p:spacer width="5" height="5" />
+                    <h:panelGroup>
+                        <p:commandButton value="確定加入" icon="ui-icon-disk"
+                                         actionListener="#{publication.insertVideo()}"
+                                         oncomplete="afterSaveVideo(xhr, status, args);" 
+                                         update="pgResult" ></p:commandButton>
+                        <p:spacer width="5" height="5" />
+                        <p:commandButton value="取消" immediate="true" 
+                                         onstart="return doCancel();" 
+                                         icon="ui-icon-circle-close" ></p:commandButton>
+
+                        <!-- 產出Inser HTML內容 -->
+                        <p:remoteCommand name="rcGenVideoResultHtml"
+                                         actionListener="#{publication.genResultHtmlAfteSaveVideo()}" 
+                                         oncomplete="sendResultHtml();" 
+                                         />
+                    </h:panelGroup>
+                </h:panelGrid>
+            </p:fieldset>
+            
+            <!-- Inser HTML內容隱藏區 -->
+            <h:panelGroup id="pgResult" >
+                <h:panelGroup>
+                    <textarea id="resultHtml" style="display: none;" >#{publication.resultHtml}</textarea>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:form>
+        
+        <!-- 功能權限檢查對話框 -->
+        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+            <ui:param name="controller" value="#{publication}"/>
+        </ui:include>
+        
+    </ui:define>
+</ui:composition>

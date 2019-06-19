@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!--參數
+    removeUpdate: nullable
+    fileUploadUpdate: nullable
+    formName: must
+    -->    
+
+    <script type="text/javascript">
+                //<![CDATA[
+                function checkIsIE9() {
+                    var browserversion = navigator.appVersion;
+                    var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+                    if (re.exec(browserversion) != null) {
+                        browserversion = parseFloat( RegExp.$1 );
+                    }
+                    // alert('browserversion=['+browserversion+']');
+                    if ( browserversion=='9' || browserversion=='8' ){
+                        remote_file_upload_update();
+                    }                    
+                }
+                //]]>
+     </script>        
+    <h:panelGrid columns="3">  
+        <p:fileUpload rendered="#{!attachmentController.readonly}"
+                      disabled="#{attachmentController.disabledUpload}"
+                      label="選擇檔案"
+                      allowTypes="/(\.|\/)(xls|xlsx)$/"
+                      invalidFileMessage="錯誤的檔案格式: 請上傳附檔名為\'XLS\'或\'XLSX\'的Excel檔案"
+                      multiple="true" 
+                      auto="true"                            
+                      update=":#{formName}:reportFileInfo #{fileUploadUpdate}"
+                      fileUploadListener="#{attachmentController.handleFileUpload}"
+                     oncomplete="checkIsIE9();"/>
+        <p:remoteCommand name="remote_file_upload_update" update=":#{formName}:reportFileInfo #{fileUploadUpdate}"/>        
+        
+        <h:panelGroup id="reportFileInfo">
+            <h:panelGrid columns="2">
+                <table>
+                    <ui:repeat value="#{attachmentController.attachmentVOList}"
+                               varStatus="status"
+                               var="attachmentVO">
+                        <tr>
+                            <td>
+                                <h:outputText value="#{status.index+1}"/>
+                            </td>
+                            <td>
+                                <h:graphicImage library="images" 
+                                                name="attach.png"
+                                                style="border-style: none;"/>
+                            </td>
+                            <td>
+                                <h:commandLink value="#{attachmentVO.fileName}"
+                                               target="download"
+                                               actionListener="#{attachmentController.downloadAction(attachmentVO)}"
+                                               immediate="true">
+                                    <p:fileDownload value="#{attachmentController.downloadFile}"/>
+                                </h:commandLink>
+                            </td>
+                            <td style="text-align:right;">
+                                <h:outputText value="#{attachmentVO.size}">
+                                    <f:convertNumber pattern="#,###"/>
+                                </h:outputText>
+                            </td>
+                            <td>
+                                <h:outputText value="bytes"/>
+                            </td>
+                            <td>
+                                <p:commandLink actionListener="#{attachmentController.remove(attachmentVO)}"
+                                               immediate="true"
+                                               rendered="#{!attachmentController.readonly}"
+                                               update=":#{formName}:reportFileInfo #{removeUpdate}">
+                                    <h:graphicImage title="移除"
+                                                    library="images" 
+                                                    name="delete.png"
+                                                    style="border-style: none;"/>
+                                </p:commandLink>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                </table>
+            </h:panelGrid>
+        </h:panelGroup>
+    </h:panelGrid>
+</ui:composition>
