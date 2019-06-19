@@ -1,0 +1,31 @@
+<table class="detailTB" >
+    <tr  style="text-align: center;background-color: #C0C0C0;">
+        <th style="text-align: center;background-color: #A0A0A0;" >公司別</th>
+        <th style="text-align: center;background-color: #A0A0A0;" >廠別</th>
+        <th style="text-align: center;background-color: #A0A0A0;" >合約名稱</th>
+        <th style="text-align: center;background-color: #A0A0A0;" >採購單號</th>
+        <th style="text-align: center;background-color: #A0A0A0;" >SAP設定請購經辦(部門)</th>
+        <th style="text-align: center;background-color: #A0A0A0;" >付款條件</th>
+        <th style="text-align: center;background-color: #A0A0A0;" >前往維護</th>
+    </tr>
+
+    #set( $index = 1 )
+    #foreach($item in $bean.todoFinishList) 
+        <tr>
+            <td>$item.comName</td>
+            <td>$item.plantName</td>
+            <td>$item.cname</td>
+            <td>$item.sapPoNo</td>
+            <td>$item.afnam</td>
+            <td>$item.payDesc</td>
+            <td style="text-align: center">
+                <div id="periodical">
+                    <a href="$bean.pay_url?contractId=$item.cid" >
+                        <h6>GO</h6>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        #set( $index = $index + 1 )
+    #end
+</table>

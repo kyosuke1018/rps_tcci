@@ -1,0 +1,417 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml"
+                >
+    <ui:define name="title">
+        <h:outputText value="#{msg['header.app_name']}" />
+    </ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            $(function () {
+                // for datatable resize in chrome 
+                doResize();
+                $(window).resize(function () {
+                    doResize();
+                });
+            });
+            
+            function afterQuery(){
+                doResize();
+                scrollY(200);
+            }
+            
+            function confirmDel(){
+                // 確定要刪除嗎?
+                return confirm("#{msg['msg.txt014']}");
+            }
+            
+            function confirmSMS(){
+                // 確定要發送重設密碼簡訊嗎?
+                return confirm("#{msg['msg.txt012']}");
+            }
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="header"><h:outputText value="#{downstream.funcTitle}" /></ui:define>
+    <ui:define name="content">
+        <!-- 移動查詢結果 -->
+        <ui:include src="/inc/inc_moveDatatbale.xhtml"></ui:include>
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <h:form id="fmMain" prependId="false" rendered="#{!downstream.functionDenied}" >
+            <!-- BEGIN: 查詢條件區 -->
+            <p:panel id="plQueryConds" header="#{msg['search.critical']}" >
+                <p:panelGrid id="pgCriteria" columns="4"
+                             columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" 
+                             layout="grid" >
+                    <!-- 資料維護廠別 -->
+                    <p:outputLabel value="#{msg['msg.txt016']}：" />
+                    <p:selectOneMenu value="#{downstream.criteriaVO.factoryId}" >
+                        <f:selectItem itemLabel="===" noSelectionOption="true" />
+                        <f:selectItems value="#{downstream.factoryListPermission}" 
+                                       var="op"  itemValue="#{op.id}" itemLabel="#{op.name}" />
+                    </p:selectOneMenu>
+                    <!-- 關鍵字查詢 -->
+                    <p:outputLabel value="#{msg['label.keyword.search']}：" />
+                    <p:inputText id="itKW" value="#{downstream.criteriaVO.fullKeyword}" styleClass="fw" />
+                </p:panelGrid>
+                
+                <h:panelGroup styleClass="blockBtnC" >
+                    <!-- 查詢 -->
+                    <p:commandButton icon="ui-icon-search" value="#{msg['button.search']}"
+                                     title="#{msg['button.search']}"
+                                     actionListener="#{downstream.doQuery()}" 
+                                     update=":fmMain:plResult"
+                                     oncomplete="afterCallBackHandler(xhr, status, args, true);" />
+                    <p:spacer width="5px"/>
+                    <!--清除 -->
+                    <p:commandButton value="#{msg['button.reset']}"
+                                     icon="ui-icon ui-icon-cancel"  
+                                     title="#{msg['button.reset']}"
+                                     actionListener="#{downstream.doReset()}"
+                                     oncomplete="doResize();" 
+                                     update="@form" />
+                </h:panelGroup>
+            </p:panel>
+                
+            <!-- BEGIN: 查詢結果區 -->
+            <div class="topOfResult" ></div>
+            <p:panel id="plResult" header="#{msg['search.result']}" >
+                <h:panelGroup id="listGroup">
+                    <!-- 共 ? 筆 -->
+                    <h:outputText id="otRowCount" class="rowCount" 
+                                  value="(#{msg['total.result']}#{downstream.lazyModel.rowCount}#{msg['search.item']})" 
+                                  rendered="#{not empty downstream.lazyModel}" />
+                    
+                    <p:remoteCommand name="getRowCountAfterFiltered" update=":fmMain:otRowCount" />
+                    
+                    <p:dataTable id="dtResult" var="row" lazy="true" reflow="true"
+                                 widgetVar="wvDTResult"
+                                 value="#{downstream.lazyModel}" 
+                                 filteredValue="#{downstream.filterResultList}"
+                                 styleClass="ui-datatable-hor-scroll"
+                                 paginator="true"
+                                 scrollable="true" 
+                                 paginatorPosition="bottom"
+                                 rows="5"
+                                 rowsPerPageTemplate="5,10,20,30,40,50"
+                                 >
+                        <p:ajax event="filter" oncomplete="getRowCountAfterFiltered();" />
+                        <p:ajax event="page" process="@none" immediate="true" />
+                        <p:ajax event="sort" process="@none" immediate="true" />
+                        
+                        <p:column headerText="#{msg['comm.0001']}" styleClass="tac" width="50" >
+                            <h:panelGroup>
+                                <!-- 編輯 -->
+                                <p:commandButton value="#{msg['comm.0002']}" 
+                                                 styleClass="btnS" 
+                                                 actionListener="#{downstream.prepareEdit(row)}" 
+                                                 oncomplete="afterCallBackHandler(xhr, status, args, false, '.topOfEdit', 0);" 
+                                                 disabled="#{downstream.editVO.editMode}" 
+                                                 update=":fmMain:plResult :fmMain:plEdit" >
+                                </p:commandButton>
+                                <!-- 刪除 -->
+                                <p:commandButton value="#{msg['comm.0003']}" 
+                                                 onstart="return confirmDel();" 
+                                                 styleClass="btnS" 
+                                                 disabled="#{!downstream.canDelete(row)}" 
+                                                 actionListener="#{downstream.deleteMember(row)}" 
+                                                 oncomplete="afterCallBackHandler(xhr, status, args);" 
+                                                 update=":fmMain:plResult :fmMain:plEdit" >
+                                </p:commandButton>
+                            </h:panelGroup>
+                        </p:column>
+                        <!-- 
+                        綁定經銷商 客戶統一社會信用代碼 客戶帳號(手機號碼)
+                        客戶名稱 客戶簡稱 電話 
+                        E-mail 公司负责人 资本额(元) 年收入(元) 
+                        产业别 所在区域 创立时间
+                        -->
+                        <!-- 綁定经销商 -->
+                        <p:column headerText="#{msg['fd.00021']}" sortBy="#{row.idCode}" width="100">
+                            <h:outputText value="#{row.dealerNames}" />
+                        </p:column>
+                        <!-- 统一社会信用代码 -->
+                        <p:column headerText="#{msg['fd.00022']}" sortBy="#{row.idCode}" width="100">
+                            <h:outputText value="#{row.idCode}" />
+                        </p:column>
+                        <!-- 客户帐号(手机号码) -->
+                        <p:column headerText="#{msg['fd.00023']}" sortBy="#{row.loginAccount}" width="100" 
+                                  style="color:maroon">
+                            <h:outputText value="#{row.loginAccount}" />
+                        </p:column>   
+                        <!-- 客户名称 -->
+                        <p:column headerText="#{msg['fd.00024']}" sortBy="#{row.cname}" width="80">
+                            <h:outputText value="#{row.cname}" />
+                        </p:column>         
+                        <!-- 客户简称 -->
+                        <p:column headerText="#{msg['fd.00025']}" sortBy="#{row.nickname}" width="80">
+                            <h:outputText value="#{row.nickname}" />
+                        </p:column>
+                        <!-- 电话 -->
+                        <p:column headerText="#{msg['fd.00026']}" sortBy="#{row.phone}" width="60">
+                            <h:outputText value="#{row.phone}" />
+                        </p:column>        
+                        <!-- E-mail -->
+                        <p:column headerText="#{msg['fd.00006']}" sortBy="#{row.email}" width="80">
+                            <h:outputText value="#{row.email}" />
+                        </p:column>        
+                        <!-- 公司負責人 -->
+                        <p:column headerText="#{msg['fd.00007']}" sortBy="#{row.owner1}" width="60">
+                            <h:outputText value="#{row.owner1}" />
+                        </p:column>     
+                        <!-- 資本額(元) -->
+                        <p:column headerText="#{msg['fd.00008']}" sortBy="#{row.capital}" width="60">
+                            <h:outputText value="#{row.capital}">
+                                <f:convertNumber pattern="#0,000" />
+                            </h:outputText>
+                        </p:column>       
+                        <!-- 年收入(元) -->
+                        <p:column headerText="#{msg['fd.00009']}" sortBy="#{row.yearIncome}" width="60">
+                            <h:outputText value="#{row.yearIncome}">
+                                <f:convertNumber pattern="#0,000" />
+                            </h:outputText>
+                        </p:column>          
+                        <!-- 產業別 -->
+                        <p:column headerText="#{msg['fd.00010']}" sortBy="#{row.brief}" width="60">
+                            <h:outputText value="#{row.brief}" />
+                        </p:column>           
+                        <!-- 區域 -->
+                        <p:column headerText="#{msg['fd.00011']}" sortBy="#{row.addr1}" width="60">
+                            <h:outputText value="#{row.addr1}" />
+                        </p:column>          
+                        <!-- 創立時間 -->
+                        <p:column headerText="#{msg['fd.00012']}" sortBy="#{row.startAt}" width="60">
+                            <h:outputText value="#{row.startAt}">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </h:outputText>
+                        </p:column>
+                        <!-- 建立人 -->
+                        <p:column headerText="#{msg['comm.0006']}" sortBy="#{row.creatorLabel}" width="60">
+                            <h:outputText value="#{row.creatorLabel}" />
+                        </p:column>
+                        <!-- 建立時間 -->
+                        <p:column headerText="#{msg['comm.0007']}" sortBy="#{row.createtime}" width="100">
+                            <h:outputText value="#{row.createtime}">
+                                <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
+                            </h:outputText>
+                        </p:column>
+                        <!-- 最後異動人員 -->
+                        <p:column headerText="#{msg['comm.0008']}" sortBy="#{row.modifierLabel}" width="60">
+                            <h:outputText value="#{row.modifierLabel}" />
+                        </p:column>          
+                        <!-- 最後異動時間 -->
+                        <p:column headerText="#{msg['comm.0009']}" sortBy="#{row.modifytime}" width="100">
+                            <h:outputText value="#{row.modifytime}">
+                                <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                    
+                </h:panelGroup>
+                <!-- END: 查詢結果區 -->
+            </p:panel>
+            
+            <!-- 編輯區 -->
+            <div class="topOfEdit" ></div>
+            <p:panel id="plEdit" header="#{msg['label.edit.block']}" >
+                <p:panelGrid id="pgFactory" columns="2" layout="grid" styleClass="pgEdit"
+                             columnClasses="ui-grid-col-3,ui-grid-col-9" >
+                    <!-- 資料維護廠別 -->
+                    <p:outputLabel value="#{msg['msg.txt016']}：" styleClass="required"/>
+                    <p:selectOneMenu value="#{downstream.editVO.factoryId}" >
+                        <f:selectItems value="#{downstream.factoryListPermission}" 
+                                       var="op"  itemValue="#{op.id}" itemLabel="#{op.name}" />
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                
+                <p:panelGrid id="pgDealers" columns="2" layout="grid" styleClass="pgEdit"
+                             columnClasses="ui-grid-col-3,ui-grid-col-9" >
+                    <h:panelGroup>
+                        <!-- 綁定經銷商 -->
+                        <h:panelGroup>
+                            <p:outputLabel value="#{msg['fd.00021']}：" styleClass="required" />
+                            <br/>
+                            <!-- (輸入要綁定經銷商的[統一社會信用代碼]) -->
+                            <p:outputLabel value="#{msg['msg.txt022']}" styleClass="info" 
+                                           rendered="#{downstream.dealerEditMode}" />
+                        </h:panelGroup>
+                        <p:spacer width="5" height="5" />
+                        <!-- 選取 (不用選取的，改用輸入 idCode)
+                        <p:commandButton value="#{msg['button.select']}" 
+                                         styleClass="btnS" 
+                                         icon="ui-icon-check" 
+                                         actionListener="#{downstream.openSelectDealerDlg()}" 
+                                         oncomplete="openSelectDealerDlg(xhr, status, args);" 
+                                         update=":fmSelectDealer" >
+                        </p:commandButton>
+                        -->
+                    </h:panelGroup>
+                    
+                    <h:panelGroup>
+                        <h:panelGroup id="pgRelDealersView" rendered="#{!downstream.dealerEditMode}">
+                            <!-- 已存在(for 顯示) -->
+                            <h:outputText value="#{downstream.selDealerLabel}" styleClass="fw"/>
+                            <p:spacer width="5" height="20" />
+                            <!-- 編輯 -->
+                            <p:commandButton value="#{msg['comm.0002']}" 
+                                             actionListener="#{downstream.prepareEditRelDealers()}" 
+                                             update="pgDealers" />
+                        </h:panelGroup>
+                        <h:panelGroup id="pgRelDealersEdit"  rendered="#{downstream.dealerEditMode}">
+                            <!-- 已存在(for 刪除) -->
+                            <h:panelGroup id="pgExistedDealers">
+                                <p:repeat value="#{downstream.existedDealers}" var="row" >
+                                    <h:panelGroup rendered="#{!row.deleted}" >
+                                        <h:outputText value="#{row.dealerLabel}" />
+                                        <p:spacer width="2" height="2" />
+                                        <!-- 刪除 -->
+                                        <p:commandButton value="#{msg['comm.0003']}" 
+                                             actionListener="#{downstream.delRelDealer(row)}" 
+                                             update="pgDealers" 
+                                             oncomplete="afterCallBackHandler(xhr, status, args, false);" 
+                                             onclick="return confirmDel();"/>
+                                        <p:spacer width="5" height="5" />
+                                    </h:panelGroup>
+                                </p:repeat>
+                                <h:panelGroup rendered="#{!empty downstream.existedDealers}" >
+                                    <hr/>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                            <!-- 新增 -->
+                            <h:panelGroup>
+                                <p:repeat value="#{downstream.addDealers}" var="row" >
+                                    <h:panelGroup>
+                                        <p:inputText value="#{row.idCode}" size="25" />
+                                        <p:spacer width="2" height="20" />
+                                        <p:graphicImage library="images" name="1rightarrow.png" styleClass="icons"  />
+                                        <h:outputText value="#{row.name}" style="#{row.error?'color:red;':'color:green;'}" />
+                                        <br/>
+                                    </h:panelGroup>
+                                </p:repeat>
+                                <!-- 輸入檢查 -->
+                                <p:commandLink actionListener="#{downstream.checkRelDealer()}"
+                                               styleClass="link"
+                                               update="pgRelDealersEdit" 
+                                               process="pgRelDealersEdit" >
+                                    <i class="fa fa-check" ><p:outputLabel styleClass="link" value="#{msg['msg.txt017']}" /></i>
+                                </p:commandLink>
+                                <p:spacer width="5" height="5" />
+                                <!-- (檢查成功將於右側顯示該經銷商名稱。) -->
+                                <p:outputLabel value="#{msg['msg.txt023']}" />
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </h:panelGroup>    
+                </p:panelGrid>
+                
+                <p:panelGrid id="pgEdit" columns="6" layout="grid" styleClass="pgEdit"
+                             columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2" >
+                    <!-- 客戶統一社會信用代碼 -->
+                    <p:outputLabel value="#{msg['fd.00022']}：" styleClass="required" />
+                    <p:inputText value="#{downstream.editVO.idCode}" styleClass="fw"/>
+                    <!-- 客戶帳號(手機號碼) -->
+                    <p:outputLabel value="#{msg['fd.00023']}：" styleClass="required" />
+                    <p:inputText value="#{downstream.editVO.loginAccount}" styleClass="fw"/>
+                    <!-- 客戶名稱 -->
+                    <p:outputLabel value="#{msg['fd.00024']}：" styleClass="required" />
+                    <p:inputText value="#{downstream.editVO.cname}" styleClass="fw"/>
+                    <!-- 客戶簡稱 -->
+                    <p:outputLabel value="#{msg['fd.00025']}：" styleClass="required" />
+                    <p:inputText value="#{downstream.editVO.nickname}" styleClass="fw"/>
+                    <!-- 電話 -->
+                    <p:outputLabel value="#{msg['fd.00026']}：" styleClass="required" />
+                    <p:inputText value="#{downstream.editVO.phone}" styleClass="fw"/>
+                    <!-- E-mail -->
+                    <p:outputLabel value="#{msg['fd.00006']}：" styleClass="required" />
+                    <p:inputText value="#{downstream.editVO.email}" styleClass="fw"/>
+                    <!-- 公司負責人 -->
+                    <p:outputLabel value="#{msg['fd.00007']}：" />
+                    <p:inputText value="#{downstream.editVO.owner1}" styleClass="fw"/>
+                    <!-- 資本額(元) -->
+                    <p:outputLabel value="#{msg['fd.00008']}：" />
+                    <p:inputText converterMessage="#{msg['fd.00008']}:#{msg['msg.txt013']}"
+                                 value="#{downstream.editVO.capital}" styleClass="fw"/>
+                    <!-- 年收入(元) -->
+                    <p:outputLabel value="#{msg['fd.00009']}：" />
+                    <p:inputText converterMessage="#{msg['fd.00009']}:#{msg['msg.txt013']}"
+                                 value="#{downstream.editVO.yearIncome}" styleClass="fw"/>
+                    <!-- 產業別 -->
+                    <p:outputLabel value="#{msg['fd.00010']}：" />
+                    <p:inputText value="#{downstream.editVO.brief}" styleClass="fw"/>
+                    <!-- 所在區域 -->
+                    <p:outputLabel value="#{msg['fd.00011']}：" />
+                    <p:inputText value="#{downstream.editVO.addr1}" styleClass="fw"/>
+                    <!-- 創立時間 -->
+                    <p:outputLabel value="#{msg['fd.00012']}：" />
+                    <p:calendar readonlyInput="false" navigator="true" locale="zh_CN" 
+                                value="#{downstream.editVO.startAt}" 
+                                size="16" 
+                                maxSecond="0"
+                                showHour="true"
+                                showMinute="true" 
+                                showSecond="false" 
+                                converterMessage="#{msg['comm.0051']}(yyyy-MM-dd)" 
+                                pattern="yyyy-MM-dd" 
+                                />
+                </p:panelGrid>
+
+                <h:panelGroup styleClass="blockBtnC" >
+                    <!-- 新增 -->
+                    <p:commandButton icon="ui-icon-plus" value="#{msg['button.add']}" 
+                                     rendered="#{empty downstream.editVO.memberId}" 
+                                     styleClass="btnS"
+                                     actionListener="#{downstream.saveAdd()}" 
+                                     oncomplete="afterCallBackHandler(xhr, status, args, true, '.topOfResult', 0);" 
+                                     update=":fmMain:plResult :fmMain:plEdit" >
+                    </p:commandButton>
+                    <!-- 儲存 -->
+                    <p:commandButton icon="ui-icon-disk" value="#{msg['button.save']}" 
+                                     rendered="#{!empty downstream.editVO.memberId}" 
+                                     styleClass="btnS"
+                                     actionListener="#{downstream.saveEdit()}" 
+                                     oncomplete="afterCallBackHandler(xhr, status, args, true, '.topOfResult', 0);" 
+                                     update=":fmMain:plResult :fmMain:plEdit" >
+                    </p:commandButton>
+                    <!-- 取消 -->
+                    <p:commandButton icon="ui-icon-cancel" value="#{msg['button.cancel']}" 
+                                     styleClass="btnS"
+                                     actionListener="#{downstream.cancelEdit()}" 
+                                     oncomplete="afterCallBackHandler(xhr, status, args, false, '.topOfResult', 0);" 
+                                     update=":fmMain:plResult :fmMain:plEdit" >
+                    </p:commandButton>
+                    <!-- 發送密碼簡訊 (Administrator Only) -->
+                    <h:panelGroup rendered="#{downstream.canSendSMS()}}">
+                        <p:commandButton icon="ui-icon-mail-closed" value="#{msg['msg.txt007']}" 
+                                         styleClass="btnS"
+                                         onclick="return confirmSMS();"
+                                         actionListener="#{downstream.sendSMS()}" 
+                                         oncomplete="afterCallBackHandler(xhr, status, args, true);" 
+                                         update=":fmMain:plResult :fmMain:plEdit" >
+                        </p:commandButton>
+                        <p:spacer width="5" height="5" />
+                        <p:outputLabel value="#{msg['msg.txt008']}" />
+                    </h:panelGroup>
+                </h:panelGroup>
+            </p:panel>
+        </h:form>
+        
+        <!-- 選取經銷商對話框 -->
+        <ui:include src="/inc/inc_selectDealerDlg.xhtml">
+            <ui:param name="controller" value="#{downstream}"/>
+        </ui:include>
+        
+        <!-- 功能權限檢查對話框 -->
+        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+            <ui:param name="controller" value="#{downstream}"/>
+        </ui:include>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,30 @@
+<table class="detailTB" >
+    <tr  style="text-align: center;background-color: #C0C0C0;">
+        <!-- <th>No</th> -->
+        <th>公司別</th>
+        <th>廠別</th>
+        <!-- <th>前一日筆數</th> -->
+        <th>累計筆數</th>
+        <th>前往處理</th>
+    </tr>
+
+    #set( $index = 1 )
+    #foreach($item in $bean.ctlPoList) 
+        <tr>
+            <!-- <td style="text-align: center">$index</td> -->
+            <td style="text-align: center; width:300px;">$item.comName</td>
+            <td style="text-align: center; width:200px;">$item.plantName</td>
+            <!-- <td style="text-align: right; width:60px;#if($item.lastCounts > 0)color:red;#end">$item.lastCounts</td> -->
+            <td style="text-align: right; width:60px;#if($item.totalCounts > 0)color:red;#end">$item.totalCounts</td>
+            <td style="text-align: center">
+                <div id="periodical">
+                    <a href="$bean.po_url?fromSummaryNotice=true&comId=$item.comId&plantId=$item.plantId" >
+                        <h6>GO</h6>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        #set( $index = $index + 1 )
+   #end
+</table>
+

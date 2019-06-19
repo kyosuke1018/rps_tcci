@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <title>Loading ...</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+        <link rel="icon" href="img/App_Icon-o.png" />
+        <link rel="shortcut icon" type="image/x-icon" href="img/App_Icon-o.png" />
+        <!-- css files -->
+        <link rel="stylesheet" href="lib/icons/css/font-awesome.min.css?v=0.0.2" />
+        <link rel="stylesheet" href="lib/jquery/jquery-ui.css?v=0.0.2" />
+        <link rel="stylesheet" href="lib/primeui/primeui-all.min.css?v=0.0.2" />
+        <link rel="stylesheet" href="lib/primeui/themes/hot-sneaks/theme.css?v=0.0.2" />
+        <link rel="stylesheet" href="lib/jquery/DateTimePicker.css?v=0.0.2" />
+        <!--[if lt IE 9]>
+        <link rel="stylesheet" type="text/css" href="lib/jquery/DateTimePicker-ltie9.css?v=0.0.2" />
+        <![endif]-->
+        <link rel="stylesheet" href="css/w3.css?v=0.0.2" />
+        <link rel="stylesheet" href="css/style.css?v=0.0.2" />
+        <!--[if lte E 9]>
+        <link rel="stylesheet" type="text/css" href="css/ie-only.css?v=0.0.2">
+        <![endif]-->
+        <!--[if lte IE 8]> 
+        <link rel="stylesheet" type="text/css" href="css/ie8-only.css?v=0.0.2">
+        <![endif]-->
+        
+        <!-- js files -->
+        <script src="lib/jquery/jquery.js?v=0.0.2"></script>
+        
+        <!-- Dependencies of some widgets -->
+        <script src="lib/primeui/plugins-all.js?v=0.0.2"></script>
+        <!-- Mustache for templating support -->
+        <script src="lib/primeui/mustache.min.js?v=0.0.2"></script>
+        <!-- X-TAG for PrimeElements -->
+        <script src="lib/primeui/x-tag-core.min.js?v=0.0.2"></script>
+        <script src="lib/primeui/primeui-all.min.js?v=0.0.2"></script>
+        <script src="lib/primeui/primeelements.min.js?v=0.0.2"></script>
+  
+        <!-- after primeui -->
+        <script src="lib/jquery/jquery-ui.js?v=0.0.2"></script>
+        <!-- i18n -->
+        <script src="lib/jquery/jquery.i18n.properties-min-1.0.9.js?v=0.0.2"></script>
+        <!--
+        <script src="lib/jquery/i18n/jquery.ui.datepicker-zh-TW.js?v=0.0.2" id="datepickerI18n" ></script>
+        -->
+        <!-- DateTimePicker -->
+        <script type="text/javascript" src="lib/jquery/DateTimePicker.js?v=0.0.2"></script>
+        <script type="text/javascript" src="lib/jquery/i18n/DateTimePicker-i18n.js?v=0.0.2"></script>
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="lib/jquery/DateTimePicker-ltie9.js?v=0.0.2"></script>
+        <![endif]-->
+        
+        <script src="lib/underscore-min.js?v=0.0.2"></script>
+        <script src="lib/validator.min.js?v=0.0.2"></script>
+        <!-- html loading -->
+        <script src="lib/w3.js?v=0.0.2"></script>
+        
+        <!-- customize js -->
+        <script src="js/consts.js?v=0.0.2"></script>
+        <script src="js/variables.js?v=0.0.2"></script>
+        <script src="js/tcc-utils.js?v=0.0.2"></script>
+        <script src="js/com/button.js?v=0.0.2"></script>
+        <script src="js/com/inputtext.js?v=0.0.2"></script>
+        <script src="js/com/dropdown.js?v=0.0.2"></script>
+        <script src="js/com/radio.js?v=0.0.2"></script>
+        <script src="js/com/checkbox.js?v=0.0.2"></script>
+        <script src="js/com/picklist.js?v=0.0.2"></script>
+        <script src="js/com/datatable.js?v=0.0.2"></script>
+        <script src="js/com/formListS.js?v=0.0.2"></script>
+        <script src="js/com/formListM.js?v=0.0.2"></script>
+        <script src="js/com/dialog.js?v=0.0.2"></script>
+        <script src="js/com/datetimepicker.js?v=0.0.2"></script>
+        <script src="js/com/menu.js?v=0.0.2"></script>
+        <script src="js/layout.js?v=0.0.2"></script>
+        <!-- css -->
+        <style>
+        </style>
+    </head>
+    <body>
+        <!-- header start -->
+        <div w3-include-html="inc/header.html"></div> 
+        <!-- header end -->
+            
+        <!-- content start -->
+        <div class="content">
+            <!-- loading screen, message -->
+            <div w3-include-html="inc/message.html"></div> 
+                
+            <div id="plMain">
+                <!-- 查詢條件 -->
+                <fieldset id="fsSearch" >
+                    <legend>search.criteria</legend>
+                    <form id="fmSearch" > 
+                        <div class="w3-row">    
+                            <div class="w3-col s12" >
+                                <label class="ui-widget" >show.active</label> 
+                                <input type="checkbox" name="cbActive" id="cbActive" checked="true" />
+                            </div>
+                        </div>
+                    </form>
+                </fieldset>
+
+                <!-- 查詢結果列表 -->
+                <fieldset id="fsBulletinList" >
+                    <legend>bulletin.list</legend>
+                    <button id="add" type="button" >add.bulletin</button>
+                    <label>&nbsp;select.item</label>
+                    <div id="searchResultMsg" ></div>
+                    <div id="tbBulletinLazy"></div>
+                </fieldset>
+                
+                <div id="stickyFlag" ></div>
+                
+                <!-- 針對選取項目操作功能 -->
+                <div id="selectedItemHeader" >
+                    <div class="w3-row">
+                        <div class="w3-col s12 m12">
+                            <span id="selectItem" ></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="selectedItemContent" class="detail">
+                    <!-- 詳細資料 -->
+                    <fieldset id="fsDetail" >
+                        <legend>detail.info</legend>
+                        <!-- 基本資料 -->
+                        <form name="editBulletinForm" id="editBulletinForm" action="/" method="POST" enctype="multipart/form-data">
+                            <div class="w3-row" >
+                                <div class="w3-col s2" >
+                                    <label class="w3-padding-small" >active：</label>
+                                </div>
+                                <div class="w3-col s10" >
+                                    <input type="checkbox" name="active" id="active" checked title="active" />
+                                    <span class="ui-widget">select.active</span>
+                                </div>  
+                            </div>
+                            
+                            <div class="w3-row" >
+                                <div class="w3-col s2 m2">
+                                    <label class="w3-padding-small required" >publish.period：</label>
+                                </div>
+                                <div class="w3-col s10 m10">
+                                    <!--
+                                    <input id="starttime" name="starttime" type="text" is="p-inputtext" 
+                                           value="" size="12" placeholder="date.start" title="date.start" required="true" />
+                                    &nbsp;~&nbsp;
+                                    <input id="endtime" name="endtime" type="text" is="p-inputtext" 
+                                           value="" size="12" placeholder="date.end" title="date.end" required="true" />
+                                    -->
+                                    <div id="starttimeDIV"></div>
+                                    <input id="starttime" name="starttime" type="text" data-field="date" readonly 
+                                           is="p-inputtext" value="" size="12" placeholder="date.start" />
+                                    <div id="endtimeDIV"></div>
+                                    <input id="endtime" name="endtime" type="text" data-field="date" readonly 
+                                           is="p-inputtext" value="" size="12" placeholder="date.end" />
+                                </div>
+                            </div>    
+
+                            <div class="w3-row" >
+                                <div class="w3-col s2" >
+                                    <label class="w3-padding-small required" >bulletin.content：</label>
+                                </div>
+                                <div class="w3-col s10" >
+                                    <textarea id="content" name="content" rows="3" maxlength="500"  
+                                              class="fw" is="p-inputtext" title="bulletin.content" required="true"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <div class="w3-row">    
+                            <div class="w3-col s12 tac">
+                                <button id="save" type="button">save</button>
+                                &nbsp;
+                                <button id="cancel" type="button" >cancel</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <!-- contents end -->
+
+        <div id="startOverlay" class="startOverlay" >
+            <div id="ieOnly" class="ie-only overlay-text"><i class="fa fa-warning fa-lg"></i>Browser not supported!</div>
+            <div class="no-ie overlay-text"><i class="fa fa-spinner fa-pulse fa-fw fa-3x"></i></div>
+        </div>
+        
+        <!-- JS start .. -->
+        <script src="js/bulletin.js?v=0.0.2"></script>
+        <!--[if lte E 9]>
+        <script src="js/ie-only.js"></script>
+        <![endif]-->
+    </body>
+</html>
+

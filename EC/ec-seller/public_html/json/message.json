@@ -1,0 +1,42 @@
+{
+    "layout":{
+        "title": "電商後台管理系統",
+        "header":{
+            "logo":"",
+            "name":"",
+            "menu":{
+                "name":"menu1",
+                "url":"",
+                "icon":"",
+                "styleClass":"",
+                "openMethod":"",
+                "submenu":[
+                    {
+                        "name":"Home",
+                        "url":""
+                    },{
+                        "name":"Menu1",
+                        "url":"#",
+                        "submenu":[
+                            {"name":"Menu1-1", "url":"#"},
+                            {"name":"Menu1-2", "url":"#"},
+                            {"name":"Menu1-3", "url":"#"}
+                        ]
+                    },{
+                        "name":"Menu2",
+                        "url":"#",
+                        "submenu":[
+                            {"name":"Menu2-1", "url":"#"},
+                            {"name":"Menu2-2", "url":"#"}
+                        ]
+                    }
+                ]
+            },
+            "logout":"登出"
+        },
+        "content":{
+        },
+        "footer":{
+        }
+    }
+}

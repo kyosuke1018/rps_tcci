@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <h:form id="addImpUserForm" prependId="false" >
+        <p:dialog header="指定人員" id="dlgImpUser" widgetVar="wvImpUserDlg" 
+                  modal="true" draggable="false" resizable="false" showEffect="clip" hideEffect="clip" >
+            <h:panelGrid id="pgImpUser" columns="2" style="margin-bottom:10px" cellpadding="5">  
+                <p:outputLabel value="選取人員：" styleClass="fieldname" />
+                <p:autoComplete size="30" value="#{controller.selectedUserTxt}" required="true" requiredMessage="您未選取人員!"
+                                completeMethod="#{controller.autoCompleteUserOptions}" 
+                                onkeypress="ajaxStatusShow=false" onblur="ajaxStatusShow=true" 
+                                dropdown="true" scrollHeight="240" 
+                                >
+                </p:autoComplete>
+            </h:panelGrid>
+            <p:separator />
+            <h:graphicImage library="images" name="info.png" styleClass="icons" />
+            <p:outputLabel value="請輸入姓名或帳號關鍵字，並於系統帶出符合條件名單中，點選指定人員。" styleClass="info" />
+            <br />
+            <h:graphicImage library="images" name="info.png" styleClass="icons" />
+            <h:outputText value="預設為廠端使用者(PLANT_USER)。" styleClass="info" />
+            <p:separator />
+            <p:panelGrid columns="1" style="width:100%; text-align: center" >
+                <h:panelGroup id="pgImpUserEditSubmit" >
+                    <!-- 確定按鈕 -->
+                    <p:commandButton id="cbSaveImpUser" value="#{msg['common.button.confirm']}" 
+                                     actionListener="#{controller.selectUser()}"  
+                                     update="#{updateUI}" 
+                                     process=":addImpUserForm" 
+                                     oncomplete="closeImpUserDlg();" 
+                                     icon="ui-icon-circle-check" 
+                                     ></p:commandButton><!-- update all form -->
+                    <p:spacer width="5" />
+                    <!-- 取消按鈕 -->
+                    <p:commandButton id="cbCloseImpUser" 
+                                     onclick="closeImpUserDlg();"
+                                     process=":addImpUserForm" 
+                                     value="#{msg['common.button.cancel']}" type="button"
+                                     icon="ui-icon-circle-close" ></p:commandButton>
+                </h:panelGroup>
+            </p:panelGrid>
+        </p:dialog>
+    </h:form>
+    
+    <script type="text/javascript">
+        //<![CDATA[
+        function openImpUserDlg(){
+            PF('wvImpUserDlg').show();
+        }
+        function closeImpUserDlg(){
+            PF('wvImpUserDlg').hide();
+        }
+        //]]>
+    </script>
+</ui:composition>

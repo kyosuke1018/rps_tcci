@@ -1,0 +1,40 @@
+{
+  "res": {
+    "status": 1,
+    "totalRows": 0
+  },
+  "list": [
+    {
+      "cname": "尺寸",
+      "disabled": false,
+      "id": 1,
+      "sortnum": 1,
+      "storeId": 1,
+      "typeId": 21
+    },
+    {
+      "cname": "重量",
+      "disabled": false,
+      "id": 2,
+      "sortnum": 2,
+      "storeId": 1,
+      "typeId": 21
+    },
+    {
+      "cname": "材質",
+      "disabled": false,
+      "id": 3,
+      "sortnum": 3,
+      "storeId": 1,
+      "typeId": 21
+    },
+    {
+      "cname": "特色",
+      "disabled": false,
+      "id": 4,
+      "sortnum": 4,
+      "storeId": 1,
+      "typeId": 21
+    }
+  ]
+}

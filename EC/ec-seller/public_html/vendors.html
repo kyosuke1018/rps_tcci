@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <title>Loading ...</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+        <link rel="icon" href="img/App_Icon-o.png" />
+        <link rel="shortcut icon" type="image/x-icon" href="img/App_Icon-o.png" />
+        <!-- css files -->
+        <link rel="stylesheet" href="lib/icons/css/font-awesome.min.css?v=0.0.2" />
+        <link rel="stylesheet" href="lib/jquery/jquery-ui.css?v=0.0.2" />
+        <link rel="stylesheet" href="lib/primeui/primeui-all.min.css?v=0.0.2" />
+        <link rel="stylesheet" href="lib/primeui/themes/hot-sneaks/theme.css?v=0.0.2" />
+        <link rel="stylesheet" href="lib/jquery/DateTimePicker.css?v=0.0.2" />
+        <!--[if lt IE 9]>
+        <link rel="stylesheet" type="text/css" href="lib/jquery/DateTimePicker-ltie9.css?v=0.0.2" />
+        <![endif]-->
+        <link rel="stylesheet" href="css/w3.css?v=0.0.2" />
+        <link rel="stylesheet" href="css/style.css?v=0.0.2" />
+        <!--[if lte E 9]>
+        <link rel="stylesheet" type="text/css" href="css/ie-only.css?v=0.0.2">
+        <![endif]-->
+        <!--[if lte IE 8]> 
+        <link rel="stylesheet" type="text/css" href="css/ie8-only.css?v=0.0.2">
+        <![endif]-->
+        
+        <!-- js files -->
+        <script src="lib/jquery/jquery.js?v=0.0.2"></script>
+        
+        <!-- Dependencies of some widgets -->
+        <script src="lib/primeui/plugins-all.js?v=0.0.2"></script>
+        <!-- Mustache for templating support -->
+        <script src="lib/primeui/mustache.min.js?v=0.0.2"></script>
+        <!-- X-TAG for PrimeElements -->
+        <script src="lib/primeui/x-tag-core.min.js?v=0.0.2"></script>
+        <script src="lib/primeui/primeui-all.min.js?v=0.0.2"></script>
+        <script src="lib/primeui/primeelements.min.js?v=0.0.2"></script>
+  
+        <!-- after primeui -->
+        <script src="lib/jquery/jquery-ui.js?v=0.0.2"></script>
+       <!-- i18n -->
+        <script src="lib/jquery/jquery.i18n.properties-min-1.0.9.js?v=0.0.2"></script>
+        <!--
+        <script src="lib/jquery/i18n/jquery.ui.datepicker-zh-TW.js?v=0.0.2" id="datepickerI18n" ></script>
+        -->
+        <!-- DateTimePicker -->
+        <script type="text/javascript" src="lib/jquery/DateTimePicker.js?v=0.0.2"></script>
+        <script type="text/javascript" src="lib/jquery/i18n/DateTimePicker-i18n.js?v=0.0.2"></script>
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="lib/jquery/DateTimePicker-ltie9.js?v=0.0.2"></script>
+        <![endif]-->
+        
+        <script src="lib/underscore-min.js?v=0.0.2"></script>
+        <script src="lib/validator.min.js?v=0.0.2"></script>
+        <!-- html loading -->
+        <script src="lib/w3.js?v=0.0.2"></script>
+        
+        <!-- customize js -->
+        <script src="js/consts.js?v=0.0.2"></script>
+        <script src="js/variables.js?v=0.0.2"></script>
+        <script src="js/tcc-utils.js?v=0.0.2"></script>
+        <script src="js/com/button.js?v=0.0.2"></script>
+        <script src="js/com/inputtext.js?v=0.0.2"></script>
+        <script src="js/com/dropdown.js?v=0.0.2"></script>
+        <script src="js/com/radio.js?v=0.0.2"></script>
+        <script src="js/com/checkbox.js?v=0.0.2"></script>
+        <script src="js/com/picklist.js?v=0.0.2"></script>
+        <script src="js/com/datatable.js?v=0.0.2"></script>
+        <script src="js/com/formListS.js?v=0.0.2"></script>
+        <script src="js/com/formListM.js?v=0.0.2"></script>
+        <script src="js/com/dialog.js?v=0.0.2"></script>
+        <script src="js/com/datetimepicker.js?v=0.0.2"></script>
+        <script src="js/com/menu.js?v=0.0.2"></script>
+        <script src="js/layout.js?v=0.0.2"></script>
+        <!-- css -->
+        <style>
+        </style>
+    </head>
+    <body>
+        <!-- header start -->
+        <div w3-include-html="inc/header.html"></div> 
+        <!-- header end -->
+        
+        <!-- content start -->
+        <div class="content">
+            <!-- loading screen, message -->
+            <div w3-include-html="inc/message.html"></div> 
+            
+            <div id="plMain">
+                <!-- 查詢條件 -->
+                <fieldset id="fsSearch" >
+                    <legend>search.criteria</legend>
+                    <form id="fmSearch" >
+                        <div class="w3-row">
+                            <div class="w3-col s12 m2">
+                                <label class="ui-widget">keywords：</label>
+                            </div>
+                            <div class="w3-col s12 m3">
+                                <input id="keyword" name="keyword" type="text" placeholder="input.name.code" 
+                                       is="p-inputtext" value="" size="15" class="fw" />
+                            </div>
+                            <div class="w3-col s12 m3">
+                                <input id="telKeyword" name="telKeyword" type="text" placeholder="input.tel.kw" 
+                                       is="p-inputtext" value="" size="15" class="fw" />
+                            </div>
+                            <div class="w3-col s12 m4">
+                                <input id="emailKeyword" name="emailKeyword" type="text" placeholder="input.email" 
+                                       is="p-inputtext" value="" size="15" class="fw" />
+                            </div>
+                        </div>
+
+                        <div class="w3-row borderOnTop">
+                            <div class="w3-col s12">
+                                <button id="search" type="button">search</button>
+                                &nbsp;
+                                <button id="clear" type="button">clear</button>
+                            </div>
+                        </div>
+                    </form>
+                </fieldset>
+                
+                <!-- 查詢結果列表 -->
+                <fieldset id="fsSearchResult" >
+                    <legend>vendor.list</legend>
+                    <button id="add" type="button" >add.vendor</button>
+                    <label>&nbsp;select.vendor</label>
+                    <div id="searchResultMsg" ></div>
+                    <div id="tbVendorLazy"></div>
+                </fieldset>
+                
+                <div id="stickyFlag" ></div>
+                
+                <!-- 針對選取項目操作功能 -->
+                <div id="selectedItemHeader" >
+                    <div class="w3-row">
+                        <div class="w3-col s12 m4">
+                            <span id="selectItem" ></span>
+                        </div>
+                        <div class="w3-col s12 m8">
+                            <!--
+                            <button id="btnGoToBasic" type="button">基本資料</button>
+                            -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="selectedItemContent" class="detail">
+                    <!-- 客戶基本資料 -->
+                    <fieldset id="fsBasic" >
+                        <legend>vendor.info</legend>
+                        
+                        <div id="plBasic" title="vendor.basic.info"  >
+                            <form id="editVendorForm" >
+                                <div class="w3-row" >
+                                    <div class="w3-col s4 m2" >
+                                        <label class="ui-widget required" >name.ch：</label>
+                                    </div>
+                                    <div class="w3-col s8 m4" >
+                                        <input id="cname" name="cname" type="text" is="p-inputtext" 
+                                           minlength="1" maxlength="30" required
+                                           title="name.ch" required="true" value="" size="15" class="fw" />
+                                    </div>
+                                    <div class="w3-col s4 m2" >
+                                        <label class="ui-widget" >name.en：</label>
+                                    </div>
+                                    <div class="w3-col s8 m4" >
+                                        <input id="ename" name="ename" type="text" is="p-inputtext" 
+                                           maxlength="100" 
+                                           title="name.en" value="" size="15" class="fw" />
+                                    </div>
+                                </div>
+                                <div class="w3-row" >    
+                                    <div class="w3-col s4 m2" >
+                                        <label class="ui-widget" >code：</label>
+                                    </div>
+                                    <div class="w3-col s8 m2" >
+                                        <input id="code" name="code" type="text" is="p-inputtext" 
+                                           maxlength="30" 
+                                           title="code" value="" size="15" class="fw" />
+                                    </div>
+                                    <div class="w3-col s4 m1" >
+                                        <label class="ui-widget" >simple.name：</label>
+                                    </div>
+                                    <div class="w3-col s8 m3" >
+                                        <input id="nickname" name="nickname" type="text" is="p-inputtext" 
+                                           maxlength="30" 
+                                           title="simple.name" value="" size="15" class="fw" />
+                                    </div>
+                                    <div class="w3-col s4 m1" >
+                                        <label class="ui-widget" >com.id：</label>
+                                    </div>
+                                    <div class="w3-col s8 m3" >
+                                        <input id="idCode" name="idCode" type="text" is="p-inputtext" 
+                                           maxlength="30" 
+                                           title="com.id" value="" size="15" class="fw" />
+                                    </div>
+                                </div>
+                                <div class="w3-row" >
+                                    <div class="w3-col s4 m2" >
+                                        <label class="ui-widget" >tel：</label>
+                                    </div>
+                                    <div class="w3-col s8 m3" >
+                                        <input id="tel1" name="tel1" type="text" is="p-inputtext" 
+                                           maxlength="20" 
+                                           title="tel1" value="" size="15" class="fw" />
+                                    </div>
+                                    <div class="w3-col s4 m3" >
+                                        <input id="tel2" name="tel2" type="text" is="p-inputtext" 
+                                           maxlength="20" 
+                                           title="tel2" value="" size="15" class="fw" />
+                                    </div>
+                                    <div class="w3-col s8 m4" >
+                                        <input id="tel3" name="tel3" type="text" is="p-inputtext" 
+                                           maxlength="20" 
+                                           title="tel3" value="" size="15" class="fw" />
+                                    </div>
+                                </div>
+                                <div class="w3-row" >
+                                    <div class="w3-col s4 m2" >
+                                        <label class="ui-widget" >email：</label>
+                                    </div>
+                                    <div class="w3-col s8 m3" >
+                                        <input id="email1" name="email1" type="text" is="p-inputtext" 
+                                           maxlength="100" 
+                                           title="email1" value="" size="15" class="fw" />
+                                    </div>
+                                    <div class="w3-col s4 m3" >
+                                        <input id="email2" name="email2" type="text" is="p-inputtext" 
+                                           maxlength="100" 
+                                           title="email2" value="" size="15" class="fw" />
+                                    </div>
+                                    <div class="w3-col s8 m4" >
+                                        <input id="email3" name="email3" type="text" is="p-inputtext" 
+                                           maxlength="100" 
+                                           title="email3" value="" size="15" class="fw" />
+                                    </div>
+                                </div>
+                                <div class="w3-row" >    
+                                    <div class="w3-col s4 m2" >
+                                        <label class="ui-widget" >fax：</label>
+                                    </div>
+                                    <div class="w3-col s8 m3" >
+                                        <input id="fax1" name="fax1" type="text" is="p-inputtext" 
+                                           maxlength="20" 
+                                           title="fax1" value="" size="15" class="fw" />
+                                    </div>
+                                    <div class="w3-col s4 m3" >
+                                        <input id="fax2" name="fax2" type="text" is="p-inputtext" 
+                                           maxlength="20" 
+                                           title="fax2" value="" size="15" class="fw" />
+                                    </div>
+                                    <div class="w3-col s8 m4" >
+                                    </div>
+                                </div>
+                                <div class="w3-row" >    
+                                    <div class="w3-col s4 m2" >
+                                        <label class="ui-widget" >contact.addr1：</label>
+                                    </div>
+                                    <div class="w3-col s8 m10" >
+                                        <input id="addr1" name="addr1" type="text" is="p-inputtext" 
+                                           maxlength="300" 
+                                           title="contact.addr1" value="" size="15" class="fw" />
+                                    </div>
+                                </div>
+                                <div class="w3-row" >    
+                                    <div class="w3-col s4 m2" >
+                                        <label class="ui-widget" >contact.addr2：</label>
+                                    </div>
+                                    <div class="w3-col s8 m10" >
+                                        <input id="addr2" name="addr2" type="text" is="p-inputtext" 
+                                           maxlength="300" 
+                                           title="contact.addr2" value="" size="15" class="fw" />
+                                    </div>
+                                </div>
+                                <div class="w3-row" >
+                                    <div class="w3-col s4 m2" >
+                                        <label class="ui-widget" >web.site：</label>
+                                    </div>
+                                    <div class="w3-col s8 m10" >
+                                        <input id="url1" name="url1" type="text" is="p-inputtext" 
+                                               placeholder="store.url" 
+                                               maxlength="600" 
+                                               title="web.site" value="" class="fw" />
+                                    </div>
+                                </div>
+                                <div class="w3-row" >    
+                                    <div class="w3-col s4 m2" >
+                                        <label class="ui-widget" >incharge：</label>
+                                    </div>
+                                    <div class="w3-col s8 m5" >
+                                        <input id="owner1" name="owner1" type="text" is="p-inputtext" 
+                                           maxlength="60" 
+                                           title="incharge1" value="" size="15" class="fw" />
+                                    </div>
+                                    <div class="w3-col s4 m5" >
+                                        <input id="owner2" name="owner2" type="text" is="p-inputtext" 
+                                           maxlength="60" 
+                                           title="incharge2" value="" size="15" class="fw" />
+                                    </div>
+                                </div>
+                                <div class="w3-row" >    
+                                    <div class="w3-col s4 m2" >
+                                        <label class="ui-widget" >contacts：</label>
+                                    </div>
+                                    <div class="w3-col s8 m3" >
+                                        <input id="contact1" name="contact1" type="text" is="p-inputtext" 
+                                           maxlength="60" 
+                                           title="contact1" value="" size="15" class="fw" />
+                                    </div>
+                                    <div class="w3-col s4 m3" >
+                                        <input id="contact2" name="contact2" type="text" is="p-inputtext" 
+                                           maxlength="60" 
+                                           title="contact2" value="" size="15" class="fw" />
+                                    </div>
+                                    <div class="w3-col s8 m4" >
+                                        <input id="contact3" name="contact3" type="text" is="p-inputtext" 
+                                           maxlength="60" 
+                                           title="contact3" value="" size="15" class="fw" />
+                                    </div>
+                                </div>
+                                <div class="w3-row">
+                                    <div class="w3-col s12 tac">
+                                        <button id="save" type="button">save</button>
+                                        &nbsp;
+                                        <button id="cancel" type="button" >cancel</button>
+                                        &nbsp;
+                                        <button id="delete" type="button" >remove</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <!-- content end -->
+
+        <div id="startOverlay" class="startOverlay" >
+            <div id="ieOnly" class="ie-only overlay-text"><i class="fa fa-warning fa-lg"></i>Browser not supported!</div>
+            <div class="no-ie overlay-text"><i class="fa fa-spinner fa-pulse fa-fw fa-3x"></i></div>
+        </div>
+        
+        <!-- JS start .. -->
+        <script src="js/vendors.js?v=0.0.2"></script>
+        <!--[if lte E 9]>
+        <script src="js/ie-only.js"></script>
+        <![endif]-->
+    </body>
+</html>
+

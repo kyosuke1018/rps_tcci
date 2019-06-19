@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/model/StoreVO.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/model/criteria/BaseCriteriaVO.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/vo/Product.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/vo/OrderTransVO.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/vo/Store.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/META-INF/persistence.xml</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/entity/EcPayment.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/facade/util/ProductFilter.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/vo/Member.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/entity/EcOrderRate.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/vo/Order.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/facade/product/EcPrdPaymentFacade.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/model/OrderVO.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/entity/EcOrder.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/facade/store/EcStoreFacade.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/facade/order/EcOrderFacade.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/entity/EcProduct.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/facade/util/EntityTransforVO.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/facade/shipping/EcShippingFacade.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/facade/product/EcProductFacade.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/entity/EcShipping.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/facade/util/OrderFilter.java</file>
+            <file>file:/D:/svn/ec/ec-model/src/com/tcci/ec/entity/EcOrderShipInfo.java</file>
+        </group>
+    </open-files>
+</project-private>

@@ -1,0 +1,162 @@
+.fw {
+    width: 100%;
+}
+.link {
+    cursor: pointer;   
+}
+
+.tac {
+    text-align: center;  
+}
+.tar {
+    text-align: right;  
+}
+
+.cusTable { 
+    border:1px solid #000; 
+    width:99%;
+    text-align:center;
+    border-collapse:collapse;
+} 
+.cusTable th { 
+    background-color: #009FCC;
+    padding:10px;
+    border:1px solid #000;
+    color:#fff;
+} 
+.cusTable td { 
+    border:1px solid #000;
+    padding:5px;
+}
+
+.nbTable { 
+    border: none; 
+    width:99%;
+    text-align:center;
+    border-collapse:collapse;
+} 
+.nbTable th { 
+    background-color: #009FCC;
+    padding:10px;
+    border:none;
+    color:#fff;
+} 
+.nbTable td { 
+    border:none;
+    padding:5px;
+}
+
+
+.rwdDlg {
+    margin: 20px;
+    max-width: 90%;
+}
+
+.required
+{
+    background-image:url("#{resource['images:field_required.gif']}");
+    background-position:right center;
+    background-repeat:no-repeat;
+    padding-right:12px;
+}
+
+.ui-button-text-only .ui-button-text {
+    padding: .3em .3em;
+}
+
+.btnS {
+    margin: 1px;
+    padding: 0; 
+}
+
+.category
+{
+    border-right-style: solid;
+    border-right-width: thin; 
+    border-right-color: #C5DBEC;
+    padding: 5px; 
+}
+
+.info {
+    color: #8F4150;
+    font-size:12px;
+    font-family: Arial,Helvetica,sans-serif;
+    text-decoration: none;
+}
+
+.infoBig {
+    color: #8F4150;
+    font-size:18px;
+    font-family: Arial,Helvetica,sans-serif;
+    text-decoration: none;
+}
+
+.highlight {
+    color: #0022aa; 
+    font-size:12px;
+    font-family: Arial,Helvetica,sans-serif;
+    text-decoration: none;   
+}
+
+.blockBtnC {
+    display:block;
+    text-align:center;
+    padding:5px;
+}
+
+/* icon style */
+img.icons {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle; 
+    border-style: none;
+    margin-right: 2px;
+    margin-left: 2px;
+} 
+
+img.iconsBig {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle; 
+    border-style: none;
+    margin-right: 1px;
+    margin-left: 1px;
+} 
+
+.scrollRightDiv {
+    width:40px;
+    float:right;
+    position:fixed;
+    right:0px;
+    bottom:150px;
+    z-index:2000;
+    border:none;
+    _position:absolute; /* position fixed for IE6 */    
+}
+
+.scrollLefttDiv {
+    width:40px;
+    float:left;
+    position:fixed;
+    left:0px;
+    bottom:150px;
+    z-index:2000;
+    border:none;
+    _position:absolute; /* position fixed for IE6 */    
+}
+
+/* primefaces */
+.ui-datatable-both-scroll .ui-datatable-tablewrapper,.scrolling-div .ui-datatable-tablewrapper{
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 5px;
+}
+
+.ui-datatable-hor-scroll .ui-datatable-tablewrapper,.scrolling-div .ui-datatable-tablewrapper{
+    overflow-y: hidden;
+    overflow-x: auto;
+    width: 100%;
+    height: 100%;
+    /*padding-bottom: 5px;*/
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="Model" transaction-type="JTA">
+    <jta-data-source>jdbc/ec</jta-data-source>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+        <property name="eclipselink.cache.shared.default" value="false"/>
+        <!-- show sql statement
+        <property name="eclipselink.weaving" value="static"/>
+        <property name="eclipselink.logging.level.sql" value="FINE"/>
+        <property name="eclipselink.logging.level" value="FINE"/>
+        <property name="eclipselink.logging.level.cache" value="FINE"/>
+        -->
+    </properties>
+  </persistence-unit>
+</persistence>

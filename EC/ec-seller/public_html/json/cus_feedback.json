@@ -1,0 +1,51 @@
+{
+    "totalRows":2,
+    "list":[
+        {
+        "id":1,
+        "memberId":1,
+        "cusId":1,
+        "createTime":"2018-05-26T11:10:00+08:00",
+        "type":"1",
+        "subject":"商品瑕疵反映",
+        "content":"5/20購買XX商品有破損，應如何辦理退換貨?",
+        "handleTime":"2018-05-27T11:10:00+08:00",
+        "handleUser":"peter.pan",
+        "process":"已向客戶並致歉，告知退換貨流程。",
+        "closeTime":"2018-05-28T19:10:00+08:00",
+        "closeUser":"peter.pan",
+        "closed":true
+        },
+        {
+        "id":2,
+        "memberId":1,
+        "cusId":1,
+        "createTime":"2018-05-11T13:10:00+08:00",
+        "type":"1",
+        "subject":"商品運送建議",
+        "content":"XX商品希望能提供至超商領貨服務",
+        "handleTime":"2018-05-27T11:10:00+08:00",
+        "handleUser":"peter.pan",
+        "process":"已回覆客戶致謝建議，並通知相關部門研究可行性。",
+        "closeTime":null,
+        "closeUser":null,
+        "closed":false
+        },
+        {
+        "id":3,
+        "memberId":3,
+        "cusId":3,
+        "createTime":"2018-05-30T15:10:00+08:00",
+        "type":"1",
+        "subject":"訂單狀態詢問",
+        "content":"已下單超過 3 日為何仍未處理?",
+        "handleTime":null,
+        "handleUser":null,
+        "process":null,
+        "closeTime":null,
+        "closeUser":null,
+        "closed":false
+        }
+
+    ]
+}

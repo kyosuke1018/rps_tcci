@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+    <!-- use the same db pool with [ec-seller-serv]
+    <jdbc-connection-pool name="ec_userPool"
+                          res-type="javax.sql.DataSource"
+                          datasource-classname="oracle.jdbc.pool.OracleDataSource"
+                          connection-validation-method="auto-commit"
+                          is-connection-validation-required="true"
+                          fail-all-connections="true">
+        <property name="User" value="ec_user"/>
+        <property name="Password" value="abcd1234"/>
+        <property name="URL" value="jdbc:oracle:thin:@192.168.203.81:1521:orcl"/>
+    </jdbc-connection-pool>
+    <jdbc-resource jndi-name="jdbc/ec" pool-name="ec_userPool"></jdbc-resource>
+    -->
+    <custom-resource jndi-name="jndi/ec-admin.config"
+                     res-type="java.util.Properties"
+                     factory-class="org.glassfish.resources.custom.factory.PropertiesFactory">
+        <property name="admin.notify.email" value="peter.pan@tcci.com.tw"></property>
+        
+        <property name="SmsEnabledTw" value="false"></property>
+        <property name="SmsAccountTw" value="23988289"></property>
+        <property name="SmsPasswordTw" value="P@ssw0rd"></property>
+        <property name="SmsSubjectTw" value="EC2.0"></property>
+        <property name="SmsSendSMSUrlTw" value="http://api.every8d.com/API21/HTTP/sendSMS.ashx"></property>
+        <property name="SmsGetCreditUrlTw" value="http://api.every8d.com/API21/HTTP/getCredit.ashx"></property>
+        
+        <property name="SmsEnabledCn" value="true"></property>
+        <!-- Jiguang MasterSecert -->
+        <property name="SmsAccountCn" value="cb761f9ed1c356f69101319e"></property>
+        <!-- Jiguang AppKey -->
+        <property name="SmsPasswordCn" value="9141712fa3b3a2f645897109"></property>
+        <property name="SmsSingIdCn" value="7528"></property>
+        <property name="SmsPwdTempIdCn" value="161022"></property>
+        <!-- EC2.0
+        <property name="jpush.master" value="da7c7386f45ca642a9843c8e"></property>
+        <property name="jpush.appkey" value="542a821cd3ae576d72809a9f"></property>
+        -->
+        <!-- EC1.5 -->
+        <property name="jpush.master" value="cb761f9ed1c356f69101319e"></property>
+        <property name="jpush.appkey" value="9141712fa3b3a2f645897109"></property>
+        
+        <property name="restUrlPrefix" value="http://localhost:8080/ec-seller-serv"></property>
+        <property name="mobileProxyUrl" value="http://localhost:8080/ec-gateway/servlet/executeservice"></property>
+        <property name="checkMemberService" value="/ec/service/member/checkMember?loginAccount="></property>
+        <property name="sellerWebUrl" value="http://localhost:8383/ec-seller"></property>
+    </custom-resource>
+</resources>

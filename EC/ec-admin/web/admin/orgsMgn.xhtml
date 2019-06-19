@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="title">
+        <h:outputText value="#{msg['header.app_name']}" />
+    </ui:define>
+    <ui:define name="head">
+        <style  type="text/css">
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="header">
+        <h:outputText value="#{orgController.funcTitle}" />
+    </ui:define>
+    <ui:define name="content">
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <h:form id="fmMain" prependId="false" rendered="#{!orgController.functionDenied}" >      
+            <!-- 輸入表單 horizontal vertical  -->
+            <!--圖示說明-->
+            <p:panel id="plIconMemo" header="圖示說明" toggleable="true" toggleSpeed="500">
+                <h:graphicImage library="images" name="page_edit.png" styleClass="icons" /><p:outputLabel value="編輯此節點資訊；" styleClass="info" />
+                <h:graphicImage library="images" name="add_sub_task.png" styleClass="icons" /><p:outputLabel value="新增子節點；" styleClass="info" />
+                <h:graphicImage library="images" name="delete.png" styleClass="icons" /><p:outputLabel value="刪除此節點；" styleClass="info" />
+                <ui:repeat value="#{orgController.orgTypes}" var="row" >
+                    <h:graphicImage library="images" name="org#{row.code}.png" styleClass="icons" /><p:outputLabel value="#{row.name}；" styleClass="info" />
+                </ui:repeat>
+            </p:panel>
+            
+            <!-- 組織圖 -->
+            <p:panel id="fsOrgTree" header="組織圖" toggleable="false" toggleSpeed="500">
+                <p:remoteCommand name="rcAddNode" actionListener="#{orgController.addNode}"
+                                 update=":addOrgsNodeForm:pgOrgsNode" oncomplete="openOrgsNodeDlg();" />
+                <p:tree id="treeSingle" value="#{orgController.root}" var="node" dynamic="true" cache="false" orientation="horizontal"
+                        selectionMode="single"  selection="#{orgController.selectedNode}">
+                    <p:treeNode>
+                        <ui:repeat value="#{orgController.orgTypes}" var="row" >
+                            <h:graphicImage library="images" name="org#{row.code}.png" title="#{row.name}"
+                                            rendered="#{node.cmOrg.ctype == row.code}" styleClass="icons" />
+                        </ui:repeat>
+                        <h:outputText value="#{node}" title="#{node}" />
+                        <p:spacer width="5" />
+                        <p:commandLink title="編輯此節點" 
+                                       actionListener="#{orgController.editNode(node.key)}" 
+                                       update=":addOrgsNodeForm:pgOrgsNode"
+                                       oncomplete="openOrgsNodeDlg();" rendered="#{node.key>0}" >
+                            <h:graphicImage library="images" name="page_edit.png" styleClass="icons" />
+                        </p:commandLink>
+                        <p:commandLink title="新增子節點" 
+                                       actionListener="#{orgController.addChild(node)}" 
+                                       update=":addOrgsNodeForm:pgOrgsNode" 
+                                       oncomplete="rcAddNode()" >
+                            <h:graphicImage library="images" name="add_sub_task.png" styleClass="icons" />
+                        </p:commandLink>
+                        <p:commandLink title="刪除此節點" 
+                                       actionListener="#{orgController.deleteNode(node.key)}" 
+                                       update=":fmMain:treeSingle"
+                                       onclick="if( !confirm('您確定要刪除嗎?') ){ return false; }" rendered="#{node.key>0 and !node.hasChild}" >
+                            <h:graphicImage library="images" name="delete.png" styleClass="icons" />
+                        </p:commandLink>
+                    </p:treeNode>
+                </p:tree>
+            </p:panel>
+        </h:form>
+        
+        <!-- 組織編輯 對話框 -->
+        <ui:include src="/inc/inc_orgNodeDlg.xhtml"></ui:include>
+        <!-- 功能權限檢查對話框 -->
+        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+            <ui:param name="controller" value="#{orgController}"/>
+        </ui:include>
+        
+    </ui:define>
+</ui:composition>

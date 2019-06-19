@@ -1,0 +1,125 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+    <title></title>
+  </head>
+  <style type="text/css">
+    body{
+        font-size:12px;
+        font-family: 微軟正黑體, 新細明體, simhei, sans-serif, Arial;
+    }
+    .detailTB {
+        cellpadding: 2px;
+        cellspacing: 1px;
+        border: 1px;
+        empty-cells:show;
+        min-width:700px;
+    }
+
+    .detailTB th {
+        border: 1px solid #a1a1a1;
+        background-color:#78828B;
+        color: #FFFFFF;
+        text-align: center;
+        vertical-align: middle;
+        height: 24px;
+    }
+
+    .detailTB td {
+        border: 1px thin #8e846b;
+        background-color:#e1e1e1;
+        min-width: 60px;
+        max-width: 260px;
+    }
+
+    p.wordBreak {
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        margin: 1px;
+        padding: 1px;
+    }
+
+    #periodical
+    {
+        width: 40px;
+        padding: 8px;
+        background-color: #bb797b;
+        font-family:Verdana, Arial, Helvetica, sans-serif;
+        font-size:12px;
+    }
+
+    #periodical a, #periodical a:visited
+    {
+        display: block;
+        color: #FFFFFF;
+        text-decoration:none;
+    }
+
+    #periodical a p
+    {
+        color: #FFFFFF;
+        background-color: #7f4142;
+        padding: 2px 3px 3px 3px;
+        margin-top: 0px;
+        margin-bottom: 8px;
+    }
+
+    #periodical a h6
+    {
+        color: #FFFFFF;
+        background-color: #7f4142;
+        margin: 0;
+        padding: 3px 3px 2px 3px;
+        border-bottom: 1px solid #FFF;
+        font-size:12px;
+    }
+
+    #periodical a:hover
+    {
+        background-color: #9e5253;
+    }
+
+    #periodical a:hover p
+    {
+        background-color: #9e5253;
+    }
+
+    #periodical a:hover h6
+    {
+        background-color: #9e5253;
+    }
+  </style>
+  <body>
+    <table class="detailTB" >
+      <tr>
+        <th colspan="2" >
+          <h3 style="text-align: center;color:#7f4142;" >$bean.title</h3>
+        </th>
+      </tr>
+      <tr>
+        <th style="text-align: center;background-color: #A0A0A0;" >廠群</th><td>$bean.plantgroup</td>
+      </tr>
+      <tr>
+        <th style="text-align: center;background-color: #A0A0A0;" >廠別</th><td>$bean.plant</td>
+      </tr>
+      <tr>
+        <th style="text-align: center;background-color: #A0A0A0;" >合約編號</th><td>$bean.contractnum</td>
+      </tr>
+      <tr>
+        <th style="text-align: center;background-color: #A0A0A0;" >合約名稱</th><td>$bean.contractname</td>
+      </tr>
+      <tr>
+        <th style="text-align: center;background-color: #A0A0A0;" >異動者</th><td>$bean.name</td>
+      </tr>
+      <tr>
+        <th style="text-align: center;background-color: #A0A0A0;" >異動時間</th><td>$bean.time</td>
+      </tr>
+      <tr>
+        <th style="text-align: center;background-color: #A0A0A0;" >異動停止發送通知</th><td>$bean.notice</td>
+      </tr>
+    </table>
+
+    <p>此信件為系統自動發出信件，請勿直接回覆。若您有任何問題請聯絡台訊客服中心。謝謝！ </p>
+    <p>客服專線：(02)2536-6660轉20989或20990<br/>客服信箱：service@tcci.com.tw </p>
+  </body>
+</html>

@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="title">
+        <h:outputText value="#{msg['header.app_name']}" />
+    </ui:define>
+    <ui:define name="head">
+        <style  type="text/css">
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="header">
+        <h:outputText value="#{switchUserController.funcTitle}" />
+    </ui:define>
+    <ui:define name="content">
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <h:form id="fmMain" prependId="false" rendered="#{!switchUserController.functionDenied}" >
+            <div class="ui-g ui-fluid dashboard">
+                <div class="ui-g-12">
+                    <p:panel header="線上使用者" toggleable="true" >
+                        <p:commandLink update=":fmMain:dtOnlineUsers"
+                                       title="重載線上使用者資訊" 
+                                       oncomplete="alert('已重載完成。');" >
+                            <h:graphicImage library="images" name="update.png" styleClass="icons" />重載線上使用者資訊
+                        </p:commandLink>
+                        <p:dataTable id="dtOnlineUsers" value="#{app.onlineUsers}" var="row" rowIndexVar="idx" >
+                            <p:column>
+                                <f:facet name="header"><h:outputText value="序號" /></f:facet>
+                                <h:outputText value="#{idx+1}" />
+                            </p:column>
+                            <p:column sortBy="#{row.loginAccount}" >
+                                <f:facet name="header"><h:outputText value="帳號" /></f:facet>
+                                <h:outputText value="#{row.loginAccount}" />
+                            </p:column>
+                            <p:column sortBy="#{row.cname}" >
+                                <f:facet name="header"><h:outputText value="姓名" /></f:facet>
+                                <h:outputText value="#{row.cname}" />
+                            </p:column>
+                            <p:column sortBy="#{row.email}" >
+                                <f:facet name="header"><h:outputText value="Email" /></f:facet>
+                                <h:outputText value="#{row.email}" />
+                            </p:column>
+                        </p:dataTable>
+                        
+                    </p:panel>
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                    <!--
+                    <p:fieldset legend="切換登入使用者" rendered="true" >
+                        <! <p:inputText value="#{switchUserController.userID}"/> 
+                        <p:autoComplete size="25" value="#{switchUserController.selectedUserTxt}"
+                                        completeMethod="#{switchUserController.autoCompleteUserOptions}" 
+                                        onkeypress="ajaxStatusShow=false" onblur="ajaxStatusShow=true" 
+                                        dropdown="true"
+                                        >
+                        </p:autoComplete>
+                        <p:spacer width="40" height="2"/>
+                        <p:commandButton value="switch" action="#{switchUserController.switchUser}"/>
+                        <p:spacer width="5"/>
+                        <h:outputText value="(請於下拉選單點選欲切換人員)" />
+                    </p:fieldset>
+                    -->
+                    <p:panel header="模擬使用者" style="height:100%">
+                        <h:panelGroup rendered="#{tcSessionController.isUserInRole('ADMINISTRATORS')}">
+                            <h:outputText value="未設定SUGUARD!" rendered="#{empty simulateUser.suguardUrl}"/>
+                            <h:outputText value="尚未申請權限!" rendered="#{not empty simulateUser.suguardUrl and empty simulateUser.lastForm}"/>
+                            <h:outputText value="最新申請單狀態如下:" rendered="#{not empty simulateUser.lastForm}"/>
+                            <h:panelGrid columns="2" rendered="#{not empty simulateUser.lastForm}">
+                                <h:outputLabel value="申請單ID:"/>
+                                <h:panelGroup>
+                                    <h:outputText value="#{simulateUser.lastForm.id}"/>&nbsp;
+                                    <p:button value="檢視"
+                                              onclick="view('#{simulateUser.lastForm.id}');return false;"/>
+                                </h:panelGroup>
+                                <h:outputLabel value="系統代碼:"/>
+                                <h:outputText value="#{simulateUser.lastForm.systemCode}"/>
+                                <h:outputLabel value="申請人:"/>
+                                <h:outputText value="#{simulateUser.lastForm.applicant}"/>
+                                <h:outputLabel value="模擬帳號:"/>
+                                <h:outputText value="#{simulateUser.lastForm.emuAccounts}"/>
+                                <h:outputLabel value="申請原因:"/>
+                                <h:outputText value="#{simulateUser.lastForm.reason}"/>
+                                <h:outputLabel value="申請時間:"/>
+                                <h:panelGroup>
+                                    <h:outputText value="#{simulateUser.lastForm.startTime}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                                    </h:outputText>
+                                    <h:outputText value=" ~ "/>
+                                    <h:outputText value="#{simulateUser.lastForm.endTime}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                                    </h:outputText>
+                                    <h:outputText value=" (已逾期)"
+                                                  style="color: red;"
+                                                  rendered="#{simulateUser.lastForm.expired}"/>
+                                </h:panelGroup>
+                                <h:outputLabel value="狀態:"/>
+                                <h:panelGroup>
+                                    <h:outputText value="#{simulateUser.lastForm.status} "/>&nbsp;
+                                    <p:button value="編輯"
+                                              onclick="edit('#{simulateUser.lastForm.id}');return false;"
+                                              rendered="#{simulateUser.canDo('EDIT')}"/>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                            <hr/>
+                            <h:panelGroup rendered="#{simulateUser.canDo('SIMULATE')}">
+                                <h:outputText value="模擬帳號: "/>
+                                <p:inputText value="#{simulateUser.emuAccount}"
+                                             onblur="trimInputToLower(this)"/>
+                                <p:commandButton value="送出"
+                                                 action="#{simulateUser.doSimulate}"
+                                                 ajax="false" 
+                                                 />
+                            </h:panelGroup>
+                            <p/>
+                            <p:button value="新申請"
+                                      onclick="create();return false;"
+                                      rendered="#{simulateUser.canDo('CREATE')}"/>                    
+                        </h:panelGroup>            
+                        <h:panelGroup rendered="#{not tcSessionController.isUserInRole('ADMINISTRATORS')}">
+                            <h:outputText value="無權限"/>
+                        </h:panelGroup>            
+                        <script type="text/javascript">
+                            function view(id) {
+                                window.open('#{simulateUser.suguardUrl}/faces/suform/view.xhtml?id=' + id,
+                                'suguard') ;
+                            }
+                            function edit(id) {
+                                window.open('#{simulateUser.suguardUrl}/faces/suform/edit.xhtml?id=' + id,
+                                'suguard') ;
+                            }
+                            function create() {
+                                window.open('#{simulateUser.suguardUrl}/faces/suform/edit.xhtml?systemCode=#{simulateUser.systemCode}',
+                                'suguard');
+                            }
+                        </script>
+                    </p:panel>          
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <p:panel header="系統公告設定" style="height:100%">
+                        <p:outputLabel value="開啟系統公告" />
+                        <p:selectBooleanCheckbox value="#{app.announcement}" >
+                            <p:ajax event="change" listener="#{app.changeAnnouncement()}" process="@(this)" update=":fmMain" />
+                        </p:selectBooleanCheckbox>
+                        <br />
+                        <p:spacer height="5" width="2" />
+                        <br /> 
+                        <!-- 選取匯入檔案 -->
+                        <p:fileUpload fileUploadListener="#{app.handleAnnouncementUpload}" style="width:100%"
+                                      mode="advanced"
+                                      update=":fmMain:otUploadResult"
+                                      multiple="false"
+                                      sizeLimit="5242880"
+                                      auto="true"
+                                      oncomplete="afterSuccess();"  
+                                      onerror="afterError();" 
+                                      label="#{msg['label.upload.selectUploadFile']}" />
+                        
+                        <h:outputText id="otUploadResult" rendered="#{!empty app.announcementFileTime}" styleClass="info" 
+                                      value="最近上傳時間：#{app.formatDateTime(app.announcementFileTime)}" />
+                    </p:panel>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <p:panel header="其他系統管理操作" style="height:100%">
+                        <p:commandLink actionListener="#{ui.init()}" 
+                                       title="重載 AppclicationScope 系統選項資訊" 
+                                       oncomplete="alert('已重載完成。');" >
+                            <h:graphicImage library="images" name="update.png" styleClass="icons" />重載系統選項資訊
+                        </p:commandLink>
+                        <br/><br/>
+                        <p:link outcome="/ec-seller" target="ec-seller-win" title="前往 ec-seller 管理員後台" >
+                            <h:graphicImage library="images" name="link.png" styleClass="icons" />前往 ec-seller 管理員後台
+                        </p:link>
+                    </p:panel>
+                </div>
+            </div>
+            
+        </h:form>
+        
+        <!-- 功能權限檢查對話框 -->
+        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+            <ui:param name="controller" value="#{switchUserController}"/>
+        </ui:include>
+        
+    </ui:define>
+</ui:composition>

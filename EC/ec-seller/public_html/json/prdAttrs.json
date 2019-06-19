@@ -1,0 +1,28 @@
+{
+  "res": {
+    "status": 1,
+    "totalRows": 0
+  },
+  "list": [
+    {
+      "id": 1,
+      "storeId": 1,
+      "prdId": 21,
+      "attrScope": "T",
+      "attrId": "11",
+      "attrName": "尺寸",
+      "attrValue": "30x40x10",
+      "sortnum": 1
+    },
+    {
+      "id": 2,
+      "storeId": 1,
+      "prdId": 21,
+      "attrScope": "T",
+      "attrId": "12",
+      "attrName": "特色",
+      "attrValue": "使用最新技術製造",
+      "sortnum": 1
+    }
+  ]
+}

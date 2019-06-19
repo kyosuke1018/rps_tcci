@@ -1,0 +1,52 @@
+<style>
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+</style>
+<div><b>*每筆契約到期前兩月開始發送通知，到期後第一週停止發送</b></div>
+<table id="customers" >
+    <tr>
+        <th>公司別</th>
+        <th>廠別</th>
+        <th>契約號碼</th>
+        <th>契約開始(日期)</th>
+        <th>契約結束(日期)</th>
+        <th>合約名稱</th>
+        <th>剩餘天數</th>
+        <th>前往維護</th>
+    </tr>
+
+    #set( $index = 1 )
+    #foreach($item in $bean.buildList) 
+        <tr>
+            <td>$item.companyName</td>
+            <td>$item.plantName</td>
+            <td>$item.contractNum</td>
+            <td>$item.startDateStr</td>
+            <td>$item.endDateStr</td>
+            <td>$item.contractName</td>
+            <td>$item.days</td>
+            <td><a href="$bean.url?keyword=$item.contractNum" >GO</a></td>
+        </tr>
+        #set( $index = $index + 1 )
+    #end
+</table>

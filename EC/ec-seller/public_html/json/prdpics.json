@@ -1,0 +1,16 @@
+{
+    "list":[
+        {"url":"https://www.primefaces.org/primeui/showcase/resources/demo/images/galleria/galleria1.jpg", "description":"Galleria 1 Description", "title":"Galleria 1"},
+        {"url":"https://www.primefaces.org/primeui/showcase/resources/demo/images/galleria/galleria2.jpg", "description":"Galleria 2 Description", "title":"Galleria 2"},
+        {"url":"https://www.primefaces.org/primeui/showcase/resources/demo/images/galleria/galleria3.jpg", "description":"Galleria 3 Description", "title":"Galleria 3"},
+        {"url":"https://www.primefaces.org/primeui/showcase/resources/demo/images/galleria/galleria4.jpg", "description":"Galleria 4 Description", "title":"Galleria 4"},
+        {"url":"https://www.primefaces.org/primeui/showcase/resources/demo/images/galleria/galleria5.jpg", "description":"Galleria 5 Description", "title":"Galleria 5"},
+        {"url":"https://www.primefaces.org/primeui/showcase/resources/demo/images/galleria/galleria6.jpg", "description":"Galleria 6 Description", "title":"Galleria 6"},
+        {"url":"https://www.primefaces.org/primeui/showcase/resources/demo/images/galleria/galleria7.jpg", "description":"Galleria 7 Description", "title":"Galleria 7"},
+        {"url":"https://www.primefaces.org/primeui/showcase/resources/demo/images/galleria/galleria8.jpg", "description":"Galleria 8 Description", "title":"Galleria 8"},
+        {"url":"https://www.primefaces.org/primeui/showcase/resources/demo/images/galleria/galleria9.jpg", "description":"Galleria 9 Description", "title":"Galleria 9"},
+        {"url":"https://www.primefaces.org/primeui/showcase/resources/demo/images/galleria/galleria10.jpg", "description":"Galleria 10 Description", "title":"Galleria 10"},
+        {"url":"https://www.primefaces.org/primeui/showcase/resources/demo/images/galleria/galleria11.jpg", "description":"Galleria 11 Description", "title":"Galleria 11"},
+        {"url":"https://www.primefaces.org/primeui/showcase/resources/demo/images/galleria/galleria12.jpg", "description":"Galleria 12 Description", "title":"Galleria 12"}
+    ]
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <title>賣家後台管理系統 - 登入頁</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+        <link rel="icon" href="img/App_Icon-o.png" />
+        <link rel="shortcut icon" type="image/x-icon" href="img/App_Icon-o.png" />
+        <!-- css files -->
+        <link rel="stylesheet" href="lib/icons/css/font-awesome.min.css?v=0.0.2" />
+        <link rel="stylesheet" href="lib/jquery/jquery-ui.css?v=0.0.2" />
+        <link rel="stylesheet" href="lib/primeui/primeui-all.min.css?v=0.0.2" />
+        <link rel="stylesheet" href="lib/primeui/themes/hot-sneaks/theme.css?v=0.0.2" />
+        <link rel="stylesheet" href="css/w3.css?v=0.0.2" />
+        <link rel="stylesheet" href="css/style.css?v=0.0.2" />
+        <link rel="stylesheet" href="css/login.css?v=0.0.2" />
+        <!--[if lte E 9]>
+        <link rel="stylesheet" type="text/css" href="css/ie-only.css?v=0.0.2">
+        <![endif]-->
+        <!--[if lte IE 8]> 
+        <link rel="stylesheet" type="text/css" href="css/ie8-only.css?v=0.0.2">
+        <![endif]-->
+        
+        <!-- js files -->
+        <script src="lib/jquery/jquery.js?v=0.0.2"></script>
+        
+        <!-- Dependencies of some widgets -->
+        <script src="lib/primeui/plugins-all.js?v=0.0.2"></script>
+        <!-- Mustache for templating support -->
+        <script src="lib/primeui/mustache.min.js?v=0.0.2"></script>
+        <!-- X-TAG for PrimeElements -->
+        <script src="lib/primeui/x-tag-core.min.js?v=0.0.2"></script>
+        <script src="lib/primeui/primeui-all.min.js?v=0.0.2"></script>
+        <script src="lib/primeui/primeelements.min.js?v=0.0.2"></script>
+        
+        <!-- after primeui -->
+        <script src="lib/jquery/jquery-ui.js?v=0.0.2"></script>
+       <!-- i18n -->
+        <script src="lib/jquery/jquery.i18n.properties-min-1.0.9.js?v=0.0.2"></script>
+        <script src="lib/jquery/i18n/jquery.ui.datepicker-zh-TW.js?v=0.0.2"></script>
+        
+        <script src="lib/underscore-min.js?v=0.0.2"></script>
+        <script src="lib/validator.min.js?v=0.0.2"></script>
+        <!-- html loading -->
+        <script src="lib/w3.js?v=0.0.2"></script>
+        
+        <!-- customize js -->
+        <script src="js/consts.js?v=0.0.2"></script>
+        <script src="js/variables.js?v=0.0.2"></script>
+        <script src="js/tcc-utils.js?v=0.0.2"></script>
+        <script src="js/com/button.js?v=0.0.2"></script>
+        <script src="js/com/inputtext.js?v=0.0.2"></script>
+        <script src="js/com/dropdown.js?v=0.0.2"></script>
+        <script src="js/com/radio.js?v=0.0.2"></script>
+        <script src="js/com/checkbox.js?v=0.0.2"></script>
+        <script src="js/com/picklist.js?v=0.0.2"></script>
+        <script src="js/com/datatable.js?v=0.0.2"></script>
+        <script src="js/com/formListS.js?v=0.0.2"></script>
+        <script src="js/com/formListM.js?v=0.0.2"></script>
+        <script src="js/com/dialog.js?v=0.0.2"></script>
+        <script src="js/com/menu.js?v=0.0.2"></script>
+        <script src="js/layout.js?v=0.0.2"></script>
+
+        <script src="lib/security/pbkdf2.js?v=0.0.2"></script>
+        <script src="lib/security/aes.js?v=0.0.2"></script>
+        <script src="lib/security/AesUtil.js?v=0.0.2"></script>
+        <!-- css -->
+        <style>
+        </style>
+    </head>
+    <body class="fullBgImg-seller">
+        <!-- body contents -->
+        <div class="content">
+            <!-- loading screen, message -->
+            <div w3-include-html="inc/message.html"></div> 
+            <!-- content start -->
+            <div id="id01" class="modal">
+                <form id="fmLogin" class="modal-content animate" action="home.html" method="post" >
+                    <div class="imgcontainer">
+                        <!-- <img src="img/logo_TCC_solgan2.jpg" class="logoLogin">-->
+                        <h2  class="w3-text-white">台泥電商後台連結</h2>
+                    </div>
+                    <div class="container">
+                        <a class="w3-btn w3-brown w3-margin w3-padding w3-round w3-large" href="login.html" >賣家管理後台</a><br/>
+                        <a class="w3-btn w3-brown w3-margin w3-padding w3-round w3-large" href="loginAdmin.html" >電商管理系統後台</a><br/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- content end -->
+
+        <div id="startOverlay" class="startOverlay" >
+            <div id="ieOnly" class="ie-only overlay-text"><i class="fa fa-warning fa-lg"></i>Browser not supported!</div>
+            <div class="no-ie overlay-text"><i class="fa fa-spinner fa-pulse fa-fw fa-3x"></i></div>
+        </div>
+        
+        <!-- JS start .. -->
+        <script src="js/index.js?v=0.0.2"></script>
+        <!--[if lte E 9]>
+        <script src="js/ie-only.js"></script>
+        <![endif]-->
+    </body>
+</html>
+

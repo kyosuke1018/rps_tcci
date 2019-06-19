@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <!--參數
+    formName: must
+    controller must
+    onchangeUpdate 
+    dialog型態
+    -->
+    <h:panelGroup id="categoryTable_3" style="vertical-align: top;" >
+        <table rules="rows" width="100%" >
+            <ui:repeat id="categoryList_3" varStatus="status"  var="category" value="#{factoryList2Controller.getPpMqCategoryList()}">  
+                <h:panelGroup rendered="#{category.code != '3' and category.code == factoryList2Controller.selectedCategoryCode}">
+                    <tr>
+                        <td  width="80px" style="border-right-style: solid;border-right-width: thin;border-right-color:#D8D8D8;" >       
+                            <p:selectBooleanCheckbox id="category_3" immediate="true" style="vertical-align: middle;"  
+                                                     value="#{factoryList2Controller.categoryCheckMap[category]}"
+                                                     >
+                                <p:ajax  immediate="false"
+                                         listener="#{factoryList2Controller.selectCategory(category)}" update=":#{formName}:categoryTable_3 #{onchangeUpdate}"/>
+                            </p:selectBooleanCheckbox><p:spacer width="3" height="16" />
+                            <h:outputText value="全選" />
+                        </td>   
+                        <td>
+                            <ui:repeat id="factoryList_3" rendered="#{category.code != '3' and category.code != '8'}"
+                                       var="item" value="#{category.tcFactoryVOList}" varStatus="status">  
+                                <h:outputText value="&nbsp;" />
+                                
+                                <p:selectBooleanCheckbox id="factory_3" style="vertical-align: middle;" 
+                                                         value="#{factoryList2Controller.factoryCheckMap[item]}"
+                                                         onchange="selectFactory_3([{name: 'uncheckedFactoryCode', value: '#{item.factoryCode}'}]);"
+                                                         >
+                                </p:selectBooleanCheckbox><p:spacer width="3" height="16" />
+                                <h:outputText value="#{item.factoryCode}(#{item.factoryName})" />       
+                                <!--每5個換行一次、或最後一筆-->
+                                <h:panelGroup rendered="#{(category.code == '1' and ((status.index+1) % 5 eq 0) or ((status.index+1) == category.tcFactoryVOList.size()) ) or (category.code == '2' and ((status.index+1) % 5 eq 0) or ((status.index+1) == category.tcFactoryVOList.size()))}">
+                                    <br/>
+                                </h:panelGroup>
+                            </ui:repeat>   
+                            <!-- 預拌廠 -->
+                            <h:outputText value="&nbsp;" rendered="#{factoryList2Controller.selectedCategoryCode=='1' and factoryList2Controller.getPpMqCategory3() != null}" />
+                            <h:panelGroup rendered="#{factoryList2Controller.selectedCategoryCode=='1' and factoryList2Controller.getPpMqCategory3() != null}">
+                                <p:selectBooleanCheckbox id="category3_3" immediate="true" style="vertical-align: middle;"  
+                                                         value="#{factoryList2Controller.categoryCheckMap[factoryList2Controller.ppMqCategory3]}"
+                                                         >
+                                    <p:ajax  immediate="false"
+                                             listener="#{factoryList2Controller.selectCategory(factoryList2Controller.ppMqCategory3)}" update=":#{formName}:categoryTable_3 #{onchangeUpdate}"/>
+                                </p:selectBooleanCheckbox><p:spacer width="3" height="16" />
+                                <h:outputText title="#{factoryList2Controller.ppMqCategory3}" value="#{factoryList2Controller.ppMqCategory3.name}" />
+                            </h:panelGroup>
+                            <!-- 中轉站 -->
+                            <h:outputText value="&nbsp;" rendered="#{factoryList2Controller.selectedCategoryCode=='2' and factoryList2Controller.getPpMqCategory8() != null}" />
+                            <h:panelGroup rendered="#{factoryList2Controller.selectedCategoryCode=='2' and factoryList2Controller.getPpMqCategory8() != null}">
+                                <p:selectBooleanCheckbox id="category8_3" immediate="true" style="vertical-align: middle;"  
+                                                         value="#{factoryList2Controller.categoryCheckMap[factoryList2Controller.ppMqCategory8]}"
+                                                         >
+                                    <p:ajax  immediate="false"
+                                             listener="#{factoryList2Controller.selectCategory(factoryList2Controller.ppMqCategory8)}" update=":#{formName}:categoryTable_3 #{onchangeUpdate}"/>
+                                </p:selectBooleanCheckbox><p:spacer width="3" height="16" />
+                                <h:outputText title="#{factoryList2Controller.ppMqCategory8}" value="#{factoryList2Controller.ppMqCategory8.name}" />
+                            </h:panelGroup>
+                        </td>
+                    </tr>
+                </h:panelGroup>
+            </ui:repeat>
+            
+            <!-- 只有預拌廠 且 無台泥台灣其他廠，上列迴圈無法顯示預拌廠資訊，需在此額外處理 -->
+            <h:panelGroup rendered="#{factoryList2Controller.onlyPremixedFactory and factoryList2Controller.selectedCategoryCode=='1'}" >
+                <tr>
+                    <td>
+                        <p:selectBooleanCheckbox id="category32_3" immediate="true" style="vertical-align: middle;"  
+                                                 value="#{factoryList2Controller.categoryCheckMap[factoryList2Controller.ppMqCategory3]}"
+                                                 >
+                            <p:ajax  immediate="false"
+                                     listener="#{factoryList2Controller.selectCategory(factoryList2Controller.ppMqCategory3)}" update=":#{formName}:categoryTable_3 #{onchangeUpdate}"/>
+                        </p:selectBooleanCheckbox>
+                        <p:spacer width="3" height="16" />
+                        <h:outputText title="#{factoryList2Controller.ppMqCategory3}" value="#{factoryList2Controller.ppMqCategory3.name}" />
+                    </td>  
+                </tr>    
+            </h:panelGroup>
+            <!-- 只有中轉站 且 無台泥大陸其他廠，上列迴圈無法顯示中轉站資訊，需在此額外處理 -->
+            <h:panelGroup rendered="#{factoryList2Controller.onlyHubFactory and factoryList2Controller.selectedCategoryCode=='2'}" >
+                <tr>
+                    <td>
+                        <p:selectBooleanCheckbox id="category82_3" immediate="true" style="vertical-align: middle;"  
+                                                 value="#{factoryList2Controller.categoryCheckMap[factoryList2Controller.ppMqCategory8]}"
+                                                 >
+                            <p:ajax  immediate="false"
+                                     listener="#{factoryList2Controller.selectCategory(factoryList2Controller.ppMqCategory8)}" update=":#{formName}:categoryTable_3 #{onchangeUpdate}"/>
+                        </p:selectBooleanCheckbox>
+                        <p:spacer width="3" height="16" />
+                        <h:outputText title="#{factoryList2Controller.ppMqCategory8}" value="#{factoryList2Controller.ppMqCategory8.name}" />
+                    </td>  
+                </tr>    
+            </h:panelGroup>
+        </table>             
+        <p:remoteCommand name="selectFactory_3" actionListener="#{factoryList2Controller.selectFactory()}"
+                         update=":#{formName}:categoryTable_3 #{onchangeUpdate}"
+                         />
+        <div align="center">
+            <p:separator />
+            <p:commandButton value="關閉" onclick="PF('actoryDialog').hide();" 
+                             update="#{updateIDs}"
+                             icon="ui-icon-circle-close"
+                             immediate="true" />
+        </div>
+    </h:panelGroup>
+</ui:composition>

@@ -1,0 +1,528 @@
+<!-- 基本資料 -->
+<fieldset id="fsBasic">
+    <legend>store.basic.info</legend>
+    <!-- 基本資料 -->
+    <form id="editStoreForm" >
+        <!-- 開店 -->
+        <div class="w3-row" >
+            <div class="w3-col s4" >
+                <label class="ui-widget" >check.open.store：</label>
+                <span id="openStatusLabel"></span>
+            </div>
+            <div class="w3-col s4 seller" >
+                <button id="btnOpenStore" type="button" class="seller">open.store</button>
+                <button id="btnCloseStore" type="button" class="seller">close.store</button>
+                &nbsp;&nbsp;
+                <button id="btnSetDef" type="button" class="seller">to.default.store</button>
+            </div>
+            <div class="w3-col s4 tar notDealer" >
+                <!-- 新增商店 -->
+                <button id="btnAddStore" type="button" class="seller" >add.new.store</button>
+                <button id="btnDefStoreAttrs" type="button" class="admin" >store.def.attr</button>
+            </div>
+        </div>
+        <div class="w3-row" >
+            <div class="w3-col s4 m1" >
+                <label class="ui-widget required" >name.ch：</label>
+            </div>
+            <div class="w3-col s8 m3" >
+                <input id="cname" name="cname" type="text" is="p-inputtext" 
+                       maxlength="30" 
+                       title="cname" required value="" class="fw" />
+            </div>
+            <div class="w3-col s4 m1" >
+                <label class="ui-widget" >name.en：</label>
+            </div>
+            <div class="w3-col s8 m3" >
+                <input id="ename" name="ename" type="text" is="p-inputtext" 
+                       minlength="0" maxlength="100" 
+                       title="cname" value="" class="fw" />
+            </div>
+            <div class="w3-col s4 m1" >
+                <label class="ui-widget" >com.id：</label>
+            </div>
+            <div class="w3-col s8 m3" >
+                <input id="idCode" name="idCode" type="text" is="p-inputtext" 
+                       minlength="0" maxlength="30" 
+                       title="com.id" value="" class="fw" />
+            </div>
+        </div>
+        <div class="w3-row" >
+            <div class="w3-col s4 m1" >
+                <label class="ui-widget required" >com.tel1：</label>
+            </div>
+            <div class="w3-col s8 m3" >
+                <input id="tel1" name="tel1" type="text" is="p-inputtext" 
+                       maxlength="20" required
+                       title="com.tel1" value="" class="fw" />
+            </div>
+            <div class="w3-col s4 m1" >
+                <label class="ui-widget" >com.tel2：</label>
+            </div>
+            <div class="w3-col s8 m3" >
+                <input id="tel2" name="tel2" type="text" is="p-inputtext"
+                       maxlength="20" 
+                       title="com.tel2" value="" class="fw" />
+            </div>
+            <div class="w3-col s4 m1" >
+                <label class="ui-widget" >com.tel3：</label>
+            </div>
+            <div class="w3-col s8 m3" >
+                <input id="tel3" name="tel3" type="text" is="p-inputtext" 
+                       maxlength="20" 
+                       title="com.tel3" value="" class="fw" />
+            </div>
+        </div>
+        <div class="w3-row" >
+            <div class="w3-col s4 m1" >
+                <label class="ui-widget required" >email1：</label>
+            </div>
+            <div class="w3-col s8 m3" >
+                <input id="email1" name="email1" type="text" is="p-inputtext" 
+                       maxlength="100" required
+                       title="email1" value="" class="fw" />
+            </div>
+            <div class="w3-col s4 m1" >
+                <label class="ui-widget" >email2：</label>
+            </div>
+            <div class="w3-col s8 m3" >
+                <input id="email2" name="email2" type="text" is="p-inputtext" 
+                       maxlength="100" 
+                       title="email2" value="" class="fw" />
+            </div>
+            <div class="w3-col s4 m1" >
+                <label class="ui-widget" >email3：</label>
+            </div>
+            <div class="w3-col s8 m3" >
+                <input id="email3" name="email3" type="text" is="p-inputtext" 
+                       maxlength="100" 
+                       title="email3" value="" class="fw" />
+            </div>
+        </div>
+        <div class="w3-row" >
+            <div class="w3-col s4 m1" >
+                <label class="ui-widget" >fax1：</label>
+            </div>
+            <div class="w3-col s8 m3" >
+                <input id="fax1" name="fax1" type="text" is="p-inputtext" 
+                       maxlength="20" 
+                       title="fax1" value="" class="fw" />
+            </div>
+            <div class="w3-col s4 m1" >
+                <label class="ui-widget" >fax2：</label>
+            </div>
+            <div class="w3-col s8 m3" >
+                <input id="fax2" name="fax2" type="text" is="p-inputtext" 
+                       maxlength="20" 
+                       title="fax2" value="" class="fw" />
+            </div>
+        </div>
+        <div class="w3-row" >
+            <div class="w3-col s12 m1" >
+                <label class="ui-widget" >address：</label>
+            </div>
+            <div class="w3-col s12 m11" >
+                <input id="addr1" name="addr1" type="text" is="p-inputtext" 
+                       maxlength="300" 
+                       title="address" value="" class="fw" />
+            </div>
+        </div>
+        <div class="w3-row" >
+            <div class="w3-col s2 m1" >
+                <label class="ui-widget" >web.site：</label>
+            </div>
+            <div class="w3-col s10 m5" >
+                <input id="url1" name="url1" type="text" is="p-inputtext" 
+                       placeholder="store.url" 
+                       maxlength="200" 
+                       title="web.site" value="" class="fw" />
+            </div>
+            <div class="w3-col s2 m1" >
+                <label class="ui-widget" >fd.remit.account：</label>
+            </div>
+            <div class="w3-col s10 m5" >
+                <input id="remitAccount" name="remitAccount" type="text" is="p-inputtext" 
+                       placeholder="fd.remit.account" 
+                       maxlength="30" 
+                       title="fd.remit.account" value="" class="fw" />
+            </div>
+        </div>
+        <div class="w3-row" >
+            <div class="w3-col s4 m1" >
+                <label class="ui-widget" >latitude：</label>
+            </div>
+            <div class="w3-col s8 m3" >
+                <input id="latitude" name="latitude" type="text" is="p-inputtext" 
+                       maxlength="20" 
+                       title="latitude" value="" class="fw" />
+            </div>
+            <div class="w3-col s4 m1" >
+                <label class="ui-widget" >longitude：</label>
+            </div>
+            <div class="w3-col s8 m3" >
+                <input id="longitude" name="longitude" type="text" is="p-inputtext" 
+                       maxlength="20" 
+                       title="longitude" value="" class="fw" />
+            </div>
+            <div class="w3-col s12 m4" >
+                <label class="ui-widget" >map.show</label>
+            </div>
+        </div>
+        <div class="w3-row" >
+            <div class="w3-col s12 m1" >
+                <label class="ui-widget" >brief：</label>
+            </div>
+            <div class="w3-col s12 m11" >
+                <textarea id="brief" name="brief" rows="3" 
+                          class="fw" is="p-inputtext"></textarea>
+            </div>
+        </div>    
+    </form>
+        
+    <div class="w3-row seller">
+        <div class="w3-col s12 tac">
+            <button id="save" type="button">save</button>
+            &nbsp;
+            <button id="cancel" type="button" >cancel</button>
+        </div>
+    </div>
+    <!-- 備註 -->
+    <div class="w3-row">
+        <div class="w3-col s12">
+            <span class="fa fa-info-circle hit"> msg.require</span>
+            <span class="fa fa-info-circle hit notDealer"> open.store.err</span>
+        </div>
+    </div>
+        
+    <!-- 客戶評價 -->
+    <div class="w3-row">
+        <div class="w3-col s12 m4">
+            <label><i class="fa fa-star"></i>&nbsp;cus.rate：</label>
+            &nbsp;<label>pos.rate</label>&nbsp;
+            <span id="prate" >&nbsp;</span>
+            ，&nbsp;<label>nag.rate</label>&nbsp;
+            <span id="nrate" >&nbsp;</span>
+        </div>
+        <div class="w3-col s12 m4">
+            <label><i class="fa fa-star"></i>&nbsp;fav.store.count：</label>
+            &nbsp;<span id="favCount" >&nbsp;</span>
+        </div>
+        <div class="w3-col s12 m4">
+            <label><i class="fa fa-star"></i>&nbsp;fav.prd.count：</label>
+            &nbsp;<span id="favPrdCount" >&nbsp;</span>
+        </div>
+    </div>
+</fieldset>
+    
+<!--  新版 (挑選的方式) -->
+<div class="w3-row" id="divPickList" >
+    <div class="w3-col s12 m4 notDealer" >
+        <!-- 配送方式 -->
+        <div id="plShipping" title="shipping.method"  >
+            <label class="ui-widget fieldname">shipping.method.sel：</label>
+            <button id="btEditShipping" type="button" class="seller">edit</button>
+            <div id="shippings" class="fieldvalue" ></div>
+            <div id="editShippings" >
+                <hr/>
+                <div id="pklShipping">
+                    <select name="source"></select>
+                    <select name="target"></select>
+                </div>
+                <hr/>
+                <div class="w3-center">
+                    <button id="saveShipping" type="button" >shipping.save</button>
+                    <button id="closeShipping" type="button" >cancel.close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="w3-col s12 m4 notDealer" >
+        <!-- 付款方式 -->
+        <div id="plPayment" title="pay.method"  >
+            <label class="ui-widget fieldname">pay.method.sel：</label>
+            <button id="btEditPayment" type="button" class="seller">edit</button>
+            <div id="payments" class="fieldvalue" ></div>
+            <div id="editPayments" >
+                <hr/>
+                <div id="pklPayment">
+                    <select name="source"></select>
+                    <select name="target"></select>
+                </div>
+                <hr/>
+                <div class="w3-center">
+                    <button id="savePayment" type="button" >pay.save</button>
+                    <button id="closePayment" type="button" >cancel.close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="w3-col s12 m4 notDealer" >
+        <!-- 銷售區域 -->
+        <div id="plStoreArea" title="store.sale.area"  >
+            <label class="ui-widget fieldname">store.sale.area.sel：</label>
+            <button id="btEditStoreArea" type="button" class="seller">edit</button>
+            <div id="storeAreas" class="fieldvalue" ></div>
+            <div id="editStoreAreas" >
+                <hr/>
+                <div id="pklStoreArea">
+                    <select name="source"></select>
+                    <select name="target"></select>
+                </div>
+                <hr/>
+                <div class="w3-center">
+                    <button id="saveStoreArea" type="button" >sales.area.save</button>
+                    <button id="closeStoreArea" type="button" >cancel.close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<!-- 商店圖示 -->
+<fieldset id="fsPicture" >
+    <legend>store.pic</legend>
+    <form name="fmUploadPic" id="fmUploadPic" action="/" method="POST" enctype="multipart/form-data">
+        <div class="w3-row" >
+            <div class="w3-col s12 m6" >
+                <div style="padding:5px;margin:2px;border:#31b0d5 dotted thin;height:max-content;" >
+                    <div class="admin">
+                        <i class="fa fa-picture-o"></i><span>logo.pic</span>
+                    </div>
+                    <div id="divLogoOption" class="seller">
+                        <label class="w3-btn w3-teal">
+                            <input name="fiLogo" id="fiLogo" style="display:none;" type="file">
+                            <i class="fa fa-photo"></i> sel.logo.pic
+                        </label>
+                        &nbsp;
+                        <span id="btnLogo" style="max-width:20px;overflow-x:auto;" ></span>
+                        &nbsp;
+                        <button id="btnUploadLogo" type="button" class="w3-btn w3-blue" >imp.upload</button>
+                        &nbsp;
+                        <button id="btnCancelLogo" type="button" class="w3-btn w3-blue-grey" >cancel</button>
+                    </div>
+                    <div style="text-align: center; vertical-align: middle; padding: 5px;">
+                        <span id="logoImg" ></span>
+                        <br/><span id="selLogo" ></span>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-col s12 m6">
+                <div style="padding:5px;margin:2px;border:#31b0d5 dotted thin;" >
+                    <div class="admin">
+                        <i class="fa fa-picture-o"></i><span>banner.pic</span>
+                    </div>
+                    <div id="divBannerOption" class="seller">
+                        <label class="w3-btn w3-teal">
+                            <input name="fiBanner" id="fiBanner" style="display:none;" type="file">
+                            <i class="fa fa-photo"></i> sel.banner.pic
+                        </label>
+                        &nbsp;
+                        <span id="btnBanner" ></span>
+                        &nbsp;
+                        <button id="btnUploadBanner" type="button" class="w3-btn w3-blue-grey" >imp.upload</button>
+                        &nbsp;
+                        <button id="btnCancelBanner" type="button" class="w3-btn w3-grey" >cancel</button>
+                    </div>
+                    <div style="text-align: center; vertical-align: middle; padding: 5px;">
+                        <span id="bannerImg" ></span>
+                        <br/><span id="selBanner" ></span>
+                    </div>
+                </div>    
+            </div>
+        </div>    
+    </form>
+</fieldset>
+    
+<!--  舊版 (自行輸入，暫時隱藏 -->
+<div class="w3-row" style="display:none;" >
+    <!-- 付款方式 -->
+    <div class="w3-col s12 m6 l4" >
+        <div id="plPayment2" title="pay.method"  >
+            <form id="editPaymentForm" >  
+                <div class="w3-row seller">
+                    <div class="w3-col s12 m12">
+                        <label class="fieldname" >cname：</label>
+                        <input id="titlePayment" name="title" type="text" is="p-inputtext" size="15" />
+                        <button id="confirmPayment" type="button" >action.confirm</button>
+                    </div>
+                </div>
+                <div id="existedPayments" class="w3-responsive" ></div>
+                <hr/>
+                <div class="w3-row seller">
+                    <div class="w3-col s12" >
+                        <button id="savePayment" type="button">save</button>
+                        &nbsp;&nbsp;
+                        <button id="cancelPayment" type="button">cancel</button>
+                        <br/>
+                        <label class="ui-widge"><i class="fa fa-info-circle"></i> remove.recovery</label>
+                    </div>
+                </div>                        
+            </form>
+        </div>
+    </div>
+        
+    <!-- 運貨方式 -->
+    <div class="w3-col s12 m6" >
+        <div id="plShipping2" title="shipping.method"  >
+            <form id="editShippingForm" >  
+                <div class="w3-row seller">
+                    <div class="w3-col s12 m12">
+                        <label class="fieldname required" >cname：</label>
+                        <input id="titleShipping" name="title" type="text" is="p-inputtext" size="15" required />
+                        <button id="confirmShipping" type="button" >action.confirm</button>
+                    </div>
+                </div>
+                <div id="existedShippings" class="w3-responsive" ></div>
+                <hr/>
+                <div class="w3-row seller">
+                    <div class="w3-col s12" >
+                        <button id="saveShipping" type="button">save</button>
+                        &nbsp;&nbsp;
+                        <button id="cancelShipping" type="button">cancel</button>
+                        <br/>
+                        <label class="ui-widge"><i class="fa fa-info-circle"></i> remove.recovery</label>
+                    </div>
+                </div>                        
+            </form>
+        </div>
+    </div>
+</div>
+    
+<div class="w3-row" >
+    <!-- 商品品牌 -->
+    <div class="w3-col s12 m6 l4 notDealer" >
+        <div id="plBrand" title="prd.brand"  >
+            <form id="editBrandForm" >  
+                <div class="w3-row seller">
+                    <div class="w3-col s12 m12">
+                        <label class="fieldname required" >cname：</label>
+                        <input id="titleBrand" name="cname" type="text" is="p-inputtext" size="15" required/>
+                        <button id="confirmBrand" type="button" >action.confirm</button>
+                    </div>
+                </div>
+                <div id="existedBrands" class="w3-responsive" ></div>
+                <hr/>
+                <div class="w3-row seller">
+                    <div class="w3-col s12" >
+                        <button id="saveBrand" type="button">save</button>
+                        &nbsp;&nbsp;
+                        <button id="cancelBrand" type="button">cancel</button>
+                        <br/>
+                        <label class="ui-widge"><i class="fa fa-info-circle"></i> remove.recovery</label>
+                    </div>
+                </div>                        
+            </form>
+        </div>
+    </div>
+    <!-- 商品計量單位 -->
+    <div class="w3-col s12 m6 l4 notDealer" >
+        <div id="plPrdUnit" title="prd.pricing.unit" >
+            <form id="editPrdUnitForm" >  
+                <div class="w3-row seller">
+                    <div class="w3-col s12 m12">
+                        <label class="fieldname required" >cname：</label>
+                        <input id="titlePrdUnit" name="cname" type="text" is="p-inputtext" size="15" required/>
+                        <button id="confirmPrdUnit" type="button" >action.confirm</button>
+                    </div>
+                </div>
+                <div id="existedPrdUnits" class="w3-responsive" ></div>
+                <hr/>
+                <div class="w3-row seller">
+                    <div class="w3-col s12" >
+                        <button id="savePrdUnit" type="button">save</button>
+                        &nbsp;&nbsp;
+                        <button id="cancelPrdUnit" type="button">cancel</button>
+                        <br/>
+                        <label class="ui-widge"><i class="fa fa-info-circle"></i> remove.recovery</label>
+                    </div>
+                </div>                        
+            </form>
+        </div>
+    </div>
+
+    <!-- 客戶等級分類 -->
+    <div class="w3-col s12 m6 l4 notDealer" >
+        <div id="plCusLevel" title="level.type" >
+            <form id="editCusLevelForm" >  
+                <div class="w3-row seller">
+                    <div class="w3-col s12 m12">
+                        <label class="fieldname required" >cname：</label>
+                        <input id="titleCusLevel" name="cname" type="text" is="p-inputtext" size="15" required/>
+                        <button id="confirmCusLevel" type="button" >action.confirm</button>
+                    </div>
+                </div>
+                <div id="existedCusLevels" class="w3-responsive" ></div>
+                <hr/>
+                <div class="w3-row seller">
+                    <div class="w3-col s12" >
+                        <button id="saveCusLevel" type="button">save</button>
+                        &nbsp;&nbsp;
+                        <button id="cancelCusLevel" type="button">cancel</button>
+                        <br/>
+                        <label class="ui-widge"><i class="fa fa-info-circle"></i> remove.recovery</label>
+                    </div>
+                </div>                        
+            </form>
+        </div>
+    </div>
+        
+    <!-- 客戶意見類別 - for EC_CUS_FEEDBACK 目前無用
+    <div class="w3-col s12 m6 l4" >
+        <div id="plFeedback" title="cus.feedback.type"  >
+            <form id="editFeedbackForm" >  
+                <div class="w3-row seller">
+                    <div class="w3-col s12 m12">
+                        <label class="fieldname required" >cname：</label>
+                        <input id="titleFeedback" name="cname" type="text" is="p-inputtext" size="15" required/>
+                        <button id="confirmFeedback" type="button" >action.confirm</button>
+                    </div>
+                </div>
+                <div id="existedFeedbacks" class="w3-responsive" ></div>
+                <hr/>
+                <div class="w3-row seller">
+                    <div class="w3-col s12" >
+                        <button id="saveFeedback" type="button">save</button>
+                        &nbsp;&nbsp;
+                        <button id="cancelFeedback" type="button">cancel</button>
+                        <br/>
+                        <label class="ui-widge"><i class="fa fa-info-circle"></i> remove.recovery</label>
+                    </div>
+                </div>                        
+            </form>
+        </div>
+    </div>
+    -->
+</div>
+
+<div class="w3-row" >
+    <fieldset id="fsManager" >
+        <legend>manager.list</legend>
+        <div id="searchManagerResultMsg" ></div>
+        <div id="tbManagerLazy"></div>
+    </fieldset>
+</div>
+
+<!-- 新增商店 -->
+<div id="dlgAddStore" title="add.new.store" class="il8n-title" style="display: none;">
+    <div id="divAddStore" >
+        <form id="fmAddStore" name="fmStore" >
+            <div class="w3-row">
+                <div class="w3-col s12">
+                    <label class="ui-widget">fd.storeName：</label>
+                    <input id="cnameN" name="cnameN" type="text" is="p-inputtext" 
+                           maxlength="30" required value="" size="30"/>
+                </div>
+            </div>
+            <!-- 備註 -->
+            <div class="w3-row">
+                <div class="w3-col s12">
+                    <span class="fa fa-info-circle hit"> new.store.msg1</span>
+                    <span class="fa fa-info-circle hit"> new.store.msg2</span>
+                </div>
+            </div>    
+            <div id="msgAddStore" ></div>
+        </form>
+    </div>
+</div>

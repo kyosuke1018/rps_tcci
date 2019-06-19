@@ -1,0 +1,31 @@
+.ie-only {
+    display: block
+}
+.no-ie {
+    display: none;
+}
+
+.startOverlay {
+    /* Height & width depends on how you want to reveal the overlay (see JS below) */    
+    height: 100%;
+    width: 100%;
+    position: fixed; /* Stay in place */
+    z-index: 9999; /* Sit on top */
+    left: 0;
+    top: 0;
+    background-color: rgb(120,167,191); /* Black fallback color */
+    background-color: rgba(120,167,191, 0.85); /* Black w/opacity */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    -webkit-transform: 0.5s; /* Safari */
+    transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+.overlay-text {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 80%;
+    font-size: 30px;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}

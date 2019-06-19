@@ -1,0 +1,329 @@
+{
+  "list": [
+    {
+      "id": 632910392,
+      "cname": "IPod Nano - 8GB",
+      "code": "P0000000002",
+      "body_html": "X <p>It's the small iPod with one very big idea: Video. Now the world's most popular music player, available in 4GB and 8GB models, lets you enjoy TV shows, movies, video podcasts, and more. The larger, brighter display means amazing picture quality. In six eye-catching colors, iPod nano is stunning all around. And with models starting at just $149, little speaks volumes.</p>",
+      "vendorName": "Apple",
+      "brand": "X Apple",
+      "typeName": "Cult Products",
+      "createTime": "2018-05-07T15:33:38-04:00",
+      "handle": "X ipod-nano",
+      "updatedTime": "2018-05-07T15:33:38-04:00",
+      "publishedTime": "2007-12-31T19:00:00-05:00",
+      "tags": "Emotive, Flash Memory, MP3, Music",
+      "publishScope": "W",
+      "price": 199,
+      "compareAtPrice": 220,
+      "weight": 1.25,
+      "weightUnit": "1",
+      "weightUnitName": "英磅",
+      "introductions": [
+        "彈性軟管增加沖洗範圍",
+        "安裝簡便",
+        "輕巧不笨重",
+        "兩種出水模式",
+        "廚房衛浴多種場合可用"
+      ],
+      "events": [
+        {
+          "value": 1,
+          "label": "現折活動5/20前衛浴設備結帳85折up"
+        }
+      ],
+      "shippings": [
+        {
+          "value": 1,
+          "label": "宅配"
+        },
+        {
+          "value": 2,
+          "label": "超商取貨"
+        }
+      ],
+      "payments": [
+        {
+          "value": 1,
+          "label": "Web-ATM"
+        },
+        {
+          "value": 2,
+          "label": "ATM"
+        },
+        {
+          "value": 3,
+          "label": "信用卡"
+        }
+      ],
+      "details": [
+        {
+          "id": 1,
+          "section": 1,
+          "type": "T",
+          "content": "方便實用安裝簡易,適合廚房衛浴等多種場合\n兩種出水模式,為拉開前為起泡模式,拉開後轉為花灑模式\n延長型蛇管設計,富有彈性及柔軟度,可加大沖洗範圍更加方便",
+          "style": null
+        },
+        {
+          "id": 2,
+          "section": 2,
+          "type": "I",
+          "content": "https://img.udn.com/image/product/S0000268/20171128154816075.jpg",
+          "title": "20171128154816075",
+          "style": null
+        },
+        {
+          "id": 3,
+          "section": 3,
+          "type": "I",
+          "content": "https://img.udn.com/image/product/S0000268/20171128154822258.jpg",
+          "title": "20171128154822258",
+          "style": null
+        },
+        {
+          "id": 4,
+          "section": 4,
+          "type": "I",
+          "content": "https://img.udn.com/image/product/S0000268/20171128154827832.jpg",
+          "title": "20171128154827832",
+          "style": null
+        },
+        {
+          "id": 5,
+          "section": 5,
+          "type": "I",
+          "content": "https://img.udn.com/image/product/S0000268/20171128154834044.jpg",
+          "title": "20171128154834044",
+          "style": null
+        }
+      ],
+      "attrs": [
+        {"id":1, "attrScope":"T", "attrId":1, "name": "尺寸", "value": "長 15cm，寬 3.5cm", "sortnum": 1},
+        {"id":2, "attrScope":"T", "attrId":2, "name": "重量", "value": "約38g", "sortnum": 1},
+        {"id":3, "attrScope":"T", "attrId":3, "name": "材質", "value": "ABS+201/304不鏽鋼、塑料(表層鍍鉻)", "sortnum": 1},
+        {"id":4, "attrScope":"T", "attrId":4, "name": "特色", "value": "可延長沖洗範圍", "sortnum": 1},
+        {"id":5, "attrScope":"P", "attrId":9, "name": "使用範圍", "value": "廚房/衛浴皆可使用", "sortnum": 1}
+      ],
+      "variants": [
+        {
+          "id": 808950810,
+          "product_id": 632910392,
+          "title": "Pink",
+          "price": "199.00",
+          "sku": "IPOD2008PINK",
+          "position": 1,
+          "inventory_policy": "continue",
+          "compare_at_price": null,
+          "fulfillment_service": "manual",
+          "inventory_management": "shopify",
+          "option1": "Pink",
+          "option2": null,
+          "option3": null,
+          "created_at": "2018-05-07T15:33:38-04:00",
+          "updated_at": "2018-05-07T15:33:38-04:00",
+          "taxable": true,
+          "barcode": "1234_pink",
+          "grams": 567,
+          "image_id": 562641783,
+          "inventory_quantity": 10,
+          "weight": 1.25,
+          "weight_unit": "lb",
+          "inventory_item_id": 808950810,
+          "old_inventory_quantity": 10,
+          "requires_shipping": true
+        },
+        {
+          "id": 49148385,
+          "product_id": 632910392,
+          "title": "Red",
+          "price": "199.00",
+          "sku": "IPOD2008RED",
+          "position": 2,
+          "inventory_policy": "continue",
+          "compare_at_price": null,
+          "fulfillment_service": "manual",
+          "inventory_management": "shopify",
+          "option1": "Red",
+          "option2": null,
+          "option3": null,
+          "created_at": "2018-05-07T15:33:38-04:00",
+          "updated_at": "2018-05-07T15:33:38-04:00",
+          "taxable": true,
+          "barcode": "1234_red",
+          "grams": 567,
+          "image_id": null,
+          "inventory_quantity": 20,
+          "weight": 1.25,
+          "weight_unit": "lb",
+          "inventory_item_id": 49148385,
+          "old_inventory_quantity": 20,
+          "requires_shipping": true
+        },
+        {
+          "id": 39072856,
+          "product_id": 632910392,
+          "title": "Green",
+          "price": "199.00",
+          "sku": "IPOD2008GREEN",
+          "position": 3,
+          "inventory_policy": "continue",
+          "compare_at_price": null,
+          "fulfillment_service": "manual",
+          "inventory_management": "shopify",
+          "option1": "Green",
+          "option2": null,
+          "option3": null,
+          "created_at": "2018-05-07T15:33:38-04:00",
+          "updated_at": "2018-05-07T15:33:38-04:00",
+          "taxable": true,
+          "barcode": "1234_green",
+          "grams": 567,
+          "image_id": null,
+          "inventory_quantity": 30,
+          "weight": 1.25,
+          "weight_unit": "lb",
+          "inventory_item_id": 39072856,
+          "old_inventory_quantity": 30,
+          "requires_shipping": true
+        },
+        {
+          "id": 457924702,
+          "product_id": 632910392,
+          "title": "Black",
+          "price": "199.00",
+          "sku": "IPOD2008BLACK",
+          "position": 4,
+          "inventory_policy": "continue",
+          "compare_at_price": null,
+          "fulfillment_service": "manual",
+          "inventory_management": "shopify",
+          "option1": "Black",
+          "option2": null,
+          "option3": null,
+          "created_at": "2018-05-07T15:33:38-04:00",
+          "updated_at": "2018-05-07T15:33:38-04:00",
+          "taxable": true,
+          "barcode": "1234_black",
+          "grams": 567,
+          "image_id": null,
+          "inventory_quantity": 40,
+          "weight": 1.25,
+          "weight_unit": "lb",
+          "inventory_item_id": 457924702,
+          "old_inventory_quantity": 40,
+          "requires_shipping": true
+        }
+      ],
+      "options": [
+        {
+          "id": 594680422,
+          "product_id": 632910392,
+          "name": "Color",
+          "position": 1,
+          "values": [
+            "Pink",
+            "Red",
+            "Green",
+            "Black"
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": 850703190,
+          "product_id": 632910392,
+          "position": 1,
+          "created_at": "2018-05-07T15:33:38-04:00",
+          "updated_at": "2018-05-07T15:33:38-04:00",
+          "alt": null,
+          "width": 123,
+          "height": 456,
+          "src": "https://cdn.shopify.com/s/files/1/0006/9093/3842/products/ipod-nano.png?v=1525721618",
+          "variant_ids": []
+        },
+        {
+          "id": 562641783,
+          "product_id": 632910392,
+          "position": 2,
+          "created_at": "2018-05-07T15:33:38-04:00",
+          "updated_at": "2018-05-07T15:33:38-04:00",
+          "alt": null,
+          "width": 123,
+          "height": 456,
+          "src": "https://cdn.shopify.com/s/files/1/0006/9093/3842/products/ipod-nano-2.png?v=1525721618",
+          "variant_ids": [
+            808950810
+          ]
+        }
+      ],
+      "image": {
+        "id": 850703190,
+        "product_id": 632910392,
+        "position": 1,
+        "created_at": "2018-05-07T15:33:38-04:00",
+        "updated_at": "2018-05-07T15:33:38-04:00",
+        "alt": null,
+        "width": 123,
+        "height": 456,
+        "src": "https://cdn.shopify.com/s/files/1/0006/9093/3842/products/ipod-nano.png?v=1525721618",
+        "variant_ids": []
+      }
+    },
+    {
+      "id": 921728736,
+      "cname": "IPod Touch 8GB",
+      "body_html": "<p>The iPod Touch has the iPhone's multi-touch interface, with a physical home button off the touch screen. The home screen has a list of buttons for the available applications.</p>",
+      "vendorName": "Apple",
+      "typeName": "Cult Products",
+      "createTime": "2018-05-07T15:33:38-04:00",
+      "handle": "ipod-touch",
+      "updated_at": "2018-05-07T15:33:38-04:00",
+      "published_at": "2008-09-25T20:00:00-04:00",
+      "template_suffix": null,
+      "tags": "",
+      "published_scope": "web",
+      "variants": [
+        {
+          "id": 447654529,
+          "product_id": 921728736,
+          "title": "Black",
+          "price": "199.00",
+          "sku": "IPOD2009BLACK",
+          "position": 1,
+          "inventory_policy": "continue",
+          "compare_at_price": null,
+          "fulfillment_service": "manual",
+          "inventory_management": "shopify",
+          "option1": "Black",
+          "option2": null,
+          "option3": null,
+          "created_at": "2018-05-07T15:33:38-04:00",
+          "updated_at": "2018-05-07T15:33:38-04:00",
+          "taxable": true,
+          "barcode": "1234_black",
+          "grams": 567,
+          "image_id": null,
+          "inventory_quantity": 13,
+          "weight": 1.25,
+          "weight_unit": "lb",
+          "inventory_item_id": 447654529,
+          "old_inventory_quantity": 13,
+          "requires_shipping": true
+        }
+      ],
+      "options": [
+        {
+          "id": 891236591,
+          "product_id": 921728736,
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Black"
+          ]
+        }
+      ],
+      "images": [],
+      "image": null
+    }
+  ]
+}

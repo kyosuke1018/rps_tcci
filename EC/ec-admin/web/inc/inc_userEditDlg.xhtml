@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!-- Document View & Edit Dialog -->
+    <h:form id="editForm" >
+        <!-- 跳出視窗 : 編輯視窗 -->
+        <p:dialog header="編輯視窗" id="dlgEdit" widgetVar="wvDlgEdit" resizable="true"
+                  responsive="true" 
+                  modal="true" draggable="true" showEffect="clip" hideEffect="clip" >
+                <p:panelGrid columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" >
+                    <h:panelGroup>
+                        <p:panelGrid columns="3" >
+                            <p:outputLabel value="權限：" for="itAccount" />
+                            <h:panelGroup >
+                                <p:selectCheckboxMenu label="選取系統角色" id="smmGroups" value="#{usersController.selectedGroups}" 
+                                                      filter="true" filterMatchMode="contains" panelStyle="width:480px" scrollHeight="400">
+                                    <f:selectItems value="#{usersController.tcGroupList}" var="item"   
+                                                   itemLabel="#{item.name}：#{item.code}" itemValue="#{item.id.toString()}" />
+                                    <p:ajax event="change" update=":editForm:pgSelectedGroups" listener="#{usersController.selectGroup()}" />
+                                    <p:ajax event="toggleSelect" update=":editForm:pgSelectedGroups" listener="#{usersController.selectGroup()}"  />
+                                </p:selectCheckboxMenu>
+                            </h:panelGroup>
+                            <p:spacer width="2" />
+                            
+                            <p:outputLabel value="帳號：" for="itAccount" />
+                            <p:inputText id="itAccount" value="#{usersController.editUserVO.loginAccount}" maxlength="30" size="15" 
+                                         required="true" requiredMessage="帳號必填" />
+                            <p:watermark value="請輸入帳號" for="itAccount" />
+  
+                            <p:outputLabel value="姓名：" for="itName" />
+                            <p:inputText id="itName" value="#{usersController.editUserVO.cname}" maxlength="32" size="15" 
+                                         required="true" requiredMessage="姓名必填" />
+                            <p:watermark value="請輸入姓名" for="itName" />
+
+                            <p:outputLabel value="員工編號：" for="itEmpId" />
+                            <p:inputText id="itEmpId" value="#{usersController.editUserVO.empId}" maxlength="10" size="15" />
+                            <p:watermark value="請輸入員工編號" for="itEmpId" />
+
+                            <p:outputLabel value="Email：" for="itEmail" />
+                            <p:inputText id="itEmail" value="#{usersController.editUserVO.email}" maxlength="32" size="20" 
+                                         required="true" requiredMessage="Email必填" />
+                            <p:watermark value="請輸入Email" for="itEmail" />
+
+                            <p:selectBooleanCheckbox value="#{usersController.editUserVO.enabled}" itemLabel="有效" style="min-width: 80px;" /><!-- 有效 --> 
+                            <p:selectBooleanCheckbox value="#{usersController.editUserVO.sendEmail}" itemLabel="是否發送通知信" /><!-- 是否發送通知信 --> 
+                            <p:spacer width="1"/><p:spacer width="1"/>
+                        </p:panelGrid>
+                        <h:panelGroup >
+                            <br/>
+                            <br/>
+                            <h:outputText value="＊預設為廠端使用者(PLANT_USER)。" styleClass="info" rendered="#{usersController.editUserVO.id==0}" />
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="pgSelectedGroups" >
+                        <h:outputText value="已選取角色群組：" /><br/>
+                        <p:scrollPanel style="width:250px;height:300px" mode="native" >
+                            <ui:repeat value="#{usersController.selectedGroupList}" var="item" >
+                                <h:graphicImage library="images" name="1rightarrow.png" styleClass="icons" />
+                                <h:outputText value="#{item.name}" />：<h:outputText value="#{item.code}" /><br/>
+                            </ui:repeat>
+                        </p:scrollPanel>
+                    </h:panelGroup>                        
+                </p:panelGrid>
+
+                <p:separator /> 
+                    
+                <!-- 所屬組織 -->
+                <p:panelGrid columns="1" style="margin-left: 20px" >
+                    <h:panelGroup >
+                        <p:outputLabel value="所屬組織：" for="somOrg" />
+                        <p:selectOneMenu id="somOrg" value="#{usersController.editUsers.orgId}"
+                                         filter="true" filterMatchMode="contains" >
+                            <f:selectItems value="#{ui.userOrgOptions}"/>
+                            <p:ajax listener="#{usersController.changeUserOrg}"/>
+                        </p:selectOneMenu>
+                    </h:panelGroup>
+                    <h:panelGroup >
+                        <h:graphicImage library="images" name="info.png" styleClass="icons" />
+                        <p:outputLabel value="人員所屬組織資訊，每日會透過 ETL 自動自 WebCS 取得最新資訊，可不用填寫。" styleClass="info" />
+                    </h:panelGroup>
+                </p:panelGrid>
+
+            <p:separator />
+                
+            <p:panelGrid columns="1" style="width:100%; text-align: center" >
+                <h:panelGroup style="text-align: left" >
+                    <p:messages id="messagesSave" showDetail="false" />
+                    <p:autoUpdate />
+                </h:panelGroup>
+                <h:panelGroup id="pgEditSubmit" style="width:100%; text-align: center" >
+                    <p:commandButton id="cbSave"
+                                     icon="ui-icon-disk"
+                                     value="儲存"
+                                     actionListener="#{usersController.save()}" 
+                                     update=":fmMain:dtResult"
+                                     oncomplete="handleAfterSave(xhr, status, args);" />
+                    <p:spacer width="10" />
+                    <p:commandButton id="cbClose" value="關閉" onclick="closeEditDlg();" 
+                                     icon="ui-icon-circle-close"
+                                     immediate="true" />
+                </h:panelGroup>
+            </p:panelGrid>
+                
+        </p:dialog>
+    </h:form>
+        
+    <script type="text/javascript">
+        //<![CDATA[
+        function openEditDlg(){
+            PF('wvDlgEdit').show();
+        }
+        function closeEditDlg(){
+            PF('wvDlgEdit').hide();
+        }
+        function handleAfterSave(xhr, status, args) {
+            //function handleAfterSave() {    
+            if( handleCallBack(xhr, status, args) ){
+                PF('wvDlgEdit').hide();
+            }
+        }
+        //]]>
+    </script>
+</ui:composition>

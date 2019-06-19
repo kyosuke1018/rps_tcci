@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+<!-- 處理中 -->
+<p:dialog modal="true" widgetVar="statusDlgBlockUI" header="#{msg['in.process']}" draggable="false" closable="false" resizable="false">
+        <h:graphicImage library="images" name="loading9.gif" />
+        <p:spacer width="4" />
+        <!-- 檔案下載中，請稍候... -->
+        <h:outputText value="#{msg['in.download']}" style="font-size: 16px;"/>
+</p:dialog>        
+<script type="text/javascript">
+//<![CDATA[
+/**
+ * call back function
+ */
+function startBlockUI() {
+    PF('statusDlgBlockUI').show();
+}
+
+/**
+ * call back function
+ */
+function stopBlockUI() {
+    PF('statusDlgBlockUI').hide();
+}
+
+/**
+ * 提供request progess 效果
+ * public function
+ */
+function setUpBlockUI() {
+    PrimeFaces.monitorDownload(startBlockUI, stopBlockUI);
+};
+
+/**
+ * PrimeFaces.monitorDownload 無效時，自行關閉下載 Dialog
+ * @param {type} ss
+ * @returns {undefined}
+ */
+autoStopBlockUI = function(ms){
+    PrimeFaces.monitorDownload(startBlockUI, stopBlockUI);
+    setTimeout("stopBlockUI();", ms);
+};
+//]]>
+</script>    
+</ui:composition>

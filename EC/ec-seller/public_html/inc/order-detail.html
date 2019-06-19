@@ -1,0 +1,555 @@
+
+<!-- 轉單補充資訊 -->
+<div id="topOfOrderInfoEC10" />
+<fieldset id="fsOrderInfoEC10" class="dealer" ><!-- for Edit -->
+    <legend>ec10.po.info</legend>
+    <div class="w3-row" >
+        <div class="w3-col s12 m1">
+            <!-- 送達地點 -->
+            <label class="ui-widget" >ec10.deliveryPlace：</label>
+        </div>
+        <div class="w3-col s12 m2">
+            <!-- 省 -->
+            <select id="provinceEC10" name="provinceEC10" class="w3-input" >
+            </select>
+        </div>
+        <div class="w3-col s12 m3">
+            <!-- 市 -->
+            <select id="cityEC10" name="cityEC10" class="w3-input" >
+            </select>
+        </div>
+        <div class="w3-col s12 m3">
+            <!-- 區 -->
+            <select id="districtEC10" name="districtEC10" class="w3-input" >
+            </select>
+        </div>
+        <div class="w3-col s12 m3">
+            <!-- 鎮 -->
+            <select id="townEC10" name="townEC10" class="w3-input" >
+            </select>
+        </div>
+   
+        <div class="w3-col s12 m1">
+            &nbsp;
+        </div>
+        <div class="w3-col s12 m2">
+            <!-- 加入常用 -->
+            <button id="btnAddCusAddr" type="button" >add.favorites</button>
+        </div>
+        <div class="w3-col s12 m5">
+            <!-- 自常用選取 -->
+            <select id="cusAddrEC10" name="cusAddrEC10" class="w3-input" >
+            </select>
+        </div>
+    </div>
+    <div class="w3-row" >
+        <div class="w3-col s4 m1">
+            <!-- 提單日期 -->
+            <label class="ui-widget" >ec10.deliveryDate：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <select id="deliveryDateEC10" name="deliveryDateEC10" class="w3-input" >
+            </select>
+        </div>
+        <div class="w3-col s4 m1">
+            <!-- 下單客戶 -->
+            <label class="ui-widget" >ec10.customer：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <select id="customerEC10" name="customerEC10" class="w3-input" >
+            </select>
+        </div>
+    </div>
+    <div class="w3-row" >
+        <div class="w3-col s4 m1">
+            <!-- 交易類型 -->
+            <label class="ui-widget" >ec10.trantype：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <select id="tranTypeEC10" name="tranTypeEC10" class="w3-input" >
+            </select>
+        </div>
+        <div class="w3-col s4 m1 contractOnly" >
+            <!-- 合約 -->
+            <label class="ui-widget" >ec10.contractNo：</label>
+        </div>
+        <div class="w3-col s8 m3 contractOnly">
+            <select id="contractEC10" name="contractEC10" class="w3-input" >
+            </select>
+        </div>
+        <div class="w3-col s4 m1">
+            <!-- 出貨廠 -->
+            <label class="ui-widget" >ec10.plant：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <select id="plantEC10" name="plantEC10" class="w3-input" >
+            </select>
+        </div>
+    </div>
+    <div class="w3-row" >
+        <div class="w3-col s4 m1">
+            <!-- 提貨方式 -->
+            <label class="ui-widget" >ec10.shipMethod：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <select id="shipMethodEC10" name="shipMethodEC10" class="w3-input" >
+            </select>
+        </div>
+        <div class="w3-col s4 m1">
+            <!-- 業務 -->
+            <label class="ui-widget" >ec10.sales：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <select id="salesEC10" name="salesEC10" class="w3-input" >
+            </select>
+        </div>
+    </div>
+    <div class="w3-row" >
+        <div class="w3-col s12">
+            <!-- 車號(載運數量) -->
+            <label class="ui-widget" >ec10.carNo：</label>
+            &nbsp;&nbsp;
+            <!-- 新增車輛 -->
+            <button id="btnAddCarEC10" type="button" >add.car</button>
+            &nbsp;&nbsp;
+            <span id="spanTotalQuantity" class="info" ></span>
+        </div>
+        <div class="w3-col s12">
+            <div id="tbCarQuantity">
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="w3-col s12 tac" id="divBtnEC10">
+            <!-- 確定送出 -->
+            <button id="btnSendEC10" type="button" >send.confirm</button>
+            &nbsp;
+            <!-- 取消 -->
+            <button id="btnCancelEC10" type="button" >cancel</button>
+        </div>
+    </div>
+</fieldset>
+
+<!-- 執行結果 -->
+<div class="w3-col s12">
+    <div id="divResultEC10" >
+    </div>
+</div>
+
+<fieldset id="fsOrderInfoEC10View" class="dealer" ><!-- for View -->
+    <legend>ec10.po.info</legend>
+    <div class="w3-row" >
+        <div class="w3-col s12 m1">
+            <!-- 送達地點 -->
+            <label class="ui-widget" >ec10.deliveryPlace：</label>
+        </div>
+        <div class="w3-col s12 m11">
+            <span id="deliveryEC10_Lable"  class="fieldvalue"></span>
+        </div>
+    </div>
+    <div class="w3-row" >
+        <div class="w3-col s4 m1">
+            <!-- 提單日期 -->
+            <label class="ui-widget" >ec10.deliveryDate：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <span id="deliveryDateEC10_Lable"  class="fieldvalue"></span>
+        </div>
+        <div class="w3-col s4 m1">
+            <!-- 下單客戶 -->
+            <label class="ui-widget" >ec10.customer：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <span id="customerEC10_Lable"  class="fieldvalue"></span>
+        </div>
+    </div>
+    <div class="w3-row" >
+        <div class="w3-col s4 m1">
+            <!-- 交易類型 -->
+            <label class="ui-widget" >ec10.trantype：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <span id="tranTypeEC10_Lable"  class="fieldvalue"></span>
+        </div>
+        <div class="w3-col s4 m1 contractOnly" >
+            <!-- 合約 -->
+            <label class="ui-widget" >ec10.contractNo：</label>
+        </div>
+        <div class="w3-col s8 m3 contractOnly">
+            <span id="contractEC10_Lable"  class="fieldvalue"></span>
+        </div>
+        <div class="w3-col s4 m1">
+            <!-- 出貨廠 -->
+            <label class="ui-widget" >ec10.plant：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <span id="plantEC10_Lable"  class="fieldvalue"></span>
+        </div>
+    </div>
+    <div class="w3-row" >
+        <div class="w3-col s4 m1">
+            <!-- 提貨方式 -->
+            <label class="ui-widget" >ec10.shipMethod：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <span id="shipMethodEC10_Lable"  class="fieldvalue"></span>
+        </div>
+        <div class="w3-col s4 m1">
+            <!-- 業務 -->
+            <label class="ui-widget" >ec10.sales：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <span id="salesEC10_Lable"  class="fieldvalue"></span>
+        </div>
+    </div>
+    <div class="w3-row" >
+        <div class="w3-col s12">
+            <!-- 車號(載運數量) -->
+            <label class="ui-widget" >ec10.carNo：</label>
+        </div>
+        <div class="w3-col s12">
+            <div id="tbCarQuantityView">
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<!-- 訂單明細資訊 -->
+<fieldset id="fsOrderDetail" >
+    <legend>detail.info</legend>
+    
+    <div class="w3-row">
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >code：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <div class="fieldvalue" id="order_number" >&nbsp;</div>
+        </div>
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >status：</label>
+        </div>
+        <div class="w3-col s8 m7">
+            <span class="fieldvalue" id="order_status" >&nbsp;</span>
+            &nbsp;&nbsp;
+            <!-- 轉台泥訂單補充資訊 -->
+            <button id="btnEditForEC10" type="button" class="tcc">ec10.po.info</button>
+            <button id="btnViewForEC10" type="button" class="tcc">ec10.po.info</button>
+        </div>
+    </div>
+    
+    <div class="w3-row">
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >cus.account：</label>
+        </div>
+        <div class="w3-col s8 m2">
+            <div class="fieldvalue" id="order_account" >&nbsp;</div>
+        </div>
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >cus.name：</label>
+        </div>
+        <div class="w3-col s8 m2">
+            <div class="fieldvalue" id="order_cus" >&nbsp;</div>
+        </div>
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >prd.items：</label>
+        </div>
+        <div class="w3-col s8 m2">
+            <div class="fieldvalue" id="item_num" >&nbsp;</div>
+        </div>
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname approvetime" >fd.approvetime：</label>
+        </div>
+        <div class="w3-col s8 m2">
+            <span class="fieldvalue approvetime" id="order_time" >&nbsp;</span>
+        </div>
+    </div>
+    
+    <div class="w3-row">
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >compare.at.price：</label>
+        </div>
+        <div class="w3-col s8 m2">
+            <div class="fieldvalue" id="total_price" >&nbsp;</div>
+        </div>
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >shipping.price：</label>
+        </div>
+        <div class="w3-col s8 m2">
+            <div class="fieldvalue" id="total_shipping" >&nbsp;</div>
+        </div>
+        <!--
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >discount.price：</label>
+        </div>
+        <div class="w3-col s8 m2">
+            <div class="fieldvalue" id="total_discount" >&nbsp;</div>
+        </div>
+        -->
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >total.price：</label>
+        </div>
+        <div class="w3-col s8 m2">
+            <div class="fieldvalue" id="total_pay" >&nbsp;</div>
+        </div>
+    </div>
+    
+    <div class="w3-row notDealer">
+        <!-- 期望交貨日期 -->
+        <div class="w3-col s4 m2 l2">
+            <label class="ui-widget" >expected.delivery.date：</label>
+        </div>
+        <div class="w3-col s8 m4 l4">
+            <div id="order_delivery_date" class="fieldvalue" ></div>
+        </div>
+        <!-- 特殊需求 -->
+        <div class="w3-col s12 m2 l1">
+            <label class="ui-widget" >special.requirements：</label>
+        </div>
+        <div class="w3-col s12 m4 l5">
+            <div id="order_message" class="fieldvalue" ></div>
+        </div>
+    </div>
+    
+    <div class="w3-row notDealer" >
+        <div class="w3-col s3 m1">
+            <label class="ui-widget" >buyer.rate：</label>
+        </div>
+        <div class="w3-col s9 m3">
+            <div id="customerRate" class="fieldvalue" ></div>
+        </div>
+        <div class="w3-col s3 m1">
+            <label class="ui-widget" >buyer.comment：</label>
+        </div>
+        <div class="w3-col s9 m7">
+            <div id="customerMessage" style="width:100%;max-height:120px;overflow:auto;"></div>
+        </div>
+    </div>
+    
+    <div class="w3-row notDealer">
+        <div class="w3-col s3 m1">
+            <label class="ui-widget" >seller.rate：</label>
+        </div>
+        <div class="w3-col s9 m3">
+            <div id="sellerRate" ></div>
+            <!-- 送出評價與意見 -->
+            <button id="sendSellerRate" type="button" style="min-width:120px;" >send.rate</button>
+        </div>
+        <div class="w3-col s3 m1">
+            <label class="ui-widget" >seller.comment：</label>
+        </div>
+        <div class="w3-col s9 m7">
+            <textarea id="sellerMessage" name="sellerMessage" rows="3" style="width:95%;"></textarea>
+        </div>
+    </div>
+    
+    
+    <!-- 商品清單 -->
+    <div id="plOrderItems" title="prd.invetory" >
+        <div class="tar">
+            <!-- 確定量、價修改 -->
+            <button id="btnConfirmPoChange" type="button" >po.change.confirm</button>
+            <!-- 確認訂單 -->
+            <button id="btnPoConfirm" type="button" >po.confirm</button>
+            <!-- 回絕訂單 -->
+            <button id="btnPoReject" type="button">po.reject</button>
+            <!-- 取消訂單 -->
+            <button id="btnPoCancel" type="button" >po.cancel</button>
+            <!-- 付款確認 -->
+            <button id="btnPayConfirm" type="button" >pay.confirm</button>
+            <!-- 確認出貨 -->
+            <button id="btnShipConfirm" type="button" >ship.confirm</button>
+            <!-- 訂單結案 -->
+            <button id="btnPoClose" type="button" >po.close</button>
+        </div>
+        <div id="plSearchResultMsg" ></div>
+        <div id="tbOrderItems" class="ui-datatable-hor-scroll" ></div>
+    </div>
+    
+    <!-- 運送資訊 -->
+    <div id="plOrderShipping" title="shipping.info" >
+        <div class="w3-row" >
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >shipping.method：</label>
+            </div>
+            <div class="w3-col s8 m2">
+                <div id="shipping_method" class="fieldvalue" ></div>
+            </div>
+            <!-- 物流編號
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >shipping.no：</label>
+            </div>
+            <div class="w3-col s8 m2">
+                <div id="shipping_code" class="fieldvalue" ></div>
+            </div>
+            -->
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >contact1：</label>
+            </div>
+            <div class="w3-col s8 m2">
+                <div id="shipping_contact1" class="fieldvalue" ></div>
+            </div>
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >tel1：</label>
+            </div>
+            <div class="w3-col s8 m2">
+                <div id="shipping_phone1" class="fieldvalue" ></div>
+            </div>
+            <div class="w3-col s4 m1 notDealer">
+                <label class="ui-widget" >driver.name：</label>
+            </div>
+            <div class="w3-col s8 m3 notDealer">
+                <div id="driver" class="fieldvalue" ></div>
+            </div>
+        </div>
+        <div class="w3-row" >    
+            <div class="w3-col s4 m2 l1">
+                <!-- 送達地點 -->
+                <label class="ui-widget" >ec10.deliveryPlace：</label>
+            </div>
+            <div class="w3-col s8 m4 l5">
+                <div id="deliveryPlace" class="fieldvalue tccDealer" ></div>
+            </div>
+            <div class="w3-col s4 m2 l1">
+                <label class="ui-widget" >detail.addr：</label>
+            </div>
+            <div class="w3-col s8 m4 l5">
+                <div id="shipping_addr" class="fieldvalue" ></div>
+            </div>
+        </div>
+        <div class="w3-row" >
+            <!-- 車號 -->
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >car.no：</label>
+            </div>
+            <!-- for 檢視 -->
+            <div class="w3-col s8 m11" id="carNoView">
+                <span id="carNo" class="fieldvalue" ></span>
+                &nbsp;
+                <!-- 編輯 -->
+                <button id="btnCarNoEdit" type="button" >edit</button>
+            </div>
+            
+            <!-- for 編輯 -->
+            <div id="carNoForm" class="s12 m11 carNoEdit" ></div>
+        </div>
+        <div class="w3-row carNoEdit" >
+            <div class="w3-col s12 m6 tac" >
+                <!-- 新增 -->
+                <button id="btnCarNoAdd" type="button" >add</button>
+                <!-- 儲存 -->
+                <button id="btnCarNoSave" type="button" >save</button>
+                <!-- 取消 -->
+                <button id="btnCarNoCancel" type="button" >cancel</button>
+            </div>
+            <div class="w3-col s12 m6" >
+                <select id="selFavCarNoAdd" name="selFavCarNoAdd" class="w3-input" style="width:180px;" >
+                </select>
+            </div>
+        </div>    
+    </div>
+    <!-- 付款資訊 -->
+    <div id="plOrderPayment" title="pay.info" class="notDealer" >  
+        <div class="w3-row" >
+            <div class="w3-col s4 m2 l1">
+                <label class="ui-widget" >pay.method：</label>
+            </div>
+            <div class="w3-col s8 m4 l5">
+                <div id="payType" class="fieldvalue" ></div>
+            </div>
+            <div class="w3-col s4 m2 l1">
+                <label class="ui-widget" >payment：</label>
+            </div>
+            <div class="w3-col s8 m4 l5">
+                <div id="gateway" class="fieldvalue" ></div>
+            </div>
+        </div>
+        <div class="w3-row" >
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >invoice：</label>
+            </div>
+            <div class="w3-col s8 m3">
+                <div id="invoice" class="fieldvalue" ></div>
+            </div>
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >com.id：</label>
+            </div>
+            <div class="w3-col s8 m3">
+                <div id="invoice_no" class="fieldvalue" ></div>
+            </div>
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >cname：</label>
+            </div>
+            <div class="w3-col s8 m3">
+                <div id="invoice_name" class="fieldvalue" ></div>
+            </div>
+        </div>
+        <div class="w3-row" >    
+            <div class="w3-col s4 m2 l1">
+                <label class="ui-widget" >invoice.addr：</label>
+            </div>
+            <div class="w3-col s8 m10 l11">
+                <div id="invoice_addr" class="fieldvalue" ></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 洽談訊息 -->
+    <div id="plRfqMessage" title="rfq.message" class="w3-responsive" >
+        <form id="editMessageForm" >
+            <input type="hidden" id="uuid" name="uuid" value="" />
+            
+            <div class="w3-row">
+                <div class="w3-col s12">
+                    <label class="ui-widget" style="vertical-align:top;" >message.content：</label>
+                    <textarea id="message" name="message" rows="3" style="width:90%;"></textarea>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col s12">
+                    <button id="saveMessage" type="button" >send</button>
+                    &nbsp;
+                    <button id="cancelMessage" type="button">cancel</button>
+                </div>
+            </div>
+        </form>
+        
+        <div id="existedMessages" ></div>
+    </div>
+    
+    <!-- 處理記錄 -->
+    <div id="plOrderProcess" title="process.records" class="w3-responsive notDealer" >
+        
+        <form id="editRecordForm" >
+            <input type="hidden" id="uuid" name="uuid" value="" />
+            
+            <div class="w3-row">
+                <div class="w3-col s12 m4">
+                    <label class="ui-widget" >process.time：</label>
+                    <!--
+                    <input id="processTime" name="processTime" type="text" is="p-inputtext" />
+                    -->
+                    <input id="processTime" name="processTime" type="text" data-field="datetime" readonly 
+                           is="p-inputtext" value="" size="18" />
+                </div>
+                <div class="w3-col s12 m8">
+                    <label class="ui-widget" style="vertical-align:top;" >process.content：</label>
+                    <textarea id="process" name="process" rows="3" style="width:80%;"></textarea>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col s12">
+                    <button id="saveRecord" type="button" >save</button>
+                    &nbsp;
+                    <button id="cancelRecord" type="button">cancel</button>
+                </div>
+            </div>
+        </form>
+        
+        <div id="existedRecords" >
+        </div>
+    </div>
+    <hr/>
+    <div class="tac">
+        <button id="closeOrder" type="button">close.detail</button>
+    </div>
+</fieldset>

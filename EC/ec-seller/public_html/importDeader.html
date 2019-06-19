@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <title>Loading ...</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+        <link rel="icon" href="img/App_Icon-o.png" />
+        <link rel="shortcut icon" type="image/x-icon" href="img/App_Icon-o.png" />
+        <!-- css files -->
+
+        <link rel="stylesheet" href="lib/icons/css/font-awesome.min.css?v=0.0.2" />
+        <link rel="stylesheet" href="lib/jquery/jquery-ui.css?v=0.0.2" />
+        <link rel="stylesheet" href="lib/primeui/primeui-all.min.css?v=0.0.2" />
+        <link rel="stylesheet" href="lib/primeui/themes/hot-sneaks/theme.css?v=0.0.2" />
+        <link rel="stylesheet" href="lib/jquery/DateTimePicker.css?v=0.0.2" />
+        <!--[if lt IE 9]>
+        <link rel="stylesheet" type="text/css" href="lib/jquery/DateTimePicker-ltie9.css?v=0.0.2" />
+        <![endif]-->
+        <link rel="stylesheet" href="css/w3.css?v=0.0.2" />
+        <link rel="stylesheet" href="css/style.css?v=0.0.2" />
+        <!--[if lte E 9]>
+        <link rel="stylesheet" type="text/css" href="css/ie-only.css?v=0.0.2">
+        <![endif]-->
+        <!--[if lte IE 8]> 
+        <link rel="stylesheet" type="text/css" href="css/ie8-only.css?v=0.0.2">
+        <![endif]-->
+
+        <script src="lib/jquery/jquery.js?v=0.0.2"></script>
+
+        <!-- Dependencies of some widgets -->
+        <script src="lib/primeui/plugins-all.js?v=0.0.2"></script>
+        <!-- Mustache for templating support -->
+        <script src="lib/primeui/mustache.min.js?v=0.0.2"></script>
+        <!-- X-TAG for PrimeElements -->
+        <script src="lib/primeui/x-tag-core.min.js?v=0.0.2"></script>
+        <script src="lib/primeui/primeui-all.min.js?v=0.0.2"></script>
+        <script src="lib/primeui/primeelements.min.js?v=0.0.2"></script>
+
+        <!-- after primeui -->
+        <script src="lib/jquery/jquery-ui.js?v=0.0.2"></script>
+        <!-- i18n -->
+        <script src="lib/jquery/jquery.i18n.properties-min-1.0.9.js?v=0.0.2"></script>
+        <!--
+        <script src="lib/jquery/i18n/jquery.ui.datepicker-zh-TW.js?v=0.0.2" id="datepickerI18n" ></script>
+        -->
+        <!-- DateTimePicker -->
+        <script type="text/javascript" src="lib/jquery/DateTimePicker.js?v=0.0.2"></script>
+        <script type="text/javascript" src="lib/jquery/i18n/DateTimePicker-i18n.js?v=0.0.2"></script>
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="lib/jquery/DateTimePicker-ltie9.js?v=0.0.2"></script>
+        <![endif]-->
+
+        <script src="lib/underscore-min.js?v=0.0.2"></script>
+        <script src="lib/validator.min.js?v=0.0.2"></script>
+        <!-- html loading -->
+        <script src="lib/w3.js?v=0.0.2"></script>
+
+        <!-- customize js -->
+        <script src="js/consts.js?v=0.0.2"></script>
+        <script src="js/variables.js?v=0.0.2"></script>
+        <script src="js/tcc-utils.js?v=0.0.2"></script>
+        <script src="js/com/button.js?v=0.0.2"></script>
+        <script src="js/com/inputtext.js?v=0.0.2"></script>
+        <script src="js/com/dropdown.js?v=0.0.2"></script>
+        <script src="js/com/radio.js?v=0.0.2"></script>
+        <script src="js/com/checkbox.js?v=0.0.2"></script>
+        <script src="js/com/picklist.js?v=0.0.2"></script>
+        <script src="js/com/datatable.js?v=0.0.2"></script>
+        <script src="js/com/formListS.js?v=0.0.2"></script>
+        <script src="js/com/formListM.js?v=0.0.2"></script>
+        <script src="js/com/dialog.js?v=0.0.2"></script>
+        <script src="js/com/datetimepicker.js?v=0.0.2"></script>
+        <script src="js/com/menu.js?v=0.0.2"></script>
+        <script src="js/layout.js?v=0.0.2"></script>
+        <script>
+        </script>
+    </head>
+    <body>
+        <!-- header starts -->
+        <div w3-include-html="inc/header.html"></div> 
+        <!-- header end -->
+
+        <!-- body contents -->
+        <div class="content">
+            <!-- loading screen, message -->
+            <div w3-include-html="inc/message.html"></div> 
+
+            <!-- content start -->
+            <div id="plMain">
+                <!-- 查詢條件 -->
+                <fieldset id="fsImport" >
+                    <legend>search.criteria</legend>
+
+                    <form name="fmImport" id="fmImport" action="/" method="POST" enctype="multipart/form-data">
+                        <div class="w3-row">
+                            <div class="w3-col s12 m6" >
+                                <label class="w3-btn w3-teal">
+                                    <input name="fiImport" id="fiImport" style="display:none;" type="file">
+                                    <i class="fa fa-photo"></i> imp.select
+                                </label>
+                                &nbsp;
+                                <span id="selImport" ></span>
+                            </div>
+                            <div class="w3-col s12 m3" >
+                                <button id="btnUploadImport" type="button" class="w3-btn w3-blue-grey" ><i class="fa fa-upload"></i>imp.upload</button>
+                            </div>
+                            <div class="w3-col s12 m3" >
+                                <a id="linkTemplate" href="#" style="text-decoration: none;" >
+                                    <span class="w3-btn w3-blue"><i class="fa fa-download" aria-hidden="true"></i>imp.template</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="w3-row">
+                            <div class="w3-col s12" >
+                                <label class="ui-widge"><i class="fa fa-info-circle"></i> imp.msg4</label>
+                                <label class="ui-widge"><i class="fa fa-info-circle"></i> imp.msg5</label>
+                                <label class="ui-widge"><i class="fa fa-info-circle"></i> imp.msg6</label>
+                                <label class="ui-widge"><i class="fa fa-info-circle"></i> imp.tcc.msg1</label>
+                                <label class="ui-widge"><i class="fa fa-info-circle"></i> imp.tcc.msg2</label>
+                                <label class="ui-widge"><i class="fa fa-info-circle"></i> imp.tcc.msg3</label>
+                            </div>
+                        </div>
+                    </form>
+                </fieldset>
+                
+                <!-- 預覽匯入列表 -->
+                <fieldset id="fsPreview" >
+                    <legend>imp.preview</legend>
+                    <div id="msgSaveResut" ></div>
+                    <div id="msgImportResut"></div>
+                    <div id="tbMember"></div>
+                    <div id="tbErrorMsg"></div>
+                </fieldset>
+                
+                <!-- 產業別選項列表 -->
+                <fieldset id="fsIndustry" >
+                    <legend>sys.industry.list</legend>
+                    <div id="divIndustryList" ></div>
+                </fieldset>
+
+                <!-- 區域別選項列表 -->
+                <fieldset id="fsArea" >
+                    <legend>sys.area.list</legend>
+                    <div id="divAreaList" ></div>
+                </fieldset>
+
+            </div><!-- end fo plMain -->
+        </div>
+        <!-- content end -->
+
+        <div id="startOverlay" class="startOverlay" >
+            <div id="ieOnly" class="ie-only overlay-text"><i class="fa fa-warning fa-lg"></i>Browser not supported!</div>
+            <div class="no-ie overlay-text"><i class="fa fa-spinner fa-pulse fa-fw fa-3x"></i></div>
+        </div>
+
+        <!-- JS start .. -->
+        <script src="js/tccDealerDs.js?v=0.0.2"></script>
+        <script src="js/importTccMem.js?v=0.0.2"></script>
+        <!--[if lte E 9]>
+        <script src="js/ie-only.js"></script>
+        <![endif]-->
+    </body>
+</html>

@@ -1,0 +1,414 @@
+<!-- 會員資訊 -->
+<fieldset id="fsBasic" >
+    <legend>member.info</legend>
+        
+    <form id="editMemberBasicForm" >
+        <!-- 註冊資訊 -->
+        <div id="plBasic" title="reg.info"  >
+            <div class="w3-row" >
+                <div class="w3-col s4 m1" >
+                    <label class="ui-widget required" >member.account：</label>
+                </div>
+                <div class="w3-col s8 m5" >
+                    <input id="loginAccount" name="loginAccount" title="member.account" required type="text" 
+                           maxlength="60" minlength="2" 
+                           is="p-inputtext" value="" size="30" />
+                    <input type="checkbox" name="active" id="active"
+                           onchange="changeActive()" 
+                           value="1" is="p-checkbox" />
+                    <span class="ui-widget">valid.flag</span>
+                </div>
+                <div class="w3-col s4 m1" >
+                    <label class="ui-widget required" >member.name：</label>
+                </div>
+                <div class="w3-col s8 m5" >
+                    <input id="name" name="name" title="member.name" required
+                           maxlength="40" minlength="2" onblur="copyToNotEmpty('#cname')"
+                           type="text" is="p-inputtext" value="" size="40" class="fw" />
+                </div>
+            </div>
+            <div class="w3-row" >
+                <div class="w3-col s4 m1" >
+                    <label class="ui-widget required" >email：</label>
+                </div>
+                <div class="w3-col s8 m5" >
+                    <input id="email" name="email" title="email" required
+                           maxlength="60" onblur="copyToNotEmpty('#email1')"
+                           type="text" is="p-inputtext" value="" size="15" class="fw" />
+                </div>
+                <div class="w3-col s4 m1" >
+                    <label class="ui-widget required" >tel：</label>
+                </div>
+                <div class="w3-col s8 m5" >
+                    <input id="phone" name="phone" required 
+                           maxlength="30" onblur="copyToNotEmpty('#tel1')"
+                           title="tel" type="text" is="p-inputtext" value="" size="15" class="fw" />
+                </div>
+            </div>
+            <div class="w3-row" >
+                <div class="w3-col s4 m1" >
+                    <label class="ui-widget required" >account.type：</label>
+                </div>
+                <div class="w3-col s8 m5" >
+                    <div id="divMemberTypeSel" >
+                        <input type="radio" id="typeP" name="type" value="P" onchange="onChangeType()" class="w3-radio" />
+                        <span class="ui-widget">personal.account</span>
+                        &nbsp;&nbsp;
+                        <input type="radio" id="typeC" name="type" value="C" onchange="onChangeType()" class="w3-radio" />
+                        <span class="ui-widget">com.account</span>
+                    </div>
+                    <div id="divMemberType" >
+                        <span id="spanMemberType" ></span>
+                        &nbsp;
+                        <button id="btnApplyForCom" type="button" class="seller notDealer" >apply.for.company</button>
+                        &nbsp;
+                        <button id="btnToPerson" type="button" class="admin notDealer">change.to.person</button>
+                        &nbsp;
+                        <button id="btnToCompany" type="button" class="admin notDealer" >change.to.company</button>
+                        &nbsp;
+                        <span id="spanComApplication" class="info notDealer" >apply.now</span>
+                    </div>
+                </div>
+                <div class="w3-col s4 m1 seller notDealer" >
+                    <label class="ui-widget" >password：</label>
+                </div>
+                <div class="w3-col s8 m5 seller notDealer" >
+                    <button id="btnChangePwd" type="button">change.pwd</button>
+                </div>
+                
+                <div class="w3-col s4 m1" >
+                    <label class="ui-widget" >seller.user：</label>
+                </div>
+                <div class="w3-col s8 m5" >
+                    <input type="checkbox" name="sellerApply" id="sellerApply"
+                           onchange="changeSellerApply()" 
+                           value="1" is="p-checkbox" />
+                    <label class="ui-widget">applicated</label>
+                    &nbsp;
+                    <input type="checkbox" name="sellerApprove" id="sellerApprove" 
+                           onchange="changeSellerApprove()" 
+                           value="1" is="p-checkbox" />
+                    <label class="ui-widget">approved</label>
+                    &nbsp;
+                    <button id="btnSellerApprove" type="button">approve</button>
+                    &nbsp;
+                    <input type="checkbox" name="tccDealer" id="tccDealer" 
+                           onchange="changeTccDealer()" 
+                           value="1" is="p-checkbox" class="tcc" />
+                    <label class="ui-widget tcc">fd.tccDealer</label>
+                    &nbsp;
+                    <!--
+                    <input type="checkbox" name="tccDs" id="tccDs" 
+                           onchange="changeTccDs()" 
+                           value="1" is="p-checkbox" class="tcc" />
+                    <label class="ui-widget tcc">fd.tccDs</label>
+                    &nbsp;
+                    -->
+                    <span id="approveResult" class="hit" ></span>
+                </div>
+            </div>
+            <div class="w3-row" >
+                <div class="w3-col s4 m2" >
+                    <label class="ui-widget required" >member.pic：</label>
+                </div>
+                <div class="w3-col s8 m10" >
+                    <div style="padding:5px;margin:2px;border:#31b0d5 dotted thin;height:max-content;" >
+                        <div id="divPicOption">
+                            <label class="w3-btn w3-teal">
+                                <input name="fiPic" id="fiPic" style="display:none;" type="file"/>
+                                <i class="fa fa-photo"></i> sel.upload.pic
+                            </label>
+                            &nbsp;
+                            <span id="btnPic" style="max-width:20px;overflow-x:auto;" ></span>
+                            &nbsp;
+                            <button id="btnUploadPic" type="button" class="w3-btn w3-blue" >imp.upload</button>
+                            &nbsp;
+                            <button id="btnCancelPic" type="button" class="w3-btn w3-blue-grey" >cancel</button>
+                        </div>
+                        <div style="text-align: center; vertical-align: middle; padding: 5px;">
+                            <span id="picImg" ></span>
+                            <br/><span id="selPic" ></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 詳細資訊 -->
+        <div id="plDetail" title="detail.info"  >
+            <div class="w3-row" >
+                <div class="w3-col s4 m1" >
+                    <label class="ui-widget required" >name.ch：</label>
+                </div>
+                <div class="w3-col s8 m5" >
+                    <input id="cname" name="cname" title="name.ch" 
+                           maxlength="100" required
+                           type="text" is="p-inputtext" value="" size="15" class="fw" />
+                </div>
+                <div class="w3-col s4 m1" >
+                    <label class="ui-widget" >name.en：</label>
+                </div>
+                <div class="w3-col s8 m5" >
+                    <input id="ename" name="ename" title="name.en" 
+                           maxlength="100" 
+                           type="text" is="p-inputtext" value="" size="15" class="fw" />
+                </div>
+            </div>
+            <div class="w3-row companyOnly" >
+                <!--
+                <div class="w3-col s4 m2" >
+                    <label class="ui-widget" >code：</label>
+                </div>
+                <div class="w3-col s8 m2" >
+                    <input id="code" name="code" title="code" type="text" 
+                           maxlength="30" 
+                           is="p-inputtext" value="" size="15" class="fw" />
+                </div>
+                -->
+                <div class="w3-col s4 m1" >
+                    <label class="ui-widget" >simple.name：</label>
+                </div>
+                <div class="w3-col s8 m2" >
+                    <input id="nickname" name="nickname" title="simple.name" type="text" 
+                           maxlength="100" 
+                           is="p-inputtext" value="" size="15" class="fw" />
+                </div>
+                <div class="w3-col s4 m1" >
+                    <label class="ui-widget required" >com.id：</label>
+                </div>
+                <div class="w3-col s8 m2" >
+                    <input id="idCode" name="idCode" title="com.id" type="text" 
+                           maxlength="30" 
+                           is="p-inputtext" value="" size="18" class="fw" />
+                </div>
+                <div class="w3-col s4 m1" >
+                    <label class="ui-widget required" >fd.capital：</label>
+                </div>
+                <div class="w3-col s8 m2" >
+                    <span>cur.flag</span>
+                    <input id="capital" name="capital" title="fd.capital" type="text" maxlength="16" 
+                           is="p-inputtext" value="" size="15" min="0" max="9999999999999" />
+                </div>
+                <div class="w3-col s4 m1" >
+                    <label class="ui-widget required" >fd.year.income：</label>
+                </div>
+                <div class="w3-col s8 m2" >
+                    <span>cur.flag</span>
+                    <input id="yearIncome" name="yearIncome" title="fd.year.income" type="text" maxlength="16" 
+                           is="p-inputtext" value="" size="15" min="0" max="9999999999999" />
+                </div>
+            </div>
+            <div class="w3-row companyOnly" >
+                <div class="w3-col s4 m1" >
+                    <label class="ui-widget required" >fd.industry：</label>
+                </div>
+                <div class="w3-col s8 m3" >
+                    <select id="category" name="category" title="fd.industry" ></select>
+                </div>
+                <div class="w3-col s4 m1" >
+                    <label class="ui-widget required" >fd.com.area：</label>
+                </div>
+                <div class="w3-col s8 m3" >
+                    <select id="state" name="state" title="fd.com.area" ></select>
+                </div>
+                <div class="w3-col s4 m1" >
+                    <label class="ui-widget required" >fd.com.startAt：</label>
+                </div>
+                <div class="w3-col s8 m3" >
+                    <div id="startAtDIV"></div>
+                    <input id="startAt" name="startAt" type="text" data-field="date" readonly 
+                           is="p-inputtext" value="" size="12" placeholder="fd.com.startAt" />
+                </div>
+            </div>
+           <div class="w3-row companyOnly" >
+                <div class="w3-col s12 m2" >
+                    <label class="ui-widget required" >incharge：</label>
+                    <span>atless.one</span>
+                </div>
+                <div class="w3-col s12 m5" >
+                    <input id="owner1" name="owner1" title="incharge1" type="text" 
+                           maxlength="60"
+                           is="p-inputtext" placeholder="incharge1" value="" size="30" class="fw" />
+                </div>
+                <div class="w3-col s12 m5" >
+                    <input id="owner2" name="owner2" title="incharge2" type="text" 
+                           maxlength="60" 
+                           is="p-inputtext" placeholder="incharge2" value="" size="30" class="fw" />
+                </div>
+            </div>
+ 
+            <div class="w3-row personOnly" >
+                <div class="w3-col s4 m2" >
+                    <label class="ui-widget" >gender：</label>
+                </div>
+                <div class="w3-col s8 m4" >
+                    <input type="radio" id="genderM" name="gender" value="M" onchange="onChangeType()" class="w3-radio" />
+                    <label class="ui-widget">man</label>
+                    &nbsp;
+                    <input type="radio" id="genderF" name="gender" value="F" onchange="onChangeType()" class="w3-radio" />
+                    <label class="ui-widget">woman</label>
+                </div>
+                <div class="w3-col s4 m2" >
+                    <label class="ui-widget" >birth：</label>
+                </div>
+                <div class="w3-col s8 m4" >
+                    <!--
+                    <input id="birthday" name="birthday" title="生日" type="text" is="p-inputtext" value="" size="12" />
+                    -->
+                    <div id="birthdayDIV"></div>
+                    <input id="birthday" name="birthday" type="text" data-field="date" readonly 
+                           is="p-inputtext" value="" size="12" placeholder="birth" />
+                </div>
+            </div>
+            
+            <div class="w3-row" >
+                <div class="w3-col s12 m2" >
+                    <label class="ui-widget required" >tel：</label>
+                    <span>atless.one</span>
+                </div>
+                <div class="w3-col s12 m3" >
+                    <input id="tel1" name="tel1" title="tel1" type="text" 
+                           maxlength="20" required
+                           is="p-inputtext" placeholder="tel1" value="" size="15" class="fw" />
+                </div>
+                <div class="w3-col s12 m3" >
+                    <input id="tel2" name="tel2" title="tel2" type="text" 
+                           maxlength="20" 
+                           is="p-inputtext" placeholder="tel2" value="" size="15" class="fw" />
+                </div>
+                <div class="w3-col s12 m4" >
+                    <input id="tel3" name="tel3" title="tel3" type="text" 
+                           maxlength="20" 
+                           is="p-inputtext" placeholder="tel3" value="" size="15" class="fw" />
+                </div>
+            </div>
+            <div class="w3-row" >
+                <div class="w3-col s12 m2" >
+                    <label class="ui-widget" >email：</label>
+                </div>
+                <div class="w3-col s12 m3" >
+                    <input id="email1" name="email1" title="email1" type="text" 
+                           maxlength="100" 
+                           is="p-inputtext" placeholder="email1" value="" size="15" class="fw" />
+                </div>
+                <div class="w3-col s12 m3" >
+                    <input id="email2" name="email2" title="email2" type="text" 
+                           maxlength="100" 
+                           is="p-inputtext" placeholder="email2" value="" size="15" class="fw" />
+                </div>
+                <div class="w3-col s12 m4" >
+                    <input id="email3" name="email3" title="email3" type="text" 
+                           maxlength="100" 
+                           is="p-inputtext" placeholder="email3" value="" size="15" class="fw" />
+                </div>
+            </div>
+                
+            <div class="w3-row" >    
+                <div class="w3-col s12 m2" >
+                    <label class="ui-widget" >fax：</label>
+                </div>
+                <div class="w3-col s12 m3" >
+                    <input id="fax1" name="fax1" title="fax1" type="text" 
+                           maxlength="20" 
+                           is="p-inputtext" placeholder="fax1" value="" size="15" class="fw" />
+                </div>
+                <div class="w3-col s12 m3" >
+                    <input id="fax2" name="fax2" title="fax2" type="text" 
+                           maxlength="20" 
+                           is="p-inputtext" placeholder="fax2" value="" size="15" class="fw" />
+                </div>
+                <div class="w3-col s12 m4" >
+                </div>
+            </div>
+            <div class="w3-row" >    
+                <div class="w3-col s12 m2" >
+                    <label class="ui-widget" >contact.addr1：</label>
+                </div>
+                <div class="w3-col s12 m10" >
+                    <input id="addr1" name="addr1" title="contact.addr1" type="text" 
+                           maxlength="150" 
+                           is="p-inputtext" placeholder="contact.addr1" value="" size="15" class="fw" />
+                </div>
+            </div>
+            <div class="w3-row" >    
+                <div class="w3-col s12 m2" >
+                    <label class="ui-widget" >contact.addr2：</label>
+                </div>
+                <div class="w3-col s12 m10" >
+                    <input id="addr2" name="addr2" title="contact.addr2" type="text" 
+                           maxlength="150" 
+                           is="p-inputtext" placeholder="contact.addr2" value="" size="15" class="fw" />
+                </div>
+            </div>
+            <div class="w3-row companyOnly" >
+                <div class="w3-col s12 m2" >
+                    <label class="ui-widget" >contacts：</label>
+                </div>
+                <div class="w3-col s12 m3" >
+                    <input id="contact1" name="contact1" title="contact1" type="text" 
+                           maxlength="60" 
+                           is="p-inputtext" placeholder="contact1" value="" size="15" class="fw" />
+                </div>
+                <div class="w3-col s12 m3" >
+                    <input id="contact2" name="contact2" title="contact2" 
+                           maxlength="60" 
+                           type="text" is="p-inputtext" placeholder="contact2" value="" size="15" class="fw" />
+                </div>
+                <div class="w3-col s12 m4" >
+                    <input id="contact3" name="contact3" title="contact3" 
+                           maxlength="60" 
+                           type="text" is="p-inputtext" placeholder="contact3" value="" size="15" class="fw" />
+                </div>
+            </div>
+            <div class="w3-row" >
+                <div class="w3-col s12 m2" >
+                    <label class="ui-widget" >brief：</label>
+                </div>
+                <div class="w3-col s12 m10" >
+                    <textarea id="brief" name="brief" title="brief" maxlength="500" rows="3" class="fw" is="p-inputtext"></textarea>
+                </div>
+            </div>    
+            <div class="w3-row">    
+                <div class="w3-col s12 tac">
+                    <button id="save" type="button">save</button>
+                    &nbsp;
+                    <button id="cancel" type="button" >cancel</button>
+                    &nbsp;
+                    <button id="delete" type="button" >remove</button>
+                </div>
+            </div>
+                
+        </div>
+    </form>
+</fieldset>
+    
+<!-- 變更密碼 -->
+<div id="dlgChangePwd" title="change.pwd" class="il8n-title" style="display: none;">
+    <div id="divChangePwd" >
+          <div class="w3-row" >
+                <div class="w3-col s4" >
+                    <label class="ui-widget required" >in.pwd.ori：</label>
+                </div>
+                <div class="w3-col s8" >
+                    <input id="pwdOri" name="pwdOri"  required type="password" maxlength="20" minlength="4" is="p-inputtext" value="" size="16" />
+                </div>
+          </div>
+          <div class="w3-row" >
+                <div class="w3-col s4" >
+                    <label class="ui-widget required" >in.pwd.new：</label>
+                </div>
+                <div class="w3-col s8" >
+                    <input id="pwdNew" name="pwdNew"  required type="password" maxlength="20" minlength="4" is="p-inputtext" value="" size="16" />
+                </div>
+          </div>
+          <div class="w3-row" >
+                <div class="w3-col s4" >
+                    <label class="ui-widget required" >in.pwd.confirm：</label>
+                </div>
+                <div class="w3-col s8" >
+                    <input id="pwdNew2" name="pwdNew2"  required type="password" maxlength="20" minlength="4" is="p-inputtext" value="" size="16" />
+                </div>
+          </div>
+    </div>
+</div>
+    

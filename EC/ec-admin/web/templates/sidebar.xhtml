@@ -1,0 +1,37 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:po="http://primefaces.org/omega">
+  <h:form id="menuform">
+    <div class="sidebar">
+        <div class="nano">
+            <div class="nano-content sidebar-scroll-content">
+                <div class="logo">
+                    <p:graphicImage name="images/logo.png" library="omega-layout" width="113"/>
+                    <div class="sysname">#{msg['header.app_name']}</div>
+                </div>
+                
+                <div class="profile">
+                    <!--
+                    <p:graphicImage name="images/profile.png" library="omega-layout" />
+                    -->
+                    <a id="profile-button" href="#">
+                        <i class="fa fa-fw fa-user"></i><span class="username">#{tcSessionController.loginUser}</span>
+                    </a>
+                    <ul>
+                        <li><a href="logout.xhtml"><i class="fa fa-fw fa-sign-out"></i><span>Logout</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="menu">
+                    <po:menu model="#{tcSessionController.menuModel}" >
+                    </po:menu>
+                </div>
+            </div>
+        </div>
+    </div>
+  </h:form>
+</ui:composition>

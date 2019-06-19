@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title><ui:insert name="title"/></title>
+            <ui:insert name="head"></ui:insert>
+            
+            <h:outputStylesheet library="css" name="stylesheet_new.css"/>
+            <h:outputStylesheet library="css" name="stylesheet_table.css"/>
+            
+            <h:outputScript library="js" name="UIUtils.js" />
+            <h:outputScript library="js" name="ajaxCheck.js" />
+            <h:outputScript library="js" name="jquery.floatDiv.js" />
+            
+            <style  type="text/css">
+                .ui-fieldset-legend .ui-corner-all .ui-state-default {
+                    background: none;
+                }
+                /*.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+                    background: none;
+                }*/
+                .ui-menubar .ui-menuitem-link {
+                    padding-bottom: 0px;
+                }
+                span.ui-menuitem-text {
+                    margin-bottom: 1px;
+                }
+                .ui-menuitem-text {
+                    text-align: left;  
+                }
+                .ui-widget-content tr {
+                    border-style: none;
+                }
+                
+                /* for primefaces 5.x */
+                /*.ui-panelgrid td {
+                        border-style: none;
+                }*/
+                .ui-panelgrid .ui-panelgrid-cell {
+                    border: none;
+                }
+                .ui-datatable table, .ui-datatable-resizable table {
+                    table-layout: auto !important;
+                }
+                .ui-datatable-scrollable table {
+                    table-layout: fixed !important;
+                }
+                /*.ui-datatable thead th {
+                    width: 80px;
+                }*/
+                .ui-datatable tbody td {
+                    /* Non standard for webkit　// word-break: break-word; */
+                    -ms-word-break: break-all;
+                    word-break: break-all;
+                    -webkit-hyphens: auto;
+                    -moz-hyphens: auto;
+                    hyphens: auto;
+                }
+                
+                /*fieldset .ui-fieldset-legend {
+                    height: 10px;
+                }*/
+                .ui-selectonemenu {
+                    vertical-align: middle;
+                }
+                .ui-chkbox {
+                    vertical-align: middle;
+                }
+                
+                li.ui-widget.ui-menuitem.ui-corner-all.ui-menu-parent.topmenu.ui-menuitem-active > ul {
+                    width: 200px;
+                }
+                li.ui-widget.ui-menuitem.ui-corner-all.ui-menu-parent.topmenu.ui-menuitem-active > ul > table > tbody > tr > td > ul > li.ui-widget-header.ui-corner-all{
+                    width: 198px;
+                }
+                .ui-menubar .ui-menu-child .ui-menuitem {
+                    width: 198px;
+                }
+                .ui-menubar .ui-menu-child .ui-menuitem > a > span {
+                    width: 190px;
+                }
+                /*// 5.1.x 可不需要
+                //.ui-selectonemenu-filter-container {
+                //    width: 98% !important;
+                //}*/
+                
+                /* ui-menu-list
+                .ui-chkbox-box {
+                    margin-left: 3px;
+                    margin-right: 3px;
+                }
+                div.ui-chkbox {
+                    vertical-align: middle;
+                }*/
+                /* 避免 panelGrid 範圍背景問題 */
+                /*tr.ui-widget-content {
+                    background: none;
+                }*/
+                .userError {
+                    padding: 30px 0;
+                    color: red;
+                    font-size: 2em;
+                    font-weight: bold;
+                    text-align: center;
+                }
+            </style>
+            <script type="text/javascript">
+                //<![CDATA[
+                // 定義 USER 有在 UI 做異動時執行 function 變數，實際需要的頁面再 override
+                var doModify = function(){};
+                var cancelModify = function(){};
+                var checkNoSave = function(){ return true; };
+
+                //除了input text, textarea外，停用Backsapce，防止不慎回前一頁
+                $(function () {
+                    $(document).keydown(function (e) {
+                        if (e.which === 8 && !(e.target.type === "text" || e.target.type === "textarea")){
+                            e.preventDefault();
+                        }
+                    });
+                    $("label#dtResult_reflowDD_label").html("#{msg['comm.sort']}:");// for PF6.X, PF7.X Sort RWD 
+
+                    // 檢查有暫存頁功能，異動是否已儲存 (搭配 JsfUtils.java: newMenuItem() 的 setStyleClass("myMenuItem"))
+                    $(".myMenuItem").on('click', function(){
+                        if( !checkNoSave() ){ return false; };
+                    });
+                    
+                    // check browser
+                    checkIEVersionAbove(8);
+                    
+                    // for datatable resize in chrome 
+                    doResize();
+                    $( window ).resize(function() {
+                        doResize();
+                    });
+                    
+                    /* 按下GoTop按鈕時的事件 */
+                    $('#_divGoToTop').click(function(){
+                        $('html,body').animate({ scrollTop: 0 }, 'fast');/* 返回到最頂上 */
+                        return false;
+                    });
+                    /* 偵測卷軸滑動時，往下滑超過80px就讓GoTop按鈕出現 */
+                    $(window).scroll(function() {
+                        showGoToTop();
+                    });
+                    showGoToTop();
+                   
+                    // for Check Action
+                    /*keepAliveURL = "#{request.contextPath}"+keepAliveURL;
+                    startCheckAction();
+                    $(document).bind('change click keypress keydown focus mousemove', function(e) {
+                        onAction();
+                    });
+                    $(document).bind('unload', function(e) {
+                        stopCheckAction();
+                    });*/ 
+                });
+
+                function showGoToTop(){
+                    if ( $(this).scrollTop() > 80){
+                        $('#_divGoToTop').fadeIn();
+                    } else {
+                        $('#_divGoToTop').fadeOut();
+                    }
+                }
+                //]]>
+            </script>
+        </h:head>
+        <h:body id="body" >
+            <h:panelGroup id="_hiddenInfo_" style="display:none" >
+                <p:outputLabel id="_systime_" value="#{app.systime}" ></p:outputLabel>
+                <p:outputLabel id="_serverIP_" value="#{app.serverIpAddress}" ></p:outputLabel>
+            </h:panelGroup>
+            
+            <div id="header">
+                <ui:include src="../inc/inc_pageHeader.xhtml"/>
+                <ui:include src="../inc/inc_ajaxStatusDlg.xhtml"/>
+                <ui:include src="../inc/inc_statusDlgBlockUI.xhtml"/>
+            </div>            
+            <div id="content">
+                <h:panelGroup rendered="#{tcSessionController.login}">
+                    <ui:insert name="content"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{!tcSessionController.login}">
+                    <div class="userError">
+                        <!-- 此帳號無本系統權限, 請填[帳號權限申請單]申請或洽台訊客服 (service@tcci.com.tw) -->
+                        <h:outputText value="#{msg['label.noAccount']}"/>
+                    </div>
+                </h:panelGroup>
+                
+                <!-- 回頂端 -->
+                <a id="_divGoToTop" title="GOTO TOP" href="#" ><i class="fa fa-arrow-circle-up fa-3x" aria-hidden="true"></i></a>
+            </div>
+            <div id="footer">
+                <ui:insert name="footer">
+                    <ui:include src="/inc/inc_pageFooter.xhtml"/>
+                </ui:insert>  
+            </div>    
+        </h:body>
+    </f:view>
+</html>

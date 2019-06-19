@@ -1,0 +1,714 @@
+<!-- 查詢條件 -->
+<fieldset id="fsSearch" >
+    <legend>search.criteria</legend>
+    
+    <form id="fmSearch" >
+        <div class="w3-row admin">
+            <div class="w3-col s12 m2">
+                <label class="w3-padding-small" >spec.store：</label>
+            </div>
+            <div class="w3-col s12 m4">
+                <select id="storeId" name="storeId" title="spec.store"></select>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col s12 m2">
+                <label class="w3-padding-small" >types：</label>
+            </div>
+            <div class="w3-col s12 m3">
+                <select id="typeL1" name="typeL1"></select>
+            </div>
+            <div class="w3-col s12 m3">
+                <select id="typeL2" name="typeL2"></select>
+            </div>
+            <div class="w3-col s12 m4">
+                <select id="typeL3" name="typeId"></select>
+            </div>
+        </div>
+        
+        <div class="w3-row">
+            <div class="w3-col s12 m2">
+                <label class="w3-padding-small" >keywords：</label>
+            </div>
+            <div class="w3-col s12 m4">
+                <input id="keyword" name="keyword"  type="text" is="p-inputtext" value="" class="fw" />
+            </div>
+            <div class="w3-col s12 m2">
+                <label class="w3-padding-small" >status：</label>
+            </div>
+            <div class="w3-col s12 m4">
+                <select id="status" name="status" >
+                </select>
+            </div>
+        </div>
+
+        <!-- 銷售區域 -->
+        <div class="w3-row admin">
+            <div class="w3-col s12 m2">
+                <label class="ui-widget">store.sale.area：</label>
+            </div>
+            <div class="w3-col s12 m4">
+                <button id="btEditSearchArea" type="button" >edit</button>
+                <label class="ui-widget">store.sale.area.sel</label>
+                <i class="fa fa-hand-o-right" ></i>
+                <div id="editSearchAreas" >
+                    <hr/>
+                    <div id="pklSearchArea">
+                        <select name="source"></select>
+                        <select name="target"></select>
+                    </div>
+                    <hr/>
+                    <div class="w3-center">
+                        <button id="setSearchArea" type="button" >action.confirm</button>
+                        <button id="closeSearchArea" type="button" >close</button>
+                    </div>
+                    <hr/>
+                </div>
+            </div>
+            <div class="w3-col s12 m6">
+                <div id="searchAreas" class="fieldvalue" ></div>
+            </div>    
+        </div>
+        
+        <div class="w3-row borderOnTop">
+            <div class="w3-col s12">
+                <button id="search" type="button">search</button>
+                &nbsp;
+                <button id="clear" type="button">clear</button>
+                &nbsp;
+                <label class="ui-widge"><i class="fa fa-info-circle"></i>prd.keywords</label>
+            </div>
+        </div>
+    </form>
+</fieldset>
+
+<!-- 商品列表 -->
+<fieldset id="fsSearchResult" >
+    <legend>prd.list</legend>
+    <div>
+        <button class="seller notDealer" id="add" type="button" >prd.add</button>
+        <label class="seller notDealer" >&nbsp;prd.select&nbsp;</label>
+    </div>
+    
+    <div id="searchResultMsg" ></div>
+    <div id="tbProductLazy"></div>
+    
+    <!-- 多筆操作 - for seller -->
+    <div id="divMultiOperation" class="seller">
+        <hr/>
+        <i class="fa fa-check-square-o fa-lg" ></i>
+        <label>check.op</label>
+        <i class="fa fa-arrow-circle-right fa-lg"></i>
+        <!--
+        <input id="startAt" name="startAt" type="text" is="p-inputtext" 
+               value="" size="16" placeholder="in.reserve.date" title="in.reserve.date" />
+        -->
+        <div id="startAtDIV"></div>
+        <input id="startAt" name="startAt" type="text" data-field="date" readonly 
+               value="" size="16" placeholder="in.reserve.date" title="in.reserve.date" />
+        <button id="btnReserve" type="button" >reserve.publish</button>
+        <button id="btnUnreserve" type="button" >reserve.cancel</button>
+        <button id="btnSendApproveM" type="button" >send.approve</button>
+        <button id="btnPublishNowM" type="button" >publish.rightnow</button>
+        <button id="btnNoSaleM" type="button" >nosale</button>
+    </div>
+    <div class="w3-row seller notDealer">
+        <div class="w3-col s12">
+            <i class="fa fa-info-circle hit" ></i><span class="hit"> need.approve.pass</span>
+        </div>
+    </div>
+    
+    <!-- 多筆操作 - for admin -->
+    <div id="divMultiOperationAdmin" class="admin">
+        <i class="fa fa-check-square-o fa-lg" ></i>
+        <label>check.op</label>
+        <i class="fa fa-arrow-circle-right fa-lg"></i>
+        &nbsp;<button id="btnPassM" type="button">approve.pass</button>
+        &nbsp;<button id="btnRejectM" type="button">approve.reject</button>
+    </div>
+</fieldset>
+
+<div id="stickyFlag" ></div>
+
+<!-- 針對選取項目操作功能 -->
+<div id="selectedItemHeader" >
+    <div class="w3-row">
+        <div class="w3-col s12 m4">
+            <span id="selectItem" ></span>
+        </div>
+        <div class="w3-col s12 m8">
+            <button id="btnGoToBasic" class="notTccPrd" type="button">basic.info</button>
+            <button id="btnGoToVariantOptions" type="button" style="display:none" >variant.op</button>
+            <button id="btnGoToVariant" type="button" style="display:none" >variant.attr</button>
+            <button id="btnGoToProdPics" class="notTccPrd" type="button">prd.picture</button>
+            <button id="btnGoToProdIntro" class="notTccPrd" type="button" >prd.brief</button>
+            <button id="btnGoToPrdAttrs" type="button" style="display:none" >spec.attr</button>
+            <button id="btnGoToDetail" class="notTccPrd" type="button">detail.desc</button>
+        </div>
+    </div>
+</div>
+
+<div id="selectedItemContent" class="detail">
+    <!-- 商品基本資料 -->
+    <fieldset id="fsBasic" >
+        <legend>prd.basic</legend>
+        
+        <form id="editPrdBasicForm" >
+            <div class="w3-row">
+                <div class="w3-cell-middle w3-col s6 m2 l1">
+                    <span class="fieldname required" >prd.type：</span>
+                </div>
+                <div class="w3-cell-middle w3-col s6 m3 l3">
+                    <select id="typeL1BS" name="typeL1" title="prd.typeL1"></select>
+                </div>
+                <div class="w3-cell-middle w3-col s6 m3 l4">
+                    <select id="typeL2BS" name="typeL2" title="prd.typeL2"></select>
+                </div>
+                <div class="w3-cell-middle w3-col s6 m4 l4">
+                    <select id="typeL3BS" name="typeId" title="prd.typeL3"></select>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col s12 m2 l1">
+                    <span class="fieldname required" >prd.cname：</span>
+                </div>
+                <div class="w3-col s12 m4 l5">
+                    <input id="cnameBS" name="cname" required minlength="1" maxlength="100" 
+                           title="prd.cname" type="text" is="p-inputtext" class="fw" />
+                </div>
+                <div class="w3-col s12 m1 l1">
+                    <span class="fieldname" >prd.code：</span>
+                </div>
+                <div class="w3-col s12 m2 l2">
+                    <input id="codeBS" name="code" maxlength="30" 
+                           title="prd.code" type="text" is="p-inputtext" class="fw" />
+                </div>
+            </div>
+            
+            <div class="w3-row">
+                <!--
+                <div class="w3-col s4 m2 l1">
+                    <span class="fieldname" >prd.compare.at.price：</span>
+                </div>
+                <div class="w3-col s8 m4 l2">
+                    <input id="compareAtPriceBS" name="compareAtPrice" min="1" maxlength="12"
+                           title="prd.compare.at.price" type="text" is="p-inputtext" class="fw"/>
+                </div>
+                -->
+                <div class="w3-col s4 m1">
+                    <span class="fieldname required" >prd.price：</span>
+                </div>    
+                <div class="w3-col s8 m3">
+                    <input id="priceBS" name="price" min="1" maxlength="12"
+                           title="prd.price" type="text" is="p-inputtext" class="fw notTccPrd"/>
+                    <span class="tccPrd" >po.set.price</span>
+                </div>
+                <div class="w3-col s4 m1">
+                    <span class="fieldname" >fd.curName：</span>
+                </div>
+                <div class="w3-col s8 m3">
+                    <span id="spanCurName" ></span>
+                </div>
+                <div class="w3-col s4 m1">
+                    <span class="fieldname" >prd.price.unit：</span>
+                </div>    
+                <div class="w3-col s8 m3">
+                    <select id="priceUnitBS" name="priceUnit" title="prd.price.unit"></select>
+                    <div id="priceUnitBSTxt" class="fw ui-inputtext ui-corner-all" ></div>
+                </div>
+                <!--
+                <div class="w3-col s4 m2 l1">
+                    <span class="fieldname" >prd.price.amt：</span>
+                </div>
+                <div class="w3-col s8 m4 l2">
+                    <input id="priceAmtBS" name="priceAmt" min="1" maxlength="10" 
+                           title="prd.price.amt" type="text" is="p-inputtext" class="fw"/>
+                </div>
+                -->
+            </div>
+            <div class="w3-row">    
+                <div class="w3-col s4 m2 l1">
+                    <span class="fieldname" >prd.brand：</span>
+                </div>
+                <div class="w3-col s8 m4 l5">
+                    <select id="brandBS" name="brandId" title="prd.brand"></select>
+                    <div id="brandBSTxt" class="fw ui-inputtext ui-corner-all" ></div>
+                </div>
+                <div class="w3-col s4 m2 l1">
+                    <span class="fieldname" >vendor：</span>
+                </div>
+                <div class="w3-col s8 m4 l5">
+                    <select id="vendorBS" name="vendorId" title="vendor"></select>
+                    <div id="vendorBSTxt" class="fw ui-inputtext ui-corner-all" ></div>
+                </div>
+                <!--
+                <div class="w3-col s4 m2 l1">
+                    <span class="fieldname" >barcode：</span>
+                </div>    
+                <div class="w3-col s8 m4 l2">
+                    <input id="barcodeBS" name="barcode" maxlength="30" 
+                           title="barcode" type="text" is="p-inputtext" class="fw"/>
+                </div> 
+                <div class="w3-col s4 m2 l1">
+                    <span class="fieldname" >sku：</span>
+                </div>
+                <div class="w3-col s8 m4 l2">
+                    <input id="skuBS" name="sku" maxlength="30" 
+                           title="sku" type="text" is="p-inputtext" class="fw"/>
+                </div>
+                -->
+            </div>
+            
+            <div class="w3-row notDealer">
+                <div class="w3-col s4 m2 l1">
+                    <span class="fieldname" >amt.limit：</span>
+                </div>    
+                <div class="w3-col s8 m5 l3">
+                    <input id="minAmtBS" name="minAmt" min="1" maxlength="12" placeholder="amt.min"
+                           title="amt.min.limit" type="text" is="p-inputtext" size="8" />
+                    ~
+                    <input id="maxAmtBS" name="maxAmt" min="1" maxlength="12" placeholder="amt.max"
+                           title="amt.max.limit" type="text" is="p-inputtext" size="8" />
+                </div>
+                <div class="w3-col s12 m5 l2">
+                    <input type="checkbox" name="intAmt" id="intAmtBS"
+                           onchange="changeIntAmt()" />
+                    <span class="fieldname" >amt.postive</span>
+                </div>
+            </div>
+
+            <div class="w3-row" style="display:none">
+                <div class="w3-col s12 m2">
+                    <span class="fieldname" >shipping.fields&nbsp;<i class="fa fa-hand-o-right" ></i></span>
+                </div>    
+                <div class="w3-col s4 m1">
+                    <span class="fieldname" >weight：</span>
+                </div>    
+                <div class="w3-col s8 m2">
+                    <input id="weightBS" name="weight" maxlength="12" 
+                           title="weight" type="text" is="p-inputtext" class="fw"/>
+                </div>    
+                <div class="w3-col s4 m1">
+                    <span class="fieldname" >weight.unit：</span>
+                </div>    
+                <div class="w3-col s8 m3">
+                    <select id="weightUnitBS" name="weightUnit" title="weight.unit"></select>
+                    <div id="weightUnitBSTxt" class="fw ui-inputtext ui-corner-all" ></div>
+                </div>
+                <div class="w3-col s4 m1">
+                    <span class="fieldname" >volume：</span>
+                </div>    
+                <div class="w3-col s8 m2">
+                    <input id="volumeBS" name="volume" maxlength="60" 
+                           title="volume" type="text" is="p-inputtext" class="fw"/>
+                </div>
+            </div>
+            <!-- 基本資料操作按鈕 -->
+            <div class="w3-row seller">
+                <div class="w3-col s12" >
+                    <button id="saveBasic" type="button" class="notTccPrd" >prd.basic.save</button>
+                    <!--　for 多型別
+                    &nbsp;&nbsp;
+                    <input type="checkbox" name="cbNoVariant" id="cbNoVariant"  style="display: none;"
+                           onchange="changeNoVariant()" value="0" is="p-checkbox"/>
+                    <label for="cbNoVariant" class="ui-widget"  style="display: none;" >single.variant</label>
+                    &nbsp;
+                    <button id="variantOps" type="button" style="display: none;">mt.variant.ops</button>
+                    -->
+                    &nbsp;
+                    <button id="delete" type="button">remove.prd</button>
+                    &nbsp;
+                    <button id="resetBasic" type="button" >clear</button>
+                </div>
+            </div>
+            <!-- 備註說明 -->
+            <div class="w3-row">
+                <div class="w3-col s12">
+                    <label class="hit"><i class="fa fa-info-circle"></i> msg.require</label>
+                </div>
+                <!-- for 多型別
+                <div class="w3-col s12">
+                    <span class="fa fa-info-circle hit"> msg.variants1</span>
+                </div>
+                <div class="w3-col s12">
+                    <span class="fa fa-info-circle hit"> msg.variants2</span>
+                </div>
+                <div class="w3-col s12">
+                    <span class="fa fa-info-circle hit"> msg.reomve.prd</span>
+                </div>
+                -->
+            </div>
+            
+            <!-- 狀態 -->
+            <div class="w3-row forOld" >
+                <div class="w3-col s4 m2">
+                    <span class="fieldname" >status：&nbsp;<i class="fa fa-hand-o-right" ></i></span>
+                </div>
+                <div class="w3-col s8 m1">
+                    <span id="statusName" class="fieldvalue" ></span>
+                </div>
+                <div class="w3-col s12 m4">
+                    <span id="showPublishTime" ></span>
+                    <span id="publishDIV" class="seller" >
+                        <button id="btnPublish" type="button">prd.publish</button>
+                    </span>
+                </div>    
+                <!-- for seller -->
+                <div id="statusDIV" class="w3-col s12 m2 seller">
+                    <select id="statusBS" name="status" title="status" ></select>
+                </div>
+                <div class="w3-col s12 m3 seller">
+                    <input id="publishTime" name="publishTime" type="text" data-field="date" readonly 
+                           is="p-inputtext" value="" size="12" placeholder="in.reserve.date" title="in.reserve.date" />
+                    <button id="btnChangeStatus" type="button">change.status</button>
+                </div>
+                <!-- for admin -->
+                <div id="approveDIV" class="w3-col s12 m5 admin"> 
+                    <button id="btnApprove" type="button">approve.pass</button>
+                    &nbsp;
+                    <button id="btnReject" type="button">approve.reject</button>
+                </div>
+                <!-- for dealer -->
+                <div id="dealerStatusDIV" class="w3-col s12 m5 dealer"> 
+                    <button id="btnOnSale" type="button">prd.publish</button>
+                    &nbsp;
+                    <button id="btnNotOnSale" type="button">nosale</button>
+                </div>
+            </div>   
+            <!-- 庫存資訊 -->
+            <div class="w3-row forOld notTccPrd" >
+                <div class="w3-col s12 m2">
+                    <span class="fieldname" >stock.info：&nbsp;<i class="fa fa-hand-o-right" ></i></span>
+                </div>    
+                <div class="w3-col s12 m2">
+                    <span class="fieldname" >stock.quantity：</span>
+                    <span id="stockQuantity" class="fieldvalue" >&nbsp;</span>
+                </div>
+                <div class="w3-col s12 m6"> 
+                    <button id="btnAddStockLog" type="button">add.stock.log</button>
+                    &nbsp;
+                    <button id="btnViewStockLog" type="button">view.stock.log</button>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+    
+    <!-- 商品型別選項維護 -->
+    <fieldset id="fsVariantOptions" >
+        <legend>mt.prd.variant</legend>
+        <div class="w3-row">
+            <div class="w3-col s12 m6">
+                <fieldset id="fsColor" >
+                    <legend>colors</legend>
+                    <div id="addColorForm" class="seller">
+                        <label>description：</label><input id="colorName"  type="text" is="p-inputtext" size="15" />
+                        <button id="addColor" type="button" >add</button><br/>
+                    </div>
+                    <div id="color" title="existed.colors"  >
+                        <div id="existedColors" ></div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="w3-col s12 m6">
+                <fieldset id="fsSize">
+                    <legend>sizes</legend>
+                    <div id="addSizeForm" class="seller">
+                        <label>description：</label><input id="sizeName"  type="text" is="p-inputtext" size="15" />
+                        <button id="addSize" type="button" >add</button><br/>
+                    </div>
+                    <div id="size" title="existed.variants"  >
+                        <div id="existedSizes" ></div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </fieldset>
+    
+    <!-- 商品依型別設定屬性 -->
+    <fieldset id="fsVariant" >
+        <legend>variant.attr</legend>
+        <div class="w3-row">
+            <div class="w3-col s12">
+                
+                <form id="editVariantForm" class="seller" >
+                    <input type="hidden" id="variantId" name="id" />
+                    
+                    <div class="w3-row">
+                        <div class="w3-col s6 m1">
+                            <span class="fieldname" >colors：</span>
+                        </div>    
+                        <div class="w3-col s6 m5">
+                            <select id="colorIn" name="colorId" ></select>
+                        </div>    
+                        <div class="w3-col s6 m1">
+                            <span class="fieldname" >sizes：</span>
+                        </div>    
+                        <div class="w3-col s6 m5">
+                            <select id="sizeIn" name="sizeId" ></select>
+                        </div>    
+                    </div>
+                    
+                    <div class="w3-row">
+                        <!--
+                        <div class="w3-col s6 m1">
+                            <span class="fieldname" >prd.compare.at.price：</span>
+                        </div>  
+                        <div class="w3-col s6 m2">
+                            <input id="compareAtPriceIn" name="compareAtPrice" type="text" 
+                                   is="p-inputtext" class="fw"/>
+                        </div>
+                        -->
+                        <div class="w3-col s6 m1">
+                            <span class="fieldname" >prd.price：</span>
+                        </div>    
+                        <div class="w3-col s6 m2">
+                            <input id="priceIn" name="price" type="text" is="p-inputtext" class="fw" />
+                        </div>    
+                        <!--
+                        <div class="w3-col s6 m1">
+                            <span class="fieldname" >barcode：</span>
+                        </div>    
+                        <div class="w3-col s6 m2">
+                            <input id="barcodeIn" name="barcode" type="text" is="p-inputtext" class="fw" />
+                        </div>  
+                        <div class="w3-col s6 m1">
+                            <span class="fieldname" >sku：</span>
+                        </div>    
+                        <div class="w3-col s6 m2">
+                            <input id="skuIn" name="sku" type="text" is="p-inputtext" class="fw" />
+                        </div>
+                        -->
+                    </div>
+                    
+                    <div class="w3-row">    
+                        <div class="w3-col s12">
+                            <button id="saveVariant" type="button">save</button>
+                            &nbsp;
+                            <button id="clearVariant" type="button" >clear</button>
+                        </div>
+                    </div>
+                </form>
+                
+                <div id="plVariants" title="existed.list"  >
+                    <div id="existedVariants" class="w3-responsive" >
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </fieldset>
+    
+    <!-- 商品明細 -->
+    <div class="notTccPrd">
+        <fieldset id="fsFullInfo" >
+            <legend>prd.detail</legend>
+            <!-- row 1 -->
+            <div class="w3-row">
+                <!-- 商品圖片 -->
+                <div id="divProdPics" class="w3-col s12 m6" >
+                    <fieldset id="fsProdPics" >
+                        <legend>prd.picture</legend>
+                        <div>
+                            <div id="prdPics"></div>
+                        </div>
+                        <div id="selectedPic"></div>
+
+                        <!-- for file upload -->
+                        <div class="seller" >
+                            <div id="divMultiUpload" class="resp-container">
+                                <iframe id="ifUpload" class="resp-iframe" 
+                                        src="lib/fileupload/fileUpload.html" allowfullscreen></iframe>
+                            </div>
+                            <hr/>
+                            <label class="ui-widge"><i class="fa fa-info-circle"></i> msg.pic.select</label>
+                            <label class="ui-widge"><i class="fa fa-info-circle"></i> msg.pic.upload</label>
+                            <label class="ui-widge"><i class="fa fa-info-circle"></i> msg.pic.cover1</label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="w3-col s12 m6">
+                    <div id="divProdIntro" >
+                        <fieldset id="fsProdIntro" >
+                            <legend>prd.brief</legend>
+                            <!-- 商品標題
+                            <h4><span id="prdtitle" ></span></h4>
+                            <hr class="style13"/>
+                            -->
+                            <!-- 商品簡介 -->
+                            <div>
+                                <label class="ui-widget">prd.brief</label>
+                                <button id="btEditIntrodution" type="button" class="seller" >edit</button>
+                                <div id="introductions" ></div>
+                                <div id="editIntroductions" >
+                                    <hr/>
+                                    <div id="addIntroForm" >
+                                        <label>description：</label><input id="introdution"  type="text" is="p-inputtext" size="30" />
+                                        <button id="addIntro" type="button" >add</button><br/>
+                                    </div>
+                                    <div id="plIntros" title="existed.intros" >
+                                        <div id="existedIntros" ></div>
+                                        <hr/>
+                                        <div class="w3-center">
+                                            <button id="saveIntro" type="button" >prd.intro.save</button>
+                                            <button id="closeIntro" type="button" >cancel.close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 
+                            <hr class="style12"/>
+                            訂價
+                            <div id="compareAtPrice" ></div>
+                            <hr class="style12"/>
+                            -->
+                            <!-- 售價
+                            <div id="price" ></div>
+                            -->
+                            <hr class="style12" style="display:none;"/>
+                            <!-- 配送方式 -->
+                            <div style="display:none;" >
+                                <label class="ui-widget">shipping.method</label>
+                                <button id="btEditShipping" type="button" class="seller">edit</button>
+                                <div id="shippings" ></div>
+                                <div id="editShippings" >
+                                    <hr/>
+                                    <div id="pklShipping">
+                                        <select name="source"></select>
+                                        <select name="target"></select>
+                                    </div>
+                                    <hr/>
+                                    <div class="w3-center">
+                                        <button id="saveShipping" type="button" >shipping.save</button>
+                                        <button id="closeShipping" type="button" >cancel.close</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="style12" style="display:none;"/>
+                            <!-- 付款方式 -->
+                            <div style="display:none;" >
+                                <label class="ui-widget">pay.method</label>
+                                <button id="btEditPayment" type="button" class="seller">edit</button>
+                                <div id="payments" ></div>
+                                <div id="editPayments" >
+                                    <hr/>
+                                    <div id="pklPayment">
+                                        <select name="source"></select>
+                                        <select name="target"></select>
+                                    </div>
+                                    <hr/>
+                                    <div class="w3-center">
+                                        <button id="savePayment" type="button" >pay.save</button>
+                                        <button id="closePayment" type="button" >cancel.close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <!-- 商品詳細說明 -->
+                        <fieldset id="fsDetail" >
+                            <legend>prd.detail.desc</legend>
+                            <hr/>
+                            <form name="fmDetail" id="fmDetail" action="/" method="POST" enctype="multipart/form-data">
+                                <div id="details" class="maxWidthImg" >
+                                </div>
+                            </form>
+                        </fieldset>
+
+                        <!-- 商品規格屬性 暫時隱藏 -->
+                        <fieldset id="fsPrdAttrs" style="display:none" >
+                            <legend>prd.spec.attrs</legend>
+
+                            <form id="editAttrForm" class="seller" >
+                                <div class="w3-row">
+                                    <div class="w3-col s12 m2" ><label>spec.src：</label></div>
+                                    <div class="w3-col s6 m5" >
+                                        <label style="vertical-align:top;">
+                                            <input type="radio" id="attrScopeT" name="attrScope" value="T" class="w3-radio" />
+                                            same.type.spec
+                                        </label>
+                                    </div>
+                                    <div class="w3-col s6 m5" >
+                                        <label style="vertical-align:top;">
+                                            <input type="radio" id="attrScopeP" name="attrScope" value="P" class="w3-radio" />
+                                            prd.cus.spec
+                                        </label>
+                                    </div>
+                                </div>      
+                                <div class="w3-row">
+                                    <div class="w3-col s12 m2" >
+                                        <label class="fieldname"  >spec.name：</label>
+                                    </div>
+                                    <div class="w3-col s12 m10">
+                                        <div id="divAttrId" ><select id="attrId" name="attrId" ></select></div>
+                                        <input id="attrName" name="attrName" type="text" 
+                                               placeholder="input.spec.name" 
+                                               is="p-inputtext" class="fw" />
+                                    </div>
+                                </div>
+                                <div class="w3-row">
+                                    <div class="w3-col s6 m2">
+                                        <label class="fieldname" >spec.content：</label>
+                                    </div>
+                                    <div class="w3-col s6 m10">
+                                        <input id="attrValue" name="attrValue" type="text" 
+                                               is="p-inputtext" class="fw"/>
+                                    </div>
+                                </div>
+
+                                <div class="w3-row">    
+                                    <div class="w3-col s12">
+                                        <button id="confirmAttr" type="button" >action.confirm</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div id="existedAttrs" class="w3-responsive" >
+                            </div>
+                            <hr/>
+                            <div class="w3-row seller">
+                                <div class="w3-col s12" >
+                                    <button id="saveAttr" type="button">spec.attr.save</button>
+                                    &nbsp;&nbsp;
+                                    <button id="cancelAttr" type="button">cancel</button>
+                                    &nbsp;
+                                    <label class="ui-widge"><i class="fa fa-info-circle"></i> msg.remove1</label>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+    </div>
+</div>
+
+<!-- 新增庫存異動記錄 -->
+<div id="dlgAddStockLog" title="add.stock.log" class="il8n-title" style="display: none;">
+    <div id="divAddStockLog" >
+        <form id="fmAddStockLog" name="fmStockLog" >
+            <label class="ui-widget">fd.stock.type：</label>
+            <select id="logType" name="type" ></select>
+            <br/>
+            <label class="ui-widget">fd.stock.quantity：</label>
+            <input id="logQuantity" name="quantity" required="true" min="1" minlength="1" maxlength="20" 
+                   type="text" is="p-inputtext" size="20" />
+            <br/>
+            <label class="ui-widget info">quantity.positive</label>
+            <br/>
+            <label class="ui-widget">fd.stock.memo：</label>
+            <textarea id="logMemo" name="memo" rows="2" class="fw" is="p-inputtext"></textarea>
+            <hr/>
+        </form>
+    </div>
+</div>
+
+<!-- 檢視庫存異動記錄 -->
+<div id="dlgViewStockLog" title="view.stock.log" class="il8n-title" style="display: none;">
+    <div id="slSearchResultMsg" ></div>
+    <div id="tbStockLog" style="overflow-y: auto;" ></div>
+</div>
+

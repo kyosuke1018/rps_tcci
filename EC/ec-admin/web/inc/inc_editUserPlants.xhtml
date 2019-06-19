@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!-- 編輯對話框 -->
+    <h:form id="userPlantsEditForm" prependId="false" >
+        <p:dialog header="編輯對話框" id="userPlantsEditDlg" widgetVar="vwUserPlantsEditDlg" 
+                  modal="true" draggable="false" resizable="false" showEffect="clip" hideEffect="clip" 
+                  width="790" height="500" 
+                  onShow="hideBodyScrollY();"
+                  onHide="showBodyScrollY();" 
+            closeOnEscape="true" >
+                      
+            <h:panelGrid id="pgUserPlantsEdit" columns="1" style="margin-bottom:10px" cellpadding="0" >
+                <ui:repeat value="#{userPlants.firstList}" var="firstVO" >
+                    <p:fieldset legend="#{firstVO.label}"
+                                collapsed="#{userPlants.collapsed(firstVO.id)}" toggleable="true" >
+                        <h:panelGroup id="pgSelectArea" >
+                            <p:selectBooleanCheckbox itemLabel="全選/全不選" value="#{userPlants.firstSelected[firstVO.id]}" >
+                                <p:ajax event="change" update=":userPlantsEditForm:pgUserPlantsEdit" 
+                                        listener="#{userPlants.selectFirst(firstVO.id)}" />
+                            </p:selectBooleanCheckbox>
+                            <p:separator />
+                            <ui:repeat value="#{userPlants.familysMap[firstVO.id]}" var="familyVO" varStatus="status" >
+                                <h:panelGroup rendered="#{(status.index gt 0) and (status.index%4 eq 0)}" ><br/></h:panelGroup>
+                                <p:selectBooleanCheckbox itemLabel="#{familyVO.label}" value="#{userPlants.familySelected[familyVO.id]}" >
+                                    <p:ajax event="change" update=":userPlantsEditForm:pgUserPlantsEdit" 
+                                            listener="#{userPlants.selectFamily(firstVO.id, familyVO.id)}" />
+                                </p:selectBooleanCheckbox>
+                                <p:spacer width="5" height="5" />
+                            </ui:repeat>
+                        </h:panelGroup>
+                    </p:fieldset>
+                </ui:repeat>
+            </h:panelGrid>
+                
+            <p:separator /> 
+            <p:panelGrid columns="1" styleClass="pgDlgActionBtns" >
+                <h:panelGroup id="pgUserPlantsEditSubmit" >
+                    <p:commandButton id="cbUserPlantsEditSave" value="儲存"
+                                     actionListener="#{controller.saveUserPlants()}" 
+                                     update=":fmMain" 
+                                     oncomplete="saveUserPlantsEditDlg(xhr, status, args);" 
+                                     icon="ui-icon-disk" ></p:commandButton>
+                    <p:spacer width="5" />
+                    <p:commandButton id="cbUserPlantsEditClose" value="取消" immediate="true" 
+                                     onclick="closeUserPlantsEditDlg();" 
+                                     icon="ui-icon-circle-close" ></p:commandButton>
+                </h:panelGroup>
+            </p:panelGrid>
+        </p:dialog>
+    </h:form>
+    
+    <script type="text/javascript">
+        //<![CDATA[
+        function openUserPlantsEditDlg(xhr, status, args){
+            if( afterCallBackHandler(xhr, status, args) ){
+                showUserPlantsEditDlg();
+            }
+        }
+        function saveUserPlantsEditDlg(xhr, status, args){
+            if( afterCallBackHandler(xhr, status, args) ){
+                closeUserPlantsEditDlg();
+            }
+        }
+        
+        function showUserPlantsEditDlg(){
+            PF('vwUserPlantsEditDlg').show();
+        }
+        function closeUserPlantsEditDlg(){
+            PF('vwUserPlantsEditDlg').hide();
+        }
+        //]]>
+    </script>
+</ui:composition>

@@ -1,0 +1,145 @@
+{
+    "res":{
+        "status":1
+    },
+    "menus": [
+        {
+            "name":"首頁",
+            "code":"menu.fn.home",
+            "url":"home.html",
+            "iconClass":"fa fa-home",
+            "show":false,
+            "leaf":true
+        },
+        {
+            "name":"個人資訊維護",
+            "code":"menu.fn.my",
+            "url":"my.html",
+            "iconClass":"fa fa-user",
+            "show":false,
+            "leaf":true
+        },
+        {
+            "name":"商品管理",
+            "code":"menu.fn.prd",
+            "url":"#",
+            "iconClass":"fa fa-database",
+            "menus": [
+                {
+                    "name":"商品資料維護",
+                    "code":"menu.fn.myProducts",
+                    "url":"myProducts.html",
+                    "iconClass":"fa fa-cubes",
+                    "leaf":true
+                },
+                {
+                    "name":"商品分類查詢",
+                    "code":"menu.fn.myPrdType",
+                    "url":"myPrdType.html",
+                    "iconClass":"fa fa-sitemap",
+                    "flag":"ec2.0",
+                    "leaf":true
+                },
+                {
+                    "name":"批次商品匯入",
+                    "code":"menu.fn.importPrd",
+                    "url":"importPrd.html",
+                    "iconClass":"fa fa-file-excel-o",
+                    "flag":"ec2.0",
+                    "leaf":true
+                },
+                {
+                    "name":"台泥商品匯入",
+                    "code":"menu.fn.importTccPrd",
+                    "url":"importTccPrd.html",
+                    "iconClass":"fa fa-file-excel-o",
+                    "flag":"ec1.5",
+                    "leaf":true
+                }
+            ]
+        },
+        {
+            "name":"訂單管理",
+            "code":"menu.fn.order",
+            "url":"#",
+            "iconClass":"fa fa-shopping-cart",
+            "menus": [
+                {
+                    "name":"訂單資訊維護",
+                    "code":"menu.fn.orders",
+                    "url":"orders.html",
+                    "iconClass":"fa fa-cart-arrow-down",
+                    "leaf":true
+                },
+                {
+                    "name":"詢價單資訊維護",
+                    "code":"menu.fn.rfqs",
+                    "url":"rfqs.html",
+                    "iconClass":"fa fa-quora",
+                    "flag":"ec2.0",
+                    "leaf":true
+                }
+            ]
+        },
+        {
+            "name":"客戶管理",
+            "code":"menu.fn.cus",
+            "url":"#",
+            "iconClass":"fa fa-users",
+            "menus": [
+                {
+                    "name":"客戶資訊維護",
+                    "code":"menu.fn.customers",
+                    "url":"customers.html",
+                    "iconClass":"fa fa-address-card",
+                    "leaf":true
+                }
+            ]
+        },
+        {
+            "name":"商店管理",
+            "code":"menu.fn.store",
+            "url":"#",
+            "iconClass":"fa fa-building-o",
+            "menus": [
+                {
+                    "name":"商店資訊維護",
+                    "code":"menu.fn.myStore",
+                    "url":"myStore.html",
+                    "iconClass":"fa fa-building",
+                    "leaf":true
+                },
+                {
+                    "name":"商店管理員維護",
+                    "code":"menu.fn.manager",
+                    "url":"managers.html",
+                    "iconClass":"fa fa-users",
+                    "leaf":true
+                },
+                {
+                    "name":"供應商資訊維護",
+                    "code":"menu.fn.vendors",
+                    "url":"vendors.html",
+                    "iconClass":"fa fa-ambulance",
+                    "flag":"ec2.0",
+                    "leaf":true
+                }
+            ]
+        },
+        {
+            "name":"帳務管理",
+            "code":"menu.fn.fin",
+            "url":"#",
+            "iconClass":"fa  fa-cc-mastercard",
+            "menus": [
+                {
+                    "name":"應收帳款資訊查詢",
+                    "code":"menu.fn.noPaid",
+                    "url":"noPaid.html",
+                    "iconClass":"fa fa-money",
+                    "leaf":true
+                }
+            ]
+        }
+    ]
+}

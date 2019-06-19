@@ -1,0 +1,51 @@
+{
+    "prdStatus":[
+        {"value":1, "label":"草搞"},
+        {"value":2, "label":"已上架"},
+        {"value":3, "label":"已下架"}
+    ],
+    "weightUnit":[
+        {"value":1, "label":"公噸"},
+        {"value":2, "label":"公斤"},
+        {"value":3, "label":"公克"}
+    ],
+    "sellerVendor":[
+        {"value":1, "label":"供應商01"},
+        {"value":2, "label":"供應商02"}
+    ],
+    "prdTypeAttrs":[
+        {"value":1, "label":"尺寸"},
+        {"value":2, "label":"重量"},
+        {"value":3, "label":"材質"},
+        {"value":4, "label":"特色"}
+    ],
+    "cusLevel":[
+        {"value":"1", "label":"一般"},
+        {"value":"2", "label":"VIP"}
+    ],
+    "cusStatus":[
+        {"value":"1", "label":"有未出貨訂單"},
+        {"value":"2", "label":"有未付款訂單"}
+    ],
+    "orderStatus":[
+        {"value": 0, "label":"草稿"},
+        {"value": 11, "label":"已下單"},
+        {"value": 12, "label":"已付款(未出貨)"},
+        {"value": 13, "label":"已出貨(未付款)"},
+        {"value": 14, "label":"已付款(已出貨)"},
+        {"value": 19, "label":"已結帳"},
+        {"value": 21, "label":"已取消(待退貨、退款)"},
+        {"value": 22, "label":"已取消(待退款)"},
+        {"value": 23, "label":"已取消(待退貨)"},
+        {"value": 24, "label":"已取消(結案)"}
+    ],
+    "shippings":[
+        {"value":1, "label":"宅配"},
+        {"value":2, "label":"超商取貨"}
+    ],
+    "payments":[
+        {"value":1, "label":"Web-ATM"},
+        {"value":2, "label":"ATM"},
+        {"value":3, "label":"信用卡"}
+    ]
+}

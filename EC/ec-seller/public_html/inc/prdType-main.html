@@ -1,0 +1,116 @@
+                <fieldset id="fsTree">
+                    <legend>prd.types.list</legend>
+                    <div id="addArea" >
+                        <button id="add" type="button" >add.types</button>
+                        <span>select.row</span>
+                    </div>
+                    <div id="noteArea" >
+                        <label><i class="fa fa-info-circle"></i> prd.types.msg1</label>
+                        <!--
+                        <label><i class="fa fa-info-circle"></i> prd.types.msg2</label>
+                        -->
+                    </div>
+                    <!-- 分類樹狀圖 -->
+                    <div id="treeContainer" >
+                        <div id="treePrdType"></div>
+                    </div>
+                </fieldset>
+                
+                <div id="stickyFlag" ></div>
+                    
+                <!-- 針對選取項目操作功能 -->
+                <div id="selectedItemHeader" >
+                    <div class="w3-row">
+                        <div class="w3-col s12 m4">
+                            <span id="selectItem" ></span>
+                        </div>
+                        <div class="w3-col s12 m8">
+                        </div>
+                    </div>
+                </div>
+                    
+                <div id="selectedItemContent" class="detail">
+                    
+                    <fieldset  id="fsEdit" >
+                        <legend>edit.area</legend>
+                        <form id="fmEdit" action="#" >
+                            <input type="hidden" id="id" name="id" value="0" />
+                            <div class="w3-row">
+                                <div class="w3-col s12 m2 required" ><label>prd.type.cname：</label></div>
+                                <div class="w3-col s12 m6" >
+                                    <input type="text" id="cname" name="cname" title="prd.type.cname"
+                                                                   required minlength="2" maxlength="30" 
+                                                                   is="p-inputtext" value="" size="20" />
+                                </div>
+                                <div class="w3-col s12 m2 required" ><label>sortby：</label></div>
+                                <div class="w3-col s12 m2" >
+                                    <input type="text" id="sortnum" name="sortnum" 
+                                           min="1" max="999" title="sortby" required is="p-inputtext" value="" size="3" />
+                                </div>
+                            </div>
+                            <div class="w3-row">
+                                <div class="w3-col s12 m2 required"><label>parent.type：</label></div>
+                                <div class="w3-cell-middle w3-col s12 m6">
+                                    <select id="typeL1" name="typeL1"></select>
+                                    <select id="typeL2" name="typeL2"></select>
+                                </div>
+                                <div class="w3-col s12 m2"><label>type.level：</label></div>
+                                <div class="w3-col s12 m2">
+                                    <input type="text" id="levelnum" readonly="true"
+                                           style="background-color: #D8D8D8;"
+                                           min="1" max="3" title="type.level"
+                                           name="levelnum" is="p-inputtext" value="" size="3" />
+                                </div>
+                            </div>
+                            <div class="w3-row">
+                                <div class="w3-col s12" >
+                                    <button id="save" type="button">save</button>
+                                    &nbsp;
+                                    <button id="delete" type="button">remove.item</button>
+                                    &nbsp;
+                                    <button id="addSub" type="button">add.subitem</button>
+                                    <!--
+                                    &nbsp;
+                                    <button id="attr" type="button">spec.attr.set</button>
+                                    -->
+                                    &nbsp;
+                                    <button id="cancel" type="button">cancel.close</button>
+                                </div>
+                            </div>
+                            <span class="note"><i class="fa fa-info-circle"></i> remove.desc</span>
+                        </form>
+                    </fieldset>
+                    
+                    <fieldset  id="fsAttr" >
+                        <legend>prd.spec.cname</legend>
+                        <!-- 商品規格屬性 -->
+                        <form id="editAttrForm" >  
+                            
+                            <div class="w3-row" id="editArea">
+                                <div class="w3-col s12 m6">
+                                    <label class="fieldname" >attr.cname：</label>
+                                    <input id="attrName" name="cname" type="text" 
+                                           required title="attr.cname" maxlength="20" minlength="1" 
+                                           is="p-inputtext" size="15" />
+                                           
+                                    <button id="confirmAttr" type="button" >action.confirm</button>
+                                </div>
+                            </div>
+                            
+                            <div id="existedAttrs" class="w3-responsive" >
+                            </div>
+                            
+                            <div class="w3-row" id="saveArea" >
+                                <div class="w3-col s12" >
+                                    <button id="saveAttr" type="button">spec.save</button>
+                                    &nbsp;&nbsp;
+                                    <button id="cancelAttr" type="button">cancel</button>
+                                    &nbsp;
+                                    <label class="ui-widge"><i class="fa fa-info-circle"></i> remove.recovery</label>
+                                </div>
+                            </div>
+                            
+                        </form>
+                    </fieldset>
+                    
+                </div><!-- selectedItemContent -->

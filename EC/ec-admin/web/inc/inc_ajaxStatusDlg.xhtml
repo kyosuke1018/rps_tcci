@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <p:ajaxStatus widgetVar="ajaxStatus" id="myAjaxStatus" rendered="true" 
+                  onstart="beforeAjaxHandler()"
+                  onerror="afterAjaxErrorHandler();"
+                  onsuccess="afterAjaxSuccessHandler();"
+                  />
+    <!-- for p:ajaxStatus 使用 -->
+    <!-- 處理中 -->
+    <p:dialog header="#{msg['common.inProcess']}" 
+              styleClass="cus-dialog" 
+              widgetVar="ajaxStatusDlg" 
+              responsive="true"  
+              modal="true" 
+              resizable="false"
+              draggable="false" 
+              closable="false">
+        <h:graphicImage library="images" name="loading9.gif" />
+        <p:spacer width="4" />
+        <!-- 資料處理中，請稍候... -->
+        <h:outputText value="#{msg['common.waitting']}" style="font-size: 16px;"/>
+    </p:dialog>
+    <!-- for 自訂 BlockUI 時機使用 -->
+    <!-- 處理中 -->
+    <p:dialog header="#{msg['common.inProcess']}" 
+              widgetVar="inProcessDlg"
+              responsive="true"  
+              modal="true" 
+              resizable="false"
+              draggable="false" 
+              closable="false">
+        <h:graphicImage library="images" name="loading9.gif" />
+        <p:spacer width="4" />
+        <!-- 資料處理中，請稍候... -->
+        <h:outputText value="#{msg['common.waitting']}" style="font-size: 16px;"/>
+    </p:dialog>
+    <!-- 處理完成 -->
+    <p:dialog header="#{msg['common.finishProcess']}" 
+              widgetVar="procSuccessDlg"
+              modal="true" 
+              width="230"
+              resizable="false"
+              draggable="false" 
+              closable="false">
+        <h:graphicImage library="images" name="check.png" />
+        <p:spacer width="10" />
+        <!-- 已處理完成 -->
+        <h:outputText value="#{msg['common.finishProcess2']}。" style="font-size: 14px;"/>
+    </p:dialog>
+    <!-- 處理失敗 -->
+    <p:dialog header="#{msg['common.failProcess']}" 
+              widgetVar="procErrorDlg" 
+              modal="true" 
+              width="230"
+              resizable="false"
+              draggable="false" 
+              closable="false">
+        <h:graphicImage library="images" name="delete.png" />
+        <p:spacer width="10" />
+        <!-- 處理失敗 -->
+        <h:outputText value="#{msg['common.failProcess']}!!!" style="font-size: 14px;"/>
+    </p:dialog>
+    <script type="text/javascript">
+    //<![CDATA[
+    onerror=handleErr;
+    var txt="";
+    var DEBUG = true;// for debug only
+
+    function handleErr(msg,url,l){
+        txt="";
+        if( DEBUG ){
+            txt+="There was a javascript error on this page.\n\n";
+            txt+="Error: " + msg + "\n";
+            txt+="URL: " + url + "\n";
+            txt+="Line: " + l + "\n\n";
+            txt+="Click OK to continue.\n\n";
+        }
+        txt+=CALL_BACK_NULL_MSG;
+        txt+=ERROR_MSG;
+        alert(txt);
+        return true;
+    }
+    //]]>
+    </script>
+    <script type="text/javascript">
+    //<![CDATA[
+    var ajaxStatusShow = true;
+    var prototypeOnly = false;
+
+    function beforeAjaxHandler(){
+        if (ajaxStatusShow){
+            PF('ajaxStatusDlg').show();
+        }
+    }
+    function afterAjaxHandler(){
+        PF('ajaxStatusDlg').hide();
+        ajaxStatusShow = true;
+    }
+    function afterAjaxSuccessHandler(){
+        //alert("afterAjaxSuccessHandler");
+        afterAjaxHandler();
+    }
+    function afterAjaxErrorHandler(){
+        //alert("afterAjaxErrorHandler");
+        if( prototypeOnly ){ return; }
+        afterAjaxHandler();
+        alertErrorMsg();
+    }
+        
+    function afterCallBackHandler(xhr, status, args, showDlg, selector, offset) {
+        try{
+            if( args === undefined ){
+                return false;
+            }
+            showDlg = isNA(showDlg) || showDlg;
+            if( args.success !== undefined ){
+                if( args.success ){
+                    if( showDlg ){// 若不希望顯示，onstart 時可設定 ajaxStatusShow = false;
+                        afterSuccess();
+                    }
+                    if( !isNA(selector) ){// move to
+                        scrollTo(selector, offset);
+                    }
+                    return true;
+                }
+            }
+
+            if( args.msg !== undefined ){
+                alert(args.msg);
+            }
+        }catch(err){
+            afterError();
+            // 請將畫面提供系統管理人員 以利排除系統問題，謝謝!
+            alert("#{msg['common.msg0001']} ("+ err + "), #{msg['common.msg0002']}");
+        }
+        return false;
+    }
+    
+    // 儲存後處理
+    function afterSaveHandler(xhr, status, args) {
+        try{
+            if( args === undefined ){
+                return false;
+            }
+            if( args.msg !== undefined ){
+                alert(args.msg);
+            }
+            if( args.success !== undefined ){
+                if( args.success ){
+                    if (ajaxStatusShow){
+                        afterSuccess();
+                    }
+                    ajaxStatusShow = true;
+                    return true;
+                }
+            }
+           
+        }catch(err){
+            afterError();
+            alert("請將畫面提供系統管理人員 ("+ err + "), 以利排除系統問題，謝謝!");
+        }
+        ajaxStatusShow = true;
+        return false;
+    }
+        
+    /**
+     * 處理完成
+     */
+    function afterSuccess(){
+        PF('procSuccessDlg').show();
+        setTimeout("PF('procSuccessDlg').hide()", 1000);
+    };
+
+    /**
+     * 處理失敗
+     */
+    function afterError(){
+        PF('procErrorDlg').show();
+        setTimeout("PF('procErrorDlg').hide()", 1500);
+    };
+    
+    /**
+     * do Block UI
+     * @param {type} flag
+     * @returns {undefined}
+     */
+    function blockUI(flag){
+        if( flag ){
+            PF('inProcessDlg').show();
+        }else{
+            PF('inProcessDlg').hide();
+        }
+    }
+    
+    function waitPrimefacesReady(ms){
+        blockUI(true);
+        setTimeout('blockUI(false)', ms);
+    }
+    //]]>
+    </script>
+</ui:composition>

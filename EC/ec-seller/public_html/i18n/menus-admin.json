@@ -1,0 +1,124 @@
+{
+    "res":{
+        "status":1
+    },
+    "menus": [
+        {
+            "name":"會員管理",
+            "code":"menu.fn.mem",
+            "url":"#",
+            "iconClass":"fa fa-users",
+            "menus": [
+                {
+                    "name":"會員資訊維護",
+                    "code":"menu.fn.members",
+                    "url":"members.html",
+                    "iconClass":"fa fa-user-circle-o",
+                    "leaf":true
+                },
+                {
+                    "name":"匯入台泥經銷商",
+                    "code":"menu.fn.importDeader",
+                    "url":"importDeader.html",
+                    "iconClass":"fa fa-file-excel-o",
+                    "leaf":true
+                },
+                {
+                    "name":"匯入經銷商下游客戶",
+                    "code":"menu.fn.importDownstream",
+                    "url":"importDownstream.html",
+                    "iconClass":"fa fa-file-excel-o",
+                    "leaf":true
+                }
+            ]
+        },
+        {
+            "name":"商店管理",
+            "code":"menu.fn.store",
+            "url":"#",
+            "iconClass":"fa fa-building-o",
+            "menus": [
+                {
+                    "name":"商店資訊維護",
+                    "code":"menu.fn.myStore",
+                    "url":"stores.html",
+                    "iconClass":"fa fa-building",
+                    "leaf":true
+                }
+            ]
+        },
+        {
+            "name":"商品管理",
+            "code":"menu.fn.prd",
+            "url":"#",
+            "iconClass":"fa fa-database",
+            "menus": [
+                {
+                    "name":"商品資料查詢",
+                    "code":"menu.fn.products",
+                    "url":"products.html",
+                    "iconClass":"fa fa-cubes",
+                    "leaf":true
+                },
+                {
+                    "name":"商品分類維護",
+                    "code":"menu.fn.prdType",
+                    "url":"prdType.html",
+                    "iconClass":"fa fa-sitemap",
+                    "leaf":true
+                },
+                {
+                    "name":"台泥商品維護",
+                    "code":"menu.fn.tccProds",
+                    "url":"tccProds.html",
+                    "iconClass":"fa fa-cubes",
+                    "leaf":true
+                }
+            ]
+        },
+        {
+            "name":"行銷管理",
+            "code":"menu.fn.sales",
+            "url":"#",
+            "iconClass":"fa fa-sellsy",
+            "menus": [
+                {
+                    "name":"首頁輪播圖示維護",
+                    "code":"menu.fn.carousel",
+                    "url":"carousel.html",
+                    "iconClass":"fa fa-recycle",
+                    "leaf":true
+                },
+                {
+                    "name":"人氣商品維護",
+                    "code":"menu.fn.hotPrd",
+                    "url":"hotPrd.html",
+                    "iconClass":"fa fa-h-square",
+                    "leaf":true
+                },
+                {
+                    "name":"人氣商店維護",
+                    "code":"menu.fn.hotStore",
+                    "url":"hotStore.html",
+                    "iconClass":"fa fa-users",
+                    "leaf":true
+                }
+            ]
+        },
+        {
+            "name":"系統管理",
+            "code":"menu.fn.sys",
+            "url":"#",
+            "iconClass":"fa fa-cog",
+            "menus": [
+                {
+                    "name":"系統公告維護",
+                    "code":"menu.fn.bulletin",
+                    "url":"bulletin.html",
+                    "iconClass":"fa fa-bullhorn",
+                    "leaf":true
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+{
+    "name": "ec-vender", "version": "1.0.0", "keywords": [
+        "util", "functional", "server", "client", "browser"
+    ], "author": "Peter.pan", "contributors": [
+    ], "dependencies": {}
+}

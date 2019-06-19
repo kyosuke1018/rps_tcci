@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+<!--    <jdbc-connection-pool name="tccstoreDkPool"
+                          res-type="javax.sql.DataSource"
+                          datasource-classname="oracle.jdbc.pool.OracleDataSource"
+                          connection-validation-method="auto-commit"
+                          is-connection-validation-required="true"
+                          fail-all-connections="true">
+        <property name="User" value="tccstore_dk"/>
+        <property name="Password" value="abcd1234"/>
+        <property name="URL" value="jdbc:oracle:thin:@192.168.203.62:1521:orcl"/>
+    </jdbc-connection-pool>
+    <jdbc-resource pool-name="tccstoreDkPool" jndi-name="jdbc/tccstoreDk"></jdbc-resource>-->
+    <jdbc-connection-pool name="ec_userPool"
+                          res-type="javax.sql.DataSource"
+                          datasource-classname="oracle.jdbc.pool.OracleDataSource"
+                          connection-validation-method="auto-commit"
+                          is-connection-validation-required="true"
+                          fail-all-connections="true">
+        <property name="User" value="ec_user"/>
+        <property name="Password" value="abcd1234"/>
+        <property name="URL" value="jdbc:oracle:thin:@192.168.203.81:1521:orcl"/>
+    </jdbc-connection-pool>
+    <jdbc-resource pool-name="ec_userPool" jndi-name="jdbc/ec"></jdbc-resource>
+    
+    
+    <!-- app level configuration -->
+<!--    <custom-resource factory-class="org.glassfish.resources.custom.factory.PropertiesFactory" 
+        res-type="java.util.Properties" jndi-name="jndi/jwtEx2.config">
+      <property name="callerQuery" value="SELECT PASSWORD FROM TC_USER WHERE ACCOUNT=?"></property>
+      <property name="groupsQuery" value="SELECT CODE from TC_GROUP G, TC_USERGROUP UG, TC_USER U WHERE G.ID=UG.GROUP_ID AND UG.USER_ID=U.ID AND U.ACCOUNT=?"></property>
+    </custom-resource>-->
+    <custom-resource jndi-name="jndi/ec.config"
+                     res-type="java.util.Properties"
+                     factory-class="org.glassfish.resources.custom.factory.PropertiesFactory">
+        <property name="callerQuery" value="SELECT PASSWORD FROM EC_MEMBER WHERE LOGIN_ACCOUNT=?"></property>
+        <property name="groupsQuery" value="SELECT CODE from TC_GROUP G, TC_USERGROUP UG, TC_USER U WHERE G.ID=UG.GROUP_ID AND UG.USER_ID=U.ID AND U.LOGIN_ACCOUNT=?"></property>
+        <property name="url.prefix" value="http://192.168.203.62"></property>
+        <property name="ssoTicketUrl" value="http://192.168.203.50/storegateway/login"></property>
+        <!--<property name="ssoTicketUrl" value="https://tccstore.taiwancement.com/storegateway/login"></property>-->
+        <property name="jpush.master" value="da7c7386f45ca642a9843c8e"/>
+        <property name="jpush.appkey" value="542a821cd3ae576d72809a9f"/>
+    </custom-resource>
+    
+    <!-- jms for cache coordinate -->
+<!--    <connector-connection-pool name="jms/cacheCoordinatePool"
+                               resource-adapter-name="jmsra"
+                               connection-definition-name="javax.jms.ConnectionFactory">
+        <property name="AddressList" value="192.168.203.81"/>
+        <property name="Password" value="guest"/>
+        <property name="UserName" value="guest"/>
+    </connector-connection-pool>
+    <connector-resource jndi-name="jms/cacheCoordinateResource" pool-name="jms/cacheCoordinatePool"/>
+    
+    <admin-object-resource jndi-name="jms/tccstoreTopic"
+                           res-adapter="jmsra"
+                           res-type="javax.jms.Topic"
+                           class-name="com.sun.messaging.Topic">
+        <property name="Name" value="tccstoreTopic"/>
+    </admin-object-resource>-->
+</resources>

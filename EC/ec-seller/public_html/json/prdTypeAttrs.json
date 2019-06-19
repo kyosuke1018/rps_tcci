@@ -1,0 +1,8 @@
+{
+    "list": [
+        {"id":1, "cname":"尺寸", "sortnum":1 },
+        {"id":2, "cname":"重量", "sortnum":2 },
+        {"id":3, "cname":"材質", "sortnum":3 },
+        {"id":4, "cname":"特色", "sortnum":4 }
+    ]
+}

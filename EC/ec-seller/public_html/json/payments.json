@@ -1,0 +1,7 @@
+{
+    "list": [
+        {"value": 1 , "label": "Web-ATM"},
+        {"value": 2 , "label": "ATM"},
+        {"value": 3 , "label": "信用卡"}
+    ]
+}

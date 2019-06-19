@@ -1,0 +1,424 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml"
+                >
+    <ui:define name="title">
+        <h:outputText value="#{msg['header.app_name']}" />
+    </ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            function openEditOrgsDlg(){
+                PF('wvDlgEditOrgs').show();
+            }
+            function closeEditOrgsDlg(){
+                PF('wvDlgEditOrgs').hide();
+            }
+            function handleAfterOrgsSave(xhr, status, args) {
+                //function handleAfterSave() {    
+                if( handleCallBack(xhr, status, args) ){
+                    PF('wvDlgEditOrgs').hide();
+                }
+            }
+            function gotoUserFactory(userId){
+                var param = "?userId="+userId;
+                var url = "#{request.contextPath}/faces/admin/userFactory.xhtml" + param;
+                self.location.href = url;
+            }
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="header"><h:outputText value="#{usersController.funcTitle}" /></ui:define>
+    <ui:define name="content">
+        <!-- 移動查詢結果 -->
+        <ui:include src="/inc/inc_moveDatatbale.xhtml"></ui:include>
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <!-- 人員匯入對話框 (單筆) -->
+        <ui:include src="/inc/inc_autoCompleteUserSelect.xhtml">
+            <ui:param name="controller" value="#{usersController}"/>
+            <ui:param name="updateUI" value=":fmMain:plResult"/>
+        </ui:include>
+        <!-- 複製人員權限對話框 -->
+        <ui:include src="/inc/inc_autoCompleteUserSelectForCopy.xhtml">
+            <ui:param name="controller" value="#{usersController}"/>
+            <ui:param name="updateUI" value=":fmMain:plResult"/>
+        </ui:include>
+        <!-- 人員匯入對話框 (多筆) -->
+        <ui:include src="/inc/inc_impMultiUsersDlg.xhtml">
+            <ui:param name="controller" value="#{usersController}"/>
+            <ui:param name="updateUI" value=":fmMain:plResult"/> 
+        </ui:include>
+        <!-- 編輯對話框 -->
+        <ui:include src="/inc/inc_userEditDlg.xhtml">
+        </ui:include>
+        
+        <h:form id="fmMain" prependId="false" rendered="#{!usersController.functionDenied}" >
+            <!-- 查詢條件輸入表單 -->
+            <!-- 組織樹狀圖 -->
+            <p:overlayPanel id="imgPanel" for="pgOrgTree" 
+                            showEffect="blind" hideEffect="fade" 
+                            showEvent="mousemove" hideEvent="mousedown"   
+                            dismissable="true" showCloseIcon="true" >  
+                <p:scrollPanel mode="native" style="width:280px;max-height:360px" rendered="#{usersController.showOrgTree}">
+                    <p:tree id="orgTree" value="#{usersController.root}" var="node"
+                            selectionMode="multiple"  
+                            selection="#{usersController.selectedNodes}"
+                            cache="true"
+                            style="width:230px;border:none;">
+                        <p:ajax event="select"
+                                update=":fmMain:plResult :fmMain:pgOrgTree"
+                                listener="#{usersController.onNodeSelect}"
+                                oncomplete="doResize();" 
+                                process="@this"/>
+                        <p:treeNode id="orgTreeNode">  
+                            <h:outputText value="#{node}" id="lblNode"/>  
+                        </p:treeNode>  
+                    </p:tree>
+                </p:scrollPanel>
+            </p:overlayPanel>    
+            
+            <!-- BEGIN: 查詢條件區 -->
+            <p:panel id="plQueryConds" header="#{msg['search.critical']}" >
+                <p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" >
+                    <p:outputLabel value="帳號或姓名或Email：" />
+                    <h:panelGroup>
+                        <p:inputText id="itKeyword" maxlength="30" size="20" value="#{usersController.criteriaVO.keyword}" />
+                        <p:watermark for="itKeyword" value="輸入帳號或姓名關鍵字" />
+                    </h:panelGroup>
+                    <p:outputLabel value="系統角色：" />
+                    <p:selectOneMenu id="somCType" value="#{usersController.criteriaVO.group}" 
+                                     filter="true" filterMatchMode="contains"
+                                     >
+                        <f:selectItems value="#{ui.tcGroups}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:separator /> 
+                <p:outputPanel id="opQueryBtn" >
+                    <p:spacer width="10" height="20" />
+                    <!-- 查詢 -->
+                    <p:commandButton value="#{msg['button.search']}" icon="ui-icon-search"
+                                     action="#{usersController.doQuery()}"
+                                     oncomplete="doResize();" 
+                                     update="plResult"/>
+                    <p:spacer width="5px"/>
+                    <!-- 清除 -->
+                    <p:commandButton value="#{msg['common.button.clear']}" icon="ui-icon ui-icon-cancel"
+                                     action="#{usersController.doReset()}" 
+                                     update="plQueryConds plResult"
+                                     /><!--  :fmMain:pgOrgTree -->
+                    <p:spacer width="10px"/>
+                    
+                    <!-- 依組織圖快速查詢 -->
+                    <h:panelGroup id="pgOrgTree" >
+                        <h:graphicImage id="giOrgTree" library="images" name="add_sub_task.png" styleClass="icons" title="顯示組織樹狀圖" />
+                        <p:outputLabel value="依組織圖快速查詢" styleClass="info" />
+                        <p:spacer width="15px"/>
+                        <p:selectBooleanCheckbox value="#{usersController.criteriaVO.selectOrg}"   
+                                                  rendered="#{usersController.criteriaVO.orgIds != null}"  >
+                            <p:ajax event="change" listener="#{usersController.cancelSelectOrg()}" update=":fmMain" />
+                        </p:selectBooleanCheckbox>
+                        <p:outputLabel value="顯示符合指定組織轄下包含的人員" rendered="#{usersController.criteriaVO.orgIds!=null}"  />
+                    </h:panelGroup>
+                    
+                </p:outputPanel>
+            </p:panel>
+            <!-- END 查詢條件區 -->
+            
+            <!-- BEGIN: 查詢結果列表區 -->
+            <div class="topOfResult" ></div>
+            <p:panel id="plResult" header="#{msg['search.result']}" >
+                <!-- BEGIN: 多筆匯入結果 -->
+                <h:panelGroup  id="pgMultiImport" >
+                    <h:panelGroup rendered="#{usersController.importUserList!=null}" >
+                        <p:dataTable value="#{usersController.webCSEmpVODataModel}" 
+                                     selection="#{usersController.selectedImportUsers}" 
+                                     var="row"
+                                     rowKey="#{row.id}"
+                                     styleClass="ui-datatable-hor-scroll"
+                                     reflow="true" 
+                                     >
+                            <p:column selectionMode="multiple" 
+                                      visible="#{!row.existed and (row.id ne 0)}"
+                                      width="20" style="text-align: center" >
+                            </p:column>
+                            <p:column width="20" visible="#{row.existed or (row.id eq 0)}" ><!-- PF BUG : disabledSelection no use --></p:column>
+                            
+                            <p:column headerText="AD 帳號" width="60" >
+                                <h:outputText value="#{row.adaccount}" />
+                                <h:outputText rendered="#{(!row.existed) and (row.id eq 0)}" 
+                                              value=" (WebCS無資訊)" style="color:red" />
+                                <h:outputText rendered="#{row.existed}" 
+                                              value=" (帳號已存在)" style="color:green" />
+                            </p:column>
+                            <p:column headerText="WebCS ID" width="30" >
+                                <h:outputText value="#{row.id}" />
+                            </p:column>
+                            <p:column headerText="姓名" width="60" >
+                                <h:outputText value="#{row.name}" />
+                            </p:column>
+                            <p:column headerText="EMail" >
+                                <h:outputText value="#{row.email}" />
+                            </p:column>                    
+                            <p:column headerText="員編" width="60" >
+                                <h:outputText value="#{row.code}" />
+                            </p:column>                    
+                            <p:column headerText="公司別" >
+                                <h:outputText value="#{row.companyName}" />
+                            </p:column>                    
+                        </p:dataTable>
+                        <p:separator />
+                        <p:panelGrid columns="1" style="width:100%; text-align: center" >
+                            <h:panelGroup id="pgImpMultiUsersSubmit" >
+                                <p:commandButton id="cbImpMultiUsersSave" value="匯入勾選人員" 
+                                                 disabled="#{usersController.importUserList==null || usersController.importUserList.size()==0}" 
+                                                 actionListener="#{usersController.saveImport()}" 
+                                                 update=":fmMain:plResult" 
+                                                 icon="ui-icon-disk" ></p:commandButton>
+                                <p:spacer width="5" />
+                                <p:commandButton id="cbImpMultiUsersClose" value="取消匯入" 
+                                                 actionListener="#{usersController.cancelImport()}" 
+                                                 update=":fmMain:pgMultiImport" 
+                                                 icon="ui-icon-circle-close" ></p:commandButton>
+                            </h:panelGroup>
+                        </p:panelGrid>
+                        <br />
+                        <p:spacer height="2" />
+                    </h:panelGroup>
+                </h:panelGroup>
+                <!-- END: 多筆匯入結果 -->
+                
+                <p:commandLink title="匯出EXCEL檔" immediate="true" ajax="false" onclick="setUpBlockUI();" 
+                               rendered="#{usersController.lazyModel!=null}" >
+                    <h:graphicImage library="images" name="excel.png" style="border: none; vertical-align: middle; width: 24px; height: 24px" />
+                    <p:dataExporter type="xls" target=":fmMain:dtResult" fileName="userList" />
+                </p:commandLink>
+                <h:outputText id="otRowCount" value="(共#{usersController.lazyModel.rowCount}筆)" rendered="#{usersController.lazyModel!=null}" />
+                <p:remoteCommand name="rcGetRowCountAfterFiltered" update=":fmMain:otRowCount" />
+                
+                <p:spacer width="10" height="20" />
+                <p:selectBooleanCheckbox value="#{usersController.removePermission}" >
+                    <p:ajax event="change" listener="#{usersController.changeRemovePermission()}" />
+                </p:selectBooleanCheckbox>
+                <p:outputLabel value="設定使用者無效時，同時刪除權限關聯" styleClass="info" />
+                
+                <p:spacer width="10" height="22" />
+                <!-- 匯入人員 -->
+                <h:graphicImage library="images" name="page_copy.png" styleClass="icons" />
+                <p:outputLabel value="自 WebCS 匯入人員" styleClass="info" />
+                <p:commandButton actionListener="#{usersController.openImpUserDlg()}" update=":addImpUserForm" 
+                                 value="單筆" oncomplete="openImpUserDlg();" style="vertical-align:top;"/>
+                <p:commandButton actionListener="#{usersController.openImpMultiUsersDlg()}" update=":impMultiUsersForm"  
+                                 value="多筆" oncomplete="openImpMultiUsersDlg();" style="vertical-align:top;"/>
+                
+                <!--  查詢結果 -->
+                <p:dataTable id="dtResult" var="row" reflow="true"
+                             value="#{usersController.lazyModel}" lazy="true"
+                             widgetVar="wvDTResult"
+                             filteredValue="#{usersController.filterResultList}"
+                             rows="10"
+                             styleClass="ui-datatable-hor-scroll" 
+                             paginator="true" 
+                             rowKey="#{row.id}" >
+                    <!-- filter 後變更筆數, 使用 Lazy Loading 不可直接 update 會抓到上次筆數，故用 oncomplete -->
+                    <p:ajax event="filter" oncomplete="doResize(); rcGetRowCountAfterFiltered();" /><!-- 調整寬度 for chrome -->
+                    
+                    <p:column style="text-align:center;min-width:40px;" exportable="false" >
+                        <f:facet name="header" >
+                            <h:outputLabel value="操作" /><p:spacer width="5" />
+                            <p:commandLink title="新增" 
+                                           actionListener="#{usersController.add()}"
+                                           oncomplete="openEditDlg()" 
+                                           update=":editForm"
+                                           rendered="true" >
+                                <h:graphicImage library="images" name="add.png" styleClass="icons" style="width:22px; height:22px" />
+                            </p:commandLink><p:spacer width="5" />
+                        </f:facet>
+                        <!-- BEGIN: 操作功能選單 overlay -->
+                        <p:graphicImage id="commentImg" library="images" name="setting.png" style="cursor:pointer"
+                                        title="操作功能選單"/>
+                        <p:overlayPanel id="rfqActionPanel" for="commentImg"  
+                                        showEvent="click" hideEvent="mousedown" dismissable="true"
+                                        showEffect="blind" hideEffect="fade" style="border: 1px solid black;" my="left middle" at="left middle" >
+                            <p:commandLink title="編輯" 
+                                           actionListener="#{usersController.edit(row)}" immediate="true"
+                                           update=":editForm"
+                                           oncomplete="openEditDlg()"
+                                           rendered="true" >
+                                <h:graphicImage library="images" name="page_edit.png" styleClass="icons" />
+                            </p:commandLink><p:spacer width="5" />
+                            <p:commandLink title="廠別權限設定" 
+                                           actionListener="#{usersController.edit(row)}"
+                                           oncomplete="gotoUserFactory(#{row.id});"
+                                           rendered="#{!row.disabled}" >
+                                <h:graphicImage library="images" name="orgF.png" styleClass="icons" />
+                            </p:commandLink><p:spacer width="5" />
+                            <p:commandLink title="複製權限" 
+                                           actionListener="#{usersController.openCopyPermissionDlg(row)}"
+                                           update=":copyUserForm"
+                                           oncomplete="openCopyUserDlg();" 
+                                           rendered="#{!row.disabled}" >
+                                <h:graphicImage library="images" name="page_copy.png" styleClass="icons" />
+                            </p:commandLink><p:spacer width="5" />
+                            <h:panelGroup rendered="#{!row.disabled}" >
+                                <p:commandLink title="使無效"
+                                               actionListener="#{usersController.delete(row)}" immediate="true"
+                                               update=":fmMain:dtResult"
+                                               onstart="if( !confirm('確定要將此帳號設為無效嗎?\n\n若要刪除關聯權限，請勾選上方\n[設定使用者無效時，同時刪除權限關聯] CheckBox。') ){ return false; }"
+                                               rendered="true" >
+                                    <h:graphicImage library="images" name="delete.png" styleClass="icons" />
+                                </p:commandLink><p:spacer width="5" />
+                            </h:panelGroup>
+                        </p:overlayPanel>
+                        <!-- END: 操作功能選單 overlay -->
+                    </p:column>
+                    
+                    <p:column>  
+                        <f:facet name="header" >
+                            <h:outputLabel value="id" />
+                        </f:facet>
+                        <h:outputText value="#{row.id}" />
+                    </p:column>
+                    
+                    <p:column sortBy="#{row.login_account}" headerText="帳號" exportable="false" 
+                              filterBy="#{row.login_account}" filterStyle="width:40px" style="text-align: center">  
+                        <p:commandLink title="編輯" 
+                                       actionListener="#{usersController.edit(row)}" 
+                                       update=":editForm"
+                                       oncomplete="openEditDlg()" >
+                            <h:outputText value="#{row.login_account}" style="#{row.disabled?'text-decoration:line-through':''}" />
+                        </p:commandLink>
+                    </p:column>
+                    <p:column style="display:none" >  
+                        <f:facet name="header" >
+                            <h:outputLabel value="帳號" />
+                        </f:facet>
+                        <h:outputText value="#{row.login_account}" />
+                    </p:column>
+                    
+                    <p:column sortBy="#{row.cname}" headerText="姓名" exportable="false" 
+                              filterBy="#{row.cname}" filterStyle="width:40px" style="text-align: center">  
+                        <h:outputText value="#{row.cname}" style="#{row.disabled?'text-decoration:line-through':''}" />
+                    </p:column>
+                    <p:column style="display:none"> 
+                        <f:facet name="header" >
+                            <h:outputLabel value="姓名" />
+                        </f:facet>
+                        <h:outputText value="#{row.cname}" />
+                    </p:column>
+                    
+                    <p:column sortBy="#{row.emp_id}" headerText="員工編號" exportable="false"
+                              filterBy="#{row.emp_id}" filterStyle="width:60px" style="text-align: center;min-width:80px;">  
+                        <h:outputText value="#{row.emp_id}" />
+                    </p:column>
+                    <p:column style="display:none">
+                        <f:facet name="header" >
+                            <h:outputLabel value="員工編號" />
+                        </f:facet>
+                        <h:outputText value="#{row.emp_id}" />
+                    </p:column>
+                    
+                    <p:column sortBy="#{row.email}" headerText="Email" exportable="false"
+                              filterBy="#{row.email}" style="text-align: center">  
+                        <h:outputText value="#{row.email}" />
+                    </p:column>
+                    <p:column style="display:none">
+                        <f:facet name="header" >
+                            <h:outputLabel value="Email" />
+                        </f:facet>
+                        <h:outputText value="#{row.email}" />
+                    </p:column>
+                    
+                    <p:column sortBy="#{row.disabled}" headerText="有效" exportable="false" style="text-align: center" width="40">  
+                        <h:graphicImage library="images" name="check.png" styleClass="icons" rendered="#{!row.disabled}" />
+                        <h:graphicImage library="images" name="agt_action_fail.png" styleClass="icons" rendered="#{row.disabled}" />
+                    </p:column>
+                    <p:column style="display:none">
+                        <f:facet name="header" >
+                            <h:outputLabel value="有效" />
+                        </f:facet>
+                        <h:outputText value="#{row.disabled?'否':'是'}" />
+                    </p:column>
+                    
+                    <p:column sortBy="#{row.groups}" headerText="系統角色" exportable="false" filterBy="#{row.groups}" style="text-align: center">  
+                        <h:outputText value="#{ui.showMaxTxt(row.groups)}" title="#{row.groups}" />
+                    </p:column>
+                    <p:column style="display:none">
+                        <f:facet name="header" >
+                            <h:outputLabel value="系統角色" />
+                        </f:facet>
+                        <h:outputText value="#{row.groups}" />
+                    </p:column>
+                    
+                    <p:column sortBy="#{row.userOrg}" headerText="所屬組織" exportable="false"
+                              filterBy="#{row.userOrg}" filterStyle="width:70px;" >  
+                        <div style="text-align: left"><h:outputText value="#{row.userOrg}"/></div>
+                    </p:column>
+                    <p:column style="display:none">  
+                        <f:facet name="header" >
+                            <h:outputLabel value="所屬組織" />
+                        </f:facet>
+                        <h:outputText value="#{row.userOrg}" />
+                    </p:column>
+                    
+                    <p:column sortBy="#{row.creator}" headerText="建立人" exportable="false" 
+                              filterBy="#{row.creator}" filterStyle="width:55px" style="text-align: center">  
+                        <h:outputText value="#{row.creator}" />
+                    </p:column>
+                    <p:column style="display:none">  
+                        <f:facet name="header" >
+                            <h:outputLabel value="建立人" />
+                        </f:facet>
+                        <h:outputText value="#{row.creator}" />
+                    </p:column>
+                    
+                    <p:column sortBy="#{row.createTimestamp}" headerText="建立時間" exportable="false"
+                              filterBy="#{row.createTimestamp}" style="text-align: center">  
+                        <h:outputText value="#{row.createTimestamp}" >
+                            <f:convertDateTime pattern="#{app.dateTimeFormat}" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column style="display:none">  
+                        <f:facet name="header" >
+                            <h:outputLabel value="建立時間" />
+                        </f:facet>
+                        <h:outputText value="#{row.createTimestamp}" >
+                            <f:convertDateTime pattern="#{app.dateTimeFormat}" />
+                        </h:outputText>
+                    </p:column>
+                    
+                </p:dataTable>
+                
+                <!-- 說明-->
+                <p:spacer width="1" height="18" />
+                <h:graphicImage library="images" name="info.png" styleClass="icons" />
+                <p:outputLabel value="人員所屬組織資訊，每日會透過 ETL 自動自 WebCS 取得最新資訊，可不用填寫。" styleClass="info" /><br />
+                <!--圖示說明-->
+                <p:spacer width="1" height="18" />
+                <h:graphicImage library="images" name="info.png" styleClass="icons" />
+                <p:outputLabel value="圖示說明：" styleClass="info" />
+                <h:graphicImage library="images" name="setting.png" styleClass="icons" /><p:outputLabel value="展開操作;" styleClass="info" />
+                <h:graphicImage library="images" name="add.png" styleClass="icons" /><p:outputLabel value="新增使用者;" styleClass="info" />
+                <h:graphicImage library="images" name="page_edit.png" styleClass="icons" /><p:outputLabel value="編輯此項目;" styleClass="info" />
+                <h:graphicImage library="images" name="delete.png" styleClass="icons" /><p:outputLabel value="設為無效;" styleClass="info" />
+                <h:graphicImage library="images" name="page_view.png" styleClass="icons" /><p:outputLabel value="檢視Common Report權限;" styleClass="info" />
+                <h:graphicImage library="images" name="excel.png" styleClass="icons" /><p:outputLabel value="產生供Common Report匯入的EXCEL檔。" styleClass="info" />
+            </p:panel>
+            <!-- END: 查詢結果列表區 -->
+        </h:form>
+        
+        <!-- 功能權限檢查對話框 -->
+        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+            <ui:param name="controller" value="#{usersController}"/>
+        </ui:include>
+        
+    </ui:define>
+</ui:composition>

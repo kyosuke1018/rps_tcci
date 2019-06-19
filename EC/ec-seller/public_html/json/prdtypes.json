@@ -1,0 +1,50 @@
+{
+    "nodes": [
+        {
+            "data": {"id": 1, "cname": "家居建材", "levelnum": 1, "parent": null, "parentName": null, "sortnum": 1, "parentL1": null},
+            "children": [
+                {
+	            "data": {"id": 2, "cname": "地板分類", "levelnum": 2, "parent": 1, "parentName": "家居建材", "sortnum": 1, "parentL1": null},
+                    "children": [
+                        {"data": {"id": 21, "cname": "實木地板", "levelnum": 3, "parent": 2, "parentName": "地板分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 22, "cname": "複合木地板", "levelnum": 3, "parent": 2, "parentName": "地板分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 23, "cname": "竹地板", "levelnum": 3, "parent": 2, "parentName": "地板分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 24, "cname": "複合地板", "levelnum": 3, "parent": 2, "parentName": "地板分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 25, "cname": "其它", "levelnum": 3, "parent": 2, "parentName": "地板分類", "sortnum": 1, "parentL1": 1}}
+                    ]
+                },{
+                    "data": {"id": 3, "cname": "衛浴潔具分類", "levelnum": 2, "parent": 1, "parentName": "家居建材", "sortnum": 1, "parentL1": null},
+                    "children": [
+                        {"data": {"id": 31, "cname": "整體衛浴", "levelnum": 3, "parent": 3, "parentName": "衛浴潔具分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 32, "cname": "熱水器", "levelnum": 3, "parent": 3, "parentName": "衛浴潔具分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 33, "cname": "浴缸", "levelnum": 3, "parent": 3, "parentName": "衛浴潔具分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 34, "cname": "浴霸", "levelnum": 3, "parent": 3, "parentName": "衛浴潔具分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 35, "cname": "座便器", "levelnum": 3, "parent": 3, "parentName": "衛浴潔具分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 36, "cname": "面盆", "levelnum": 3, "parent": 3, "parentName": "衛浴潔具分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 37, "cname": "花灑", "levelnum": 3, "parent": 3, "parentName": "衛浴潔具分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 38, "cname": "衛浴配件", "levelnum": 3, "parent": 3, "parentName": "衛浴潔具分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 39, "cname": "換氣扇", "levelnum": 3, "parent": 3, "parentName": "衛浴潔具分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 40, "cname": "其它", "levelnum": 3, "parent": 3, "parentName": "衛浴潔具分類", "sortnum": 1, "parentL1": 1}}
+                    ]
+                },{
+                    "data": {"id": 4, "cname": "廚房設施分類", "levelnum": 2, "parent": 1, "parentName": "家居建材", "sortnum": 1, "parentL1": null},
+                    "children": [
+                        {"data": {"id": 41, "cname": "整體櫥櫃", "levelnum": 3, "parent": 4, "parentName": "廚房設施分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 42, "cname": "油煙機", "levelnum": 3, "parent": 4, "parentName": "廚房設施分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 43, "cname": "消毒櫃", "levelnum": 3, "parent": 4, "parentName": "廚房設施分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 44, "cname": "微波爐", "levelnum": 3, "parent": 4, "parentName": "廚房設施分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 45, "cname": "烤箱", "levelnum": 3, "parent": 4, "parentName": "廚房設施分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 46, "cname": "洗碗機", "levelnum": 3, "parent": 4, "parentName": "廚房設施分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 47, "cname": "飲水機", "levelnum": 3, "parent": 4, "parentName": "廚房設施分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 48, "cname": "灶具", "levelnum": 3, "parent": 4, "parentName": "廚房設施分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 49, "cname": "水槽/龍頭", "levelnum": 3, "parent": 4, "parentName": "廚房設施分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 50, "cname": "淨水機", "levelnum": 3, "parent": 4, "parentName": "廚房設施分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 51, "cname": "電飯煲", "levelnum": 3, "parent": 4, "parentName": "廚房設施分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 52, "cname": "電磁爐", "levelnum": 3, "parent": 4, "parentName": "廚房設施分類", "sortnum": 1, "parentL1": 1}},
+                        {"data": {"id": 53, "cname": "其他", "levelnum": 3, "parent": 4, "parentName": "廚房設施分類", "sortnum": 1, "parentL1": 1}}
+                    ]
+                }
+            ]
+        }
+    ]
+}

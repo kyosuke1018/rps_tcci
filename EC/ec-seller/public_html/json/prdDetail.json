@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "section": 1,
+        "type": "T",
+        "content": "方便實用安裝簡易,適合廚房衛浴等多種場合\n兩種出水模式,為拉開前為起泡模式,拉開後轉為花灑模式\n延長型蛇管設計,富有彈性及柔軟度,可加大沖洗範圍更加方便",
+        "style": null
+    },
+    {
+        "id": 2,
+        "section": 2,
+        "type": "I",
+        "content": "https://img.udn.com/image/product/S0000268/20171128154816075.jpg",
+        "style": null
+    },
+    {
+        "id": 3,
+        "section": 3,
+        "type": "I",
+        "content": "https://img.udn.com/image/product/S0000268/20171128154822258.jpg",
+        "style": null
+    },
+    {
+        "id": 4,
+        "section": 4,
+        "type": "I",
+        "content": "https://img.udn.com/image/product/S0000268/20171128154827832.jpg",
+        "style": null
+    },
+    {
+        "id": 5,
+        "section": 5,
+        "type": "I",
+        "content": "https://img.udn.com/image/product/S0000268/20171128154834044.jpg",
+        "style": null
+    }
+]

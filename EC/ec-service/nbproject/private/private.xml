@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/svn/ec/ec-service/src/java/org/glassfish/soteria/test/rs/ApplicationConfig.java</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/com/tcci/ec/service/sms/SmsService.java</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/enum_tr.properties</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/com/tcci/ec/service/seller/SellerService.java</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/messages_zh_CN.properties</file>
+            <file>file:/D:/svn/ec/ec-service/test/testjerseyclient/TestJerseyClient.java</file>
+            <file>file:/D:/svn/ec/ec-service/setup/glassfish-resources.xml</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/com/tcci/ec/service/push/PushService.java</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/com/tcci/ec/service/shipping/ShipService.java</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/com/tcci/ec/service/SystemService.java</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/com/tcci/ec/service/order/OrderService.java</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/enum_en_US.properties</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/com/tcci/ec/service/product/ProductService.java</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/com/tcci/ec/service/payment/PaymentService.java</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/com/tcci/ec/service/store/StoreService.java</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/messages_tr.properties</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/enum_zh_CN.properties</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/com/tcci/ec/service/member/MemberService.java</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/messages_zh.properties</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/com/tcci/ec/service/image/ImageService.java</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/enum_zh.properties</file>
+            <file>file:/D:/svn/ec/ec-service/</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/org/glassfish/soteria/test/TestAuthenticationMechanism.java</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/com/tcci/ec/service/ServiceBase.java</file>
+            <file>file:/D:/svn/ec/ec-service/src/java/com/tcci/ec/service/customer/CustomerService.java</file>
+        </group>
+    </open-files>
+</project-private>

@@ -1,0 +1,239 @@
+<fieldset id="fsRfqDetail" >
+    <legend>detail.info</legend>
+    
+    <div class="w3-row">
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >code：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <div class="fieldvalue" id="rfq_number" >&nbsp;</div>
+        </div>
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >status：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <div class="fieldvalue" id="rfq_status" >&nbsp;</div>
+        </div>
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >time：</label>
+        </div>
+        <div class="w3-col s8 m3">
+            <div class="fieldvalue" id="rfq_time" >&nbsp;</div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col s4 m2 l1">
+            <label class="ui-widget fieldname" >cus.account：</label>
+        </div>
+        <div class="w3-col s8 m4 l3">
+            <div class="fieldvalue" id="rfq_account" >&nbsp;</div>
+        </div>
+        <div class="w3-col s4 m2 l1">
+            <label class="ui-widget fieldname" >cus.name：</label>
+        </div>
+        <div class="w3-col s8 m4 l3">
+            <div class="fieldvalue" id="rfq_cus" >&nbsp;</div>
+        </div>
+        <div class="w3-col s4 m2 l1">
+            <label class="ui-widget fieldname" >prd.items：</label>
+        </div>
+        <div class="w3-col s8 m4 l3">
+            <div class="fieldvalue" id="item_num" >&nbsp;</div>
+        </div>
+    </div>
+    
+    <div class="w3-row">
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >compare.at.price：</label>
+        </div>
+        <div class="w3-col s8 m2">
+            <div class="fieldvalue" id="total_price" >&nbsp;</div>
+        </div>
+        <!--
+        <div class="w3-col s4 m2 l1">
+            <label class="ui-widget fieldname" >discount.price：</label>
+        </div>
+        <div class="w3-col s8 m1 l2">
+            <div class="fieldvalue" id="total_discount" >&nbsp;</div>
+        </div>
+        -->
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >rfq.subtotal.price：</label>
+        </div>
+        <div class="w3-col s8 m2">
+            <input id="subtotal_pay" name="subtotal_pay" 
+                   onblur="calTotalInfo()"
+                   type="text" is="p-inputtext" value="" size="10" />
+        </div>
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >shipping.price：</label>
+        </div>
+        <div class="w3-col s8 m2">
+            <input id="shippingTotal" name="shippingTotal" type="text"
+                   onblur="calTotalInfo()" 
+                   is="p-inputtext" value="" size="10" />
+        </div>
+        <div class="w3-col s4 m1">
+            <label class="ui-widget fieldname" >rfq.total.price：</label>
+        </div>
+        <div class="w3-col s8 m2">
+            <span id="spanTotalPrice" ></span>
+        </div>
+    </div>
+    
+    <div class="w3-row">
+        <div class="w3-row">
+            <div class="w3-col s4 m2 l2">
+                <label class="ui-widget" >expected.delivery.date：</label>
+            </div>
+            <div class="w3-col s8 m4 l4">
+                <div id="rfq_delivery_date" class="fieldvalue" ></div>
+            </div>
+            <div class="w3-col s12 m2 l1">
+                <label class="ui-widget" >special.requirements：</label>
+            </div>
+            <div class="w3-col s12 m4 l5">
+                <div id="rfq_message" class="fieldvalue" ></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 商品清單 -->
+    <div id="plRfqItems" title="prd.invetory" >
+        <div class="tar">
+            <button id="sendTotalPrice" type="button" style="min-width:120px;" >confirm.pricing</button>
+            <button id="rejectSendPrice" type="button" style="min-width:120px;" >confirm.rejected</button>
+            <button id="viewPriceHis" type="button" style="min-width:120px;" >price.history</button>
+        </div>
+        <div id="plSearchResultMsg" ></div>
+        <div id="tbRfqItems" class="ui-datatable-hor-scroll" ></div>
+    </div>
+    
+    <!-- 運送資訊 -->
+    <div id="plRfqShipping" title="shipping.info" >
+        <div class="w3-row" >
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >shipping.method：</label>
+            </div>
+            <div class="w3-col s8 m5">
+                <div id="shipping_method" class="fieldvalue" ></div>
+            </div>
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >car.no：</label>
+            </div>
+            <div class="w3-col s8 m5">
+                <div id="carNo" class="fieldvalue" ></div>
+            </div>
+        </div>    
+        <div class="w3-row" >
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >contact1：</label>
+            </div>
+            <div class="w3-col s8 m3">
+                <div id="shipping_contact1" class="fieldvalue" ></div>
+            </div>
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >tel1：</label>
+            </div>
+            <div class="w3-col s8 m3">
+                <div id="shipping_phone1" class="fieldvalue" ></div>
+            </div>
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >driver.name：</label>
+            </div>
+            <div class="w3-col s8 m3">
+                <div id="driver" class="fieldvalue" ></div>
+            </div>
+        </div>
+        <div class="w3-row" >    
+            <div class="w3-col s4 m2 l1">
+                <label class="ui-widget" >shipping.addr：</label>
+            </div>
+            <div class="w3-col s8 m10 l11">
+                <div id="shipping_addr" class="fieldvalue" ></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 付款資訊 -->
+    <div id="plRfqPayment" title="pay.info" >  
+        <div class="w3-row" >
+            <div class="w3-col s4 m2 l1">
+                <label class="ui-widget" >pay.method：</label>
+            </div>
+            <div class="w3-col s8 m4 l5">
+                <div id="payType" class="fieldvalue" ></div>
+            </div>
+            <div class="w3-col s4 m2 l1">
+                <label class="ui-widget" >payment：</label>
+            </div>
+            <div class="w3-col s8 m4 l5">
+                <div id="gateway" class="fieldvalue" ></div>
+            </div>
+        </div>
+        <div class="w3-row" >
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >invoice：</label>
+            </div>
+            <div class="w3-col s8 m3">
+                <div id="invoice" class="fieldvalue" ></div>
+            </div>
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >com.id：</label>
+            </div>
+            <div class="w3-col s8 m3">
+                <div id="invoice_no" class="fieldvalue" ></div>
+            </div>
+            <div class="w3-col s4 m1">
+                <label class="ui-widget" >cname：</label>
+            </div>
+            <div class="w3-col s8 m3">
+                <div id="invoice_name" class="fieldvalue" ></div>
+            </div>
+        </div>
+        <div class="w3-row" >    
+            <div class="w3-col s4 m2 l1">
+                <label class="ui-widget" >invoice.addr：</label>
+            </div>
+            <div class="w3-col s8 m10 l11">
+                <div id="invoice_addr" class="fieldvalue" ></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 洽談訊息 -->
+    <div id="plRfqMessage" title="rfq.message" class="w3-responsive" >
+        
+        <form id="editMessageForm" >
+            <input type="hidden" id="uuid" name="uuid" value="" />
+            
+            <div class="w3-row">
+                <div class="w3-col s12">
+                    <label class="ui-widget" style="vertical-align:top;" >message.content：</label>
+                    <textarea id="message" name="message" rows="3" style="width:90%;"></textarea>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col s12">
+                    <button id="saveMessage" type="button" >send</button>
+                    &nbsp;
+                    <button id="cancelMessage" type="button">cancel</button>
+                </div>
+            </div>
+        </form>
+        
+        <div id="existedMessages" ></div>
+    </div>
+    <hr/>
+    <div class="tac">
+        <button id="closeRfq" type="button">close.detail</button>
+    </div>
+</fieldset>
+
+<!-- 歷史報價記錄 -->
+<div id="dlgLogs" class="il8n-title" title="price.history">
+    <div id="logSearchResultMsg" ></div>
+    <div id="tbLogs" style="overflow-y: auto;" >
+    </div>
+</div>
+

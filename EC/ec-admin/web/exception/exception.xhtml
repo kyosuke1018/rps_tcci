@@ -1,0 +1,42 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                template="/templates/popupPageTemplate.xhtml">
+    <ui:define name="title">
+    </ui:define>
+    <ui:define name="popupContent">
+        <p:dialog header="#{msg['header.app_name']}：#{exceptionController.title}" id="dlgMemo" widgetVar="wvDlgMemo"
+                  modal="true" draggable="false" resizable="true" showEffect="clip" hideEffect="clip" >
+            <h:outputText value="#{exceptionController.subject}"/>
+            <br />
+            <br />
+            <h:outputText value="#{exceptionController.description}"/>
+            <hr />
+            <p:fieldset id="fsDetail" rendered="#{exceptionController.detail!=null}" toggleable="true" collapsed="false" legend="詳細內容：" >
+                <p:inputTextarea autoResize="false" rows="10" cols="100" styleClass="wordBreak"
+                                 value="#{exceptionController.detail}" ></p:inputTextarea>
+            </p:fieldset>
+            <h:panelGroup rendered="#{!empty exceptionController.redirectUrl}" >
+                <br/>
+                <div align="center">
+                    <p:commandButton type="button" ajax="false" value="回首頁" onclick="doClose('#{exceptionController.redirectUrl}');" />
+                </div>
+            </h:panelGroup>
+        </p:dialog>
+        <script type="text/javascript">
+        //<![CDATA[
+        jQuery(document).ready(function() {
+            PF('wvDlgMemo').show();
+        });
+        
+        function doClose(url){
+            PF('wvDlgMemo').hide();
+            window.location.href=url;
+        }
+        //]]>
+        </script>                
+    </ui:define>
+</ui:composition>    

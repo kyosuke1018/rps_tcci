@@ -1,0 +1,22 @@
+{
+   "person": [
+       {
+           "firstName": "Clark",
+           "lastName": "Kent",
+           "job": "Reporter",
+           "image": "clark_kent.jpg"
+       },
+       {
+           "firstName": "Bruce",
+           "lastName": "Wayne",
+           "job": "Playboy",
+           "image": "bruce_wayne.jpg"
+       },
+       {
+           "firstName": "Peter",
+           "lastName": "Parker",
+           "job": "Photographer",
+           "image": "peter_parker.jpg"
+       }
+   ]
+}

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <!-- 系統公告訊息 -->
+    <p:dialog header="#{msg['label.bulletin.dialog']}" id="contentDialog" widgetVar="contentViewDialog" 
+              modal="true" draggable="true" resizable="true" >
+        <p:fieldset legend="#{bulletinController.bulletin.title}" >
+            <h:panelGroup>
+                <!-- 公告類型 -->
+                <h:outputText value="#{msg['label.bulletin.type']}: " rendered="#{bulletinController.bulletin.ctype != null}"/>
+                <h:outputText  style="text-align: center" value="#{bulletinController.bulletin.typeName}"
+                               rendered="#{!empty bulletinController.bulletin.ctype}" />
+                <br/><br/>
+                <!-- 更新日期 -->
+                <h:outputText value="#{msg['label.bulletin.date']}: " />
+                <h:outputText  style="text-align: right" value="#{bulletinController.bulletin.dataDate}" >
+                    <f:convertDateTime pattern="#{app.dateTimeFormat}"/>
+                </h:outputText>
+                <br/><br/>
+                <!--
+                <div style="width: 100%; min-height: 240px; max-height: 400px; overflow: scroll;">
+                    <per>
+                        <h:outputText style="text-align: center; word-wrap: break-word;" value="#{bulletinController.bulletin.content}" escape="false" />
+                    </per>
+                </div>
+                -->
+                <p:inputTextarea readonly="true" rows="15" cols="50" 
+                     autoResize="false" value="#{bulletinController.bulletin.content}"></p:inputTextarea>
+            </h:panelGroup>
+            <p:panelGrid columns="1" style="width:100%; text-align: center" >
+                <h:panelGroup >
+                    <!-- 關閉 -->
+                    <p:commandButton value="#{msg['button.close']}" immediate="true" 
+                                     onclick="PF('contentViewDialog').hide();" icon="ui-icon-circle-close" ></p:commandButton>
+                </h:panelGroup>
+            </p:panelGrid>
+                
+        </p:fieldset>
+    </p:dialog>
+</ui:composition>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!--參數
+    formName must
+    headerName    
+    value *
+    controller *
+    selectOneRadioUpdate
+    selectOneRadioOnchange
+    -->
+    <!-- 只有預拌廠 且 無其他公司 -->
+    <p:outputLabel value="台泥台灣" rendered="#{factoryList2Controller.onlyPremixedFactory and !factoryList2Controller.onlyPremixedFactoryAndOthers}" />
+    <!-- 只有中轉站 且 無其他公司 -->
+    <p:outputLabel value="台泥大陸" rendered="#{factoryList2Controller.onlyHubFactory and !factoryList2Controller.onlyHubFactoryAndOthers}" />
+    <!-- 其他狀況 -->
+    <h:panelGrid id="pgFactoryCategory" columns="2" 
+                 rendered="#{!(factoryList2Controller.onlyPremixedFactory and !factoryList2Controller.onlyPremixedFactoryAndOthers and factoryList2Controller.onlyHubFactory and !factoryList2Controller.onlyHubFactoryAndOthers)}" >
+        <p:selectOneMenu id="somFactoryCategory" value="#{factoryList2Controller.selectedCategoryCode}" 
+                          onchange="#{changeCategoryHandler}"
+                          required="true" label="地區" >
+            <f:selectItems value="#{factoryList2Controller.getPpMqCategoryListNo3_8()}" var="Category" 
+                           itemLabel="#{Category.name}" itemValue="#{Category.code}"  />
+        </p:selectOneMenu>
+    </h:panelGrid>
+</ui:composition>

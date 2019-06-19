@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="title">
+        <h:outputText value="#{switchUserController.funcTitle}" />
+    </ui:define>
+    <ui:define name="head">
+        <style  type="text/css">
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <h:form id="fmMain" prependId="false" rendered="#{!switchUserController.functionDenied}" >
+            <p:fieldset legend="切換登入使用者" rendered="true" >
+                <!-- <p:inputText value="#{switchUserController.userID}"/> -->
+                <p:autoComplete size="25" value="#{switchUserController.selectedUserTxt}"
+                                completeMethod="#{switchUserController.autoCompleteUserOptions}" 
+                                onkeypress="ajaxStatusShow=false" onblur="ajaxStatusShow=true" 
+                                dropdown="true"
+                                >
+                </p:autoComplete>
+                <p:spacer width="40" height="2"/>
+                <p:commandButton value="switch" action="#{switchUserController.switchUser}"/>
+                <p:spacer width="5"/>
+                <h:outputText value="(請於下拉選單點選欲切換人員)" />
+            </p:fieldset>
+            
+            <p:separator />
+            
+            <p:fieldset legend="線上使用者" toggleable="true" >
+                <p:commandLink update=":fmMain:dtOnlineUsers"
+                               title="重載線上使用者資訊" 
+                               oncomplete="alert('已重載完成。');" >
+                    <h:graphicImage library="images" name="update.png" styleClass="icons" />重載線上使用者資訊
+                </p:commandLink>
+                <p:dataTable id="dtOnlineUsers" value="#{app.onlineUsers}" var="row" rowIndexVar="idx" >
+                    <p:column>
+                        <f:facet name="header"><h:outputText value="序號" /></f:facet>
+                        <h:outputText value="#{idx+1}" />
+                    </p:column>
+                    <p:column sortBy="#{row.loginAccount}" >
+                        <f:facet name="header"><h:outputText value="帳號" /></f:facet>
+                        <h:outputText value="#{row.loginAccount}" />
+                    </p:column>
+                    <p:column sortBy="#{row.cname}" >
+                        <f:facet name="header"><h:outputText value="姓名" /></f:facet>
+                        <h:outputText value="#{row.cname}" />
+                    </p:column>
+                    <p:column sortBy="#{row.email}" >
+                        <f:facet name="header"><h:outputText value="Email" /></f:facet>
+                        <h:outputText value="#{row.email}" />
+                    </p:column>
+                </p:dataTable>
+                
+            </p:fieldset>
+            
+            <p:separator />
+            
+            <p:fieldset legend="系統公告設定" rendered="true" >
+                <p:outputLabel value="開啟系統公告" />
+                <p:selectBooleanCheckbox value="#{app.announcement}" >
+                    <p:ajax event="change" listener="#{app.changeAnnouncement()}" process="@(this)" update=":fmMain" />
+                </p:selectBooleanCheckbox>
+                <br />
+                <p:spacer height="5" width="2" />
+                <br /> 
+                <!-- 選取匯入檔案 -->
+                <p:fileUpload fileUploadListener="#{app.handleAnnouncementUpload}" style="width:400px"
+                              mode="advanced"
+                              update=":fmMain:otUploadResult"
+                              multiple="false"
+                              sizeLimit="5242880"
+                              auto="true"
+                              oncomplete="afterSuccess();"  
+                              onerror="afterError();" 
+                              label="#{msg['label.upload.selectUploadFile']}" />
+                
+                <h:outputText id="otUploadResult" rendered="#{!empty app.announcementFileTime}" styleClass="info" 
+                              value="最近上傳時間：#{app.formatDateTime(app.announcementFileTime)}" />
+            </p:fieldset>
+
+            <p:separator />
+
+            <p:fieldset legend="其他系統管理操作" rendered="true" >
+                <p:commandLink actionListener="#{ui.init()}" 
+                               title="重載 AppclicationScope 系統選項資訊" 
+                               oncomplete="alert('已重載完成。');" >
+                    <h:graphicImage library="images" name="update.png" styleClass="icons" />重載系統選項資訊
+                </p:commandLink>
+            </p:fieldset>
+        </h:form>
+        
+        <!-- 功能權限檢查對話框 -->
+        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+            <ui:param name="controller" value="#{switchUserController}"/>
+        </ui:include>
+        
+    </ui:define>
+</ui:composition>

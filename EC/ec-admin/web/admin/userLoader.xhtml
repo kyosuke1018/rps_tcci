@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml"
+                >    
+    <ui:define name="title">
+        <h:outputText value="#{msg['header.app_name']}" />
+    </ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+            .tcci-tr {
+                background-color: #DFEFFC;
+                border:1px solid #C5DBEC !important;
+            }
+            .tcci-td {                    
+                border:1px solid #C5DBEC !important;
+            }      
+            .tcci-td-error {                    
+                border:1px solid #C5DBEC !important;
+                background-color: cornsilk;
+                color: #FF0000;
+            }                           
+            .col1 {
+                text-align: left; 
+                max-width: 80px; 
+                white-space: nowrap;
+            }
+            .col2 {
+                text-align: left; 
+            }
+        </style> 
+        <script type="text/javascript">
+            //<![CDATA[
+            function confirmFullImport(){
+                if( confirm('[帳號載入]將覆蓋現有權限，若要保留現有權限需先使用[帳號匯出]檔案，逐筆修改後再載入。確定要全部匯入??') ){
+                    return true;
+                }
+                return false;
+            }
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="header">
+        <h:outputText value="#{userDataLoaderController.funcTitle}" />
+    </ui:define>
+    <ui:define name="content">
+        <p:tabView id="tabView" dynamic="true" style="width:100%;" rendered="#{!userDataLoaderController.functionDenied}" >   
+            <!-- 匯入 TAB -->
+            <!--帳號載入-->
+            <p:tab title="#{msg['userloader.loader.title']}" id="import">
+                <h:form id="importForm" prependId="false" >
+                    <p:messages id="messages" showDetail="false" autoUpdate="true"/>
+                    <!--for call backing bean method-->
+                    <p:remoteCommand name="clearMessages" actionListener="#{userDataLoaderController.clearMessages}" update="@form">  
+                        <f:setPropertyActionListener value="#{true}" target="#{requestScope.shouldRender}" />                                         
+                    </p:remoteCommand>
+                    
+                    #{userDataLoaderController.triggerPostConstruct()}
+                    
+                    <p:panel header="#{userDataLoaderController.funcTitle}">
+                        <!--請選擇載入的檔案-->
+                        <h:outputLabel value="#{msg['userloader.select.file.description']}:(Excel File: *.xls)"/><br/>
+                        
+                        <table border="1" class="cusTable" >
+                            <tr>
+                                <td style="text-align: left; width: 150px" rowspan="2">
+                                    <!--上傳月度計劃表Excel:-->                     
+                                    <h:outputLabel  id="lbUploadFile" styleClass="required" value="上傳Excel:"/>
+                                </td>
+                                <td>
+                                    <h:panelGroup id="inc_attachment">
+                                        <ui:include src="/inc/inc_attachment.xhtml">
+                                            <ui:param name="formName" value="tabView:importForm"/>
+                                            <ui:param name="fileUploadUpdate" value=":tabView:importForm"/>
+                                            <ui:param name="removeUpdate" value=":tabView:importForm:pBtnGroup"/>
+                                        </ui:include>
+                                    </h:panelGroup> 
+                                </td> 
+                            </tr>
+                        </table>  
+                        <h:graphicImage library="images" name="info.png" styleClass="icons" />
+                        <h:outputText value="若傳入的員工姓名為NA，則由CS_EMPLOY取得相關資訊(姓名、員工代號、e-mail)" styleClass="info" />
+                        <br/>
+                        <h:graphicImage library="images" name="info.png" styleClass="icons" />
+                        <h:outputText value="[帳號載入]將覆蓋現有權限，若要保留現有權限需先使用[帳號匯出]檔案，逐筆修改後再載入" styleClass="info" />
+                        <p/>
+                        
+                        <h:panelGroup id="pBtnGroup" styleClass="blockBtnC" >
+                            <!--全部匯入-->
+                            <p:commandButton value="#{msg['userloader.full_import']}" icon="ui-icon ui-icon-disk" 
+                                             title="#{msg['userloader.full_import']}" 
+                                             disabled="#{!userDataLoaderController.enableFullImport()}"
+                                             action="#{userDataLoaderController.doFullImport}" 
+                                             update="@form"                                         
+                                             onstart="return confirmFullImport();"
+                                             />	
+                            <!--清除-->
+                            <p:spacer width="5px"/>
+                            <p:commandButton value="#{userDataLoaderController.finished?msg['common.button.next']:msg['common.button.clear']}" icon="#{prplanBatchImport.finished?'ui-icon ui-icon-play':'ui-icon ui-icon-cancel'}"  
+                                             title="#{userDataLoaderController.finished?msg['common.button.next']:msg['common.button.clear']}"
+                                             action="#{userDataLoaderController.reset}" 
+                                             update="@form"
+                                             />
+                            <p:spacer width="5px"/>
+                        </h:panelGroup>
+                    </p:panel>
+                    
+                    <!-- BEGIN: 匯入結果列表 -->
+                    <!--匯入結果-->
+                    <p:panel id="uploadResult" header="#{msg['userloader.import_result']}">
+                        <h:panelGroup rendered="#{userDataLoaderController.importResultList != null}">
+                            <p:dataTable id="tblImport" 
+                                         value="#{userDataLoaderController.importResultList}" var="row" 
+                                         styleClass="ui-datatable-hor-scroll"
+                                         paginator="true" rows="10" 
+                                         >
+                                <f:facet  name="header">
+                                    <h:panelGroup rendered="#{userDataLoaderController.importResultList != null}">
+                                        (共#{userDataLoaderController.importResultList.size()}筆)
+                                    </h:panelGroup>                            
+                                </f:facet>
+                                <p:column headerText="Key">
+                                    <f:facet name="header">
+                                        <h:outputText value="Key" />  
+                                    </f:facet>       
+                                    <h:outputText value="USER_INFO" />  
+                                </p:column>
+                                <!--
+                                <p:column filterBy="#{row.factoryFullName}" filterMatchMode="contains" >
+                                    <f:facet name="header">
+                                        <h:outputText value="廠別" />  
+                                    </f:facet>       
+                                    <h:outputText value="#{row.factoryFullName}"/>
+                                </p:column>
+                                <p:column filterBy="#{row.departmentFullName}" filterMatchMode="contains" >
+                                    <f:facet name="header">
+                                        <h:outputText value="部門" />  
+                                    </f:facet> 
+                                    <h:outputText value="#{row.departmentFullName}"/>
+                                </p:column>
+                                -->
+                                <p:column filterBy="#{row.employeeId}" filterMatchMode="contains" >
+                                    <f:facet name="header">
+                                        <h:outputText value="員工工號" />  
+                                    </f:facet>                                 
+                                    <h:outputText value="#{row.employeeId}"/>
+                                </p:column>
+                                <p:column filterBy="#{row.employeeName}" filterMatchMode="contains" >
+                                    <f:facet name="header">
+                                        <h:outputText value="員工姓名" />  
+                                    </f:facet>                                 
+                                    <h:outputText value="#{row.employeeName}"/>
+                                </p:column>
+                                <p:column filterBy="#{row.loginAccount}" filterMatchMode="contains" >
+                                    <f:facet name="header">
+                                        <h:outputText value="AD帳號" />  
+                                    </f:facet> 
+                                    <h:outputText value="#{row.loginAccount}"/>
+                                </p:column>
+                                <p:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="郵件帳號" />  
+                                    </f:facet> 
+                                    <h:outputText value="#{row.emailAddress}"/>
+                                </p:column>
+                                <p:column style="white-space: normal; word-break: break-all" width="180px" >
+                                    <f:facet name="header">
+                                        <h:outputText value="群組代碼" />  
+                                    </f:facet> 
+                                    <h:outputText value="#{row.groupNames}"/>
+                                </p:column>
+                                <p:column style="white-space: normal; word-break: break-all" width="180px" >
+                                    <f:facet name="header">
+                                        <h:outputText value="廠別代碼" />  
+                                    </f:facet> 
+                                    <h:outputText value="#{row.factorycodes}"/>
+                                </p:column>
+                                <p:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="公司權限" />  
+                                    </f:facet> 
+                                    <h:outputText value="#{row.companies}"/>
+                                </p:column>
+                                <p:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="工廠群組" />  
+                                    </f:facet> 
+                                    <h:outputText value="#{row.factoryGroups}"/>
+                                </p:column>
+                            </p:dataTable>  
+                            <!-- /div -->
+                        </h:panelGroup>    
+                    </p:panel>
+                    <!-- BEGIN: 匯入結果列表 -->
+                </h:form><!-- importForm -->
+                <ui:include src="/inc/inc_note.xhtml"/>                        
+            </p:tab>
+            
+            <!-- 匯出 TAB -->
+            <p:tab title="#{msg['userloader.export.title']}" id="export">
+                <h:form prependId="false" id="dataExportForm">
+                    <p:messages id="messages2"/>
+                    
+                    <!-- BEGIN: 查詢條件元件區 -->
+                    <p:panel header="#{msg['search.critical']}:" toggleable="true" toggleSpeed="500">
+                        <p:panelGrid columns="2" columnClasses="col1,col2" >
+                            <!-- AD帳號 -->
+                            <h:outputLabel rendered="true" 
+                                           style="font-weight: bold" value="AD帳號:" 
+                                           title="AD帳號" />
+                            <h:panelGroup>
+                                <p:inputText value="#{userDataLoaderController.userLoaderVO.loginAccount}" title="可模糊查詢" 
+                                             size="20"
+                                             maxlength="10" />
+                                
+                                <p:spacer width="20" />
+                                <!-- 姓名 -->
+                                <h:outputLabel rendered="true" 
+                                               style="font-weight: bold" value="姓名:" 
+                                               title="姓名" />
+                                <p:spacer width="5" />
+                                <p:inputText value="#{userDataLoaderController.userLoaderVO.employeeName}" title="可模糊查詢及繁簡查詢" 
+                                             size="20"
+                                             maxlength="20" />
+                                
+                                <p:spacer width="20" />
+                                <!-- 員編 -->
+                                <h:outputLabel rendered="true" 
+                                               style="font-weight: bold" value="員編:" 
+                                               title="員編" />
+                                <p:spacer width="5" />
+                                <p:inputText value="#{userDataLoaderController.userLoaderVO.employeeId}" title="可模糊查詢" 
+                                             size="20"
+                                             maxlength="10" />
+                            </h:panelGroup>
+                            
+                            <!-- 廠別 -->
+                            <h:outputLabel rendered="true" 
+                                           style="font-weight: bold" value="廠別:" 
+                                           title="廠別" />
+                            <h:panelGroup>
+                                <p:inputText value="#{userDataLoaderController.userLoaderVO.factoryFullName}" title="可模糊查詢" 
+                                             size="20"
+                                             maxlength="20" />
+                                <p:spacer width="20" />
+                                <!-- 是否包含已刪除使用者(預設不勾選) -->
+                                <h:outputLabel rendered="true" 
+                                               style="font-weight: bold" value="是否包含已刪除使用者:" 
+                                               title="是否包含已刪除使用者" />
+                                <p:spacer width="5" />
+                                <h:panelGroup id="pg1" ><p:selectBooleanCheckbox value="#{userDataLoaderController.includeDisabledUser}" />(勾選表示包含)</h:panelGroup>
+                            </h:panelGroup>
+                        </p:panelGrid>
+                        
+                        <!--查詢-->
+                        <p:commandButton value="查詢"
+                                         icon="ui-icon-search"
+                                         update="@form"
+                                         actionListener="#{userDataLoaderController.query()}" 
+                                         />
+                        <!--清除按鈕-->
+                        <p:spacer width="5px"/>
+                        <p:commandButton value="#{msg['common.button.clear']}" 
+                                         icon="#{prplanBatchImport.finished?'ui-icon ui-icon-play':'ui-icon ui-icon-cancel'}"  
+                                         title="#{msg['common.button.clear']}"
+                                         actionListener="#{userDataLoaderController.resetExport()}" 
+                                         update="@form"
+                                         />
+                    </p:panel>
+                    <!-- END: 查詢條件元件區 -->
+                    
+                    <p/>
+                    <p:panel id="searchResult" header="#{msg['search.result']}:">
+                        <!-- 匯出 EXCEL -->
+                        <h:commandLink id="clQuerydataExporter" rendered="#{userDataLoaderController.userLoaderVOList != null}">  
+                            <h:graphicImage width="32" height="32" alt="#{msg['common.export.excel']}" library="images" name="excel.png" style="vertical-align: bottom; border:0" />
+                            <h:outputLabel value="#{msg['common.export.excel']}"/>
+                            <p:dataExporter type="xls" target="dtResult" fileName="UserInfoExprot"/>                                    
+                        </h:commandLink>
+                        
+                        <!-- BEGIN: 查詢結果列表 -->
+                        <h:outputText id="otRowCount" value="(共#{userDataLoaderController.countAfterFilter}筆)"/>
+                        <p:dataTable id="dtResult" 
+                                     value="#{userDataLoaderController.userLoaderVOList}" 
+                                     var="row" 
+                                     paginator="true" rows="10" 
+                                     widgetVar="userLoaderWidgetVar"
+                                     styleClass="ui-datatable-hor-scroll"
+                                     filteredValue="#{userDataLoaderController.filterUserLoaderVOList}" >
+                            <!-- filter 後變更筆數 -->
+                            <p:ajax event="filter" listener="#{userDataLoaderController.onFilter}" update=":tabView:dataExportForm:otRowCount" />
+                            <p:column headerText="Key">
+                                <f:facet name="header">
+                                    <h:outputText value="Key" />  
+                                </f:facet>       
+                                <h:outputText value="USER_INFO" />  
+                            </p:column>
+                            <!--
+                            <p:column sortBy="#{row.factoryFullName}" width="60"  
+                                      filterBy="#{row.factoryFullName}" filterMatchMode="contains"
+                                      >
+                                <f:facet name="header">
+                                    <h:outputText value="廠別" />  
+                                </f:facet>       
+                                <h:outputText value="#{row.factoryFullName}"/>
+                            </p:column>
+                            <p:column sortBy="#{row.departmentFullName}"
+                                      filterBy="#{row.departmentFullName}" filterMatchMode="contains" filterStyle="width:40px"
+                                      >
+                                <f:facet name="header">
+                                    <h:outputText value="部門" />  
+                                </f:facet> 
+                                <h:outputText value="#{row.departmentFullName}"/>
+                            </p:column>
+                            -->
+                            <p:column sortBy="#{row.employeeId}"  
+                                      filterBy="#{row.employeeId}" filterMatchMode="contains" filterStyle="width:60px"
+                                      style="text-align: center; min-width:80px;" >
+                                <f:facet name="header">
+                                    <h:outputText value="員工工號" />  
+                                </f:facet>                                 
+                                <h:outputText value="#{row.employeeId}"/>
+                            </p:column>
+                            <p:column sortBy="#{row.employeeName}" width="60"
+                                      filterBy="#{row.employeeName}" filterMatchMode="contains" filterStyle="width:60px"
+                                      style="text-align: center; min-width:80px;" >
+                                <f:facet name="header">
+                                    <h:outputText value="員工姓名" />  
+                                </f:facet>                                 
+                                <h:outputText value="#{row.employeeName}"/>
+                            </p:column>
+                            <p:column sortBy="#{row.loginAccount}" width="70"  
+                                      filterBy="#{row.loginAccount}" filterMatchMode="contains" filterStyle="width:70px"
+                                      style="text-align: center; min-width:80px;" >
+                                <f:facet name="header">
+                                    <h:outputText value="AD帳號" />  
+                                </f:facet> 
+                                <h:outputText value="#{row.loginAccount}"/>
+                            </p:column>
+                            <p:column filterBy="#{row.emailAddress}" filterMatchMode="contains" 
+                                      style="text-align: center; min-width:80px;" >
+                                <f:facet name="header">
+                                    <h:outputText value="郵件帳號" />  
+                                </f:facet> 
+                                <h:outputText value="#{row.emailAddress}"/>
+                            </p:column>
+                            <p:column filterBy="#{row.groupNames}" filterMatchMode="contains" 
+                                      style="white-space: normal; word-break: break-all" filterStyle="width:180px" >
+                                <f:facet name="header" >
+                                    <h:outputText value="群組代碼" />  
+                                </f:facet> 
+                                <h:outputText value="#{row.groupNames}" />
+                            </p:column>
+                            <p:column filterBy="#{row.factorycodes}" filterMatchMode="contains" 
+                                      style="white-space: normal; word-break: break-all" filterStyle="width:140px" >
+                                <f:facet name="header">
+                                    <h:outputText value="廠別代碼" />  
+                                </f:facet> 
+                                <h:outputText value="#{row.factorycodes}"/>
+                            </p:column>
+                            <p:column filterBy="#{row.companies}" filterMatchMode="contains" width="60" 
+                                      filterStyle="width:40px" 
+                                      style="text-wrap:normal; word-wrap:break-word; min-width:80px;" >
+                                <f:facet name="header">
+                                    <h:outputText value="公司權限" />  
+                                </f:facet> 
+                                <h:outputText value="#{row.companies}"/>
+                            </p:column>
+                            <p:column filterBy="#{row.companies}" filterMatchMode="contains" width="60" 
+                                      filterStyle="width:40px" 
+                                      style="text-wrap:normal; word-wrap:break-word; min-width:80px;" >
+                                <f:facet name="header">
+                                    <h:outputText value="工廠群組" />  
+                                </f:facet> 
+                                <h:outputText value="#{row.factoryGroups}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                    <!-- END: 查詢結果列表 -->
+                </h:form>
+                <ui:include src="/inc/inc_note.xhtml"/>       
+            </p:tab>
+            <!-- Notify Log -->
+            <!--                <p:tab title="Notify Log">
+                                <h:form>
+                                    <p:messages id="messages3"/>
+                                    <p:commandButton update="messages3" value="Send to manager" action="#{userDataLoaderController.notifyLog}"/>
+                                </h:form>
+                            </p:tab>-->
+            <!-- -->
+        </p:tabView>
+    </ui:define>
+</ui:composition>

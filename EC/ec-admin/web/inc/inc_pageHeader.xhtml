@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <h:form id="dummyform"/> <!-- dummy form to prevent PWC3999 problem -->
+    
+    <div class="headerLeft">
+        <h:outputLink value="#{facesContext.externalContext.request.contextPath}#{tcSessionController.homePage}" onclick="if( !checkNoSave() ){ return false; }" >
+            <div title="#{app.serverIpAddress}" class="logo"></div>
+        </h:outputLink>    
+    </div>
+    
+    <div class="headerRight">
+        <div class="userID"><h:outputText value="#{tcSessionController.loginWelcomeMsg}"/></div>     
+        <h:link outcome="#{tcSessionController.logoutPage}" onclick="if( !checkNoSave() ){ return false; }" >
+            <div class="logoutBtn">
+                <div class="logoutText">#{msg["header.logout2"]}</div>
+            </div>
+        </h:link>
+    </div>
+    
+    <div class="headerMiddle">
+        <div class="headerMiddle_TitleBG">				
+            <div class="headerMiddle_Title"></div>
+        </div>			
+    </div>
+    
+    <div class="menuDiv" >
+        <div class="menuField">
+            <ui:include src="inc_menu.xhtml"/>
+        </div>
+    </div>
+    <p:spacer height="8" />
+</ui:composition>
+

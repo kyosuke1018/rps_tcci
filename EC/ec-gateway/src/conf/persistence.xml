@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="Model" transaction-type="JTA">
+    <jta-data-source>jdbc/ec</jta-data-source>
+    <class>com.tcci.fc.entity.org.TcUser</class>
+    <class>com.tcci.fc.entity.org.TcGroup</class>
+    <class>com.tcci.fc.entity.org.TcUsergroup</class>
+    <class>com.tcci.fc.entity.essential.TcDomain</class>
+    <class>com.tcci.fc.entity.content.TcApplicationdata</class>
+    <class>com.tcci.fc.entity.content.TcFvitem</class>
+    <class>com.tcci.fc.entity.content.TcFvvault</class>
+    <!-- EC Entity {{ -->
+    <!-- }} EC Entity -->
+    <class>com.tcci.ec.entity.Service</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="eclipselink.cache.shared.default" value="false"/>
+      <!-- JPA cache -->
+      <!--            <property name="eclipselink.cache.size.default" value="1000" />
+            <property name="eclipselink.cache.coordination.protocol" value="jms" />
+            <property name="eclipselink.cache.coordination.jms.factory" value="jms/cacheCoordinateResource"/>
+            <property name="eclipselink.cache.coordination.jms.topic" value="jms/tccstoreTopic" />-->
+      <!-- JPA logging -->
+      <property name="eclipselink.logging.level" value="WARNING"/>
+      <property name="eclipselink.logging.parameters" value="true"/>
+    </properties>
+  </persistence-unit>
+</persistence>

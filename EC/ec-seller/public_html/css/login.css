@@ -1,0 +1,285 @@
+body {
+	font-size: 14px;
+	font-family: "微軟正黑體", "Microsoft JhengHei", sans-serif;
+	background: #ff5858; /* Old browsers */
+	background: -moz-linear-gradient(left, #ff5858 0%, #f09819 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(left, #ff5858 0%, #f09819 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to right, #ff5858 0%, #f09819 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff5858', endColorstr='#f09819', GradientType=1 ); /* IE6-9 */
+}
+body.fullBgImg-seller, body.fullBgImg-admin {
+	margin:0;
+	padding:0;               
+}
+#id01 {
+	display: block;
+	overflow-y: hidden;
+}
+.fullBgImg-seller .content {
+	max-width: 1000px;
+	margin: 0 auto;
+	font-family: "微軟正黑體", "Microsoft JhengHei", sans-serif;
+	height: 100vh;
+	position: relative;
+	overflow: hidden;
+	background-image: url(../img/bg-seller.png);
+	background-position: center right;
+	background-repeat: no-repeat;
+	-moz-background-size:55%;
+    -webkit-background-size:55%;
+    -o-background-size:55%;
+    background-size:55%;
+}
+.fullBgImg-admin .content {
+	max-width: 1000px;
+	margin: 0 auto;
+	font-family: "微軟正黑體", "Microsoft JhengHei", sans-serif;
+	height: 100vh;
+	position: relative;
+	overflow: hidden;
+	background-image: url(../img/bg-admin.png);
+	background-position: center right;
+	background-repeat: no-repeat;
+	-moz-background-size:55%;
+    -webkit-background-size:55%;
+    -o-background-size:55%;
+    background-size:55%;
+}
+h2.w3-text-white {
+	font-family: "微軟正黑體", "Microsoft JhengHei", sans-serif;
+	text-align: left;
+	padding: 0px 8px;
+	font-weight: bold;
+	font-size: 36px;
+}
+input, select {
+	max-width: 100%;
+	border-radius: 8px;
+}
+.form-group {
+	position: relative
+}
+.form-group .fa {
+	position: absolute;
+	left: 15px;
+	top: 38%;
+	color: #999;
+	font-size: 18px
+}
+.form-group label {
+	display: none
+}
+/* Full-width input fields */
+input[type=text], input[type=password] {
+	width: 100%;
+	padding: 12px 20px 12px 40px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #feb56a;
+	box-sizing: border-box;
+}
+/* Set a style for all buttons */
+button {
+	background-color: #474747;
+	color: #fff;
+	padding: 10px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	border-radius: 8px;
+	font-size: 18px;
+	font-weight: bold
+}
+button:hover {
+	opacity: 0.8;
+}
+/* Extra styles for the cancel button */
+.cancelbtn {
+	width: auto;
+	padding: 14px 20px;
+	background-color: #f44336;
+}
+/* Center the image and position the close button */
+.imgcontainer {
+	text-align: center;
+	margin: 20px 0 12px 0;
+	position: relative;
+}
+img.logoLogin {
+	max-width: 50%;
+	border-radius: 20%;
+}
+.container {
+	padding: 8px;
+}
+span.psw {
+	float: right;
+	padding-top: 2px;
+}
+/* The Modal (background) */
+/* Modal Content/Box */
+.modal-content {
+}
+#id01 {
+	position: relative;
+	top: 50%;
+	margin: 0 auto;
+	-webkit-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+#fmLogin {
+	width: 380px;
+	float: left;
+	margin-left: 20px
+}
+/* The Close Button (x) */
+.close {
+	position: absolute;
+	right: 25px;
+	top: 0;
+	color: #000;
+	font-size: 35px;
+	font-weight: bold;
+}
+.close:hover, .close:focus {
+	color: red;
+	cursor: pointer;
+}
+#loginResult {
+	color: red;
+	background-color: yellow;
+	padding: 10px 10px;
+}
+/* Add Zoom Animation */
+.animate {
+	-webkit-animation: animatezoom 0.6s;
+	animation: animatezoom 0.6s
+}
+ @-webkit-keyframes animatezoom {
+ from {
+-webkit-transform: scale(0)
+}
+ to {
+-webkit-transform: scale(1)
+}
+}
+ @keyframes animatezoom {
+ from {
+transform: scale(0)
+}
+ to {
+transform: scale(1)
+}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 600px) {
+.modal-content {
+	margin: 20px auto 1% auto; /* 40px from the top, 5% from the bottom and centered */
+	width: 90%;
+}
+span.psw {
+	display: block;
+}
+}
+@media all and (max-width: 768px) {
+.fullBgImg-seller .content {
+	max-width: 100%;
+	margin: 0 auto;
+	font-family: "微軟正黑體", "Microsoft JhengHei", sans-serif;
+	height: 100vh;
+	position: relative;
+	overflow: hidden;
+	background-image: url(../img/bg-seller.png);
+	background-position: center 20px;
+	background-repeat: no-repeat;
+	-moz-background-size: 250px;
+	-webkit-background-size:250px;
+	-o-background-size: 250px;
+	background-size: 250px;
+}
+.fullBgImg-admin .content {
+	max-width: 100%;
+	margin: 0 auto;
+	font-family: "微軟正黑體", "Microsoft JhengHei", sans-serif;
+	height: 100vh;
+	position: relative;
+	overflow: hidden;
+	background-image: url(../img/bg-admin.png);
+	background-position: center 20px;
+	background-repeat: no-repeat;
+	-moz-background-size: 250px;
+	-webkit-background-size:250px;
+	-o-background-size: 250px;
+	background-size: 250px;
+}
+.container {
+	padding: 0px;
+}
+h2.w3-text-white {
+	text-align: center;
+	padding: 0px 8px;
+	font-weight: bold;
+	font-size: 28px
+}
+#id01 {
+	position: relative;
+	top:280px;
+	margin: 0 auto;
+	-webkit-transform: none;
+	-moz-transform: none;
+	transform: none;
+}
+#fmLogin {
+	width:80%;
+	float:none;
+	margin:auto
+}
+}
+@media all and (max-width: 320px) {
+.fullBgImg-seller .content {
+	max-width: 100%;
+	margin: 0 auto;
+	font-family: "微軟正黑體", "Microsoft JhengHei", sans-serif;
+	height: 100vh;
+	position: relative;
+	overflow: hidden;
+	background-image: url(../img/bg-seller.png);
+	background-position: center 20px;
+	background-repeat: no-repeat;
+	-moz-background-size: 200px;
+	-webkit-background-size:200px;
+	-o-background-size: 200px;
+	background-size: 200px;
+}
+.fullBgImg-admin .content {
+	max-width: 100%;
+	margin: 0 auto;
+	font-family: "微軟正黑體", "Microsoft JhengHei", sans-serif;
+	height: 100vh;
+	position: relative;
+	overflow: hidden;
+	background-image: url(../img/bg-admin.png);
+	background-position: center 20px;
+	background-repeat: no-repeat;
+	-moz-background-size: 200px;
+	-webkit-background-size:200px;
+	-o-background-size: 200px;
+	background-size: 200px;
+}
+#id01 {
+	position: relative;
+	top:240px;
+	margin: 0 auto;
+	-webkit-transform: none;
+	-moz-transform: none;
+	transform: none;
+}
+#fmLogin {
+	width:80%;
+	float:none;
+	margin:auto
+}
+}

@@ -1,0 +1,9 @@
+{
+    "list": [
+        {"id":111, "label":"type1-1-1"},
+        {"id":112, "label":"type1-1-2"},
+        {"id":113, "label":"type1-1-3"},
+        {"id":114, "label":"type1-1-4"},
+        {"id":115, "label":"type1-1-5"}
+    ]
+}
