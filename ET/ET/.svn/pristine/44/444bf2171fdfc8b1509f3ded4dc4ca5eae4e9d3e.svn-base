@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <p:fileUpload label="#{msgApp['app.label.upload']}"
+                  multiple="true"
+                  auto="true"
+                  allowTypes="#{attachmentBean.allowTypes}"
+                  sizeLimit="#{attachmentBean.sizeLimit}"
+                  update="@(.uploadFiles_#{attachmentBean.getIdentity(contentHolder)})"
+                  fileUploadListener="#{attachmentBean.fileUpload}"
+                  rendered="#{not empty contentHolder and not attachmentBean.readOnly}">
+        <f:attribute name="contentHolder" value="#{contentHolder}"/>
+    </p:fileUpload>
+    <p:dataTable value="#{attachmentBean.getAttachmentList(contentHolder)}"
+                 var="attachmentVO"
+                 styleClass="uploadFiles_#{attachmentBean.getIdentity(contentHolder)}"
+                 editable="#{not attachmentBean.readOnly}"
+                 editMode="cell"
+                 rows="10"
+                 paginator="true"
+                 paginatorPosition="bottom"
+                 tableStyle="table-layout: auto;"
+                 reflow="true">
+        <p:ajax event="cellEdit"
+                global="false"
+                rendered="#{not attachmentBean.readOnly}"/>
+        <p:column headerText="檔名">
+            <h:commandLink actionListener="#{attachmentBean.fileDownload(attachmentVO)}"
+                           immediate="true"
+                           onclick="monitorDownload();return true;">
+                <h:graphicImage library="images"
+                                name="attach.png"
+                                rendered="#{not empty attachmentVO.applicationdata}"/>
+                <h:graphicImage library="images"
+                                name="new.png"
+                                rendered="#{empty attachmentVO.applicationdata}"/>
+                <h:outputText value="#{attachmentVO.fileName}"/>
+                <p:fileDownload value="#{attachmentBean.streamedContent}"/>
+            </h:commandLink>
+        </p:column>
+        <p:column headerText="檔案大小" style="text-align: right;">
+            <h:outputText value="#{attachmentVO.size}">
+                <f:convertNumber pattern="#,###"/>
+            </h:outputText>
+            <h:outputText value=" bytes"/>
+        </p:column>
+        <p:column headerText="上傳時間">
+            <h:outputText value="#{attachmentVO.applicationdata.fvitem.createtimestamp}">
+                <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="上傳者">
+            <h:outputText value="#{attachmentVO.applicationdata.fvitem.creator.cname}"/>
+        </p:column>
+        <p:column headerText="備註#{attachmentBean.readOnly ? '' : '(點一下編輯)'}" style="max-width: 200px;">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{attachmentVO.description}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{attachmentVO.description}"
+                                 label="備註"
+                                 style="width:100%"
+                                 onblur="trimInput(this)"
+                                 maxlength="100"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column headerText="動作"
+                  style="width: 40px;"
+                  rendered="#{not attachmentBean.readOnly}">
+            <p:commandLink actionListener="#{attachmentBean.fileRemove(contentHolder, attachmentVO)}"
+                           immediate="true"
+                           update="@(.uploadFiles_#{attachmentBean.getIdentity(contentHolder)})"
+                           rendered="#{empty attachmentVO.applicationdata}"
+                           global="false">
+                <h:graphicImage title="#{msgApp['app.button.remove']}"
+                                library="images"
+                                name="delete.png"/>
+            </p:commandLink>
+            <p:commandLink actionListener="#{attachmentBean.fileRemove(contentHolder, attachmentVO)}"
+                           immediate="true"
+                           onstart="return confirm('確認要刪除?')"
+                           update="@(.uploadFiles_#{attachmentBean.getIdentity(contentHolder)})"
+                           rendered="#{not empty attachmentVO.applicationdata}"
+                           global="false">
+                <h:graphicImage title="#{msgApp['app.button.remove']}"
+                                library="images"
+                                name="delete.png"/>
+            </p:commandLink>
+        </p:column>
+    </p:dataTable>
+</ui:composition>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <h:panelGroup rendered="#{!videos.showTree}" >
+        <div style="width:16px" >
+            <p:outputLabel value="樹狀圖已隱藏 ，要開啟請按顯示樹狀圖按鈕 。" styleClass="info" />
+        </div>
+    </h:panelGroup>
+    <h:panelGroup id="pgTree" rendered="#{videos.showTree}" >
+        <p:panel header="影音樹狀圖" styleClass="plTree" >
+            <p:tree value="#{videos.root}" 
+                    style="min-height:400px; width:max-content;" 
+                    var="folder" 
+                    selectionMode="single" 
+                    selection="#{videos.selectedNode}">
+                <p:ajax event="select" listener="#{videos.onNodeSelect}" 
+                        onstart="enableAjaxBlockUI(false);" oncomplete="enableAjaxBlockUI(true);" 
+                        update=":fmMain" />
+                <p:ajax event="expand" listener="#{videos.onNodeExpand}" />
+                <p:ajax event="collapse" listener="#{videos.onNodeCollapse}" />
+                    
+                <p:treeNode type="#{ui.customCode}" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed" ><!-- 自訂影片庫 -->
+                    <h:outputText value="#{folder.cname}" title="#{folder.cname}"/>
+                    <p:commandLink title="刪除"  
+                                   rendered="#{videos.canDeleteFolder(folder)}"
+                                   actionListener="#{videos.deleteFolder(folder)}"
+                                   oncomplete="afterCallBackHandler(xhr, status, args);"
+                                   update=":fmMain:pgTree"
+                                   onclick="if( !confirm('您確定要刪除嗎?') ){ return false; }" 
+                                   >
+                        <h:graphicImage library="images" name="delete.png" styleClass="icons" />
+                    </p:commandLink>
+                </p:treeNode>                                
+                <p:treeNode type="#{ui.docCode}" icon="ui-icon-document" ><!-- 文章穿插影片 -->
+                    <h:outputText value="#{folder.cname}" title="#{folder.cname}"/>
+                    <h:graphicImage rendered="#{empty folder.parent}"
+                                    title="此部分影片，為[B1.文章管理]中[自訂網頁]類型文章，直接插入的上傳影片。" 
+                                    library="images" name="info.png" styleClass="icons" style="cursor: help;" />
+                </p:treeNode>                                
+            </p:tree>
+        </p:panel>        
+    </h:panelGroup>
+</ui:composition>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:link value="#{msgBpm['menu.processlist']}" outcome="processList.xhtml" styleClass="ui-menuitem-link"/>
+    <h:outputLabel value=" | "/>
+    <h:link value="#{msgBpm['menu.todolist']}" outcome="todoList.xhtml" styleClass="ui-menuitem-link"/>
+    <h:outputLabel value=" | "/>
+    <h:link value="#{msgBpm['menu.reassignconf']}" outcome="reassignConf.xhtml" styleClass="ui-menuitem-link"/>
+    <h:outputLabel value=" | "/>
+    <h:link value="#{msgBpm['menu.templatelist']}" outcome="templateList.xhtml" styleClass="ui-menuitem-link"/>
+    <h:outputLabel value=" | "/>
+    <h:link value="#{msgBpm['menu.templateedit']}" outcome="templateEdit.xhtml" styleClass="ui-menuitem-link"/>
+    <hr/>
+</ui:composition>

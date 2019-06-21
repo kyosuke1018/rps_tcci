@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!-- 使用者編輯視窗 -->
+    <p:dialog header="#{msg['userfactory.editfactory.title']}"
+              widgetVar="editUserRoleDlg"
+              resizable="true"
+              draggable="true"
+              position="200,10" 
+              width="880"
+              visible="#{!empty userFactoryController.editUser}" 
+              modal="true">
+        <h:form id="editForm" prependId="false">
+            <h:panelGroup id="editUserRoleGroup">
+                <h:panelGrid columns="13">
+                    <h:outputLabel value="#{msg['usermgmt.label.loginaccount']}:" for="editAccount" style=" font-weight: bold"/>
+                    <h:outputText id="editAccount"
+                                  value="#{userFactoryController.editUser.loginAccount}"/>
+                    <p:spacer width="5" />
+                    <h:outputLabel value="#{msg['usermgmt.label.empid']}:" for="editEmpId" style=" font-weight: bold"/>
+                    <h:outputText id="editEmpId"
+                                  value="#{userFactoryController.editUser.empId}"/>
+                    <p:spacer width="5" />
+                    <h:outputLabel value="#{msg['usermgmt.label.cname']}:" for="editCname" style=" font-weight: bold"/>
+                    <h:outputText id="editCname"
+                                  value="#{userFactoryController.editUser.cname}"/>                    
+                    <p:spacer width="5" />
+                    <h:outputLabel value="#{msg['usermgmt.label.email']}:" for="editEmail" style=" font-weight: bold"/>
+                    <h:outputText id="editEmail"
+                                  value="#{userFactoryController.editUser.email}"/>
+                    <p:spacer width="5" />
+                    <p:selectBooleanCheckbox id="category" value="#{userFactoryController.closeDlgAfterSave}" 
+                                             itemLabel="儲存後自動關閉對話框" 
+                                             style="vertical-align: middle;" >
+                        <p:ajax event="change" listener="#{userFactoryController.configDlgAction()}" process="@this" update="@this"/>
+                    </p:selectBooleanCheckbox>
+                </h:panelGrid>
+                <p:separator />
+                <!-- BEGIN: 選取工廠 -->
+                <p:fieldset id="fieldsetResult" legend="勾選#{msg['userfactory.label.factory']}" 
+                            toggleable="true" collapsed="false" rendered="true" >
+                    <!-- by 公司 -->
+                    <h:outputLabel value="依#{msg['usermgmt.label.company']}設定:" for="editUserCompany" style=" font-weight: bold"/>
+                    <h:outputText class="info" value=" (勾選表擁有該公司所有廠區的資料權限)" />
+                    <p:selectManyCheckbox id="editUserCompany" style="vertical-align: middle;"
+                                          value="#{userFactoryController.companySelected}">
+                        <f:selectItems value="#{userFactoryController.companys}"/>
+                    </p:selectManyCheckbox>
+                    <p:separator />
+                    <!-- by 工廠 -->
+                    <div style="width: 100%; height: 270px; overflow-y: auto;">
+                        <h:panelGroup id="categoryTable">
+                            <table rules="rows" width="100%" >
+                                <ui:repeat id="categoryList" var="category" value="#{userFactoryController.cmFactoryCategoryList}">
+                                    <tr>
+                                        <td  width="120px" class="category" >
+                                            <!-- 主廠 -->
+                                            <p:selectBooleanCheckbox id="category" immediate="true" value="#{userFactoryController.categoryCheckMap[category]}" style="vertical-align: middle;" >
+                                                <p:ajax immediate="false" listener="#{userFactoryController.selectCategory(category)}" update="opFactorys"/>
+                                            </p:selectBooleanCheckbox>
+                                            <h:outputText value="#{category.name}" />
+                                        </td>
+                                        <td>
+                                            <!-- 子廠 -->
+                                            <p:outputPanel id="opFactorys" >
+                                                <ui:repeat id="factoryList" var="item" value="#{userFactoryController.getFactoryListByCategory(category)}" varStatus="status">  
+                                                    <h:outputText value="&nbsp;" />
+                                                    <p:selectBooleanCheckbox id="factory" value="#{userFactoryController.factoryCheckMap[item]}" style="vertical-align: middle;" >
+                                                    </p:selectBooleanCheckbox>
+                                                    <h:outputText value="#{item.code}(#{item.name})" /><p:spacer width="2" height="16" />       
+                                                        
+                                                    <!--每5個換行一次-->
+                                                    <h:panelGroup rendered="#{(status.index+1) % 5 eq 0}" >
+                                                        <br/>
+                                                    </h:panelGroup>
+                                                </ui:repeat>
+                                            </p:outputPanel>
+                                        </td>   
+                                    </tr>
+                                </ui:repeat>
+                            </table>
+                        </h:panelGroup><!-- categoryTable --> 
+                    </div>
+                </p:fieldset>
+                <!-- </div> -->
+                <!-- END: 選取工廠 -->
+                <!-- BEGIN: 特殊工廠群組 -->
+                <p:fieldset rendered="true" id="fsFactoryGroup" legend="工廠群組" toggleable="true" collapsed="true" >
+                    <!--
+                    <h:outputText value="&nbsp;"/>
+                    針對此角色設定：
+                    <p:selectOneMenu value="#{userFactoryController.specPlantRole}" filter="true" filterMatchMode="contains" >
+                        <p:ajax event="change" listener="#{userFactoryController.changeRole()}" update=":editForm:pgFactorygroup" />
+                        <f:selectItem itemLabel="系統預設" itemValue="0" ></f:selectItem>
+                        <f:selectItems value="#{userFactoryController.userPlantRoles}" />
+                    </p:selectOneMenu>
+                    (系統預設，包含Common Report同步的設定)
+                    -->
+                    <br />
+                    <h:outputText value="&nbsp;"/>
+                    <p:selectBooleanCheckbox itemLabel="全選" value="#{userFactoryController.selectAllGroup}" >
+                        <p:ajax event="change" listener="#{userFactoryController.changeSelectAllGroup()}" update=":editForm:pgFactorygroup" />
+                    </p:selectBooleanCheckbox>
+                    <p:separator />
+                    <h:panelGroup id="pgFactorygroup">
+                        <ui:repeat var="factorygroup" value="#{userFactoryController.cmFactorygroupList}" varStatus="status" >
+                            <h:outputText value="&nbsp;"/>
+                            <p:selectBooleanCheckbox id="sbcFactoryGroup" immediate="true" 
+                                                     value="#{userFactoryController.factoryGroupCheckMap[factorygroup]}" 
+                                                     style="vertical-align: middle;" >
+                            </p:selectBooleanCheckbox>
+                            <h:outputText value="#{factorygroup.code}" title="#{factorygroup.description}" />
+                            <h:outputText value="#{factorygroup.groupname}" title="#{factorygroup.description}" />
+                            <p:spacer width="2" height="16" />
+                            <!--每5個換行一次-->
+                            <h:panelGroup rendered="#{(status.index+1) % 5 eq 0}" >
+                                <br/>
+                            </h:panelGroup>
+                        </ui:repeat>
+                    </h:panelGroup>
+                </p:fieldset>
+                <!-- END: 特殊工廠群組 -->
+                <hr/>
+                <h:panelGroup style="display:block; text-align:center;">
+                    <!-- 確定儲存 -->
+                    <p:commandButton id="btnEditUserRoleOk"
+                                     icon="ui-icon-circle-check"
+                                     value="#{msg['usermgmt.button.ok']}"
+                                     actionListener="#{userFactoryController.save()}" 
+                                     update=":queryForm:searchResult"
+                                     onstart="return editUserRole_OK()"
+                                     oncomplete="editUserRole_complete(xhr, status, args)"/>
+                    <p:spacer width="4" />
+                    <!-- 關閉 -->
+                    <p:commandButton id="btnEditUserRoleCancel"
+                                     value="#{msg['button.close']}"
+                                     icon="ui-icon-circle-close" 
+                                     onclick="closeEditUserRoleDlg();return false;"/>
+                </h:panelGroup>
+            </h:panelGroup><!-- editUserRoleGroup -->
+        </h:form>
+        <script type="text/javascript">
+            //<![CDATA[
+            function closeEditUserRoleDlg(){
+                PF('editUserRoleDlg').hide();
+                doResize();
+            }
+            
+            function editUserRole_OK() {
+                return true;
+            }
+
+            function editUserRole_complete(xhr, status, args) {
+                if( args.success ){
+                    if( args.closeDlgAfterSave ){
+                        closeEditUserRoleDlg();
+                    }
+                    afterSuccess();
+                }
+                
+                if( args.msg !== undefined ){
+                    alert(args.msg);
+                }
+            }
+            //]]>
+        </script>        
+    </p:dialog>
+</ui:composition>

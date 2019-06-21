@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+    <jdbc-connection-pool name="datawarehousePool" datasource-classname="oracle.jdbc.pool.OracleDataSource" res-type="javax.sql.DataSource" >
+        <property name="User" value="warehouse"></property>
+        <property name="Password" value="abcd1234"></property>
+        <property name="URL" value="jdbc:oracle:thin:@192.168.203.62:1521:orcl"></property>
+    </jdbc-connection-pool>
+    <jdbc-resource pool-name="datawarehousePool" jndi-name="jdbc/datawarehouse"></jdbc-resource>
+    <!--
+    <mail-resource host="192.168.15.85" jndi-name="mail/automail" from="automail@taiwancement.com" user="automail">
+      <property name="mail.smtp.auth" value="true"></property>
+      <property name="mail.smtp.password" value="${mail.smtp.password}"></property>
+    </mail-resource>
+    -->
+    <custom-resource res-type="java.util.Properties" jndi-name="jndi/global.config" factory-class="org.glassfish.resources.custom.factory.PropertiesFactory">
+      <property name="CAS_LOGOUT_URL" value="${com.taiwancement.sso.logoutUrl}"></property>
+      <property name="DOCPUB_URL" value="http://docpub.taiwancement.com/docpub/faces/manual/"></property>
+      <property name="SAP_REST_ROOT" value="http://jcoservice.taiwancement.com/JCoService/resources"></property>
+    </custom-resource>
+</resources>

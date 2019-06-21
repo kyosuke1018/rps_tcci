@@ -1,0 +1,240 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.tcci.et.controller;
+
+import com.tcci.cm.controller.global.SessionAwareController;
+import com.tcci.cm.model.global.GlobalConstant;
+import com.tcci.cm.util.JsfUtils;
+import com.tcci.dw.facade.MmDwFacade;
+import com.tcci.et.model.MemberVO;
+import com.tcci.et.model.rs.StrOptionVO;
+import com.tcci.et.entity.EtMemberForm;
+import com.tcci.et.enums.FormStatusEnum;
+import com.tcci.et.enums.FormTypeEnum;
+import com.tcci.et.facade.EtMemberFormFacade;
+import com.tcci.et.model.criteria.PrCriteriaVO;
+import com.tcci.fc.controller.util.AttachmentBean;
+import com.tcci.fc.entity.bpm.TcSignature;
+import com.tcci.fc.facade.bpm.IBPMEngine;
+import com.tcci.fc.facade.bpm.ProcessActivityVO;
+import com.tcci.fc.facade.content.ContentFacade;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
+import org.apache.commons.collections.CollectionUtils;
+
+/**
+ *
+ * @author Kyle.Cheng
+ */
+@ManagedBean(name = "memberFormView")
+@ViewScoped
+public class MemberFormViewController extends SessionAwareController implements Serializable {
+    
+    protected AttachmentBean attachmentBean;
+    @EJB
+    protected ContentFacade contentFacade;
+    @EJB
+    protected EtMemberFormFacade formFacade;
+    private @EJB MmDwFacade mmDwFacade;
+    @Inject
+    protected IBPMEngine bpmEngine;
+    
+    protected EtMemberForm form;
+    private MemberVO formVO;
+    protected List<ProcessActivityVO> activities;
+    protected int activeIndex; // tabview:
+    
+    @PostConstruct
+    private void init(){
+        try {
+            // Get view Id
+            viewId = null;//不檢查
+            
+            initValidate();
+            loadForm();
+        } catch (Exception ex) {
+            JsfUtils.addErrorMessage(ex.getMessage());
+        }
+    }
+    
+    protected void initValidate() throws Exception {
+        if(this.getLoginUser()==null){
+//        if (!userSession.isValid()) {
+            throw new Exception("無登入者資料，請聯絡系統管理員!");
+        }
+        attachmentBean = new AttachmentBean(contentFacade).readOnly(true);
+    }
+    
+    protected static Long getLongParam(String key) throws Exception {
+        String value = JsfUtils.getRequestParameter(key);
+        if (value == null) {
+            throw new Exception(key + "參數不得為空!");
+        }
+        try {
+            return Long.parseLong(value);
+        } catch (Exception ex) {
+            throw new Exception(key + "參數必需為數值!");
+        }
+    }
+    
+//    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    protected void loadForm() throws Exception {
+        Long id = getLongParam("id");
+        form = formFacade.find(id);
+        if (null == form) {
+            throw new Exception("無此申請單(" + id + ")!");
+        }
+        formVO = formFacade.findById(id, Boolean.TRUE, GlobalConstant.DEF_LOCALE.getLocale());
+        try{
+            if(FormTypeEnum.M_NV.getCode().equals(formVO.getType())){
+                //COUNTRY, CURRENCY
+                PrCriteriaVO criteriaVO2 = new PrCriteriaVO();
+                criteriaVO2.setCode("tcc");
+                criteriaVO2.setLand1(formVO.getCountryCode());
+                List<StrOptionVO> list2 = mmDwFacade.findCountryOptionsByCriteria(criteriaVO2);
+                if((list2!=null && !list2.isEmpty())){
+                    StrOptionVO optionVO = list2.get(0);
+                    formVO.setCountryName(optionVO.getLabel());
+                }
+                
+                PrCriteriaVO criteriaVO3 = new PrCriteriaVO();
+                criteriaVO3.setCode("tcc");
+                criteriaVO3.setLand1(formVO.getCountryCode());
+                List<StrOptionVO> list3 = mmDwFacade.findCountryOptionsByCriteria(criteriaVO3);
+                if((list3!=null && !list3.isEmpty())){
+                    StrOptionVO optionVO = list3.get(0);
+                    formVO.setCurrencyName(optionVO.getLabel());
+                }
+            }
+        } catch (Exception e) {
+            logger.error("ex:"+e);
+        }
+        
+//        logger.info("loadForm ProcessId:"+formVO.getProcessId());
+        if (form.getProcess() != null) {
+//            activities = bpmEngine.findProcessActivitiesFlow(form.getProcess(), true);
+            //排除沒有簽核人員的關卡
+            List<ProcessActivityVO> list = new ArrayList<>();
+            List<ProcessActivityVO> result = bpmEngine.findProcessActivitiesFlow(form.getProcess(), true);
+            if (CollectionUtils.isNotEmpty(result)) {
+                logger.info("loadForm activities:"+result.size());
+                for(ProcessActivityVO processActivityVO:result){
+                    if (CollectionUtils.isNotEmpty(processActivityVO.getOwner())) {
+                        list.add(processActivityVO);
+                    }
+                }
+            }
+            activities = list;
+            logger.info("loadForm activities:"+activities.size());
+        }
+        if (!isFormViewable()) {
+            form = null;
+            activities = null;
+            throw new Exception("無權檢視此申請單(" + id + ")");
+        }
+        FormStatusEnum status = form.getStatus();
+        if (activities != null && !activities.isEmpty()) {
+            activeIndex = 1;
+        } else {
+            activeIndex = 0;
+        }
+    }
+    
+    // helper
+    public String getPageTitle() {
+        return null == form ? "檢視申請單"
+                : null == form.getId() ? "檢視申請單" : "檢視申請單(" + form.getId() + ")";
+    }
+    
+    public int getAttachmentSize() {
+        return null == form ? 0 : attachmentBean.getAttachmentList(form).size();
+    }
+    
+    protected boolean isFormViewable() {
+        return sessionController.isUserInRole("ADMINISTRATORS")
+                || isApplicantOrCreator()
+                || isApprover()
+//                || isGA()
+                ;
+//        || userSession.isReviewer(form.getGroupCode())//審核 考勤人員
+    }
+    
+    protected boolean isApplicantOrCreator() {
+        return sessionController.getLoginTcUser().equals(form.getCreator());
+    }
+    
+    protected boolean isApprover() {
+        return (activities != null && isApprover(activities));
+    }
+    protected boolean isApprover(List<ProcessActivityVO> list) {
+        for (ProcessActivityVO vo : list) {
+            if (vo.getOwner() != null && vo.getOwner().contains(sessionController.getLoginTcUser())) {
+                return true;
+            }
+            if (vo.getWorkitem() != null) {
+                if (vo.getWorkitem().getOwner().equals(sessionController.getLoginTcUser())) {
+                    return true;
+                }
+                for (TcSignature s : vo.getWorkitem().getTcSignatureCollection()) {
+                    if (s.getCreator().equals(sessionController.getLoginTcUser())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    public String getFormStatus() {
+        try {
+            return null == form ? null : msgApp.getString("status." + form.getStatus().toString());
+        } catch (Exception ex) {
+            return form.getStatus().toString();
+        }
+    }
+    
+    // getter, setter
+    public EtMemberForm getForm() {
+        return form;
+    }
+
+    public MemberVO getFormVO() {
+        return formVO;
+    }
+    
+    public List<ProcessActivityVO> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<ProcessActivityVO> activities) {
+        this.activities = activities;
+    }
+    
+    public AttachmentBean getAttachmentBean() {
+        return attachmentBean;
+    }
+
+    public void setAttachmentBean(AttachmentBean attachmentBean) {
+        this.attachmentBean = attachmentBean;
+    }
+
+    public int getActiveIndex() {
+        return activeIndex;
+    }
+
+    public void setActiveIndex(int activeIndex) {
+        this.activeIndex = activeIndex;
+    }
+    
+}

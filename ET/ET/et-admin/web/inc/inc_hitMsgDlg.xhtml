@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <p:dialog header="提示訊息" dynamic="true"
+              widgetVar="hitMsgDlg" 
+              modal="false" 
+              width="450"
+              hideEffect="fade" 
+              draggable="false" 
+              closable="true">
+        <h:form id="fmHitMsg" >
+            <p:panel>
+                <h:graphicImage library="images" name="lightbulb.png" />
+                <p:spacer width="2" />
+                <h:outputText value="#{controller.hitMessageVO.subject}" style="font-size: 20px;" escape="false" styleClass="info" />
+                
+                <h:panelGroup rendered="#{controller.hitMessageVO.hasContent()}" >
+                    <br /><br />
+                    <!-- 警示訊息：(有警示訊息本對話框會停留較久) -->
+                    <p:fieldset legend="#{msg['msg.hit8']}" >
+                        <ui:repeat value="#{controller.hitMessageVO.contents}" var="row" >
+                            <h:graphicImage library="images" name="alert.png" styleClass="icons" /><p:spacer width="2" />
+                            <p:outputLabel value="#{row}" styleClass="info" ></p:outputLabel><br/>
+                        </ui:repeat>
+                    </p:fieldset>
+                </h:panelGroup>
+            </p:panel>
+            <p:panel style="text-align: right" >
+                <!-- 點我停留視窗 -->
+                <p:commandButton value="#{msg['msg.hit9']}" type="button" onclick="stopHitDlg();" ></p:commandButton>
+                <!-- 關閉 -->
+                <p:commandButton value="#{msg['button.close']}" type="button" onclick="PF('hitMsgDlg').hide();" ></p:commandButton>
+            </p:panel>
+        </h:form>
+    </p:dialog>
+
+    <script type="text/javascript">
+    //<![CDATA[
+    /**
+     * 短暫顯示訊息
+     */
+    var stopDlg = false;
+    
+    $(function(){
+        if( #{show} ){
+            growlMsg();
+        }
+    });
+    
+    function stopHitDlg(){
+        stopDlg = true;
+    }
+
+    function hideHitDlg(){
+        if( !stopDlg ){
+            PF('hitMsgDlg').hide();
+        }
+    }
+
+    growlMsg = function(hasAlert){
+        var times = 1000;
+        if( hasAlert !== undefined ){// 有警示停留久一點
+            if( hasAlert ){
+                times = 3000;
+            }
+        }
+
+        stopDlg = false;
+        PF('hitMsgDlg').show();
+        if( !stopDlg ){
+            setTimeout('hideHitDlg()', times);
+        }
+    };
+              
+    function growlMsgHandler(xhr, status, args) {
+        if( args.success !== undefined ){
+            if( args.success ){
+                growlMsg(args.hasAlert);
+                return;
+            }
+        }
+    }
+    //]]>
+    </script>
+</ui:composition>

@@ -1,0 +1,42 @@
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+
+# app module
+app.title=\u53f0\u6ce5\u8cc7\u8a0a\u7bc4\u4f8b\u7a0b\u5f0f
+
+# app menu
+app.menu.help=\u8aaa\u660e
+app.menu.help.usermanual=\u4f7f\u7528\u624b\u518a
+app.menu.sysadmin=\u7cfb\u7d71\u7ba1\u7406\u54e1
+app.menu.sysadmin.simulateuser=\u6a21\u64ec\u4f7f\u7528\u8005
+app.menu.sysadmin.usermgmt=\u4f7f\u7528\u8005\u7ba1\u7406
+app.menu.sysadmin.vaultmgmt=\u6a94\u6848\u6ac3\u7ba1\u7406
+
+# label, table header
+app.label.loginuser=\u767b\u5165\u8005
+app.label.welcome=\u60a8\u597d
+app.label.no.account=\u672c\u7cfb\u7d71\u7121\u6b64\u5e33\u865f
+app.label.logout=\u767b\u51fa
+app.label.action=\u52d5\u4f5c
+app.label.upload=\u4e0a\u50b3
+app.label.download=\u4e0b\u8f09
+
+# fieldset legend
+app.fieldset.queryfilter=\u67e5\u8a62\u689d\u4ef6
+app.fieldset.queryresult=\u67e5\u8a62\u7d50\u679c
+
+# button
+app.button.ok=\u78ba\u5b9a
+app.button.cancel=\u53d6\u6d88
+app.button.submit=\u9001\u51fa
+app.button.query=\u67e5\u8a62
+app.button.save=\u5132\u5b58
+app.button.add=\u65b0\u589e
+app.button.view=\u6aa2\u8996
+app.button.edit=\u7de8\u8f2f
+app.button.remove=\u522a\u9664
+app.button.close=\u95dc\u9589
+
+# message, error
+app.error.nopermissionsimulateuser=\u60a8\u6c92\u6709\u6b0a\u9650\u6a21\u64ec\u4f7f\u7528\u8005!
+app.error.tcusernotfound=\u7cfb\u7d71\u7121\u6b64\u4f7f\u7528\u8005\u5e33\u865f!

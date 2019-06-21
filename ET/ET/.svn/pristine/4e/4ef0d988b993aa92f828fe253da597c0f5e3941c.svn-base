@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml"
+                >
+    <ui:define name="title">
+        <h:outputText value="#{activityLogController.funcTitle}" />
+    </ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+            .pgCol1, .pgCol2 {
+                vertical-align: top;
+                margin: 0;
+                border: #0022aa; 
+            }
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <p:panel header="#{activityLogController.funcTitle}" rendered="#{!activityLogController.functionDenied}" >      
+            <h:form id="fmMain" prependId="false" >
+                <!-- BEGIN: 查詢條件區 -->
+                <p:fieldset id="fsQueryConds" legend="#{msg['search.critical']}" collapsed="false"
+                            toggleable="true" toggleSpeed="500">
+                    <p:panelGrid columns="2" >
+                        <p:outputLabel value="關鍵字：" />
+                        <h:panelGroup >
+                            <p:inputText id="itKeyword" maxlength="35" size="35" value="#{activityLogController.criteriaVO.keyword}" />
+                            <p:watermark for="itKeyword" value="輸入操作者姓名、帳號或操作內容關鍵字" />
+                            
+                            <p:spacer width="10" height="16" />
+                            
+                            <p:outputLabel value="操作類別：" />
+                            <p:selectOneMenu value="#{activityLogController.criteriaVO.code}" >
+                                <f:selectItem itemLabel="---" noSelectionOption="true" />
+                                <f:selectItems value="#{ui.activityLogOptions}"  />
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="操作網址：" />
+                        <h:panelGroup>
+                            <p:inputText id="itKeywordUrl" size="15" value="#{activityLogController.criteriaVO.keywordUrl}" />
+                            <p:watermark for="itKeywordUrl" value="輸入操作網址關鍵字" />
+                            
+                            <p:outputLabel value="操作日期：" />
+                            <p:calendar value="#{activityLogController.criteriaVO.dateStart}" showOn="button"
+                                        size="10" pattern="#{app.dateFormat}" ></p:calendar>
+                            <p:outputLabel value=" ~ " />
+                            <p:calendar value="#{activityLogController.criteriaVO.dateEnd}" showOn="button"
+                                        size="10" pattern="#{app.dateFormat}" ></p:calendar>
+                                        
+                            <p:spacer width="10" height="16" />
+                            
+                            <p:outputLabel value="執行結果：" />
+                            <p:selectOneMenu value="#{activityLogController.criteriaVO.successFlag}" >
+                                <f:selectItem itemLabel="---" noSelectionOption="true" />
+                                <f:selectItem itemLabel="成功" itemValue="true" />
+                                <f:selectItem itemLabel="失敗" itemValue="false" />
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                        
+                        <p:spacer width="5px"/>
+                    </p:panelGrid>
+                    <p:separator /> 
+                    <p:outputPanel id="opQueryBtn" >
+                        <p:spacer width="10" height="20" />
+                        <!--確定按鈕-->
+                        <p:commandButton value="#{msg['button.search']}" icon="ui-icon-search"
+                                         action="#{activityLogController.doQuery()}"
+                                         oncomplete="doResize();" 
+                                         update="fsResult"/>
+                        <p:spacer width="5px"/>
+                        <!--清除按鈕-->
+                        <p:commandButton value="#{msg['common.button.clear']}" icon="ui-icon ui-icon-cancel"
+                                         action="#{activityLogController.doReset()}" 
+                                         update="fsQueryConds fsResult"
+                                         /><!--  :fmMain:pgOrgTree -->
+                        <p:spacer width="10px"/>
+                    </p:outputPanel>
+                </p:fieldset>
+                
+                <!-- BEGIN: 查詢結果列表區 -->
+                <p:fieldset id="fsResult" legend="#{msg['search.result']}">
+                    <!-- 查詢結果筆數 -->
+                    <h:panelGroup id="otRowCount">
+                        <h:outputText id="otRowCount1" value="(共#{activityLogController.lazyModel.rowCount}筆)" rendered="#{activityLogController.lazyModel!=null}" />
+                    </h:panelGroup>
+                    <p:remoteCommand name="rcGetRowCountAfterFiltered" update=":fmMain:otRowCount" />
+                    
+                    <p:dataTable id="dtResult" var="row"  
+                                 value="#{activityLogController.lazyModel}" lazy="true"
+                                 widgetVar="wvDTResult"
+                                 filteredValue="#{activityLogController.filterResultList}"
+                                 styleClass="ui-datatable-hor-scroll"
+                                 paginatorPosition="bottom" 
+                                 rows="10"
+                                 style="margin:0px"
+                                 paginator="true" 
+                                 rowKey="#{row.id}" >
+                        <!-- filter 後變更筆數, 使用 Lazy Loading 不可直接 update 會抓到上次筆數，故用 oncomplete -->
+                        <p:ajax event="filter" oncomplete="doResize(); rcGetRowCountAfterFiltered();" /><!-- 調整寬度 for chrome -->
+                        
+                        <!-- 操作類別 -->
+                        <p:column sortBy="#{row.code}" >
+                            <f:facet name="header"><h:outputText value="操作類別" /></f:facet>
+                            <h:outputText value="#{row.code}-#{row.subject}" />
+                        </p:column>
+                        <!-- 操作內容 -->
+                        <p:column width="400"  style="min-width: 200px; max-width: 300px;" filterBy="#{row.detail}" filterMatchMode="contains" >
+                            <f:facet name="header"><h:outputText value="操作內容" /></f:facet>
+                            <p class="wordBreak"><h:outputText value="#{row.detail}" /></p>
+                        </p:column>
+                        <!-- 操作網址 -->
+                        <p:column width="150" filterBy="#{row.detail}" filterMatchMode="contains" >
+                            <f:facet name="header"><h:outputText value="操作網址" /></f:facet>
+                            <p class="wordBreak"><h:outputText value="#{row.viewId}" /></p>
+                        </p:column>
+                        <!-- 結果 -->
+                        <p:column width="80" >
+                            <f:facet name="header"><h:outputText value="結果" /></f:facet>
+                            <h:outputText rendered="#{row.success}" value="成功" style="color:green" />
+                            <h:outputText rendered="#{!row.success}" value="失敗" style="color:red" />
+                        </p:column>
+                        <!-- 操作時間 -->
+                        <p:column sortBy="#{row.createTimestamp}">
+                            <f:facet name="header"><h:outputText value="操作時間" /></f:facet>
+                            <h:outputText id="otHqApproveTime" value="#{row.createTimestamp}" styleClass="datetime" >
+                                <f:convertDateTime pattern="#{app.dateTimeFormat}" />
+                            </h:outputText>
+                        </p:column>
+                        <!-- 操作人帳號 -->
+                        <p:column sortBy="#{row.loginAccount}" filterBy="#{row.loginAccount}" filterMatchMode="contains" >
+                            <f:facet name="header"><h:outputText value="操作人帳號" /></f:facet>
+                            <h:outputText value="#{row.loginAccount}" />
+                        </p:column>
+                        <!-- 操作人姓名 -->
+                        <p:column sortBy="#{row.userName}" filterBy="#{row.userName}" filterMatchMode="contains" >
+                            <f:facet name="header"><h:outputText value="操作人姓名" /></f:facet>
+                            <h:outputText value="#{row.userName}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </h:form>
+        </p:panel>
+        
+        <!-- 功能權限檢查對話框 -->
+        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+            <ui:param name="controller" value="#{activityLogController}"/>
+        </ui:include>
+        
+    </ui:define>
+</ui:composition>
+
+

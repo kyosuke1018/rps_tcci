@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+<style>
+svg {
+  border: 1px solid #999;
+}
+
+text {
+  font-weight: 300;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serf;
+  font-size: 14px;
+}
+
+rect {
+  fill: #fff;
+}
+
+.node rect {
+  stroke-width: 2px;
+  stroke: #333;
+  fill: none;
+}
+
+.edge rect {
+  fill: #fff;
+}
+
+.edge path {
+  fill: none;
+  stroke: #333;
+  stroke-width: 1.5px;
+}
+</style>
+    <p:dialog header="preview"
+              resizable="false"
+              widgetVar="previewDlg">
+        <svg width="800" height="500">
+          <g transform="translate(20, 20)"/>
+        </svg>
+    </p:dialog>
+    <script type="text/javascript">
+    function preview(xhr, status, args) {
+        if (!args.validationFailed) {
+           PF('previewDlg').show();
+            tryDraw(args.result);
+        } else {
+            $("#mysvg").html("ajax validation failed!");
+        }
+    }
+    function tryDraw(source) {
+        var result = graphlibDot.parse(source);
+        if (result) {
+            var svg = d3.select("svg > g");
+            svg.selectAll("*").remove();
+            var renderer = new dagreD3.Renderer();
+            var dir = $('input:radio:checked[name="layoutDirection"]').val();
+            var layout = dagreD3.layout().nodeSep(20).rankDir(dir);
+            renderer.layout(layout).run(result, svg.append("g"));
+            // Add zoom behavior
+            d3.select("svg").call(d3.behavior.zoom().on("zoom", function() {
+              var ev = d3.event;
+              svg.select("g")
+                .attr("transform", "translate(" + ev.translate + ") scale(" + ev.scale + ")");
+            }));
+        }
+    }
+    </script>
+</ui:composition>

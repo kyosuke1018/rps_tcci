@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/svn/et/et-model/src/com/tcci/et/facade/EtVcFormFacade.java</file>
+            <file>file:/D:/svn/et/et-model/src/com/tcci/et/facade/EtVenderFacade.java</file>
+            <file>file:/D:/svn/et/et-model/src/com/tcci/ec/model/rs/AttachmentRsVO.java</file>
+            <file>file:/D:/svn/et/et-model/src/com/tcci/ec/model/MemberVO.java</file>
+            <file>file:/D:/svn/et/et-model/src/com/tcci/fc/facade/bpm/BpmEngineEx.java</file>
+            <file>file:/D:/svn/et/et-model/src/com/tcci/fc/facade/AttachmentFacade.java</file>
+            <file>file:/D:/svn/et/et-model/src/com/tcci/cm/facade/admin/PermissionFacade.java</file>
+            <file>file:/D:/svn/et/et-model/src/com/tcci/ec/model/VenderVO.java</file>
+            <file>file:/D:/svn/et/et-model/src/com/tcci/et/entity/EtVcForm.java</file>
+            <file>file:/D:/svn/et/et-model/src/com/tcci/ec/model/TenderVO.java</file>
+            <file>file:/D:/svn/et/et-model/src/com/tcci/et/entity/EtMemberForm.java</file>
+            <file>file:/D:/svn/et/et-model/src/com/tcci/et/facade/EtTenderFacade.java</file>
+            <file>file:/D:/svn/et/et-model/src/com/tcci/et/facade/EtMemberFormFacade.java</file>
+        </group>
+    </open-files>
+</project-private>

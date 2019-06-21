@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml"
+                >
+    <ui:define name="title">
+        <h:outputText value="#{videos.funcTitle}" />
+    </ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+            .leftCol {
+                vertical-align: top;
+                text-align: left;
+            }
+            .mainCol {
+                vertical-align: top;
+                text-align: left;
+                min-width: 450px;
+            }
+            .vmCol {
+                vertical-align: middle;
+            }
+            .vbCol{
+                vertical-align: baseline;
+            }
+            .plTree {
+                padding-left: 3px;
+                padding-right: 3px; 
+            }
+            .ui-tree {
+                width: 250px;
+            }
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <h:form id="fmMain" prependId="false" >
+            <p:panel header="#{videos.funcTitle}" style="overflow-x: scroll;" rendered="#{!videos.functionDenied}" >
+                <p:panelGrid columns="2" columnClasses="leftCol,mainCol" >
+                    <!-- BEGIN: 樹狀圖 -->
+                    <ui:include src="/inc/content/inc_videosTree.xhtml"></ui:include>
+                    <!-- END: 樹狀圖 -->
+                    
+                    <p:panel id="plRight">
+                        <h:panelGroup>
+                            <p:outputLabel value="樹狀圖寬度調整：" />
+                            <p:commandLink onclick="resizeTree(false)" title="縮小樹狀圖寬度(最小250px)" immediate="true" >
+                                <h:graphicImage library="images" name="resultset_previous.png" styleClass="iconsBig" />
+                            </p:commandLink>
+                            <p:commandLink onclick="resizeTree(true)" title="放大樹狀圖寬度(最大650px)" immediate="true" >
+                                <h:graphicImage library="images" name="resultset_next.png" styleClass="iconsBig" />
+                            </p:commandLink>
+                            
+                            <p:outputLabel value="(有資料夾名稱被遮蓋時，放大才會有作用；寬度最小250px，最大650px。)" styleClass="info" />
+                            <br/>
+                        </h:panelGroup>
+                        
+                        <!-- BEGIN: C 自訂影片庫 -->
+                        <h:panelGroup id="pgOptions" rendered="#{videos.showCustom()}" >
+                            <!-- 目前選取資料夾 -->
+                            <h:panelGroup rendered="#{!empty videos.editVO}" >
+                                <p:outputLabel rendered="#{!empty videos.editVO.parentName}" 
+                                    value="#{videos.editVO.parentName}／" />
+                                <p:outputLabel value="#{videos.editVO.cname}" styleClass="fieldvalue" />
+                                <p:spacer width="5" height="10" />
+                                <h:graphicImage library="images" name="1rightarrow.png" styleClass="icons" />
+                                <p:spacer width="5" height="10" />
+                            </h:panelGroup>
+                            
+                            <p:selectOneButton value="#{videos.mode}" >
+                                <f:selectItem itemLabel="編輯基本資料" itemValue="#{ui.modifyCode}" rendered="#{videos.editVO.canEdit}" />
+                                <f:selectItem itemLabel="新增子資料夾" itemValue="#{ui.addSubCode}" />
+                                <f:selectItem itemLabel="新增/編輯影片" itemValue="#{ui.uploadSubCode}" />
+                                
+                                <p:ajax event="change" listener="#{videos.changeEditMode()}" update=":fmMain:pgOptions" />
+                            </p:selectOneButton>
+                            
+                            <p:separator />
+                            
+                            <!-- 資料夾資訊 維護表單 -->
+                            <p:fieldset legend="基本資訊" toggleable="true" rendered="#{videos.showEditNodeBlock()}" >
+                                <p:panelGrid columns="2" styleClass="vmCol,vmCol" >
+                                    <p:outputLabel value="名稱：" styleClass="fieldname required" />
+                                    <p:inputText size="50" value="#{videos.editVO.cname}"
+                                                 disabled="#{!videos.editVO.canEdit}" />
+                                    <!--
+                                    <p:outputLabel value="標題：" styleClass="fieldname" />
+                                    <p:inputText size="50" value="#{videos.editVO.title}" 
+                                                 disabled="#{!videos.editVO.canEdit}" />
+                                    -->
+                                    <p:outputLabel value="簡介：" styleClass="fieldname" />
+                                    <p:inputTextarea style="vertical-align: middle;"
+                                                cols="50" rows="3" value="#{videos.editVO.description}" 
+                                                disabled="#{!videos.editVO.canEdit}" />
+
+                                    <p:outputLabel value="所屬資料夾：" styleClass="fieldname required" rendered="#{!empty videos.editVO.parent}" />
+                                    <p:selectOneMenu value="#{videos.editVO.parentIdStr}" rendered="#{!empty videos.editVO.parent}">
+                                        <f:selectItems value="#{videos.getParentFolderOptions(videos.editVO.id)}" />
+                                    </p:selectOneMenu>
+                                    
+                                    <p:outputLabel value="網站語系：" styleClass="fieldname" />
+                                    <h:panelGroup >
+                                        <p:selectOneMenu value="#{videos.editVO.lang}" >
+                                            <f:selectItems value="#{ui.langWebSiteOptions}" ></f:selectItems>
+                                        </p:selectOneMenu>
+                                        <p:spacer width="10" height="5" />
+                                        <p:commandButton value="儲存" icon="ui-icon-disk"
+                                                         rendered="#{!videos.readOnly}" 
+                                                         actionListener="#{videos.saveBasic()}"
+                                                         oncomplete="afterCallBackHandler(xhr, status, args);"
+                                                         update="pgTree pgOptions" ></p:commandButton>
+                                    </h:panelGroup>
+                                </p:panelGrid>
+                            </p:fieldset>
+                            
+                            <!-- 子資料夾資訊 維護表單 -->
+                            <p:fieldset legend="子資料夾資訊" toggleable="true" rendered="#{videos.showAddSubNodeBlock()}" >
+                                <p:panelGrid columns="2" styleClass="vmCol,vmCol" >
+                                    <p:outputLabel value="名稱：" styleClass="fieldname required" />
+                                    <p:inputText size="50" value="#{videos.editSubVO.cname}" />
+                                    <!--
+                                    <p:outputLabel value="標題：" styleClass="fieldname" />
+                                    <p:inputText size="50" value="#{videos.editSubVO.title}" />
+                                    -->
+                                    <p:outputLabel value="簡介：" styleClass="fieldname" />
+                                    <p:inputTextarea style="vertical-align: middle;" cols="50" rows="3" 
+                                                     value="#{videos.editSubVO.description}" />
+
+                                    <p:outputLabel value="所屬資料夾：" styleClass="fieldname" />
+                                    <p:outputLabel value="#{videos.editVO.cname}" styleClass="fieldvalue" />
+                                    
+                                    <p:outputLabel value="網站語系：" styleClass="fieldname" />
+                                    <h:panelGroup >
+                                        <p:selectOneMenu value="#{videos.editSubVO.lang}" >
+                                            <f:selectItems value="#{ui.langWebSiteOptions}" ></f:selectItems>
+                                        </p:selectOneMenu>
+                                        <p:spacer width="10" height="5" />
+                                        <p:commandButton value="儲存" icon="ui-icon-disk"
+                                                         rendered="#{!videos.readOnly}" 
+                                                         actionListener="#{videos.saveFolder()}"
+                                                         oncomplete="afterCallBackHandler(xhr, status, args);"
+                                                         update="pgTree" ></p:commandButton>
+                                    </h:panelGroup>
+                                </p:panelGrid>
+                            </p:fieldset>
+                            
+                            <!-- 影片資訊 維護表單 -->
+                            <p:fieldset legend="影片資訊" toggleable="true" rendered="#{videos.showUploadBlock()}" >
+                                <p:panelGrid columns="2" styleClass="vmCol,vmCol" >
+                                    <p:outputLabel value="標題：" styleClass="fieldname required" />
+                                    <h:panelGroup >
+                                        <p:outputLabel value="(中)" title="中文標題" />
+                                        <p:inputText size="60" value="#{videos.editSubVO.title}" />
+                                        <br/>
+                                        <p:outputLabel value="(英)" title="英文標題" />
+                                        <p:inputText size="60" value="#{videos.editSubVO.etitle}" />
+                                        <br/>
+                                        <p:outputLabel value="(若要英文網站可顯示影片英文標題，請輸入英文標題欄位。)" styleClass="info" /> 
+                                    </h:panelGroup>
+                                    
+                                    <p:outputLabel value="影片網址：" styleClass="fieldname required" />
+                                    <p:inputText size="60" value="#{videos.editSubVO.url}" />
+
+                                    <p:outputLabel value="發佈頻道：" styleClass="fieldname" />
+                                    <h:panelGroup>
+                                        <p:inputText size="30" value="#{videos.editSubVO.channel}" />
+                                        <p:spacer width="10" height="5" />
+                                        <p:outputLabel value="發佈日期：" styleClass="fieldname" />
+                                        <p:calendar showOn="button" size="14" maxlength="10" readonlyInput="false" navigator="true"
+                                                    value="#{videos.editSubVO.releaseDate}" 
+                                                    converterMessage="日期格式錯誤(yyyy/MM/dd)" 
+                                                    pattern="yyyy/MM/dd" />
+                                    </h:panelGroup>
+                                    
+                                    <p:outputLabel value="簡介：" styleClass="fieldname" />
+                                    <h:panelGroup >
+                                        <p:outputLabel value="(中)" title="中文簡介" />
+                                        <p:inputTextarea cols="80" rows="2" value="#{videos.editSubVO.description}" style="vertical-align: middle;" />
+                                        <br/>
+                                        <p:outputLabel value="(英)" title="英文簡介" />
+                                        <p:inputTextarea cols="80" rows="2" value="#{videos.editSubVO.edescription}" style="vertical-align: middle;" />
+                                        <br/>
+                                        <p:outputLabel value="(若要英文網站可顯示影片英文簡介，請輸入英文簡介欄位。)" styleClass="info" /> 
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="所屬資料夾：" styleClass="fieldname required" />
+                                    <p:selectOneMenu value="#{videos.editSubVO.parentIdStr}" >
+                                        <f:selectItems value="#{videos.getParentFolderOptions(videos.editSubVO.id)}" />
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="網站語系：" styleClass="fieldname" />
+                                    <p:selectOneMenu value="#{videos.editSubVO.lang}" >
+                                        <f:selectItems value="#{ui.langWebSiteOptions}" ></f:selectItems>
+                                    </p:selectOneMenu>
+                                    
+                                    <p:spacer width="10" height="5" />
+                                    <h:panelGroup>
+                                        <p:commandButton value="#{empty videos.editSubVO.id?'新增':'儲存修改'}" icon="ui-icon-disk"
+                                                         actionListener="#{videos.saveVideo()}"
+                                                         rendered="#{!videos.readOnly}" 
+                                                         oncomplete="afterCallBackHandler(xhr, status, args);" 
+                                                         update=":fmMain:pgOptions :fmMain:pgIncList" ></p:commandButton>
+                                        <p:spacer width="5" height="5" ></p:spacer>
+                                        <p:commandButton value="取消" icon="ui-icon-close"
+                                                         actionListener="#{videos.doResetUpdate()}" 
+                                                         update="pgOptions" ></p:commandButton>
+                                    </h:panelGroup>
+                                </p:panelGrid>
+                            </p:fieldset>
+                        </h:panelGroup>
+                        <!-- END: C 自訂影片庫 -->
+
+                        <!-- I 文章影片查詢表單 -->
+                        <ui:include src="/inc/content/inc_docSimpleCriteriaForm.xhtml">
+                            <ui:param name="controller" value="#{videos}"/>
+                        </ui:include>
+                        
+                        <!-- BEGIN: 影片瀏覽區 -->
+                        <ui:include src="/inc/content/inc_videosList.xhtml"></ui:include>
+                        <!-- END: 影片瀏覽區 -->
+                    </p:panel>
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+        
+        <!-- 功能權限檢查對話框 -->
+        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+            <ui:param name="controller" value="#{videos}"/>
+        </ui:include>
+        
+    </ui:define>
+</ui:composition>

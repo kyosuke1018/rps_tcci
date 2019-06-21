@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:panelGrid columns="2" style="vertical-align: top;">
+        <p:fileUpload fileUploadListener="#{importController.handleFileUpload}"
+                      label="上傳檔案"
+                      multiple="false"
+                      auto="true"
+                      allowTypes="/(\.|\/)(xls|xlsx)$/i"
+                      update="@form:fileName @form:datalist"
+                      oncomplete="$('div.fileupload-content tr.template-upload.ui-state-error').remove()"/>
+        <h:panelGroup>
+            <h:outputLink value="#{request.contextPath}#{excelTemplateURL}">
+                <h:graphicImage library="images" name="excel.png"/>
+                <h:outputText value="範本下載"/>
+            </h:outputLink>
+            <br/>
+            <h:outputLabel value="上傳檔名: "/>
+            <h:outputText id="fileName" value="#{importController.fileName}"/>
+            <br/>
+        </h:panelGroup>
+    </h:panelGrid>
+    <p:fieldset legend="匯入資料預覽">
+        <h:selectBooleanCheckbox id="invalidOnly"
+                                 value="#{importController.invalidOnly}">
+            <p:ajax event="click"
+                    listener="#{importController.invalidOnlyChange}"
+                    update="@form:datalist"/>
+        </h:selectBooleanCheckbox>
+        <h:outputLabel value="只顯示錯誤列" for="invalidOnly"/>
+        <p:dataTable id="datalist"
+                     value="#{importController.filtedlist}"
+                     var="row"
+                     rows="10"
+                     paginator="true"
+                     rowStyleClass="#{row.valid ? '' : 'ui-state-error'}"
+                     tableStyle="table-layout: auto">
+            <p:column headerText="ROW#" sortBy="#{row.rowIndex}">
+                <h:outputText value="#{row.rowIndex}"/>
+            </p:column>
+            <ui:insert name="voColumns"/>
+            <p:column headerText="訊息" sortBy="#{row.message}">
+                <h:outputText value="#{row.message}"/>
+            </p:column>
+        </p:dataTable>
+        <p:commandButton value="#{msgApp['app.button.save']}"
+                         icon="ui-icon-disk"
+                         onstart="return confirm('確認要儲存?');"
+                         action="#{importController.save}"
+                         update="@form:datalist"/>
+    </p:fieldset>
+</ui:composition>

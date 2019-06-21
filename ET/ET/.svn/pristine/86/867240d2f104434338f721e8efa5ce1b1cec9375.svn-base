@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <script type="text/javascript">
+        //<![CDATA[
+        // 定義 USER 有在 UI 做異動時執行 function 變數，實際需要的頁面再 override
+        var doModify = function(){};
+        var cancelModify = function(){};
+        var checkNoSave = function(){ return true; };
+
+        //除了input text, textarea外，停用Backsapce，防止不慎回前一頁
+        $(function () {
+            $(document).keydown(function (e) {
+                if (e.which === 8 && !(e.target.type === "text" || e.target.type === "textarea")){
+                    e.preventDefault();
+                }
+            });
+
+            // 檢查有暫存頁功能，異動是否已儲存 (搭配 JsfUtils.java: newMenuItem() 的 setStyleClass("myMenuItem"))
+            $(".myMenuItem").on('click', function(){
+                if( !checkNoSave() ){ return false; };
+            });
+                    
+            // check browser
+            checkIEVersionAbove(8);
+                    
+            // PF 6.X 不需要
+            // for datatable resize in chrome 
+            //doResize();
+            //$( window ).resize(function() {
+            //    doResize();
+            //});
+                   
+            // for Check Action
+            keepAliveURL = "#{request.contextPath}"+keepAliveURL;
+            startCheckAction();
+            $(document).bind('change click keypress keydown focus mousemove', function(e) {
+                onAction();
+            });
+            $(document).bind('unload', function(e) {
+                stopCheckAction();
+            }); 
+        });
+        //]]>
+    </script>
+    
+    <h:form id="dummyform"/> <!-- dummy form to prevent PWC3999 problem -->
+    
+    <div class="headerLeft">
+        <h:outputLink value="#{facesContext.externalContext.request.contextPath}#{tcSessionController.homePage}" onclick="if( !checkNoSave() ){ return false; }" >
+            <div title="#{app.serverIpAddress}" class="logo"></div>
+        </h:outputLink>    
+    </div>
+    
+    <div class="headerRight">
+        <div class="userID"><h:outputText value="#{tcSessionController.loginWelcomeMsg}"/></div>     
+        <h:link outcome="#{tcSessionController.logoutPage}" onclick="if( !checkNoSave() ){ return false; }" >
+            <div class="logoutBtn">
+                <div class="logoutText">#{msg["header.logout2"]}</div>
+            </div>
+        </h:link>
+    </div>
+    
+    <div class="headerMiddle">
+        <div class="headerMiddle_TitleBG">				
+            <div class="headerMiddle_Title">
+                <font style="color:white;font-size:20px;line-height:40px;" >陽光採購管理系統</font>
+            </div>
+        </div>			
+    </div>
+    
+    <div class="menuDiv" >
+        <div class="menuField">
+            <ui:include src="inc_menu.xhtml"/>
+        </div>
+    </div>
+</ui:composition>
+

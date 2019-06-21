@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+    <jdbc-connection-pool name="et_userPool"
+                              res-type="javax.sql.DataSource"
+                              datasource-classname="oracle.jdbc.pool.OracleDataSource"
+                              connection-validation-method="auto-commit"
+                              is-connection-validation-required="true"
+                              fail-all-connections="true">
+        <property name="User" value="et_user"/>
+        <property name="Password" value="abcd1234"/>
+        <property name="URL" value="jdbc:oracle:thin:@192.168.203.62:1521:orcl"/>
+    </jdbc-connection-pool>
+    <jdbc-resource jndi-name="jdbc/et" pool-name="et_userPool"/>
+
+    <custom-resource jndi-name="jndi/et.config" 
+                     res-type="java.util.Properties"
+                     factory-class="org.glassfish.resources.custom.factory.PropertiesFactory">
+        <property name="url.service.prefix" value="http://localhost:8080/et-admin"></property>
+        <property name="url.doc.preview" value="http://localhost:8080/et-admin/html5/newsArticle.html"></property>
+        <property name="dir.image.big" value="/temp/FileUpload/et-admin/BImages"></property>
+        <property name="dir.image.small" value="/temp/FileUpload/et-admin/SImages"></property>
+        <property name="admin.notify.email" value="kyle.cheng@tcci.com.tw,peter.pan@tcci.com.tw"></property>
+        <!--
+        <property name="member.callerQuery" value="SELECT PASSWORD FROM ET_MEMBER WHERE LOGIN_ACCOUNT=?"></property>
+        <property name="member.groupsQuery" value="SELECT CODE from TC_GROUP G, TC_USERGROUP UG, TC_USER U WHERE G.ID=UG.GROUP_ID AND UG.USER_ID=U.ID AND U.LOGIN_ACCOUNT=?"></property>
+        -->
+        <!-- service -->
+        <property name="restUrlPrefix" value="http://localhost:8080/et-web"></property>
+    </custom-resource>
+</resources>

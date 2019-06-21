@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="-1" />
+        <meta http-equiv="Cache-Control" content="no-cache" />
+        <title>elFinder 2.0</title>
+
+        <!-- jQuery and jQuery UI (REQUIRED) -->
+        <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.8.23/themes/smoothness/jquery-ui.css">
+        <script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.8.23/jquery-ui.min.js"></script>
+
+        <!-- elFinder CSS (REQUIRED) -->
+        <link rel="stylesheet" type="text/css" href="/internal/elfinder/css/elfinder.min.css">
+        <link rel="stylesheet" type="text/css" href="/internal/elfinder/css/theme.css">
+
+        <!-- elFinder JS (REQUIRED) -->
+        <script src="/internal/elfinder/js/elfinder.min.js"></script>
+
+        <!-- elFinder translation (OPTIONAL) -->
+        <script src="/internal/elfinder/js/i18n/elfinder.zh_TW.js"></script>
+
+        <!-- elFinder initialization (REQUIRED) -->
+        <script type="text/javascript" charset="utf-8">
+            var FileBrowserDialogue = {
+                init: function () {
+                },
+                mySubmit: function (file, elf) {
+                    if (typeof parent.tinymce !== "undefined") {
+                        parent.tinymce.activeEditor.windowManager.getParams().oninsert(file, elf);
+                        parent.tinymce.activeEditor.windowManager.close();
+                    } else if (typeof parent.elfinder_getFileCallback !== "undefined") {
+                        parent.elfinder_getFileCallback(file, elf);
+                    }
+                }
+            }
+            // Documentation for client options:
+            // https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
+            $(document).ready(function () {
+                var myCommands = elFinder.prototype._options.commands;
+                var disabled = ['netmount', 'extract', 'archive'];
+                $.each(disabled, function (i, cmd) {
+                    (idx = $.inArray(cmd, myCommands)) !== -1 && myCommands.splice(idx, 1);
+                });
+                var elf = $('#elfinder').elfinder({
+                    url: '/internal/elfinder-servlet/connector'
+                    , commands : myCommands
+                    , lang: 'zh_TW'
+                    , startPathHash : 'CMS_L2Jhbm5lcg_E_E'
+                    , getFileCallback: function (file) { // editor callback
+                        FileBrowserDialogue.mySubmit(file, elf);
+                    }
+                }).elfinder('instance');
+            });
+        </script>
+    </head>
+    <body>
+
+        <!-- Element where elFinder will be created (REQUIRED) -->
+        <div id="elfinder"></div>
+
+    </body>
+</html>

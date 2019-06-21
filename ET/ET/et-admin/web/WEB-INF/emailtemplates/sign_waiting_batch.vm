@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <style type="text/css">
+            <!--
+            body {
+                font-size: 14px;
+                font-family: "微軟正黑體", "Microsoft JhengHei", "新細明體", PMingLiU, sans-serif;
+                line-height: 1.5em;
+            }
+            table {
+                font-size: 14px;
+                border-collapse:collapse;
+            }
+            table, td, th {
+                border:1px solid gray;
+            }
+            .mailbody {width:800px;}
+            .rptTable {
+                width: 800px;
+            }
+            .rptLabel {
+                background-color:#DFEFFF;
+                text-align: center;
+                font-weight:bold;
+            }
+            .rptValue {
+                background-color:#F2F2F2;
+                text-align: left;
+            }
+            .rptNote {
+                background-color:#F2F2F2;
+                white-space: pre-line;
+            }
+            .myButton {
+                -moz-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+                -webkit-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+                box-shadow:inset 0px 1px 0px 0px #97c4fe;
+                background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0));
+                background:-moz-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+                background:-webkit-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+                background:-o-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+                background:-ms-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+                background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+                filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d94f6', endColorstr='#1e62d0',GradientType=0);
+                background-color:#3d94f6;
+                -moz-border-radius:6px;
+                -webkit-border-radius:6px;
+                border-radius:6px;
+                border:1px solid #337fed;
+                display:inline-block;
+                cursor:pointer;
+                color:#ffffff;
+                font-family:arial;
+                font-size:15px;
+                font-weight:bold;
+                padding:1px 8px;
+                margin: 0px;
+                text-decoration:none;
+                text-shadow:0px 1px 0px #1570cd;
+                letter-spacing:3px;
+            }
+            .myButton:hover {
+                background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6));
+                background:-moz-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+                background:-webkit-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+                background:-o-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+                background:-ms-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+                background:linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
+                filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6',GradientType=0);
+                background-color:#1e62d0;
+            }
+            .myButton:active {
+                position:relative;
+                top:1px;
+            }
+            -->
+        </style>
+    </head>
+    <body>
+      <div class="mailbody">
+        <p>您好:</p>
+        <p>
+            下列申請單等待您簽核，請點選單號進行簽核。<br>
+            $bean.mvFormName<br>
+            <table class="rptTable" cellpadding="2">
+                <tr>
+                  <td class="rptLabel">單號</td>
+                　<td class="rptLabel">會員帳號</td>
+                  <td class="rptLabel">會員名稱</td>
+                  <td class="rptLabel">廠別</td>
+                  <td class="rptLabel">供應商</td>
+                </tr>
+                #foreach($workitem in $bean.mvWorkitems)
+                #set($form = $bean.mvMap.get($workitem.id))
+                <tr>
+                  <td><a href="$mvSignUrl?id=$form.id&workitem=$workitem.id" class="myButton">$form.id</a></td>
+                  <td class="rptValue">$!form.loginAccount</td>
+                  <td class="rptValue">$!form.name</td>
+                  <td class="rptValue">$!form.factoryName</td>
+                  <td class="rptValue">$!form.mandt $!form.applyVenderCode $!form.applyVenderName</td>
+                </tr>
+                #end
+            </table>
+            <br>
+            $bean.mnvFormName<br>
+            <table class="rptTable" cellpadding="2">
+                <tr>
+                  <td class="rptLabel">單號</td>
+                　<td class="rptLabel">會員帳號</td>
+                  <td class="rptLabel">會員名稱</td>
+                  <td class="rptLabel">廠別</td>
+                  <td class="rptLabel">供應商</td>
+                </tr>
+                #foreach($workitem in $bean.mnvWorkitems)
+                #set($form = $bean.mnvMap.get($workitem.id))
+                <tr>
+                  <td><a href="$mvSignUrl?id=$form.id&workitem=$workitem.id" class="myButton">$form.id</a></td>
+                  <td class="rptValue">$!form.loginAccount</td>
+                  <td class="rptValue">$!form.name</td>
+                  <td class="rptValue">$!form.factoryName</td>
+                  <td class="rptValue">$!form.mandt $!form.applyVenderCode $!form.applyVenderName</td>
+                </tr>
+                #end
+            </table>
+            <br>
+            $bean.vcFormName<br>
+            <table class="rptTable" cellpadding="2">
+                <tr>
+                  <td class="rptLabel">單號</td>
+                  <td class="rptLabel">申請人</td>
+                  <td class="rptLabel">廠別</td>
+                  <td class="rptLabel">供應商</td>
+                  <td class="rptLabel">供應商類別</td>
+                </tr>
+                #foreach($workitem in $bean.vcWorkitems)
+                #set($form = $bean.vcMap.get($workitem.id))
+                <tr>
+                  <td><a href="$bean.vcSignUrl?id=$form.id&workitem=$workitem.id" class="myButton">$form.id</a></td>
+                  <td class="rptValue">$!form.applicantName $!form.applicantAd</td>
+                  <td class="rptValue">$!form.factoryName</td>
+                  <td class="rptValue">$!form.mandt $!form.venderCode $!form.cname</td>
+                  <td class="rptValue">$!form.cnames</td>
+                </tr>
+                #end
+            </table>
+            <br>
+            此信件為系統自動發出信件，請勿直接回覆。若您有任何問題請聯絡台訊客服中心。謝謝！ <br>
+            客服專線：+886-2-2536-6660 轉20990、20989、20982<br>
+            客服信箱：<a href="mailto:service@tcci.com.tw">service@tcci.com.tw</a><br>
+        </p>
+      </div>
+    </body>
+</html>

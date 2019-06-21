@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!--參數  
+controller must
+submitUpdate
+cancelUpdate
+    -->
+<p:confirmDialog  message="更換廠別所屬地區將清空所有查詢條件，是否繼續?"  
+                 header="更換廠別所屬地區" severity="alert" widgetVar="wvChgCompanyConfirmDlg">  
+    <!--確認-->
+    <p:commandButton value="確定" icon="ui-icon ui-icon-check" 
+                     action="#{controller.categoryCodeChanged()}" 
+                     onclick="PF('confirmation1').hide();"
+                     update="#{submitUpdate}"
+                     />   
+    <p:spacer width="5px"/>
+    <!--取消-->
+    <p:commandButton value="取消" icon="ui-icon ui-icon-cancel"
+                     action="#{controller.categoryCodeCancel()}"
+                     update="#{cancelUpdate}"
+                     onclick="PF('confirmation1').hide();"  />
+</p:confirmDialog>     
+</ui:composition>

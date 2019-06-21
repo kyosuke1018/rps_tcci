@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <h:form id="dummyform"/> <!-- dummy form to prevent PWC3999 problem -->
+    <table class="titleBar" border="0">
+        <tr>
+            <td class="left"></td>
+            <td class="middle1"></td>
+            <td class="middle2">
+            </td>
+            <td class="middle3"><div id="user"><h:outputText value="您好: #{tcSessionController.loginTcUser.displayIdentifier}"/></div></td>
+            <td class="right"><h:link outcome="/logoff"><div class="logout"><span>#{msg['header.logout']}</span></div></h:link></td>
+        </tr>
+    </table>
+    <table class="menuBar" border="0" style="height:1px;margin:0;padding:0;border:0;">
+        <tr>
+            <td class="left"></td>
+            <td><div class="menu">
+                    <h:form id="mainMenu" prependId="true">
+                            <p:megaMenu autoDisplay="true" model="#{functionMenuController.megaModel}" > 
+                            </p:megaMenu>
+                    </h:form>
+                </div></td>
+        </tr>
+        <tr style="line-height:1px;" >
+            <td class="left" ><p:spacer width="2" height="2" /></td>
+            <td>
+                <h:graphicImage library="images" name="header_line.png" />
+            </td>
+        </tr>
+    </table>
+    <div class="title"><h:outputText value="#{msg['header.app_name']}"/></div>
+    <h:outputLink  value="#{facesContext.externalContext.request.contextPath}">
+        <div title="#{tcSessionController.getServerIpAddress()}" class="logo"/>
+    </h:outputLink>
+
+    <!-- BEGIN: 我的匯出 -->
+    <div id="_divMyExport" style="width: 280px;" >
+        <h:form id="pollForm" >
+            <p:poll interval="20" widgetVar="wvPoll" autoStart="#{tcSessionController.needCheckGenRpt}" async="true"
+                    onstart="ajaxStatusShow=false;" oncomplete="ajaxStatusShow=true;"
+                    update=":pollForm" listener="#{tcSessionController.checkGenRptResponse()}" 
+                    />
+            <h:graphicImage rendered="#{tcSessionController.hasWaittingReport}"
+                            title="檔案產生中..." library="images" name="36-1.gif"/>
+            <p:spacer width="5px" />
+            <p:commandLink id="cbMyDownload" title="下載【我的匯出】檔" 
+                           oncomplete="PF('wvMyExport').show();"
+                           actionListener="#{tcSessionController.fetchMyReports()}" 
+                           update=":MyExpDlgForm"
+                           rendered="#{tcSessionController.hasFinishedReport}" >
+                <h:graphicImage width="18" height="18" library="images" name="download.gif" 
+                                                    style="vertical-align: bottom; border-style: none" />
+                <h:outputText value="我的匯出{#{tcSessionController.genReportCount}}" styleClass="info" />
+            </p:commandLink>
+            
+            <p:remoteCommand name="rcCheckMyDownload" actionListener="#{tcSessionController.fetchMyReports()}" update=":pollForm" ></p:remoteCommand>
+        </h:form>
+        
+        <p:dialog header="下載我的匯出"
+                  widgetVar="wvMyExport"
+                  width="700" modal="true"
+                  position="center top" 
+                  resizable="true" draggable="true"
+                  onHide="_onCloseMyExpDlg()"
+                  >
+            <h:form id="MyExpDlgForm" >
+                <p:dataTable id="dtMyExport" var="rptRow" value="#{tcSessionController.myReports}"
+                             widgetVar="wvDTMyExport"
+                             rows="5" paginator="true" >
+                    <p:column style="text-align: center" >
+                        <f:facet name="header" >
+                            <h:outputLabel value="刪除" escape="false"  />
+                        </f:facet>
+                        <p:commandLink title="刪除此匯出檔" action="#{tcSessionController.removeMyReport(rptRow.uid)}"
+                                       onstart="if( !confirm('您確定要刪除此匯出檔?') ){ return false; }"
+                                       update="dtMyExport" >
+                            <h:graphicImage library="images" name="delete.png" width="16px" height="16px" style="vertical-align: middle; border-style: none" />
+                        </p:commandLink>
+                    </p:column>
+                    <p:column style="text-align: center" sortBy="#{rptRow.title}" >
+                        <f:facet name="header" >
+                            <h:outputLabel value="標題" escape="false"  />
+                        </f:facet>
+                        <h:commandLink actionListener="#{tcSessionController.downloadMyReport(rptRow.uid, rptRow.fileName)}" 
+                                       immediate="true" title="下載" >
+                            <h:graphicImage library="images" name="attach.png" style="vertical-align: middle; border-style: none" />
+                            <h:outputText value="#{rptRow.title}" title="下載" />
+                            <p:fileDownload value="#{tcSessionController.file}" />
+                        </h:commandLink>
+                    </p:column>
+                    <p:column style="text-align: left" >
+                        <f:facet name="header" >
+                            <h:outputLabel value="匯出條件" escape="false"  />
+                        </f:facet>
+                        <div style="word-wrap: break-word; word-break: normal; width: 250px;" >
+                            <h:outputText value="#{rptRow.criteria}" />
+                        </div>
+                    </p:column>
+                    <p:column style="text-align: center" sortBy="#{rptRow.createTime}" >
+                        <f:facet name="header" >
+                            <h:outputLabel value="建立時間" escape="false"  />
+                        </f:facet>
+                        <h:outputText style="text-align: center" value="#{rptRow.createTime}" >
+                            <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+                <div style="text-align: left" >
+                    <br/><h:outputText value="注意事項：" styleClass="info" />
+                    <br/><h:outputText value="1. 請點擊項目標題下載檔案。" styleClass="info" />
+                    <br/><h:outputText value="2. 匯出檔案最多保留一天，系統將自動刪除。" styleClass="info" />
+                </div>
+            </h:form>
+        </p:dialog>
+        
+    </div>
+    <!-- END: 我的匯出 -->
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    //除了input text, textarea外，停用Backsapce，防止不慎回前一頁
+    $(function () {
+        $(document).keydown(function (e) {
+            if (e.which == 8 && !(e.target.type == "text" || e.target.type == "textarea")) 
+                e.preventDefault();
+        });
+    });
+        
+    $(function(){
+        // 匯出報表狀態顯示區位置調整
+        var adjX = 300;
+        var adjY = 80;
+        var divLeft = $(window).width()-adjX;
+        var scrollLeft = $(window).scrollLeft();
+        
+        $("#_divMyExport").floatdiv({left:divLeft+"px",top:adjY+"px"});
+        
+        $(window).scroll(function() {
+            divLeft = $(window).width()-adjX;
+            scrollLeft = $(window).scrollLeft();
+            
+            $("#_divMyExport").floatdiv({left:divLeft+"px",top:adjY+"px"});
+        });
+        
+        $(window).resize(function() {
+            divLeft = $(window).width()-adjX;
+            scrollLeft = $(window).scrollLeft();
+            
+            divLeft = divLeft + scrollLeft;
+            $("#_divMyExport").floatdiv({left:divLeft+"px",top:adjY+"px"});
+        });
+    });
+
+    function _onCloseMyExpDlg(){
+        rcCheckMyDownload();
+    }
+    //]]>
+    </script>
+</ui:composition>
+

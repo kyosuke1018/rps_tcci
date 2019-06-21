@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/popupPageTemplate.xhtml"
+                >
+    <ui:define name="title">
+        <h:outputText value="自圖庫選取圖片" />
+    </ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+            body {
+                background-color: rgb(236, 234, 223);
+            }
+            .leftCol {
+                vertical-align: top;
+                text-align: left;
+                overflow: auto;
+                width: 260px;
+            }
+            .mainCol {
+                vertical-align: top;
+                text-align: left;
+                /*min-width: 450px;*/
+            }
+            .vmCol {
+                vertical-align: middle;
+            }
+            .vbCol{
+                vertical-align: baseline;
+            }
+            .ui-tree {
+                border: none;  
+            }
+            .ui-panelgrid-cell{
+                padding-left: 1px;
+                padding-right: 1px;
+            }
+            /*.ui-panelgrid .ui-panelgrid-cell {
+                border: none;
+            }*/
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            /**
+             * call back fucntion for TinyMCE
+             * @param {type} file
+             * @param {type} info
+             * @returns {Boolean}
+             */
+            function selectImage(file, info){
+                //alert(typeof parent.tinymce);
+                if (typeof parent.tinymce !== "undefined") {
+                    parent.tinymce.activeEditor.windowManager.getParams().oninsert(file, info);
+                    parent.tinymce.activeEditor.windowManager.close();
+                }
+                return false;
+            } 
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <h:form id="fmMain" prependId="false" >
+            <p:panelGrid style="width:100%" columns="2"
+                         columnClasses="leftCol,mainCol" 
+                         rendered="#{!photos.functionDenied}" >
+                <!-- 圖庫樹狀圖 -->
+                <ui:include src="/inc/content/inc_photosTree.xhtml"></ui:include>
+                
+                <p:panel id="plRight" style="min-width:550px;">
+                    <!-- I 文章插圖查詢表單 -->
+                    <ui:include src="/inc/content/inc_docSimpleCriteriaForm.xhtml">
+                        <ui:param name="controller" value="#{photos}"/>
+                    </ui:include>
+
+                    <!-- 包含圖片列表 -->
+                    <ui:include src="/inc/content/inc_photosList.xhtml"></ui:include>
+                </p:panel>
+            </p:panelGrid>
+        </h:form>
+        
+        <!-- 檢視圖片對話框 -->
+        <ui:include src="/inc/content/inc_imgViewDlg.xhtml"></ui:include>
+        
+        <!-- 功能權限檢查對話框 -->
+        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+            <ui:param name="controller" value="#{photos}"/>
+        </ui:include>
+        
+    </ui:define>
+</ui:composition>

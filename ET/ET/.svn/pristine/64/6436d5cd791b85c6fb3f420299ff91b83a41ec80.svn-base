@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width"/>
+        <title>最新消息 | 中國橡膠</title>
+        <link rel="icon" 	   type="image/x-icon"	href="img/logo.ico"/>
+        <link rel="stylesheet" type="text/css"      href="css/primeui-all.css"/>
+        <link rel="stylesheet" type="text/css"      href="css/style.css"/>
+    </head>
+
+    <body>    
+        <div id="headerField">
+            <div id="header"></div>
+            <div class="containerDivide">&nbsp;</div>
+        </div>
+
+        <div id="container">
+            <div class="contentField">
+                <span class="caption">最新消息</span>
+                </br>
+
+                <div class="mediaList"></div>
+
+                <div class="selectPanel">
+                    <a class="triggerTitle" href="#"></a>
+                    <div class="ui-helper-hidden"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="footerField">
+            <div class="containerDivide">&nbsp;</div>
+            <div id="webMap"></div>
+            <div id="footer"></div>
+            <div id="footerEndLine"></div>
+        </div>
+
+        <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+        <script type="text/javascript" src="js/primeui-all.js"></script>
+<!--        <script type="text/javascript" src="js/lang.js"></script>-->
+        <script type="text/javascript" src="js/content.js"></script>
+        <script type="text/javascript" src="js/csrc-comm.js"></script>        
+        <script type="text/javascript" src="js/news.js?v=0.1"></script>
+    
+        <!-- 以下 js 刪除，測試用
+        <script type="text/javascript">
+            $(function(){        
+                var localData = [
+                    {"id":'1', "date":'2014-03-10', "dataType":'L', "title":'[東森新聞] - 打造植物的諾亞方舟！ 保種中心最終目標',             "outline":'', "link":'https://tw.news.yahoo.com/%E6%89%93%E9%80%A0%E6%A4%8D%E7%89%A9%E7%9A%84%E8%AB%BE%E4%BA%9E%E6%96%B9%E8%88%9F-%E4%BF%9D%E7%A8%AE%E4%B8%AD%E5%BF%83%E6%9C%80%E7%B5%82%E7%9B%AE%E6%A8%99-034038887.html'},
+                    {"id":'2', "date":'2014-03-09', "dataType":'H', "title":'辜嚴倬雲植物保種中心音樂會：一場音樂與熱帶植物的對話 ',           "outline": '在辜嚴倬雲植物保種基金會辜成允董事長之同意下，由保種中心執行長李家維教授與海洋大學大提琴家張正傑教授，於3月9日星期天，共同策劃了一場別開生面【禮讚辜嚴倬雲植物保種中心】的音樂會，藉由音樂與熱帶植物對話，以祝賀保種中心的傑出蒐藏進度。', "link":'newsArticle.html'},
+                    {"id":'3', "date":'2013-11-26', "dataType":'L', "title":'[yam蕃薯藤新聞] - 龜滿為患！辜嚴倬雲植物保種中心為保「龜」發聲',  "outline":'', "link":'http://history.n.yam.com/yam/earth/20131126/20131126920783.html'},
+                    {"id":'4', "date":'2010-08-05', "dataType":'U', "title":'[中央社] - 草聞歌起舞 花博未來館驚奇',                        "outline":'台北花博「未來館」運用節能減碳設備，打造台灣首座智慧型節能溫室，集全台1500種植物。其中，「金」傳聞有避邪作用；「麗盃閣」已獲國際藥廠研究做減肥藥；另有在陽光充足下，會隨明顯節奏感音樂轉動的「跳舞草」。許多瀕臨絕種的台灣原生植物，十月九日試營運起就在未來館與大家見面。',         "upload":[{'fn':'XYZ','id':'http://www.kbcc.org.tw/tw/index.php?view=weblink&catid=47%3A2011-10-26-16-54-43&id=18%3A2010-08-05-&option=com_weblinks&Itemid=67'}] },
+                    {"id":'5', "date":'2010-08-04', "dataType":'U', "title":'[中央社] - 花博未來館 集亞熱溫寒植物',                        "outline":'花博將於10月9日試營運，北市產發局今天表示，其中的「未來館」運用節能減碳設備，打造國內首座智慧型節能溫室，將橫跨台灣由亞熱、溫、寒帶1500種植物，做一次完整的呈現。',                                                                                                "upload":[{'fn':'123','id':'http://www.kbcc.org.tw/tw/pdf/reports/2010-08-04.pdf'}, {'fn':'456','id':'http://www.kbcc.org.tw/tw/pdf/reports/2010-new.pdf'}] },
+                    {"id":'6', "date":'2010-00-00', "dataType":'U', "title":'[新活水雜誌31] - 保存物種 台灣正夯',                          "outline":'辜嚴倬雲熱帶植物保種中心，是全球第一座民間熱帶植物保種園區。這個中心以相對極為精簡的人力與資金開始運作，短短3年，館藏種類及數量急速攀升，預估2010年底即可達1萬4500種，躋身全球前十大植物園區，成就有目共睹。',                                                           "upload":[{'fn':'IJK', 'id':'http://www.kbcc.org.tw/tw/pdf/reports/2010-new.pdf'}] },
+                    {"id":'7', "date":'2009-02-00', "dataType":'U', "title":'[科學發展434期] - 打造新的諾亞方舟',                          "outline":'為熱帶植物建個庇護所-- 地球上有30萬種植物，扣掉不開花的蕨類和苔蘚，再扣掉松、杉、柏等裸子植物，剩下的都是會開花的植物，它們是今天植物界的主角。全世界有超過25 萬種的開花植物妝點著地球，其中60 ％以上集中在熱帶雨林。可是，熱帶雨林卻遭逢到前所未有的摧殘，我們很難遏阻這個趨勢。', "upload":[{'fn':'IJK', 'id':'http://www.kbcc.org.tw/tw/index.php?view=weblink&catid=47%3A2011-10-26-16-54-43&id=15%3A2009-02-434-&option=com_weblinks&Itemid=67'}] },
+                    {"id":'8', "date":'2008-00-00', "dataType":'U', "title":'[植物種苗生技 NO.13] - 打造世界級熱帶植物保存基地',             "outline":'展望未來，「辜嚴倬雲植物保種中心」期能晉升為世界級的熱帶植物保存基地，目標為二十年內累積保存達30,000 種熱帶植物。',                                                                                                                                       "upload":[{'fn':'IJK', 'id':'http://www.kbcc.org.tw/tw/index.php?view=weblink&catid=47%3A2011-10-26-16-54-43&id=14%3A2008-no13-&option=com_weblinks&Itemid=67'}] }
+                ];
+
+                $("#header").html(getHeader());
+                $("#footer").html(getFooter());
+                $("#footerEndLine").html(getFooterEndLine());
+
+                var trIdx = 0;
+                var index, trTotal, artID, html;
+                function showCtx(data){
+                    $(".ui-datatable thead th:eq(2)").css("text-align", "left");
+                    $(".ui-datatable thead th:eq(0)").css("width", "0");
+                    $(".ui-datatable thead th:eq(0)").css("padding", "0");
+                    $(".ui-datatable tbody tr").find("td:eq(0)").css("width", "0");
+                    $(".ui-datatable tbody tr").find("td:eq(0)").css("padding", "0");            
+                    $(".ui-datatable tbody tr").find("td:eq(0)").css("color", "transparent");
+                    $(".ui-datatable tbody tr").find("td:eq(1)").css("width", "75px");
+                    $(".ui-datatable tbody tr").find("td:eq(1)").css("font-size", "13px");
+                    $(".ui-datatable tbody tr").find("td:eq(1)").css("color", "#808080");
+
+                    setTimeout(function(){
+                        trTotal = $(".ui-datatable-data tr").length;
+                        artID = $(".ui-datatable-data tr:eq(" + trIdx + ") td:eq(0)").text();
+
+                        $.each(localData, function(idx, elem){                    
+                            if(localData[idx].id == artID)
+                                index = idx;
+                        });
+
+                        html = "";
+                        switch(localData[index].dataType){
+                            case "L": 
+                                html += '<span class="title">' + localData[index].title + '</span>';
+                                break;
+                            case "U":
+                                html += '<span class="title">' + localData[index].title + '</span>';
+                                //var fileObj = localData[index].upload;
+                                //$.each(fileObj, function(i, element){
+                                //    html += '<a target="blank" href=' + element.id + '>&nbsp;&nbsp;附件' + (i+1) + '</a>';
+                                //});
+                                break;
+                            case "H":
+                                html += '<span class="title">' + localData[index].title + '</span>';
+                                break;                        
+                        }
+                        html += '</br>';
+                        html += '<div class="outline">' + localData[index].outline + '</div>';                        
+
+                        $(".ui-datatable tbody tr:eq(" + trIdx + ") td:eq(2)").html(html);
+                        trIdx++;
+
+                        if(trIdx > trTotal-1)
+                            trIdx = 0;                
+                    }, 150);
+                }
+
+                $(".mediaList").puidatatable({
+                    paginator: {
+                        rows: 5
+                    },            
+                    columns: [
+                        {field: "id",    headerText: ""},
+                        {field: "date",  headerText: "日期", sortable: true},
+                        {field: "title", headerText: "文章", sortable: true, content:function(){ return showCtx(localData); }}
+                    ],
+                    datasource: localData,            
+                    //resizableColumns: true,
+                    selectionMode: "single",
+                    rowSelect: function(event, data){
+                        switch(data.dataType){
+                            case "L":
+                                window.open(data.link, "_blank");
+                                window.opener = null;
+                                break;
+                            case "U":
+                                if(data.upload.length == 1){
+                                    window.open(data.upload[0].id, "_blank");
+                                }else{
+                                    var html = "";
+                                    html += '<div class="mediaFileSelect">';
+                                    html += '   <div>請選擇連結</div>';
+                                    html += '   </br>';
+                                    $.each(data.upload, function(i, element){
+                                        html += '   <a target="_blank" rel="noopener noreferrer" href="' + element.id + '"><u>連結' + (i+1) + '</u></a>';
+                                    });
+                                    html += '</div>';
+
+                                    $(".selectPanel .ui-helper-hidden").html(html);
+                                    $(".selectPanel").puilightbox();
+
+                                    $(".ui-lightbox-content").css("padding", "35px 50px");
+                                    $(".ui-lightbox-content").css("border", "none");
+                                    $(".ui-lightbox-content").css("border-radius", "5px");                            
+                                    $(".ui-lightbox-content").css("background-color", "#fff");                            
+
+                                    setTimeout(function(){                                
+                                        $(".selectPanel .triggerTitle").trigger("click");
+                                        $(".ui-widget-overlay").css("background-color", "rgba(255, 255, 255, 0.85)");
+                                    }, 100);
+                                }
+                                break;
+                            case "H":
+                                window.open(data.link, "_blank");
+                                window.opener = null;
+                                break;                        
+                        }
+                    }
+                });
+
+                setTimeout(function(){
+                    adjContainerHeight();
+                }, 100);
+            });
+        </script>
+         -->
+    </body>
+</html>

@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:panelGroup id="listUser">
+        <p:dataTable id="result"
+                     value="#{usermgmtController.listUser}"
+                     var="row"
+                     rowStyleClass="#{row.disabled ? 'disabled_user' : ''}"
+                     rows="10"
+                     paginator="true"
+                     paginatorPosition="bottom"
+                     tableStyle="table-layout: auto">
+            <f:facet name="header">
+                <h:outputText value="查詢結果 "/>
+                <h:commandLink>
+                    <h:graphicImage library="images" name="excel.png" />
+                    <h:outputText value="(匯出excel)"/>
+                    <p:dataExporter type="xls" target="result" fileName="users"/>
+                </h:commandLink>
+            </f:facet>
+            <p:column headerText="ID"
+                      sortBy="#{row.id}">
+                <h:outputText value="#{row.id}"/>
+            </p:column>
+            <p:column headerText="#{msgUsermgmt['usermgmt.label.loginaccount']}"
+                      sortBy="#{row.loginAccount}">
+                <h:outputText value="#{row.loginAccount}"/>
+            </p:column>
+            <p:column headerText="#{msgUsermgmt['usermgmt.label.empid']}"
+                      sortBy="#{row.empId}">
+                <h:outputText value="#{row.empId}"/>
+            </p:column>
+            <p:column headerText="#{msgUsermgmt['usermgmt.label.cname']}"
+                      sortBy="#{row.cname}">
+                <h:outputText value="#{row.cname}"/>
+            </p:column>
+            <p:column headerText="#{msgUsermgmt['usermgmt.label.email']}"
+                      sortBy="#{row.email}">
+                <h:outputText value="#{row.email}"/>
+            </p:column>
+            <p:column headerText="#{msgUsermgmt['usermgmt.label.creator']}"
+                      sortBy="#{row.creator.loginAccount}">
+                <h:outputText value="#{row.creator.loginAccount}"/>
+            </p:column>
+            <p:column headerText="#{msgUsermgmt['usermgmt.label.disabled']}"
+                      sortBy="#{row.disabled}">
+                <h:outputText value="#{row.disabled ? 1:0}"/>
+            </p:column>
+            <p:column headerText="#{msgUsermgmt['usermgmt.label.createtimestamp']}"
+                      sortBy="#{row.createtimestamp}">
+                <h:outputText value="#{row.createtimestamp}">
+                    <f:convertDateTime type="date" pattern="yyyy/MM/dd HH:mm"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="#{msgApp['app.label.action']}">
+                <p:commandLink action="#{usermgmtController.editUser(row)}"
+                               update=":formEditUser:editUserGroup"
+                               oncomplete="PF('editUserDlg').show()"
+                               rendered="#{!usermgmtController.isAdmin(row)}">
+                    <h:graphicImage title="#{msgUsermgmt['usermgmt.button.edituser']}"
+                                    library="images"
+                                    name="page_edit.png"/>
+                </p:commandLink>
+                <p:commandLink action="#{usermgmtController.disableUser(row)}"
+                               onstart="return confirm('確認要停用使用者 #{row.loginAccount} ?')"
+                               update=":form:listUser"
+                               rendered="#{!usermgmtController.isAdmin(row) and !row.disabled}">
+                    <h:graphicImage title="#{msgUsermgmt['usermgmt.button.disableuser']}"
+                                    library="images"
+                                    name="stop.png"/>
+                </p:commandLink>
+            </p:column>
+        </p:dataTable>
+    </h:panelGroup>
+</ui:composition>

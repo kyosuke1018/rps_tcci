@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="formRoleUsersEdit" prependId="false">
+        <p:dialog header="角色參與人"
+                  resizable="false"
+                  modal="true"
+                  widgetVar="roleUsersDlg">
+            <h:panelGroup id="roleUsersContent">
+                <h:outputLabel value="角色: "/>
+                <h:outputText value="#{roleUsersDialog.rolename}"/>
+                <h:selectOneRadio value="#{roleUsersDialog.option}">
+                    <f:selectItem itemLabel="user" itemValue="0"/>
+                    <f:selectItem itemLabel="group" itemValue="1"/>
+                    <f:selectItem itemLabel="users" itemValue="2"/>
+                </h:selectOneRadio>
+                <p:inputText value="#{roleUsersDialog.principals}" size="80"/><br/>
+                <h:outputText value="請輸入帳號或群組代碼，多組請以','隔開"/>
+                <hr/>
+                <div style="text-align:center;">
+                    <p:commandButton value="#{msgApp['app.button.ok']}"
+                                     icon="ui-icon-circle-check"
+                                     action="#{roleUsersDialog.dialog_OK}"
+                                     update="#{okupdate}"
+                                     oncomplete="roleUsersDlg_OK_Complete(xhr, status, args)"/>
+                    <p:spacer width="4" />
+                    <p:commandButton value="#{msgApp['app.button.cancel']}"
+                                     icon="ui-icon-circle-close"
+                                     onclick="PF('roleUsersDlg').hide();return false;"/>
+                </div>
+            </h:panelGroup>
+        </p:dialog>
+    </h:form>
+    <script>
+        function roleUsersDlg_OK_Complete(xhr, status, args) {
+            if(args.validationFailed) {
+                alert("Validation Failed");
+            } else {
+                if (args.error==='false') {
+                    PF('roleUsersDlg').hide();
+                }
+            }
+        }
+    </script>
+</ui:composition>
