@@ -37,6 +37,10 @@ public class RfqVenderVO implements Serializable {
     private String telNumber;
     private String cellNumber;
     private String faxNumber;
+    private Boolean disabled;
+    
+    //quotation
+    private Integer times; // 次數
     
     private Long creatorId;
     private Date createtime;
@@ -70,6 +74,14 @@ public class RfqVenderVO implements Serializable {
 
     public void setTenderId(Long tenderId) {
         this.tenderId = tenderId;
+    }
+
+    public Boolean getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        this.disabled = disabled;
     }
 
     public Long getRfqId() {
@@ -254,6 +266,14 @@ public class RfqVenderVO implements Serializable {
 
     public void setModifytime(Date modifytime) {
         this.modifytime = modifytime;
+    }
+
+    public Integer getTimes() {
+        return times;
+    }
+
+    public void setTimes(Integer times) {
+        this.times = times;
     }
 
     @Override

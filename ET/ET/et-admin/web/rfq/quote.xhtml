@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml"
+                >
+    <ui:define name="title">
+        <h:outputText value="#{msg['func.name.B12']}" />
+    </ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            $(function () {
+                // for datatable resize in chrome 
+                doResize();
+                $(window).resize(function () {
+                    doResize();
+                });
+            });
+            
+            function confirmDoNext(){
+                return confirm("確定要離開目前供應商報價畫面?\n(注意:未儲存的資料將遺失!)");
+            }
+            
+            function afterSaveQuote(xhr, status, args){
+                if( afterCallBackHandler(xhr, status, args) ){
+                    return;
+                }
+            }
+            
+            function afterSendQuote(xhr, status, args){
+                if( afterCallBackHandler(xhr, status, args) ){
+                    return;
+                }
+            }
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <h:form id="fmMain" prependId="false" >
+            <p:panel header="#{msg['func.name.B12']}" rendered="#{!quote.functionDenied}" >
+                <!-- BEGIN : 關聯標案資訊　-->
+                <p:fieldset legend="關聯標案資訊" toggleable="false" >
+                    <p:panelGrid columns="4" >
+                        <p:outputLabel value="標案編號：" styleClass="fieldname" />
+                        <h:panelGroup rendered="#{!empty quote.tenderVO.id}" >
+                            <p:outputLabel value="#{quote.tenderVO.code}" />
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{empty quote.tenderVO.id}" >
+                            <p:inputText value="#{quote.tenderVO.code}" size="20" />
+                            <p:spacer width="5" height="5" />
+                            <p:commandButton value="查詢" actionListener="#{quote.onQueryTender()}"
+                                             update=":fmMain" />
+                            <i class="fa fa-arrow-circle-down fa-1x ps" ></i>
+                            <p:outputLabel value="#{quote.queryResultMsg}" />
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    
+                    <h:panelGroup rendered="#{!empty quote.tenderVO.id}" >
+                        <hr/>
+                        <p:panelGrid columns="6" >
+                            <p:outputLabel value="標案名稱：" styleClass="fieldname" />
+                            <p:outputLabel value="#{quote.tenderVO.title}" />
+
+                            <p:outputLabel value="公司/地區：" styleClass="fieldname" />
+                            <h:panelGroup rendered="#{!empty quote.tenderVO}" >
+                                <p:outputLabel value="#{quote.tenderVO.companyName}" />
+                            </h:panelGroup>
+                            <p:outputLabel value="廠別：" styleClass="fieldname" />
+                            <h:panelGroup rendered="#{!empty quote.tenderVO}" >
+                                <p:outputLabel value="#{quote.tenderVO.factoryName}" />
+                            </h:panelGroup>
+                        </p:panelGrid>
+
+                        <p:panelGrid columns="6" >
+                            <p:outputLabel value="標案狀態：" styleClass="fieldname" />
+                            <p:outputLabel value="#{quote.tenderVO.statusName}" />
+
+                            <p:outputLabel value="招標/詢價方式：" styleClass="fieldname" />
+                            <h:panelGroup >
+                                <p:outputLabel value="#{quote.tenderVO.tenderMethod.displayName}" />
+                            </h:panelGroup>
+                        </p:panelGrid>
+                    </h:panelGroup>
+                </p:fieldset>
+                <!-- END : 關聯標案資訊　-->
+                
+                <!-- BEGIN : 選取報價提供廠商　-->
+                <p:fieldset id="fsVender" legend="報價廠商" toggleable="false"  rendered="#{!empty quote.tenderVO.id}" >
+                    <p:panelGrid columns="4" >
+                        <p:outputLabel value="選取供應商：" /> 
+                        <h:panelGroup>
+                            <p:selectOneMenu value="#{quote.quoteVO.rfqVenderId}"  >
+                                <f:selectItem itemLabel="選取報價供應商" noSelectionOption="true" />
+                                <f:selectItems value="#{quote.venderList}" var="op" itemValue="#{op.rfqVenderId}" itemLabel="#{op.name}" />
+                                
+                                <p:ajax listener="#{quote.onChangeVender()}" update=":fmMain" parent="@this" oncomplete="doResize();" />
+                            </p:selectOneMenu>
+                            <p:spacer width="3" height="20" />
+                            <p:outputLabel value="(需對此標案有投標或被邀標的廠商)" styleClass="info" />
+                        </h:panelGroup>
+
+                        <p:outputLabel value="報價幣別：" /> 
+                        <h:panelGroup>
+                            <p:selectOneMenu value="#{quote.quoteVO.curQuo}"  >
+                                <f:selectItem itemLabel="選取報價幣別" noSelectionOption="true" />
+                                <f:selectItems value="#{quote.curList}" var="op" itemValue="#{op.code}" itemLabel="#{op.displayName} (#{op.code})" />
+                            </p:selectOneMenu>
+                            <p:spacer width="3" height="20" />
+                        </h:panelGroup>
+                  </p:panelGrid>
+                    
+                  <p:panelGrid columns="4">      
+                        <p:outputLabel value="佐證文件上傳：" styleClass="fieldname"></p:outputLabel>
+                        <h:panelGroup id="pgFile" >
+                            <p:fileUpload fileUploadListener="#{fileController.handleFileUpload}" 
+                                          dragDropSupport="true" 
+                                          fileLimit="10" 
+                                          invalidSizeMessage="檔案大小超過限制" 
+                                          mode="advance"
+                                          multiple="true"
+                                          auto="false"
+                                          oncomplete=""
+                                          sizeLimit="10485760"
+                                          label="選取上傳檔案"
+                                          cancelLabel="取消"  
+                                          uploadLabel="上傳" />
+                        </h:panelGroup>
+                    </p:panelGrid>
+                </p:fieldset>
+                <!-- END : 選取報價提供廠商　-->
+                
+                <!-- BEGIN : 詢價單品項列表　-->
+                <p:fieldset id="fsRfqInput" legend="詢價單品項列表" toggleable="true"  rendered="#{!empty quote.tenderVO.id}" >
+                    <h:panelGroup id="pgRfqItemList" >
+                        <h:panelGroup id="otRowCount" rendered="#{!empty quote.lazyModel}" >
+                            <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                            <p:outputLabel value="詢價單包含品項數：" />
+                            <p:outputLabel value="#{quote.lazyModel.rowCount}" />
+                            <br/>
+                            <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                            <p:outputLabel value="先選取要報價項目，再輸入[單價]與[可供應數量]。" />
+                            <br/>
+                            <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                            <p:outputLabel value="服務類項目請點擊" />
+                            <i class="fa fa-list fa-1x ps icon-fa" ></i>
+                            <p:outputLabel value="圖示，再輸入詳細報價。" />
+                        </h:panelGroup>
+                        
+                        <p:remoteCommand name="getRowCountAfterFiltered" update=":fmMain:otRowCount" />
+                        
+                        <p:dataTable id="dtRfqItemList" var="row" lazy="true" reflow="true"
+                                     widgetVar="wvDtRfqItemList" 
+                                     styleClass="ui-datatable-hor-scroll"
+                                     scrollable="true" 
+                                     paginator="true"
+                                     paginatorPosition="bottom"
+                                     value="#{quote.lazyModel}"
+                                     filteredValue="#{quote.filterResultList}"
+                                     rows="10"
+                                     rowsPerPageTemplate="5,10,20,30,40,50"
+                                     >
+                            <p:ajax event="filter" oncomplete="getRowCountAfterFiltered();" />
+                            <p:ajax event="page" process="@none" immediate="true" />
+                            <p:ajax event="sort" process="@none" immediate="true" />
+                            
+                            <p:column headerText="選取" width="40" styleClass="tac">
+                                <p:selectBooleanCheckbox value="#{row.selected}" disabled="#{!empty row.loekz}" >
+                                    <p:ajax listener="#{quote.onSelRfqItem(row)}" 
+                                            update=":fsRfqInput" />
+                                </p:selectBooleanCheckbox>
+                                <h:panelGroup rendered="#{row.pstyp eq '9'}" > 
+                                    <p:spacer width="2" height="2" />
+                                    <p:commandLink actionListener="#{quote.onViewRfqSrvItems(row)}" 
+                                                   update=":pgRfqItemList" 
+                                                   process="@this"
+                                                   oncomplete="scrollY(800)" 
+                                                   title="查看服務類項目明細" 
+                                                   ><i class="fa fa-list fa-1x"></i>
+                                    </p:commandLink>
+                                </h:panelGroup>
+                            </p:column>
+                            
+                            <p:column headerText="項次" sortBy="#{row.ebelp}" width="40" styleClass="tar">
+                                <h:outputText value="#{row.ebelp}" />
+                            </p:column>
+                            <p:column headerText="物料" sortBy="#{row.matnrUI}" width="90">
+                                <h:outputText value="#{row.matnrUI}" />
+                            </p:column>
+                            <p:column headerText="短文" sortBy="#{row.txz01}" width="150">
+                                <h:outputText value="#{row.txz01}" />
+                            </p:column>
+                            <p:column headerText="數量" styleClass="tar" width="80">
+                                <h:outputText value="#{row.rfqMenge}" />
+                            </p:column>
+                            <p:column headerText="單位" width="40">
+                                <h:outputText value="#{row.meins}" />
+                            </p:column>
+                            <p:column headerText="計價數量" styleClass="tar" width="40">
+                                <h:outputText value="#{row.peinh}" />
+                            </p:column>
+                            <p:column headerText="單價" styleClass="tac" width="90">
+                                <p:inputText value="#{row.netpr}" size="10" rendered="#{row.selected and (row.pstyp ne '9')}" />
+                            </p:column>
+                            <p:column headerText="總價" styleClass="tar" width="80">
+                                <h:outputText value="#{row.brtwr}" />
+                            </p:column>
+                            <p:column headerText="可供應數量" styleClass="tac" width="90">
+                                <p:inputText value="#{row.menge}" size="10" rendered="#{row.selected and (row.pstyp ne '9')}" />
+                            </p:column>
+                            <p:column headerText="交貨日期" width="90">
+                                <h:outputText value="#{row.eindt}" >
+                                    <f:convertDateTime pattern="#{app.dateFormat}"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="工廠" sortBy="#{row.werks}" width="80">
+                                <h:outputText value="#{row.werks}" />
+                            </p:column>
+                        </p:dataTable>
+                        
+                        <!-- RFQ 服務類明細 -->
+                        <div id="divTopPgRfqSrvList" ></div>
+                        <h:panelGroup id="pgRfqSrvList" rendered="#{!empty quote.pmList}" >
+                            <h:panelGroup>
+                                <h:outputText value="#{quote.queryRfqPmMsg}" class="fieldvalue" />
+                                <p:spacer width="3" height="20" />
+                                <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                                <p:outputLabel value="包含品項數：" />
+                                <p:outputLabel value="#{quote.pmList.size()}" />
+                            </h:panelGroup>
+                            
+                            <p:dataTable id="dtRfqSrvList" var="srv" lazy="true" reflow="true"
+                                         widgetVar="wvDtRfqSrvList" 
+                                         styleClass="ui-datatable-hor-scroll"
+                                         scrollable="true" 
+                                         paginator="true"
+                                         paginatorPosition="bottom"
+                                         value="#{quote.pmList}" 
+                                         rows="5"
+                                         rowsPerPageTemplate="5,10,20,30,40,50"
+                                         >
+                                <p:column headerText="服務號碼" width="80">
+                                    <h:outputText value="#{srv.extrow}" />
+                                </p:column>
+                                <p:column headerText="短文">
+                                    <h:outputText value="#{srv.ktext1}" />
+                                </p:column>
+                                <p:column headerText="數量" styleClass="tar" width="80">
+                                    <h:outputText value="#{srv.menge}" />
+                                </p:column>
+                                <p:column headerText="單位" width="80">
+                                    <h:outputText value="#{srv.meins}" />
+                                </p:column>
+                                <p:column headerText="單價" styleClass="tac" width="90">
+                                    <p:inputText value="#{srv.tbtwr}" size="10" />
+                                </p:column>
+                                <p:column headerText="總價" styleClass="tar" width="80">
+                                    <h:outputText value="#{srv.netwr}" />
+                                </p:column>
+                                <p:column headerText="幣別" width="80">
+                                    <h:outputText value="#{srv.waers}" />
+                                </p:column>
+                            </p:dataTable>
+                            
+                            <h:panelGroup styleClass="blockBtnC"  rendered="#{!empty quote.tenderVO.id}" >
+                                <p:commandButton value="確定明細報價" 
+                                                 actionListener="#{quote.onConfirmSrvQuote()}"
+                                                 update=":fsRfqInput"
+                                                 oncomplete="afterSaveQuote(xhr, status, args);" />
+                                <p:spacer width="5" height="5" />
+                                <p:commandButton value="關閉" 
+                                                 actionListener="#{quote.onCloseSrvItems()}"
+                                                 process="@this"
+                                                 update=":fsRfqInput"
+                                                 oncomplete="afterSaveQuote(xhr, status, args);" />
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </p:fieldset>
+                <!-- END : 詢價單品項列表　-->
+                
+                <h:panelGroup styleClass="blockBtnC"  rendered="#{!empty quote.tenderVO.id}" >
+                    <p:commandButton value="暫存報價" 
+                                     actionListener="#{quote.onSaveQuote()}"
+                                     update=":fmMain"
+                                     oncomplete="afterSaveQuote(xhr, status, args);" />
+                    <p:spacer width="5" height="5" />
+                    <p:commandButton value="確定送出報價" 
+                                     actionListener="#{quote.onSendQuote()}"
+                                     update=":fmMain"
+                                     oncomplete="afterSendQuote(xhr, status, args);" />
+                    <p:spacer width="5" height="5" />
+                    <p:commandButton value="輸入下一供應商報價" 
+                                     disabled="#{!quote.doNext}" 
+                                     actionListener="#{quote.onNextVender()}"
+                                     onstart="return confirmDoNext()"
+                                     process="@this"
+                                     update=":fmMain" />
+                </h:panelGroup>
+                
+            </p:panel>
+        </h:form>
+        
+        <!-- 功能權限檢查對話框 -->
+        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+            <ui:param name="controller" value="#{quote}"/>
+        </ui:include>
+        
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,218 @@
+.cover {
+    height: 250px;
+    position: relative;
+    background: url(../img/cover_point_opacity_50.png), url(../img/cover_proj.jpg) center 60%;
+    background-size: 3%, cover;
+}
+
+.slogan {
+    height: 45px;
+    margin: auto;
+    display: inline-block;
+    position: absolute;
+    top: 45%;
+    bottom: auto;
+    right: 0;
+    left: 0;
+    letter-spacing: 5px;
+    text-align: center;
+    font-size: 24px;
+    color: #fff;
+    text-shadow: 0 0 0px #fff, 0 0 3px rgba(0, 0, 0, 0.75), 0 0 10px rgba(0, 0, 0, 0.75), 0 0 15px rgba(0, 0, 0, 0.75);
+    opacity: 0.75;
+}
+
+
+#projList {
+    width: 1200px;
+    margin: 20px 0 0;
+    display: none;
+    box-sizing: border-box;
+}
+
+#projList .caption {
+    padding: 10px 0;
+    border-bottom: dashed 1px #808080;
+    text-align: center;
+    font-weight: bold;
+    font-size: 32px;
+    color: #808080;
+}
+
+#projList .itemTitle {
+    margin: 0 0 5px;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #808080;
+    background: #f0f0f0;
+}
+
+#projList .itemTitle div:nth-child(1) {
+    width: 17%;
+    float: left;
+}
+
+#projList .itemTitle div:nth-child(2) {
+    width: 10%;
+    float: left;
+}
+
+#projList .itemTitle div:nth-child(3) {
+    width: 53%;
+    float: left;
+}
+
+#projList .itemTitle div:nth-child(4) {
+    width: 10%;
+    float: left;
+    text-align: center;
+}
+
+#projList .itemTitle div:nth-child(5) {
+    width: 10%;
+    float: left;
+    text-align: right;
+}
+
+#projList .item {
+    width: 100%;
+    padding: 2px 5px;
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+#projList .item div {
+    float: left;
+    overflow: hidden;
+    white-space : nowrap;
+    text-overflow : ellipsis;
+}
+
+#projList .item .block1 .code {
+    width: 17%;
+    padding: 5px 0;
+    color: #303030;
+}
+
+#projList .item .block1 .category {
+    width: 10%;
+    padding: 5px 0;
+    color: #303030;
+}
+
+#projList .item .block1 .title {
+    width: 53%;
+    padding: 5px 20px 5px 0;
+    box-sizing: border-box;
+    color: #303030;
+}
+
+#projList .item .block2 .status {
+    width: 10%;
+    margin: 0;
+    padding: 5px 0;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+}
+
+#projList .item .block2 .date {
+    width: 10%;
+    margin: 5px 0 0;
+    text-align: right;
+    font-size: 13px;
+    color: #c0c0c0;
+}
+
+#projList .item a:hover .code, #projList .item a:hover .category, #projList .item a:hover .title, #projList .item a:hover .date {
+    color: #cc0000;
+}
+
+
+/*---------- RWD (start) ----------*/
+@media screen and (min-width: 1601px) and (max-width: 1920px) {
+    .cover {
+        height: 350px;
+    }
+}
+
+@media screen and (min-width: 1367px) and (max-width: 1600px) {
+    .cover {
+        height: 300px;
+    }
+}    
+
+@media screen and (min-width: 1px) and (max-width: 1200px) {
+/*
+    .cover {
+        height: 120px;
+    }
+    
+    .slogan {
+        font-size: 16px;
+    }
+    
+    #projList {
+        width: 100%;
+    }
+    
+    #projList .caption {
+        border-bottom: solid 1px #505050;
+        font-size: 24px;
+    }
+    
+    #projList .itemTitle {
+        display: none;
+    }
+    
+    #projList .item {
+        padding: 10px 5px;
+        border-bottom: dashed 1px #c0c0c0;
+    }
+    
+    #projList .item:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    #projList .item .block1 {
+        width: 75%;
+        float: left;        
+    }
+    
+    #projList .item .block1 .code {
+        width: 60%;
+        font-size: 12px;
+        color: #808080;
+    }
+    
+    #projList .item .block1 .category {
+        width: 40%;
+        font-size: 12px;
+        color: #808080;
+    }
+    
+    #projList .item .block1 .title {
+        width: 100%;
+    }
+    
+    #projList .item .block2 {
+        width: 25%;
+        float: right;
+    }
+    
+    #projList .item .block2 .status {
+        width: 100%;
+        font-size: 12px;
+        margin: 0;
+    }
+    
+    #projList .item .block2 .date {
+        width: 100%;
+        text-align: center;
+        margin: 9px 0 0;
+    }
+*/
+}
+/*---------- RWD (end) ----------*/

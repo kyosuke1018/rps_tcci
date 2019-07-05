@@ -1,0 +1,436 @@
+.cover {
+    width: 100%;
+    height: 450px;
+    background: url(../img/cover_home.jpg) center 30%;
+    background-size: cover;
+}
+
+.slogan {
+    width: 100%;
+    position: absolute;
+    top: 220px;
+    text-align: center;    
+    font-size: 21px;
+    color: #fff;
+    text-shadow: 0 0 0 rgba(255, 255, 255, 0.5), 0 0 3px rgba(0, 0, 0, 0.75), 0 0 5px rgba(0, 0, 0, 0.75), 0 0 10px rgba(0, 0, 0, 0.75), 0 0 15px rgba(0, 0, 0, 0.75);
+    opacity: 0;
+    animation: sloganShowAni 2s ease-in-out 0.5s 1 alternate forwards;
+}
+
+@keyframes sloganShowAni {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.slogan .txt1 {
+    margin: 0 0 5px;
+    padding: 5px 90px;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 36px;
+    border-bottom: solid 1px #fff;
+}
+
+.slogan .txt2 {
+    font-size: 20px;
+}
+
+.slogan .txt2 .runNum {
+    width: 60px;
+    display: inline-block;
+    font-family: arial;    
+    font-weight: normal;
+}
+
+.slogan .divLine {
+    padding: 0 10px;
+}
+
+.runNumColor {
+    animation: runNumColorAni 3s ease-in-out 0.5s 1 alternate forwards;
+}
+
+@keyframes runNumColorAni {
+    0% {
+        color: rgba(255, 255, 255, 1);
+    }
+    100% {
+        color: rgba(255, 255, 255, 1);
+    }
+}
+
+
+
+#bidList {
+    display: none;    
+}
+
+.caption {
+    margin: 0 0 5px;
+    padding: 3px 20px 4px 10px;
+    display: inline-block;
+    position: relative;
+    font-size: 20px;
+    color: #fff;
+    background: #cc0000;
+}
+
+.caption img {
+    width: 30px;
+    height: auto;    
+}
+
+.caption .triL {
+    width: 0;
+    height: 0;    
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-style: solid;
+    border-width: 6px 0 0 6px;
+    border-color: transparent transparent transparent #ffffff;
+}
+
+.caption .triR {
+    width: 0;
+    height: 0;    
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-style: solid;
+    border-width: 0 12px 12px 0;
+    border-color: transparent #ffffff transparent transparent;
+}
+
+.more {
+    width: 300px;
+    padding: 0 10px;
+    color: #cc0000;
+}
+
+
+
+.listTotal {
+    width: 49.5%;    
+    margin: 0 0 50px;
+    padding: 0 50px 0 0;
+    box-sizing: border-box;
+    display: inline-block;    
+    float: left;
+}
+
+.listTotal:nth-child(2) {
+    padding: 0 0 0 50px;
+}
+
+.listTotal .item {
+    width: 100%;
+    margin: 0;
+    padding: 3px 10px 3px 0;
+    display: inline-block;
+}
+
+.listTotal .item .title {
+    width: 85%;
+    float: left;
+    overflow: hidden;
+    white-space : nowrap;
+    text-overflow : ellipsis;    
+    color: #303030;
+}
+
+.listTotal .item:hover .title {
+    color: #cc0000;
+}
+
+.listTotal .item .date {
+    width: 15%;
+    padding: 2px 0 0;
+    float: right;
+    text-align: right;
+    font-size: 12px;
+    color: #c0c0c0;
+}
+
+.listTotal .item:hover .date {
+    color: #cc0000;
+}
+
+
+
+.areaMenu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.areaMenu li {
+    margin: 5px 10px 5px 0;    
+    box-sizing: border-box;
+    display: inline;
+    float: left;
+    border: dotted 1px #c0c0c0;
+    background: #f8f8f8;
+    transition: box-shadow 0.5s;
+}
+
+.areaMenu li:hover {
+    border: solid 1px #c0c0c0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.areaMenu li a {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #303030;
+}
+
+.listArea {
+    margin: 5px 0 45px;
+}
+
+.listArea .subCaption {
+    border-bottom: dashed 1px #c0c0c0;
+}
+
+.listArea .subCaption .areaName {
+    padding: 5px 0;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 24px;
+    color: #808080;
+}
+
+.listArea .itemTitle {
+    margin: 0 0 5px;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #808080;
+    background: #f0f0f0;
+}
+
+.listArea .itemTitle div:nth-child(1) {
+    width: 17%;
+    float: left;
+}
+
+.listArea .itemTitle div:nth-child(2) {
+    width: 10%;
+    float: left;
+}
+
+.listArea .itemTitle div:nth-child(3) {
+    width: 53%;
+    float: left;
+}
+
+.listArea .itemTitle div:nth-child(4) {
+    width: 10%;
+    float: left;
+    text-align: center;
+}
+
+.listArea .itemTitle div:nth-child(5) {
+    width: 10%;
+    float: left;
+    text-align: right;
+}
+
+.listArea .item {
+    width: 100%;
+    padding: 2px 5px;
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.listArea .item div {
+    float: left;
+    overflow: hidden;
+    white-space : nowrap;
+    text-overflow : ellipsis;
+}
+
+.listArea .item .block1 .code {
+    width: 17%;
+    padding: 5px 0;
+    color: #303030;
+}
+
+.listArea .item .block1 .category {
+    width: 10%;
+    padding: 5px 0;
+    color: #303030;
+}
+
+.listArea .item .block1 .title {
+    width: 53%;
+    padding: 5px 20px 5px 0;
+    box-sizing: border-box;
+    color: #303030;
+}
+
+.listArea .item .block2 .status {
+    width: 10%;
+    margin: 0;
+    padding: 5px 0;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+}
+
+.listArea .item .block2 .date {
+    width: 10%;
+    margin: 5px 0 0;
+    box-sizing: border-box;
+    text-align: right;
+    font-size: 13px;
+    color: #c0c0c0;
+}
+
+.listArea .item:hover .code, .listArea .item:hover .category, .listArea .item:hover .title, .listArea .item:hover .date {
+    color: #cc0000;
+}
+
+/*---------- RWD (start) ----------*/
+@media screen and (min-width: 1601px) and (max-width: 1920px) {
+    .cover {
+        height: 500px;
+        background: url(../img/cover_home.jpg) center 35%;
+    }
+    
+    .slogan {
+        top: 250px;
+    }
+}
+
+@media screen and (min-width: 1px) and (max-width: 1200px) {
+    .cover {
+        height: 300px;
+        background: url(../img/cover_home.jpg) center top;
+        background-size: cover;
+    }
+    
+    .slogan {
+        top: 135px;
+        text-shadow: 0 0 3px rgba(0, 0, 0, 0.75), 0 0 10px rgba(0, 0, 0, 0.75);
+    }
+    
+    .slogan .txt1 {
+        margin: 0;
+        padding: 5px 40px;
+        display: inline-block;
+        font-weight: bold;
+        font-size: 28px;
+        border-bottom: solid 1px rgba(255, 255, 255, 1);
+    }
+
+    .slogan .txt2 {
+        font-size: 15px;
+    }
+    
+    .slogan .txt2 .runNum {
+        width: 45px;
+    }
+
+    .slogan .divLine {
+        padding: 0 0px;
+        font-size: 16px;
+    }
+
+    /*--------------------------------------------------*/
+    .more {
+        width: auto;
+        margin: 14px 0 0;
+        padding: 0;
+        float: right;
+    }
+    
+    /*--------------------------------------------------*/
+    .listTotal {
+        width: 100%;
+        padding: 0;
+    }
+    
+    .listTotal:nth-child(2) {
+        padding: 0;
+    }
+    
+    .listTotal .item .title {
+        width: 75%;
+    }
+    
+    .listTotal .item .date {
+        width: 25%;
+    }
+    
+    /*--------------------------------------------------*/    
+    .listArea {
+        margin: 5px 0 60px;
+    }
+    
+    .listArea .subCaption {
+        border-bottom: solid 1px #505050;
+    }
+    
+    .listArea .subCaption .areaName {
+        font-size: 28px;
+    }
+    
+    .listArea .itemTitle {
+        display: none;
+    }
+    
+    .listArea .item {
+        padding: 10px 5px;
+        border-bottom: dashed 1px #c0c0c0;
+    }
+    
+    .listArea .item:nth-child(even) {
+        background: #f8f8f8;
+    }
+    
+    .listArea .item .block1 {
+        width: 75%;
+        float: left;        
+    }
+    
+    .listArea .item .block1 .code {
+        width: 60%;
+        font-size: 12px;
+        color: #808080;
+    }
+
+    .listArea .item .block1 .category {
+        width: 40%;
+        font-size: 12px;
+        color: #808080;
+    }
+
+    .listArea .item .block1 .title {
+        width: 100%;
+    }
+    
+    .listArea .item .block2 {
+        width: 25%;
+        float: right;
+    }
+
+    .listArea .item .block2 .status {
+        width: 100%;
+        font-size: 12px;
+        margin: 0;
+    }
+    
+    .listArea .item .block2 .date {
+        width: 100%;
+        text-align: center;
+        margin: 9px 0 0;
+    }
+}
+/*---------- RWD (end) ----------*/

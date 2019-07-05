@@ -11,9 +11,9 @@ import com.tcci.fc.util.ResourceBundleUtil;
  * @author Jason.Yu
  */
 public enum SapClientEnum {
-    SAP_CN("cn", "tcc_cn", "台泥大陸", "大陸", "CN", false)
-    ,SAP_TW("tw", "tcc", "台泥台灣", "台灣", "TW", true)
-    //,SAP_CSRC("csrc", "csrc", "中橡", "中橡", "TW") // 中橡
+    SAP_CN("cn", "tcc_cn", "台泥大陸", "大陸", "CN", "0A", false)
+    ,SAP_TW("tw", "tcc", "台泥台灣", "台灣", "TW", "0A", true)
+    ,SAP_CSRC("csrc", "csrc", "中橡", "中橡", "TW", "0A", false) // 中橡
     //,SAP_HPPC("hppc", "hppc", "和電", "和電", "TW") // 和電
     //,SAP_TPCC("tpcc", "tpcc", "信昌", "信昌", "TW") // 信昌
     ;
@@ -23,14 +23,16 @@ public enum SapClientEnum {
     private String name;
     private String area;
     private String land;
+    private String tenderCodePrefix;
     private boolean multiPlantRfq;// 單一詢價單可多廠別
     
-    SapClientEnum(String code, String sapClientCode, String name, String area, String land, boolean multiPlantRfq){
+    SapClientEnum(String code, String sapClientCode, String name, String area, String land, String tenderCodePrefix, boolean multiPlantRfq){
         this.code = code;
         this.sapClientCode = sapClientCode;
         this.name = name;
         this.area = area;
         this.land = land;
+        this.tenderCodePrefix = tenderCodePrefix;
         this.multiPlantRfq = multiPlantRfq;
     }
     
@@ -83,6 +85,14 @@ public enum SapClientEnum {
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    public String getTenderCodePrefix() {
+        return tenderCodePrefix;
+    }
+
+    public void setTenderCodePrefix(String tenderCodePrefix) {
+        this.tenderCodePrefix = tenderCodePrefix;
     }
 
     public String getLand() {

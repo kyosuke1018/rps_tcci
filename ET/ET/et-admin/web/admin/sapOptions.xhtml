@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml"
+                >
+    <ui:define name="title">
+        <h:outputText value="#{msg['func.name.S22']}" />
+    </ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            $(function () {
+                // for datatable resize in chrome 
+                doResize();
+                $(window).resize(function () {
+                    doResize();
+                });
+            });
+            
+            function confrimSaveAward(){
+                return confirm("確定要儲存決標嗎?");
+            }
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <h:form id="fmMain" prependId="false" >
+            <p:panel header="#{msg['func.name.S22']}" rendered="#{!sap.functionDenied}" >
+                <!-- BEGIN : 簡單主檔　-->
+                <p:fieldset legend="簡單主檔" toggleable="false" >
+                    <p:panelGrid columns="6" >
+                        <p:outputLabel value="採購組織：" styleClass="fieldname" />
+                        <h:panelGroup>
+                            <p:selectOneMenu value="選取 Sap Client" >
+                                <f:selectItems />
+                            </p:selectOneMenu>
+                            <p:selectOneMenu value="" >
+                                <f:selectItems />
+                            </p:selectOneMenu>                 
+                        </h:panelGroup>
+
+                        <p:outputLabel value="採購群組：" styleClass="fieldname" />
+                        <h:panelGroup>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="付款方式：" styleClass="fieldname" />
+                        <h:panelGroup>
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="幣別：" styleClass="fieldname" />
+                        <h:panelGroup>
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="匯率：" styleClass="fieldname" />
+                        <h:panelGroup>
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="物料群組：" styleClass="fieldname" />
+                        <h:panelGroup>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                </p:fieldset>
+                <!-- END : 簡單主檔　-->
+                
+                <!-- BEGIN : 量大主檔　-->
+                <p:fieldset legend="量大主檔" toggleable="false" >
+                    <p:panelGrid columns="6" >
+                        <p:outputLabel value="供應商主檔：" styleClass="fieldname" />
+                        <h:panelGroup>
+                        </h:panelGroup>
+                        
+                    </p:panelGrid>
+                </p:fieldset>
+                <!-- END : 量大主檔　-->
+            </p:panel>
+        </h:form>
+        
+        <!-- 功能權限檢查對話框 -->
+        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+            <ui:param name="controller" value="#{sap}"/>
+        </ui:include>        
+    </ui:define>
+</ui:composition>

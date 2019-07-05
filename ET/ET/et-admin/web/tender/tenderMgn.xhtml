@@ -197,7 +197,7 @@
                                                 actionListener="#{tenderMgnController.prepareEdit(row.id)}"
                                                 update=":fmMain :contentEditForm:pgEditDetail :contentEditForm:pgEditDetailBtn"
                                                 oncomplete="showDocDetailArea(xhr, status, args);"
-                                                rendered="#{tenderMgnController.canEditDoc(row)}"
+                                                rendered="#{tenderMgnController.canEdit(row)}"
                                                 icon="ui-icon-pencil"/>
                                                 <!--
                                                 oncomplete="showDocDetailArea(xhr, status, args, #{row.dataType eq 'H'});"-->
@@ -219,8 +219,15 @@
                                     <p:menuitem value="詢價單查詢"
                                                 actionListener="#{tenderMgnController.redirectRfq(row)}"
                                                 icon="ui-icon-search"/>
+                                    <p:menuitem value="邀標"
+                                                actionListener="#{tenderMgnController.redirectInviteVender(row)}"
+                                                icon="ui-icon-contact" 
+                                                rendered="#{tenderMgnController.canInviteVender(row)}"/>
                                     <p:menuitem value="投標查詢"
                                                 actionListener="#{tenderMgnController.redirectTender(row)}"
+                                                icon="ui-icon-search"/>
+                                    <p:menuitem value="報價查詢"
+                                                actionListener="#{tenderMgnController.redirectQuate(row)}"
                                                 icon="ui-icon-search"/>
                                  </p:menuButton>
                             </p:column>
@@ -250,44 +257,44 @@
                             <p:column headerText="分類" width="70" sortBy="#{row.categorySort}" >
                                 <h:outputText value="#{row.categoryName}" />
                             </p:column>
-                            <p:column headerText="發佈日期" width="100" sortBy="#{row.datadate}" >
+                            <p:column headerText="發佈日期" width="120" sortBy="#{row.datadate}" >
                                 <h:outputText value="#{row.datadate}">
-                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
                                 </h:outputText>
                             </p:column>
                             <!-- 日期 -->
-                            <p:column headerText="發售日期" width="100" sortBy="#{row.esaleDate}" >
+                            <p:column headerText="發售日期" width="120" sortBy="#{row.esaleDate}" >
                                 <h:outputText value="#{row.ssaleDate}">
-                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
                                 </h:outputText>
                                 <!--<p:outputLabel value=" ~ " />-->
                                 <h:outputText value="#{row.esaleDate}">
-                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
                                 </h:outputText>
                             </p:column>
-                            <p:column headerText="招標日期" width="100" sortBy="#{row.etenderDate}" >
+                            <p:column headerText="招標日期" width="120" sortBy="#{row.etenderDate}" >
                                 <h:outputText value="#{row.stenderDate}">
-                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
                                 </h:outputText>
                                 <!--<p:outputLabel value=" ~ " />-->
                                 <h:outputText value="#{row.etenderDate}">
-                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
                                 </h:outputText>
                             </p:column>
-                            <p:column headerText="評標日期" width="100" sortBy="#{row.verifyDate}" >
+                            <p:column headerText="評標日期" width="120" sortBy="#{row.verifyDate}" >
                                 <h:outputText value="#{row.verifyDate}">
                                     <!--<f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>-->
-                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
                                 </h:outputText>
                             </p:column>
-                            <p:column headerText="決標日期" width="100" sortBy="#{row.closeDate}" >
+                            <p:column headerText="決標日期" width="120" sortBy="#{row.closeDate}" >
                                 <h:outputText value="#{row.closeDate}">
                                     <!--<f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>-->
-                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm"/>
+                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
                                 </h:outputText>
                             </p:column>
                             <!-- 建立日期時間 -->
-                            <p:column headerText="建立日期時間" width="130" sortBy="#{row.createtime}" >
+                            <p:column headerText="建立日期時間" width="120" sortBy="#{row.createtime}" >
                                 <h:outputText value="#{row.createtime}">
                                     <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
                                 </h:outputText>
@@ -297,7 +304,7 @@
                                 <h:outputText value="#{row.lastUserName}" />
                             </p:column>
                             <!-- 最後更改時間 -->
-                            <p:column headerText="最後更改時間" width="130" sortBy="#{row.lastUpdateTime}" >
+                            <p:column headerText="最後更改時間" width="120" sortBy="#{row.lastUpdateTime}" >
                                 <h:outputText value="#{row.lastUpdateTime}">
                                     <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
                                 </h:outputText>

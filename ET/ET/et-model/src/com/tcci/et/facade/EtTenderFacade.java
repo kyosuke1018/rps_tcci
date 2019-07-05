@@ -114,8 +114,8 @@ public class EtTenderFacade extends AbstractFacade<EtTender> {
             }
             sql.append(", CASE WHEN S.MODIFYTIME IS NULL THEN U1.CNAME ELSE U2.CNAME END LASTUSERNAME \n"); 
             sql.append(", CASE WHEN S.MODIFYTIME IS NULL THEN S.CREATETIME ELSE S.MODIFYTIME END LASTTIME \n");
-            sql.append(", CF.ID FACTORYID, CONCAT(CF.CODE,CF.NAME) as FACTORYNAME \n");
-            sql.append(", CF.SAP_CLIENT_CODE, CF.COMPANY_ID \n");
+            sql.append(", CF.ID FACTORYID, CONCAT(CF.CODE,CF.NAME) AS FACTORYNAME \n");
+            sql.append(", CF.SAP_CLIENT_CODE, CF.COMPANY_ID, CF.CURRENCY \n");
             sql.append(", CM.COMPANY_NAME, CM.SAP_CLIENT, CM.LANGUAGE \n");
             sql.append(", EO.ID AREAID, EO.CNAME AREANAME, EO.SORTNUM AREASORT \n");
             sql.append(", EO2.ID CATEGORYID, EO2.CNAME CATEGORYNAME, EO2.SORTNUM CATEGORYSORT \n");
@@ -149,8 +149,7 @@ public class EtTenderFacade extends AbstractFacade<EtTender> {
 //            sql.append("        and p.PRIMARYTYPE='").append(PhotoGalleryEnum.DOC.getCode()).append("' \n");
 //            sql.append(") F ON F.PRIMARYID=S.ID \n");
 //        }
-         
-        
+
         sql.append("LEFT OUTER JOIN TC_USER U1 ON U1.ID=S.CREATOR \n"); 
         sql.append("LEFT OUTER JOIN TC_USER U2 ON U2.ID=S.MODIFIER \n"); 
         sql.append("WHERE 1=1 \n"); 
@@ -173,6 +172,9 @@ public class EtTenderFacade extends AbstractFacade<EtTender> {
             if( criteriaVO.getType()!=null ){
                 sql.append("AND S.TYPE=#type \n");
                 params.put("type", criteriaVO.getType());
+            }
+            if(criteriaVO.getTypes()!=null){
+                sql.append(NativeSQLUtils.getInSQL("S.TYPE", criteriaVO.getTypes(), params, 2)).append(" \n");
             }
             // DATATYPE
 //            if( criteriaVO.getDataType()!=null ){
@@ -663,6 +665,49 @@ public class EtTenderFacade extends AbstractFacade<EtTender> {
         ExtBeanUtils.copyProperties(entity, vo);
     }
     
+    /**
+     * 依 autoComplete 輸入字串取得 Tender
+     * @param allTenderList
+     * @param txt
+     * @return 
+     */
+    public TenderVO findTenderByTxt(List<TenderVO> allTenderList, String txt){
+        int s = txt.lastIndexOf("(");
+        int e = txt.lastIndexOf(")");
+
+        String key;
+        if( s<0 || e<=0 ){
+            key = txt;
+        }else{
+            key = txt.substring(s+1, e);
+        }
+        
+        if( allTenderList!=null ){
+            for(TenderVO tender : allTenderList){
+//                if(tender.getCode()!=null ){
+//                    if( tender.getCode().toUpperCase().equals(key.toUpperCase()) ){
+//                        return findById(tender.getId(), false);
+//                    }
+//                }else{
+                    if(tender.getId() == Long.parseLong(key)){
+                        return findById(tender.getId(), false);
+                    }
+//                }
+            }
+        }
+        return null;
+    }
+    
+    public String getTenderDisplayIdentifier(TenderVO tenderVO){
+        String key = tenderVO.getId().toString();
+        String code = tenderVO.getCode()!=null?tenderVO.getCode():"";
+        String name = tenderVO.getTitle()!=null?tenderVO.getTitle():"";
+        StringBuilder txt = new StringBuilder();
+        txt.append(code).append(name).append("(").append(key).append(")");
+        
+        return txt.toString();
+    }
+    
     public void batchUpdateTenderStatus(TcUser admin){
         logger.debug("batchUpdateTenderStatus() begin");
         TenderCriteriaVO criteriaVO = new TenderCriteriaVO();
@@ -757,24 +802,21 @@ public class EtTenderFacade extends AbstractFacade<EtTender> {
                 parameters.put(VelocityMail.SUBJECT, sbTitle.toString());
                 NotificationUtils notificationUtils = NotificationUtils.getInstance();
                 
-                if("kyle.cheng@tcci.com.tw".equals(email)){
+                if(GlobalConstant.DEBUG_MODE){
+                    parameters.put(VelocityMail.TO, GlobalConstant.JNDI_ADMIN_EMAIL);
+                }else{
                     parameters.put(VelocityMail.TO, email);
-                    //BCC收件人 admin 上線初期加發
-//                    List<TcUser> bccReceivers = userFacade.findByLoginAccount("kyle.cheng");
-//                    bccReceivers.addAll(userFacade.findByLoginAccount("jackson.lee"));
-                    
-                    List<TcUser> bccReceivers = new ArrayList<>();
-                    bccReceivers.add(admin);
-                    String formatBccReceivers = notificationUtils.getReceiversEmail(bccReceivers);// 收件者格式化
-                    parameters.put(VelocityMail.BCC, formatBccReceivers);
-                    
-                    // HTML 樣板內參數
-                    Map<String, Object> mailBean = new HashMap<>();
-//                    mailBean.put("summaryTotal1", list.size());
-                    mailBean.put("list", list);
-                    
-                    VelocityMail.sendMail(parameters, mailBean, "tenderPublish.vm");
                 }
+                //BCC收件人 admin 上線初期加發
+                parameters.put(VelocityMail.BCC, GlobalConstant.JNDI_ADMIN_EMAIL);
+
+                // HTML 樣板內參數
+                Map<String, Object> mailBean = new HashMap<>();
+                //                    mailBean.put("summaryTotal1", list.size());
+                mailBean.put("list", list);
+
+                VelocityMail.sendMail(parameters, mailBean, "tenderPublish.vm");
+
             }
             logger.info("batchPublishNotification niticeMap{}", niticeMap.size());
         }else{

@@ -8,6 +8,7 @@ package com.tcci.et.model;
 import com.tcci.cm.enums.SapClientEnum;
 import com.tcci.cm.model.global.GlobalConstant;
 import com.tcci.et.enums.LanguageEnum;
+import com.tcci.et.enums.TenderMethodEnum;
 import com.tcci.et.model.rs.AttachmentRsVO;
 import com.tcci.et.model.rs.BaseResponseVO;
 import com.tcci.et.enums.TenderStatusEnum;
@@ -18,8 +19,6 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -83,13 +82,23 @@ public class TenderVO extends BaseResponseVO implements Serializable {
     private String companyName;
     private String sapClient;
     private String language;
+    private String currency;
     private SapClientEnum sapClientEnum;
-    
+    private TenderMethodEnum tenderMethod;
+
     public TcUser getLastUpdateUser(){
         return (modifier!=null)?modifier:creator;
     }
     public Date getLastUpdateTime(){
         return (modifytime!=null)?modifytime:createtime;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
     
     public TenderStatusEnum getStatusEnum(){
@@ -99,6 +108,32 @@ public class TenderVO extends BaseResponseVO implements Serializable {
     public String getStatusName(){
         TenderStatusEnum enum1 = getStatusEnum();
         return (enum1!=null)?enum1.getName():"";
+    }
+
+    public TenderMethodEnum getTenderMethod() {
+        return tenderMethod;
+    }
+
+    public void setTenderMethod(TenderMethodEnum tenderMethod) {
+        this.tenderMethod = tenderMethod;
+        if( tenderMethod!=null ){
+            this.type = tenderMethod.getCode();
+        }else{
+            this.type = null;
+        }
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+        if( type!=null ){
+            tenderMethod = TenderMethodEnum.getFromCode(type);
+        }else{
+            tenderMethod = null;
+        }
     }
     
     public TenderVO() {
@@ -446,6 +481,11 @@ public class TenderVO extends BaseResponseVO implements Serializable {
 
     public void setSapClientCode(String sapClientCode) {
         this.sapClientCode = sapClientCode;
+        if( sapClientCode!=null ){
+            sapClientEnum = SapClientEnum.getFromSapClientCode(sapClientCode);
+        }else{
+            sapClientEnum = null;
+        }
     }
 
     public Long getCompanyId() {
@@ -486,15 +526,11 @@ public class TenderVO extends BaseResponseVO implements Serializable {
 
     public void setSapClientEnum(SapClientEnum sapClientEnum) {
         this.sapClientEnum = sapClientEnum;
+        if( sapClientEnum!=null ){
+            this.sapClientCode = sapClientEnum.getSapClientCode();
+        }else{
+            this.sapClientCode =null;
+        }
     }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     
 }

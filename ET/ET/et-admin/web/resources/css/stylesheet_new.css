@@ -154,8 +154,8 @@ img.button
     background-image:url("#{resource['images:background.png']}");
     background-repeat:no-repeat;
     background-position: 60% 10px;
-    background-size: 60%;
-    height:520px;
+    background-size: 50%;
+    min-height:600px;
     width:100%;
 }
 
@@ -369,6 +369,14 @@ input[readonly="readonly"]
     color:#220099;
 }
 
+.finish {
+    color: #107533; 
+}
+
+.alert {
+    color: #AA0000; 
+}
+
 .alertBig{
     text-align: center; 
     font-weight: bold;
@@ -450,4 +458,12 @@ table td#pg {
 .pgDlgActionBtns {
     width:100%;
     text-align: center
+}
+
+i.ps {
+    padding: 3px;
+}
+
+i.icon-fa {
+    color: #009de2;
 }

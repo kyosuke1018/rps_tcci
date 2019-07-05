@@ -1,0 +1,398 @@
+.cover {
+    width: 100%;
+    height: 250px;
+    position: relative;
+    background: url(../img/cover_point_opacity_50.png), url(../img/cover_proj.jpg) center 60%;
+    background-size: 3%, cover;
+}
+
+.slogan {
+    height: 45px;
+    margin: auto;
+    display: inline-block;
+    position: absolute;
+    top: 45%;
+    bottom: auto;
+    right: 0;
+    left: 0;
+    letter-spacing: 5px;
+    text-align: center;
+    font-size: 24px;
+    color: #fff;
+    text-shadow: 0 0 0px #fff, 0 0 3px rgba(0, 0, 0, 0.75), 0 0 10px rgba(0, 0, 0, 0.75), 0 0 15px rgba(0, 0, 0, 0.75);
+    opacity: 0.75;
+}
+
+
+#projDetail {
+    width: 1200px;
+    padding: 50px 80px;
+    box-sizing: border-box;
+    display: none;
+}
+
+
+
+#projDetail .projTitle {
+    margin: 20px 0 10px;
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+#projDetail .projDate {
+    margin: 10px auto 50px;
+    text-align: center;
+    font-size: 14px;
+    color: #808080;
+}
+
+
+
+#projDetail .baseInfo {
+    width: 44%;
+    padding: 20px 30px;
+    box-sizing: border-box;
+    float: left;
+    font-size: 18px;
+}
+
+#projDetail .baseInfo tr td {
+    padding: 10px 0;
+    border-bottom: dashed 1px #e0e0e0;
+    color: #808080;
+}
+
+#projDetail .baseInfo tr td:first-child {
+    width: 145px;
+    font-weight: bold;
+    color: #303030;
+}
+
+#projDetail .baseInfo tr:last-child td {
+    border-bottom: none;
+}
+
+#projDetail .baseInfo .status {
+    width: 50%;
+    margin: 10px auto 0;
+    padding: 10px 0;
+    text-align: center;
+    color: #fff;
+}
+
+
+
+#projDetail .schedule {
+    width: 55%;
+    margin: -10px 0 0;
+    padding: 0 0 0 10px;
+    box-sizing: border-box;
+    position: relative;
+    float: right;
+}
+
+#projDetail .schedule .timeLine {
+    width: 0;
+    height: 50px;
+    margin: auto;
+    position: absolute;
+    left: 49px;
+    top: 0;
+    bottom: 0;
+    z-index: 0;
+    border-left: dotted 2px #c0c0c0;
+}
+
+#projDetail .schedule table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#projDetail .schedule table tr td {
+    padding: 8px 0;
+}
+
+#projDetail .schedule table tr td:nth-child(1) {
+    width: 80px;
+    position: relative;
+    vertical-align: top;
+    text-align: center;
+}
+
+#projDetail .schedule table tr td:nth-child(2) {    
+    text-align: left;
+    opacity: 0.25;
+}
+
+#projDetail .schedule table tr td:nth-child(1) .point {
+    width: 30px;
+    height: auto;
+    margin: 12px 0 0 25px;
+    transition: 0.5s transform;
+    position: absolute;
+    left: 0;
+}
+
+#projDetail .schedule table .pointBreath {
+    transform-origin: center 37%;
+    animation: pointBreath 1.5s ease-in-out 0.0s infinite alternate forwards;
+}
+
+@keyframes pointBreath{
+    0%{
+        transform: scale(0.7);
+    }
+    100%{
+        transform: scale(1.4);
+    }
+}
+
+#projDetail .schedule table tr td .triangel {
+    width: 0;
+    height: 0;
+    margin: 6px 0 0;
+    float: left;
+    border-style: solid;
+    border-width: 20px 15px 20px 0;
+    border-color: transparent #e0e0e0 transparent transparent;
+    transition: 0.5s margin;
+}
+
+#projDetail .schedule table tr:hover td .triangel {
+/*    margin: 6px 0 0 -15px;*/
+}
+
+#projDetail .schedule table tr td .outline {
+    width: 95%;
+    padding: 16px 30px;
+    box-sizing: border-box;
+    display: inline;
+    float: left;
+    border: solid 2px #c0c0c0;
+    border-radius: 3px;    
+    transition: 0.5s border, 0.5s box-shadow;
+}
+
+#projDetail .schedule table tr:hover td .outline {
+    border: solid 2px #d0d0d0;
+    box-shadow: 0 0 15px #c0c0c0;
+}
+
+#projDetail .schedule table tr td .time {
+    width: 170px;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 18px;
+    color: #505050;
+}
+
+#projDetail .schedule table tr td .cont {
+    width: 160px;    
+    padding: 3px 0;
+    display: inline-block;
+    font-weight: bold;
+    color: #808080;
+}
+
+
+
+#projDetail .fileList {
+    margin: 50px 0 0;
+    padding: 50px 0 0;
+    position: relative;
+    border-top: dotted 2px #f0f0f0;
+    text-align: center;    
+}
+
+#projDetail .fileList .title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#projDetail .fileList .file {
+    padding: 15px 10px 10px;
+    display: inline-block;
+}
+
+#projDetail .fileList .file .fileIcon {
+    font-size: 52px;
+    color: #b00000;
+    transition: transform 0.5s;
+}
+
+#projDetail .fileList .file:hover .fileIcon {
+    transform: scale(1.2);
+}
+
+#projDetail .fileList .file .fileName {
+    width: 150px;
+    height: 65px;
+    overflow: hidden;
+    color: #808080;
+}
+
+#projDetail .chkUpdate {
+    position: absolute;
+    top: 50px;
+    right: 0;
+}
+
+#projDetail .chkUpdate select {
+    max-width: 220px;
+    padding: 5px;
+}
+
+#projDetail .chkUpdate .btn {
+    margin: 0 0 0 5px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    border: solid 1px #808080;
+    border-radius: 2px;
+    font-size: 14px;
+    background: #f0f0f0;
+    cursor: pointer;
+}
+
+#projDetail .chkUpdate .btn:active {
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25) inset, -1px -1px 3px rgba(255, 255, 255, 1) inset;
+}
+
+#projDetail .noData {    
+    padding: 5px 0;
+    text-align: center;
+    font-size: 16px;
+    color: #b00000;
+}
+
+
+
+#projDetail .description {
+    margin: 50px 0 0;
+    padding: 50px 0 0;
+    border-top: dotted 2px #f0f0f0;
+}
+
+#projDetail .description .title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/*---------- RWD (start) ----------*/
+@media screen and (min-width: 1601px) and (max-width: 1920px) {
+    .cover {
+        height: 350px;
+    }
+}
+
+@media screen and (min-width: 1367px) and (max-width: 1600px) {
+    .cover {
+        height: 300px;
+    }
+}    
+
+@media screen and (min-width: 1px) and (max-width: 1200px) {
+/*
+    .cover {
+        height: 120px;
+    }
+    
+    .slogan {
+        font-size: 16px;
+    }
+    
+    #projDetail {
+        width: 100%;
+        padding: 0 0 30px;
+    }
+    
+    #projDetail .projTitle {
+        margin: 20px 0 10px;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    #projDetail .projDate {
+        margin: 10px auto 30px;
+        text-align: center;
+        font-size: 14px;
+        color: #808080;
+    }
+    
+    #projDetail .baseInfo {
+        width: 100%;
+        padding: 5px 15px;
+        float: none;
+    }
+    
+    #projDetail .baseInfo tr td:first-child {
+        width: 125px;
+    }
+    
+    #projDetail .schedule {
+        width: 100%;
+        margin: 30px 0 0;
+        padding: 0;
+        float: none;
+    }
+    
+    #projDetail .schedule .timeLine {
+        left: 10px;
+    }
+    
+    #projDetail .schedule table tr td:nth-child(1) {
+        width: 30px;
+    }
+    
+    #projDetail .schedule table tr td:nth-child(1) .point {
+        width: 22px;
+        margin: 12px 0 0 0;
+    }
+    
+    #projDetail .schedule table tr td .triangel {
+        margin: 7px 0 0;
+        border-width: 15px 10px 15px 0;
+    }
+
+    
+    #projDetail .schedule table tr td .outline {
+        width: 94%;
+        padding: 8px 10px;
+    }
+    
+    #projDetail .schedule table tr td .time {
+        width: 58%;
+        font-size: 14px;
+    }
+
+    #projDetail .schedule table tr td .cont {
+        width: 40%;
+        font-size: 14px;
+    }
+
+    #projDetail .fileList .file .fileIcon {
+        font-size: 36px;
+    }
+
+    #projDetail .fileList .file:hover .fileIcon {
+        transform: scale(1);
+    }
+
+    #projDetail .fileList .file .fileName {
+        width: 140px;
+        font-size: 14px;
+    }
+    
+    #projDetail .chkUpdate {
+        position: static;
+    }
+    
+    #projDetail .chkUpdate select {
+        width: 200px;
+        max-width: 200px;
+    }
+*/
+}
+/*---------- RWD (end) ----------*/

@@ -28,7 +28,7 @@ public class ResultSetHelper<T> {
     private Class<T> rowClass;
     
     private int cols;
-    private String dbType = "ORACLE";
+    private String dbType = "ORACLE"; // MSSQL
 
     public ResultSetHelper(Class<T> rowClass) {
         this.rowClass = rowClass;
@@ -94,8 +94,8 @@ public class ResultSetHelper<T> {
      * @return 
      */
     public List<T> queryToPOJOList(EntityManager entityManager, String sql, Map<String, Object> params, int firstResult, int maxResults, boolean ignoreParamPrefix){       
-        List<T> resList = null;
-        logger.debug("queryToPOJOList　sql = \n" + sql);
+        List<T> resList;
+        logger.debug("queryToPOJOList sql = \n" + sql);
         logPararms(params);
         
         //try{

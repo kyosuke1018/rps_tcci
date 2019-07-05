@@ -10,7 +10,10 @@ import com.tcci.cm.util.ExtBeanUtils;
 import com.tcci.et.model.rfq.QuotationVO;
 import com.tcci.et.entity.EtQuotation;
 import com.tcci.et.model.criteria.RfqCriteriaVO;
+import com.tcci.et.model.rfq.QuotationItemVO;
+import com.tcci.et.model.rfq.RfqVO;
 import com.tcci.fc.entity.org.TcUser;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +53,7 @@ public class EtQuotationFacade extends AbstractFacade<EtQuotation> {
         EtQuotation entity = this.find(vo.getId());
         return entity;
     }
+    
     /**
      * 單筆儲存
      * @param entity
@@ -93,6 +97,18 @@ public class EtQuotationFacade extends AbstractFacade<EtQuotation> {
     public String findByCriteriaSQL(RfqCriteriaVO criteriaVO, Map<String, Object> params){
         StringBuilder sql = new StringBuilder();
         
+        sql.append("FROM ET_QUOTATION S \n");
+        sql.append("WHERE 1=1 \n");
+        
+        if( criteriaVO.getTenderId()!=null ){
+            sql.append("AND S.TENDER_ID=#TENDER_ID \n");
+            params.put("TENDER_ID", criteriaVO.getTenderId());
+        }
+        if( criteriaVO.getRfqId()!=null ){
+            sql.append("AND S.RFQ_ID=#RFQ_ID \n");
+            params.put("RFQ_ID", criteriaVO.getRfqId());
+        }
+        
         return sql.toString();
     }
     
@@ -135,17 +151,76 @@ public class EtQuotationFacade extends AbstractFacade<EtQuotation> {
 
     /**
      * 依 ID 查詢
-     * @param storeId
      * @param id
      * @param fullData
      * @return 
      */
-    public QuotationVO findById(Long storeId, Long id, boolean fullData) {
+    public QuotationVO findById(Long id, boolean fullData) {
         RfqCriteriaVO criteriaVO = new RfqCriteriaVO();
         criteriaVO.setId(id);
         criteriaVO.setFullData(fullData);
         
         List<QuotationVO> list = findByCriteria(criteriaVO);
         return (list!=null && !list.isEmpty())? list.get(0):null;
+    }
+    
+    /**
+     *  依標案詢價單查詢
+     * @param tenderId
+     * @param rfqId
+     * @return 
+     */
+    public List<QuotationVO> findByRfq(Long tenderId, Long rfqId){
+        RfqCriteriaVO criteriaVO = new RfqCriteriaVO();
+        criteriaVO.setTenderId(tenderId);
+        criteriaVO.setRfqId(rfqId);
+        
+        return findByCriteria(criteriaVO);
+    }
+
+    /**
+     * 完整報價儲存
+     * @param rfqVO
+     * @param quoteVO
+     * @param quoteList
+     * @param operator
+     * @param simulated
+     */
+    public void saveByRfq(RfqVO rfqVO, QuotationVO quoteVO, List<QuotationItemVO> quoteList, TcUser operator, boolean simulated) {
+        if( rfqVO==null || quoteList==null ){
+            logger.error("saveByRfq rfqVO==null || quoteList==null");
+            return;
+        }
+        logger.debug("saveByRfq rfqVO = "+rfqVO.getTenderId());
+        
+        // ET_QUOTATION
+        EtQuotation entity = (quoteVO!=null && sys.isId(quoteVO.getId()))?this.find(quoteVO.getId()):new EtQuotation();
+        if( entity==null ){
+            logger.error("saveByRfq EtQuotation entity==null");
+        }
+        /*
+        entity.setCurQuo(curQuo);
+        entity.setCurRfq(curRfq);
+        entity.setDisabled(simulated);
+        entity.setDiscount(BigDecimal.ONE);
+        entity.setExRate(BigDecimal.ZERO);
+        entity.setExpiretime(expiretime);
+        entity.setInvoice(simulated);
+        entity.setLast(simulated);
+        entity.setMemberId(Long.MIN_VALUE);
+        entity.setMemo(memo);
+        entity.setNetAmtQuo(BigDecimal.ZERO);
+        entity.setNetAmtRfq(BigDecimal.ZERO);
+        entity.setQuotetime(quotetime);
+        entity.setRfqId(Long.MIN_VALUE);
+        entity.setRfqVenderId(Long.MIN_VALUE);
+        entity.setStatue(statue);
+        entity.setTaxRate(BigDecimal.ZERO);
+        entity.setTaxQuo(BigDecimal.ZERO);
+        entity.setTaxRfq(BigDecimal.ZERO);
+        entity.setTenderId(Long.MIN_VALUE);
+        entity.setTotalAmtQuo(BigDecimal.ZERO);
+        entity.setTotalAmtRfq(BigDecimal.ZERO);
+        */
     }
 }

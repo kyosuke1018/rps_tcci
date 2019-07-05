@@ -21,6 +21,13 @@ public class BaseCriteriaVO extends AbstractCriteriaVO implements IQueryCriteria
     protected Long id;
     protected Long memberId;
     protected Long tenderId;
+    protected Long rfqId;
+    protected Long quoteId;
+    protected Long awardId;
+    protected Long ebelp;
+    protected Long venderId;
+    protected String currency;
+    
     protected Long factoryId;
     protected Long typeId;
     protected Long categoryId;
@@ -81,6 +88,54 @@ public class BaseCriteriaVO extends AbstractCriteriaVO implements IQueryCriteria
 //    public void setCategoryId(int categoryId) {
 //        this.categoryId = categoryId;
 //    }
+
+    public Long getRfqId() {
+        return rfqId;
+    }
+
+    public void setRfqId(Long rfqId) {
+        this.rfqId = rfqId;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public Long getVenderId() {
+        return venderId;
+    }
+
+    public void setVenderId(Long venderId) {
+        this.venderId = venderId;
+    }
+
+    public Long getEbelp() {
+        return ebelp;
+    }
+
+    public void setEbelp(Long ebelp) {
+        this.ebelp = ebelp;
+    }
+
+    public Long getQuoteId() {
+        return quoteId;
+    }
+
+    public void setQuoteId(Long quoteId) {
+        this.quoteId = quoteId;
+    }
+
+    public Long getAwardId() {
+        return awardId;
+    }
+
+    public void setAwardId(Long awardId) {
+        this.awardId = awardId;
+    }
 
     public boolean isShowCoverImg() {
         return showCoverImg;

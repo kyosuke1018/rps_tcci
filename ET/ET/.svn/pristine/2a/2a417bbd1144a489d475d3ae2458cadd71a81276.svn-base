@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <persistence-unit name="Model" transaction-type="JTA">
+        <jta-data-source>jdbc/et</jta-data-source>
+        <!-- FC -->
+        <class>com.tcci.fc.entity.org.TcUser</class>
+        <class>com.tcci.fc.entity.org.TcGroup</class>
+        <class>com.tcci.fc.entity.org.TcUsergroup</class>
+        <class>com.tcci.fc.entity.essential.TcDomain</class>
+        <class>com.tcci.fc.entity.content.TcApplicationdata</class>
+        <class>com.tcci.fc.entity.content.TcFvitem</class>
+        <class>com.tcci.fc.entity.content.TcFvvault</class>
+        <class>com.tcci.fc.entity.content.TcSite</class>
+        <!-- tcc-bpm-model {{ -->
+        <class>com.tcci.fc.entity.bpm.TcActivity</class>
+        <class>com.tcci.fc.entity.bpm.TcActivityroute</class>
+        <class>com.tcci.fc.entity.bpm.TcActivityroutetemplate</class>
+        <class>com.tcci.fc.entity.bpm.TcActivitytemplate</class>
+        <class>com.tcci.fc.entity.bpm.TcProcess</class>
+        <class>com.tcci.fc.entity.bpm.TcProcesstemplate</class>
+        <class>com.tcci.fc.entity.bpm.TcReassignConf</class>
+        <class>com.tcci.fc.entity.bpm.TcSignature</class>
+        <class>com.tcci.fc.entity.bpm.TcVariable</class>
+        <class>com.tcci.fc.entity.bpm.TcWorkitem</class>
+        <class>com.tcci.fc.entity.role.TcRole</class>
+        <class>com.tcci.fc.entity.role.TcRoleholderrolemap</class>
+        <class>com.tcci.fc.entity.role.TcRoleprincipallink</class>
+        <class>com.tcci.fc.entity.team.TcTeam</class>
+        <!-- }} -->
+        <!-- common -->
+        <class>com.tcci.cm.entity.admin.CmFunction</class>
+        <class>com.tcci.cm.entity.admin.CmGroupFunctionR</class>
+        <class>com.tcci.cm.entity.admin.CmActivityLog</class>
+        <class>com.tcci.cm.entity.admin.CmBulletin</class>
+        <class>com.tcci.cm.entity.admin.CmCompany</class>
+        <class>com.tcci.cm.entity.admin.CmFactory</class>
+        <class>com.tcci.cm.entity.admin.CmFactoryCategory</class>
+        <class>com.tcci.cm.entity.admin.CmFactoryGroupR</class>
+        <class>com.tcci.cm.entity.admin.CmFactorygroup</class>
+        <class>com.tcci.cm.entity.admin.CmUserFactorygroupR</class>
+        <class>com.tcci.cm.entity.admin.CmUsercompany</class>
+        <class>com.tcci.cm.entity.admin.CmUserfactory</class>
+        <!-- CMS -->
+        <class>com.tcci.et.entity.KbRichContent</class>
+        <!-- ET -->
+        <class>com.tcci.et.entity.EtTender</class>
+        <class>com.tcci.et.entity.EtVenderCategory</class>
+        <class>com.tcci.et.entity.EtVender</class>
+        <class>com.tcci.et.entity.EtMemberForm</class>
+        <class>com.tcci.et.entity.EtVcForm</class>
+        <class>com.tcci.et.entity.EtTenderConform</class>
+        <class>com.tcci.et.entity.EtUseLog</class>
+        <class>com.tcci.et.entity.EtOption</class>
+        <class>com.tcci.et.entity.EtCompany</class>
+        <class>com.tcci.et.entity.EtMember</class>
+        <class>com.tcci.et.entity.EtNoticeLog</class>
+
+        <class>com.tcci.et.entity.EtQuotation</class>
+        <class>com.tcci.et.entity.EtQuotationItem</class>
+        <class>com.tcci.et.entity.EtQuotationPm</class>
+        <class>com.tcci.et.entity.EtRfqEkko</class>
+        <class>com.tcci.et.entity.EtRfqEkkotx</class>
+        <class>com.tcci.et.entity.EtRfqEkpo</class>
+        <class>com.tcci.et.entity.EtRfqEkpotx</class>
+        <class>com.tcci.et.entity.EtRfqPm</class>
+        <class>com.tcci.et.entity.EtRfqVender</class>
+        <class>com.tcci.et.entity.EtVenderAll</class>
+        <class>com.tcci.et.entity.EtAward</class>
+        <class>com.tcci.et.entity.EtAwardItem</class>
+        <class>com.tcci.et.entity.EtSequence</class>
+        
+        <class>com.tcci.sap.jco.entity.base.TcZtabExpT024</class>
+        <class>com.tcci.sap.jco.entity.base.TcZtabExpT024e</class>
+
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <validation-mode>NONE</validation-mode>
+        <properties>
+            <property name="eclipselink.cache.shared.default" value="false"/>
+            <!-- show sql statement
+            <property name="eclipselink.weaving" value="static"/>
+            <property name="eclipselink.logging.level.sql" value="FINE"/>
+            <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="eclipselink.logging.level.cache" value="FINE"/>
+            -->
+        </properties>
+    </persistence-unit>
+    <persistence-unit name="datawarehousePU" transaction-type="JTA">
+        <jta-data-source>jdbc/datawarehouse</jta-data-source>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <validation-mode>NONE</validation-mode>
+        <properties>
+            <property name="eclipselink.cache.shared.default" value="false"/>
+            <property name="eclipselink.weaving" value="static" />
+            <property name="eclipselink.logging.level.sql" value="FINE" />
+            <property name="eclipselink.logging.level" value="FINE" />
+            <property name="eclipselink.logging.level.cache" value="FINE" />
+        </properties>
+    </persistence-unit>
+</persistence>

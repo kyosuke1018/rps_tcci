@@ -12,11 +12,14 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -44,6 +47,8 @@ public class EtQuotation implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
+    @SequenceGenerator(name = "SEQ_QUOTATION", sequenceName = "SEQ_QUOTATION", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_QUOTATION")        
     private Long id;
     @Column(name = "TENDER_ID")
     private Long tenderId;
@@ -68,7 +73,7 @@ public class EtQuotation implements Serializable {
     private String curQuo;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "EX_RATE")
-    private BigDecimal exRate;
+    private BigDecimal exRate;    
     @Column(name = "TOTAL_AMT_RFQ")
     private BigDecimal totalAmtRfq;
     @Column(name = "TAX_RFQ")
@@ -86,6 +91,20 @@ public class EtQuotation implements Serializable {
     @Size(max = 1024)
     @Column(name = "MEMO")
     private String memo;
+    @Column(name = "TAX_RATE")
+    private BigDecimal taxRate;
+    
+    @Size(max = 3)
+    @Column(name = "STATUS")
+    private String statue;
+    @Column(name = "DISABLED")
+    private Boolean disabled;
+
+    @Column(name = "MEMBER_ID")
+    private Long memberId; // 報價會員ID
+    @Column(name = "QUOTETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date quotetime; // 報價時間
     
     @JoinColumn(name = "CREATOR", referencedColumnName = "ID")
     @ManyToOne
@@ -105,6 +124,38 @@ public class EtQuotation implements Serializable {
 
     public EtQuotation(Long id) {
         this.id = id;
+    }
+
+    public String getStatue() {
+        return statue;
+    }
+
+    public void setStatue(String statue) {
+        this.statue = statue;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
+
+    public Date getQuotetime() {
+        return quotetime;
+    }
+
+    public void setQuotetime(Date quotetime) {
+        this.quotetime = quotetime;
+    }
+
+    public Boolean getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        this.disabled = disabled;
     }
 
     public Long getId() {
@@ -257,6 +308,14 @@ public class EtQuotation implements Serializable {
 
     public void setMemo(String memo) {
         this.memo = memo;
+    }
+
+    public BigDecimal getTaxRate() {
+        return taxRate;
+    }
+
+    public void setTaxRate(BigDecimal taxRate) {
+        this.taxRate = taxRate;
     }
 
     public TcUser getCreator() {

@@ -14,7 +14,7 @@ import java.util.Date;
 public class PrCriteriaVO extends BaseCriteriaVO {
     private String mandt;
     private String banfn;
-    private Integer bnfpo;
+    private Long bnfpo;
     private String matnr;
     private String werks;
     private String bukrs;
@@ -26,6 +26,24 @@ public class PrCriteriaVO extends BaseCriteriaVO {
 
     private String land1;//國家代碼
     private String waers;//幣別碼
+    private String matnrUI;
+
+    public void setMatnr(String matnr) {
+        this.matnr = matnr;
+        if( matnr!=null ){
+            matnrUI = matnr.startsWith("000000")?matnr.substring(6):matnr;
+        }else{
+            matnrUI = null;
+        }
+    }
+
+    public String getMatnrUI() {
+        return matnrUI;
+    }
+
+    public void setMatnrUI(String matnrUI) {
+        this.matnrUI = matnrUI;
+    }
 
     public String getMandt() {
         return mandt;
@@ -63,10 +81,6 @@ public class PrCriteriaVO extends BaseCriteriaVO {
         return matnr;
     }
 
-    public void setMatnr(String matnr) {
-        this.matnr = matnr;
-    }
-
     public String getWerks() {
         return werks;
     }
@@ -83,11 +97,11 @@ public class PrCriteriaVO extends BaseCriteriaVO {
         this.banfn = banfn;
     }
 
-    public Integer getBnfpo() {
+    public Long getBnfpo() {
         return bnfpo;
     }
 
-    public void setBnfpo(Integer bnfpo) {
+    public void setBnfpo(Long bnfpo) {
         this.bnfpo = bnfpo;
     }
 

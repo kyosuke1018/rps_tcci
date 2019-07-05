@@ -15,8 +15,22 @@ import java.util.List;
  * @author Peter.pan
  */
 public class RfqVO {
+    private RfqEkkoVO ekko;
+    private List<RfqEkkotxVO> ekkotxList;
+    private List<RfqEkpoVO> ekpoList;
+    private List<RfqEkpotxVO> ekpotxList;
+    private List<RfqPmVO> pmList;
+    private List<RfqVenderVO> venderList;
+
+    private List<QuotationVO> quoteList;
+    private List<QuotationItemVO> quoteItemList;
+    
+    // for UI
+    private List<String> prNos;
+    
     private Long companyId;
     private Long companyOri;
+    private String bukrs;
     
     private Long factoryId;
     private Long factoryOri;
@@ -31,20 +45,15 @@ public class RfqVO {
     private CmFactoryVO factory;
     private List<CmFactoryVO> factorys;
     
-    private List<String> prNos;
-    
-    private RfqEkkoVO ekko;
-    private List<RfqEkkotxVO> ekkotxList;
-    private List<RfqEkpoVO> ekpoList;
-    private List<RfqEkpotxVO> ekpotxList;
-    private List<RfqPmVO> pmList;
-    private List<RfqVenderVO> venderList;
-
-    private List<QuotationVO> quoteList;
-    private List<QuotationItemVO> quoteItemList;
-    
     private String rfqNo;
 
+    public Long getTenderId(){
+        return ekko!=null? ekko.getTenderId():null;
+    }
+    public Long getRfqId(){
+        return ekko!=null? ekko.getId():null;
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="getter and setter">
     public Long getCompanyId() {
         return companyId;
@@ -52,6 +61,14 @@ public class RfqVO {
 
     public void setCompanyId(Long companyId) {
         this.companyId = companyId;
+    }
+
+    public String getBukrs() {
+        return bukrs;
+    }
+
+    public void setBukrs(String bukrs) {
+        this.bukrs = bukrs;
     }
 
     public RfqEkkoVO getEkko() {
@@ -226,8 +243,4 @@ public class RfqVO {
     }
     
     //</editor-fold>
-
-    public void setRfqEkkoVO(RfqEkkoVO rfqEkkoVO) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

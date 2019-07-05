@@ -19,6 +19,24 @@ public class MmCriteriaVO extends BaseCriteriaVO {
     private String dimid;
     
     private String bstyp;
+    private String matnrUI;
+
+    public void setMatnr(String matnr) {
+        this.matnr = matnr;
+        if( matnr!=null ){
+            matnrUI = matnr.startsWith("000000")?matnr.substring(6):matnr;
+        }else{
+            matnrUI = null;
+        }
+    }
+
+    public String getMatnrUI() {
+        return matnrUI;
+    }
+
+    public void setMatnrUI(String matnrUI) {
+        this.matnrUI = matnrUI;
+    }
 
     public String getMandt() {
         return mandt;
@@ -36,20 +54,8 @@ public class MmCriteriaVO extends BaseCriteriaVO {
         this.bstyp = bstyp;
     }
 
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
-
     public String getMatnr() {
         return matnr;
-    }
-
-    public void setMatnr(String matnr) {
-        this.matnr = matnr;
     }
 
     public String getWerks() {

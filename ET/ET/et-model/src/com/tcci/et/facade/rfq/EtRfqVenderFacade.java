@@ -94,6 +94,31 @@ public class EtRfqVenderFacade extends AbstractFacade<EtRfqVender> {
     public String findByCriteriaSQL(RfqCriteriaVO criteriaVO, Map<String, Object> params){
         StringBuilder sql = new StringBuilder();
         
+        //quotation
+        sql.append(", qt.TIMES \n");
+        
+        sql.append("FROM ET_RFQ_VENDER S \n");
+        
+        sql.append("JOIN ET_TENDER t on t.ID = S.TENDER_ID \n");
+        sql.append("JOIN ET_RFQ_EKKO rfq on rfq.ID = S.RFQ_ID \n");
+        sql.append("JOIN ET_VENDER_ALL v on v.ID = S.VENDER_ID \n");
+        sql.append("LEFT OUTER JOIN ET_MEMBER m on m.ID = S.MEMBER_ID \n");
+        sql.append("LEFT OUTER JOIN ( \n");
+        sql.append(" SELECT COUNT(q.ID) as TIMES, q.TENDER_ID, q.RFQ_ID ,q.RFQ_VENDER_ID \n");
+        sql.append(" FROM ET_QUOTATION q \n");
+        sql.append(" GROUP BY q.TENDER_ID, q.RFQ_ID, q.RFQ_VENDER_ID \n");
+        sql.append(") qt on qt.TENDER_ID = S.TENDER_ID AND qt.RFQ_ID = S.RFQ_ID AND qt.RFQ_VENDER_ID = S.ID \n");
+        
+        sql.append("WHERE 1=1 \n");
+        if(criteriaVO.getId()!=null){
+            sql.append("AND S.ID=#id \n");
+            params.put("id", criteriaVO.getId());
+        }
+        if(criteriaVO.getTenderId()!=null){
+            sql.append("AND S.TENDER_ID=#tenderId \n");
+            params.put("tenderId", criteriaVO.getTenderId());
+        }
+        
         return sql.toString();
     }
     
@@ -136,12 +161,11 @@ public class EtRfqVenderFacade extends AbstractFacade<EtRfqVender> {
 
     /**
      * 依 ID 查詢
-     * @param storeId
      * @param id
      * @param fullData
      * @return 
      */
-    public RfqVenderVO findById(Long storeId, Long id, boolean fullData) {
+    public RfqVenderVO findById(Long id, boolean fullData) {
         RfqCriteriaVO criteriaVO = new RfqCriteriaVO();
         criteriaVO.setId(id);
         criteriaVO.setFullData(fullData);

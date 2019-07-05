@@ -6,7 +6,6 @@
 package com.tcci.ec.facade.rs;
 
 import com.tcci.cm.entity.admin.CmFactory;
-import com.tcci.cm.model.global.GlobalConstant;
 import com.tcci.cm.util.ExtBeanUtils;
 import com.tcci.et.entity.EtCompany;
 import com.tcci.et.entity.EtFile;
@@ -21,8 +20,10 @@ import com.tcci.ec.model.rs.SubmitVO;
 import com.tcci.ec.model.rs.TenderRsVO;
 import com.tcci.et.entity.EtMemberForm;
 import com.tcci.et.entity.EtVender;
+import com.tcci.et.entity.EtVenderAll;
 import com.tcci.et.enums.FormStatusEnum;
 import com.tcci.et.enums.FormTypeEnum;
+import com.tcci.et.facade.EtVenderAllFacade;
 import com.tcci.et.model.criteria.BaseCriteriaVO;
 import com.tcci.fc.entity.org.TcUser;
 import com.tcci.fc.util.StringUtils;
@@ -56,6 +57,7 @@ public class VenderREST extends AbstractWebREST {
     
     @EJB private EtCompanyFacade etCompanyFacade;
     @EJB EtFileFacade fileFacade;
+    @EJB private EtVenderAllFacade etVenderAllFacade;
     
     /**
      * /services/vender/count
@@ -173,6 +175,9 @@ public class VenderREST extends AbstractWebREST {
                         || formVO.getFactoryId()==null || StringUtils.isBlank(formVO.getCountryCode()) || StringUtils.isBlank(formVO.getCurrencyCode())){
                     return this.genFailRepsone(request, ResStatusEnum.IN_ERROR_EMPTY, errors);//未輸入必要參數
                 }
+                //TODO 新商申請是否有其他限制
+                
+                
                 Long factoryId = formVO.getFactoryId();
                 CmFactory factory = cmFactoryFacade.find(factoryId);
                 roleApprovers = reloadApprovers(factory);
@@ -214,6 +219,13 @@ public class VenderREST extends AbstractWebREST {
             memberFormFacade.save(form, admin, Boolean.FALSE);
             logger.info("apply... formID = " + form.getId());
             memberFormFacade.startProcess(form, admin, roleApprovers, formTypeCode);    
+            
+            //寫入ET_VENDER_ALL 供報價挑選申請中的供應商
+            EtVenderAll entity = new EtVenderAll();
+            entity.setApplyId(form.getId());
+            entity.setMandt(form.getMandt());
+            entity.setName(form.getApplyVenderName());
+            etVenderAllFacade.save(entity, admin, false);
             
 //            return this.genSuccessRepsoneWithId(request, member.getId());// 回傳會員ID
             return this.genSuccessRepsoneWithId(request, form.getId());// 回傳申請單ID

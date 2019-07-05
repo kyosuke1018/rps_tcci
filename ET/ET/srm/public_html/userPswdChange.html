@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex、nofollow" />
+    <meta name="viewport" content="width=device-width" />
+    <title>台泥陽光採購平台</title>
+    <link rel="icon" 	   type="image/x-icon"	href="img/logo.ico" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/jquery-ui.css" />
+    <link rel="stylesheet" href="css/style-comm.css" />
+    <link rel="stylesheet" href="css/style-userPswdChange.css" />
+</head>
+
+<body>
+	<div id="headerField" class="headerField">
+		<div id="header"></div>
+	</div>        
+    
+    <div id="container">
+        <div class="cover"></div>
+        <div class="section">
+            <div class="form">
+                <div class="caption">更改密碼</div>
+                <div id="oldPswd"    class="customInput"></div>
+                <div id="newPswd"    class="customInput"></div>
+                <div id="newPswdChk" class="customInput"></div>
+                <div class="btn">送 出</div>
+            </div>        
+        </div>
+    </div>
+    
+	<div id="footerField">
+		<div id="footer"></div>
+	</div>
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui-accordion.min.js"></script>
+    <script src="js/content-ajax.js"></script>
+    <script src="js/content.js"></script>
+    <script>
+        $(function(){            
+            initHeadFoot();
+        });
+        
+        var oldPswdInput = new customInput("oldPswd", "password", "舊密碼");
+        var newPswdInput = new customInput("newPswd", "password", "新密碼");
+        var newPswdChkInput = new customInput("newPswdChk", "password", "確認新密碼");
+
+        $(".form .btn").click(function(){
+            //確認全部欄位是否有空白
+            var validEmptyOK = validInputEmpty($(".customInput input"));
+
+            if(validEmptyOK){
+                var oldPswd = oldPswdInput.getVal();
+                var newPswd = newPswdInput.getVal();
+                var newPswdChk = newPswdChkInput.getVal();
+                
+                if(oldPswd == newPswd){
+                    alert("舊密碼與新密碼相同");
+                    return;
+                }
+
+                if(newPswd != newPswdChk){
+                    alert("新密碼與確認新密碼不同");
+                    return;
+                }
+
+                var restUrl = REST_URL + "services/auth/changePwd";
+                var formData = {
+                    memberId: MEMBER_ID,
+                    loginAccount: SESSION,
+                    pwd: newPswd,
+                }
+                ajaxPostData(restUrl, formData);
+            }
+        });
+        
+        function fetchData(response){
+            if(response.res.status == 1){
+                alert("密碼變更成功");
+                location.reload();
+            }
+            else
+                alert("密碼變更失敗");            
+        }
+        
+	</script>
+</body>
+</html>

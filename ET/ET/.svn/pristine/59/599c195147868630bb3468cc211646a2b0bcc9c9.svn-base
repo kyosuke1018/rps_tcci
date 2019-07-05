@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="台泥陽光採購平台招標案件列表" />
+    <title>台泥陽光採購平台</title>
+    <link rel="icon" 	   type="image/x-icon"	href="img/logo.ico" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/jquery-ui.css" />
+    <link rel="stylesheet" href="css/style-comm.css" />
+    <link rel="stylesheet" href="css/style-projList.css" />
+</head>
+
+<body>
+	<div id="headerField" class="headerField">
+		<div id="header"></div>
+	</div>        
+    
+    <div id="container">
+        <div class="cover">
+            <div class="slogan">招標案件列表</div>
+        </div>
+        
+        <div class="section">
+            <div class="ajaxLoading"></div>
+            
+            <div id="projList">
+                <div class="caption">{{projCate}}</div>
+                <div class="itemTitle">
+                    <div>招標編號</div>                                
+                    <div>招標類型</div>                                
+                    <div>招標名稱</div>
+                    <div>招標狀態</div>
+                    <div>發佈時間</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="item" v-for="row in projList">
+                    <a :href="'projDetail.html?id=' + row.id" :title="row.bidName">
+                        <span class="block1">
+                            <div class="code">{{row.code}}&nbsp;</div>
+                            <div class="category">{{row.categoryName}}&nbsp;</div>
+                            <div class="title">{{row.title}}</div>
+                        </span>
+                        <span class="block2">
+                            <div class="status" :class="chkStatusColor(row.status)">&nbsp;{{row.statusName}}&nbsp;</div>
+                            <div class="date">{{getDate(row.datadate)}}</div>
+                        </span>                        
+                    </a>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    
+	<div id="footerField">
+		<div id="footer"></div>
+	</div>
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui-accordion.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/content-ajax.js"></script>
+    <script src="js/content.js"></script>
+    <script>
+        $(function(){            
+            initHeadFoot();
+        });
+        
+        var vm = new Vue({
+            el:"#projList",
+            data: {
+                projCate: "-",
+                projType: "",
+                projStatus: "",
+                projAreaId: "",
+                projList:[
+                    //測試資料
+                    //{datadate:"2019-03-08", status:"NS", statusName:"未開始",    categoryName:"物料類", code:"GYB-20181201", title:"台泥水泥 2019 年度助磨劑招標公告"},
+                    //{datadate:"2019-03-07", status:"NS", statusName:"未開始",    categoryName:"物料類", code:"wzgs20170310", title:"物資公司 2019 年 3 月下旬煤炭招標"},
+                    //{datadate:"2019-03-22", status:"OS", statusName:"標書發售中", categoryName:"物料類", code:"GYB-20181201", title:"台泥水泥 2019 年度助磨劑招標公告"},
+                    //{datadate:"2019-03-21", status:"OS", statusName:"標書發售中", categoryName:"物料類", code:"wzgs20170310", title:"物資公司 2019 年 3 月下旬煤炭招標"},
+                    //{datadate:"2019-03-15", status:"T",  statusName:"投標中",    categoryName:"物料類", code:"GYB-20181201", title:"台泥水泥 2019 年度助磨劑招標公告"},
+                    //{datadate:"2019-03-13", status:"T",  statusName:"投標中",    categoryName:"電儀類", code:"wzgs20170221", title:"物資公司 3 月上旬煤炭招標"},
+                    //{datadate:"2019-03-08", status:"V",  statusName:"評標中",    categoryName:"物料類", code:"GYB-20181201", title:"台泥水泥 2019 年度助磨劑招標公告"},
+                    //{datadate:"2019-03-07", status:"V",  statusName:"評標中",    categoryName:"物料類", code:"wzgs20170310", title:"物資公司 2019 年 3 月下旬煤炭招標"},
+                    //{datadate:"2019-03-01", status:"E",  statusName:"已決標",    categoryName:"物料類", code:"GYB-20181201", title:"台泥水泥 2019 年度助磨劑招標公告"},
+                    //{datadate:"2019-02-27", status:"E",  statusName:"已決標",    categoryName:"電儀類", code:"wzgs20170221", title:"物資公司 3 月上旬煤炭招標"}
+                ]
+            },
+            methods:{
+                getDate: function(date){
+                    return (date == "" || date == null) ? "-" : date.substr(0, 10);
+                },
+                chkStatusColor: function(status){
+                    var statusColor = "";
+                    switch(status){
+                        case "NS":
+                            statusColor = "statusRed";                             
+                            break;
+                        case "OS":
+                            statusColor = "statusOrange";                             
+                            break;
+                        case "T":
+                            statusColor = "statusGreen";                             
+                            break;
+                        case "V":
+                            statusColor = "statusBlue";
+                            break;
+                        case "E":
+                            statusColor = "statusGray";
+                            break;
+                    }
+                    return statusColor;
+                }
+            },
+            mounted: function(){
+                var formData = {type:"", status:"", areaId:""};
+                this.projType   = GetUrlString("type");
+                this.projStatus = GetUrlString("status");
+                this.projAreaId = GetUrlString("areaid");                    
+
+                if(this.projType == "STATUS"){
+                    formData.type = this.projType;
+                    formData.status = this.projStatus;
+                }else if(this.projType == "AREA"){
+                    formData.type = this.projType;
+                    formData.areaId = this.projAreaId;                
+                }            
+
+                restUrl = REST_URL + "services/tender/list";
+                ajaxPostData(restUrl, formData);
+            }
+        });
+
+        function fetchData(repsonse){
+            vm.projList = repsonse.list;
+            vm.projCate = (vm.projStatus == "T") ? "投標公告" : (vm.projStatus == "E") ? "決標公告" : repsonse.list[0].areaName;
+            document.querySelector(".ajaxLoading").style.display = "none";
+            document.querySelector("#projList").style.display = "block";
+        }
+	</script>
+</body>
+</html>

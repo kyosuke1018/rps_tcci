@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <!-- 編輯區塊 -->
+    <h:form id="contentEditForm" prependId="false" enctype="multipart/form-data">
+        <h:panelGroup id="pgEditDetail" >
+            <p:fieldset legend="編輯招標案件" rendered="#{tenderMgnController.showDetail}" toggleable="true" >
+<!--                <p:panelGrid columns="5" >
+                    <h:panelGroup>
+                        <p:outputLabel value="網站語系：" styleClass="fieldname" />
+                        <p:selectOneMenu value="#{tenderMgnController.editVO.lang}" >
+                            <f:selectItems value="#{ui.langWebSiteOptions}" ></f:selectItems>
+                        </p:selectOneMenu>
+                    </h:panelGroup>
+                </p:panelGrid>-->
+                <p:panelGrid columns="2" >
+                    <p:outputLabel value="標題：" styleClass="fieldname required" />
+                    <p:inputText id="itTitle" size="100" 
+                                 value="#{tenderMgnController.editVO.title}" />
+                        
+<!--                    <p:outputLabel value="招標公告：" styleClass="fieldname" />
+                    <p:inputTextarea id="itSummary" cols="100" rows="3" 
+                                     value="#{tenderMgnController.editVO.summary}" />-->
+                    
+                    <!-- 固定網頁只有系統管理人員可新增與變更編號 -->
+                    <p:outputLabel value="編號：" styleClass="fieldname" />
+                    <h:panelGroup>
+                        <p:inputText size="15"
+                                     styleClass="#{tenderMgnController.canAddDoc()?'':'readonly'}"
+                                     readonly="#{!tenderMgnController.canAddDoc()}" 
+                                     value="#{tenderMgnController.editVO.code}" />
+                        <p:spacer width="5" height="5" />
+                        <p:outputLabel value="廠別：" styleClass="fieldname required"/>
+                        <p:selectOneMenu value="#{tenderMgnController.editVO.factoryId}" 
+                                         onchange="rcSelectFactory();">
+                            <f:selectItem itemLabel="==" noSelectionOption="true" />
+                            <f:selectItems value="#{tenderMgnController.factoryOptions}" ></f:selectItems>
+                        </p:selectOneMenu>
+                        <p:remoteCommand name="rcSelectFactory" actionListener="#{tenderMgnController.selectFactory()}" 
+                                         update="somArea" />
+                        <p:spacer width="5" height="5" />
+                        <p:outputLabel value="地區：" styleClass="fieldname required"/>
+                        <p:selectOneMenu id="somArea" value="#{tenderMgnController.editVO.areaId}" disabled="true">
+                            <f:selectItem itemLabel="==" noSelectionOption="true" />
+                            <f:selectItems value="#{tenderMgnController.areaOptions}" ></f:selectItems>
+                        </p:selectOneMenu>
+                        
+                    </h:panelGroup>
+                    
+                    <p:outputLabel value="分類：" styleClass="fieldname required"/>
+                    <h:panelGroup>
+                        <p:selectOneMenu value="#{tenderMgnController.editVO.categoryId}" >
+                            <f:selectItem itemLabel="==" noSelectionOption="true" />
+                            <f:selectItems value="#{tenderMgnController.categoryOptions}" ></f:selectItems>
+                        </p:selectOneMenu>
+                        
+                        <p:spacer width="5" height="5" />
+                        <p:outputLabel value="招標方式：" styleClass="fieldname required"/>
+                        <p:selectOneMenu value="#{tenderMgnController.editVO.type}" >
+                            <f:selectItem itemLabel="==" noSelectionOption="true" />
+                            <f:selectItems value="#{tenderMgnController.typeOptions}" ></f:selectItems>
+                        </p:selectOneMenu>
+                    </h:panelGroup>
+                    
+                    <p:outputLabel value="發佈日期：" styleClass="fieldname required" />
+                    <h:panelGroup>
+                        <p:calendar  showOn="button" size="19" maxlength="19" readonlyInput="false" navigator="true"
+                                     value="#{tenderMgnController.editVO.datadate}" 
+                                     converterMessage="日期格式錯誤(yyyy/MM/dd HH:mm:ss)" 
+                                     pattern="yyyy/MM/dd HH:mm:ss" />
+                    </h:panelGroup>
+                            
+                    
+                    <p:outputLabel value="標書發售日期：" styleClass="fieldname" />
+                    <h:panelGroup>
+                        <p:calendar  showOn="button" size="19" maxlength="19" readonlyInput="false" navigator="true"
+                                     value="#{tenderMgnController.editVO.ssaleDate}" 
+                                     converterMessage="日期格式錯誤(yyyy/MM/dd HH:mm:ss)" 
+                                     pattern="yyyy/MM/dd HH:mm:ss" />
+                        <p:outputLabel value=" ~ "/>
+                        <p:calendar  showOn="button" size="19" maxlength="19" readonlyInput="false" navigator="true"
+                                     value="#{tenderMgnController.editVO.esaleDate}" 
+                                     converterMessage="日期格式錯誤(yyyy/MM/dd HH:mm:ss)" 
+                                     pattern="yyyy/MM/dd HH:mm:ss" />
+                    </h:panelGroup>
+                    <p:outputLabel value="招標日期：" styleClass="fieldname required" />
+                    <h:panelGroup>
+                        <p:calendar  showOn="button" size="19" maxlength="19" readonlyInput="false" navigator="true"
+                                     value="#{tenderMgnController.editVO.stenderDate}" 
+                                     converterMessage="日期格式錯誤(yyyy/MM/dd HH:mm:ss)" 
+                                     pattern="yyyy/MM/dd HH:mm:ss" />
+                        <p:outputLabel value=" ~ "/>
+                        <p:calendar  showOn="button" size="19" maxlength="19" readonlyInput="false" navigator="true"
+                                     value="#{tenderMgnController.editVO.etenderDate}" 
+                                     converterMessage="日期格式錯誤(yyyy/MM/dd HH:mm:ss)" 
+                                     pattern="yyyy/MM/dd HH:mm:ss" />
+                    </h:panelGroup>
+                    
+                    <p:outputLabel value="評標日期：" styleClass="fieldname" />
+                    <h:panelGroup id="pgStatus" >
+                        <p:calendar  showOn="button" size="19" maxlength="19" readonlyInput="false" navigator="true"
+                                     value="#{tenderMgnController.editVO.verifyDate}" 
+                                     converterMessage="日期格式錯誤(yyyy/MM/dd HH:mm:ss)" 
+                                     pattern="yyyy/MM/dd HH:mm:ss" />
+                        
+                        <p:spacer width="5" height="5" />
+                        <p:outputLabel value="決標日期：" styleClass="fieldname" />
+                        <p:calendar  showOn="button" size="19" maxlength="19" readonlyInput="false" navigator="true"
+                                     value="#{tenderMgnController.editVO.closeDate}" 
+                                     converterMessage="日期格式錯誤(yyyy/MM/dd HH:mm:ss)" 
+                                     pattern="yyyy/MM/dd HH:mm:ss" />
+                                         
+                        <p:spacer width="5" height="5" />
+                        <p:outputLabel value="狀態：" styleClass="fieldname required" />
+                        <p:outputLabel value="#{tenderMgnController.editVO.statusName}" styleClass="fieldname" />
+                    </h:panelGroup>
+                    
+                    <p:outputLabel value="標書金額：" styleClass="fieldname" />
+                    <h:panelGroup>
+                        <p:inputText size="10" value="#{tenderMgnController.editVO.amount}" 
+                                     style="text-align: right;width:80px;" 
+                                     onfocus="if (this.value == '0') {this.value=''}"
+                                     onblur="if(this.value == '') { this.value='0'}">
+                            <f:convertNumber pattern="#,###.##"/>
+                        </p:inputText>
+                        <p:outputLabel value="保證金：" styleClass="fieldname" />
+                        <p:inputText  value="#{tenderMgnController.editVO.insuranceAmount}" 
+                                     style="text-align: right;width:80px;" 
+                                     onfocus="if (this.value == '0') {this.value=''}"
+                                     onblur="if(this.value == '') { this.value='0'}">
+                            <f:convertNumber pattern="#,###.##"/>
+                        </p:inputText>
+                        
+                        <h:panelGroup>
+                            <p:spacer width="10" height="5" />
+                            <p:commandButton id="cbContentEditSave2" value="儲存" 
+                                             onstart="return preSave();"
+                                             rendered="#{!tenderMgnController.readOnly}" 
+                                             actionListener="#{tenderMgnController.saveDoc()}" 
+                                             update=":contentEditForm:pgEditDetail :contentEditForm:pgEditDetailBtn" 
+                                             oncomplete="afterCallBackHandler(xhr, status, args);" 
+                                             icon="ui-icon-disk" ></p:commandButton>
+                            <!-- update all form -->
+                            <p:spacer width="5" />
+                            <p:commandButton id="cbContentEditClose2" value="關閉(回查詢頁)"
+                                             actionListener="#{tenderMgnController.closeDocDetail()}" 
+                                             update=":fmMain :contentEditForm:pgEditDetail :contentEditForm:pgEditDetailBtn" 
+                                             oncomplete="hideDocDetailArea(xhr, status, args);"
+                                             onclick="return confirmClose();"
+                                             icon="ui-icon-circle-close" ></p:commandButton>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </p:panelGrid>
+            </p:fieldset>
+            
+            <!-- 依文件類型區分的編輯區 -->
+            <h:panelGroup id="pgEditDetailByType" >
+                <!-- 上傳檔案 -->
+                <p:panel id="plUploadFiles" rendered="#{tenderMgnController.showDetail}" >
+                    <p:outputLabel value="上傳文件檔案：" styleClass="fieldname required" />
+                    <p:spacer width="10" height="5" />
+                    <p:outputLabel value="(一次最多選取10個檔案，每個檔案不可超過10MB。)" styleClass="info" />
+                    <br/>
+                        
+                    <h:panelGroup styleClass="pgdFile" rendered="#{!tenderMgnController.readOnly}" >
+                        <div style="max-height:300px; max-width: 600px; overflow-y: auto;" >
+                            <p:fileUpload fileUploadListener="#{fileController.handleFileUpload}" 
+                                          update="plUploadFiles" 
+                                          multiple="true" fileLimit="10" 
+                                          allowTypes="/(\.|\/)(pdf|doc|docx|ppt|pptx|xls|xlsx)$/"
+                                          fileLimitMessage="一次最多上傳10個檔案"
+                                          invalidFileMessage="不支援的檔案格式"
+                                          invalidSizeMessage="檔案大小超過限制"
+                                          label="選取檔案" cancelLabel="取消" uploadLabel="上傳檔案" />
+                        </div>
+                        <p:outputLabel rendered="#{!empty fileController.files}"
+                                       value="已上傳#{fileController.files.size()}個檔案，請記得確認[儲存]。" styleClass="info" />               
+                    </h:panelGroup>
+                    <p:panelGrid columns="2" rendered="#{!empty tenderMgnController.editVO.docs}" >
+                        <p:outputLabel value="已儲存檔案：" styleClass="fieldname" />
+                        <h:panelGroup id="pgUploadFiles" >
+                            <ui:repeat var="doc" value="#{tenderMgnController.editVO.docs}" varStatus="status">
+                                <p:outputLabel value="#{doc.fileName}" />
+                                <h:commandLink title="下載" actionListener="#{fileController.fetchDocFile(doc)}" >
+                                    <h:graphicImage library="images" name="download.png" styleClass="icons" />
+                                    <p:fileDownload value="#{fileController.downloadFile}" />
+                                </h:commandLink>
+                                <p:spacer width="2" height="5"/>
+                                <p:commandLink title="刪除" 
+                                               actionListener="#{tenderMgnController.deleteFile(doc)}"
+                                               update=":contentEditForm:plUploadFiles"
+                                               onclick="if( !confirm('您確定要刪除嗎?') ){ return false; }" 
+                                               oncomplete="afterCallBackHandler(xhr, status, args);"
+                                               rendered="#{(!tenderMgnController.readOnly) and (!empty doc.applicationdata)}" >
+                                    <h:graphicImage library="images" name="delete.png" styleClass="icons" />
+                                </p:commandLink>
+                                <p:spacer width="10" height="5"/>
+                            </ui:repeat>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                </p:panel>
+            </h:panelGroup>
+            
+            <h:panelGroup id="pgPfEditor" rendered="#{tenderMgnController.showDetail}" >
+                <p:outputLabel value="招標公告：" styleClass="fieldname" />
+                <p:editor id="editor" widgetVar="editorWidget" value="#{tenderMgnController.editVO.contents}" width="600" />
+                
+                <h:panelGrid columns="2" style="margin-top: 10px">
+                    <p:commandButton value="預覽" update="display" oncomplete="PF('dlg').show()" icon="pi pi-save" />
+                    <p:commandButton value="#{msg['common.button.clear']}" type="button" onclick="PF('editorWidget').clear();" icon="pi pi-times" />
+                </h:panelGrid>
+                
+                <p:dialog header="Content" widgetVar="dlg" showEffect="fade" hideEffect="fade">
+                    <h:outputText id="display" value="#{tenderMgnController.editVO.contents}" escape="false" />
+                </p:dialog> 
+            </h:panelGroup>
+        </h:panelGroup>
+        <!-- TinyMCE 部分不可用 rendered，需用JS控制 -->
+        <h:panelGroup id="pgEditTinyMCE" >
+            <!-- 自製網頁 -->
+        </h:panelGroup>
+            
+        <h:panelGroup id="pgEditDetailBtn" >
+            <!-- BEGIN: 隱藏欄位 for TinyMCE -->
+            <textArea id="hiddenContents" style="display: none" rows="5" cols="60" ><h:outputText value="#{tenderMgnController.editVO.contents}" /></textArea>
+            <input id="hiddenEditId" type="text" style="display: none;" value="#{tenderMgnController.editVO.id}" />
+            <!-- BEGIN: 隱藏欄位 for TinyMCE -->
+            <p:panelGrid columns="1" styleClass="pgDlgActionBtns" >
+                <h:panelGroup id="pgContentEditSubmit"
+                              rendered="#{tenderMgnController.showDetail}" >
+                    <p:commandButton id="cbContentEditSave" value="儲存" 
+                                     rendered="#{!tenderMgnController.readOnly}" 
+                                     onstart="return preSave();"
+                                     actionListener="#{tenderMgnController.saveDoc()}" 
+                                     update=":contentEditForm:pgEditDetail :contentEditForm:pgEditDetailBtn" 
+                                     oncomplete="afterCallBackHandler(xhr, status, args);" 
+                                     icon="ui-icon-disk" ></p:commandButton>
+                    <!-- update all form -->
+                    <p:spacer width="5" />
+                    <p:commandButton id="cbContentEditClose" value="關閉(回查詢頁)" immediate="true" 
+                                     actionListener="#{tenderMgnController.closeDocDetail()}" 
+                                     update=":fmMain :contentEditForm:pgEditDetail :contentEditForm:pgEditDetailBtn" 
+                                     oncomplete="hideDocDetailArea(xhr, status, args);"
+                                     onclick="hideTinyMCE();" 
+                                     icon="ui-icon-circle-close" ></p:commandButton>
+                </h:panelGroup>
+            </p:panelGrid>   
+        </h:panelGroup>
+    </h:form>
+        
+    <script src="#{request.contextPath}/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        // TinyMCE custom dialog page url
+        
+        // 切換至編輯模式
+//        function showDocDetailArea(xhr, status, args, isRichContent){
+        function showDocDetailArea(xhr, status, args){
+            if( afterCallBackHandler(xhr, status, args) ){
+//                if( isRichContent ){
+                    showTinyMCE();// TinyMCE 部分不可用 rendered，需用JS控制 
+//                    tinyMCE.get('mytextarea').setContent($('#hiddenContents').val());// 設定TinyMCE Content值
+//                }
+            }
+        }
+        
+        // 切換至查詢模式
+        function hideDocDetailArea(xhr, status, args){
+            if( afterCallBackHandler(xhr, status, args) ){
+                // *** oncomplete 之後執行無作用，於 onclick 先執行 ***
+                // hideTinyMCE();// TinyMCE 部分不可用 rendered，需用JS控制 
+            }
+            doResize('dtResult');
+        }
+        // 顯示 RichContent 編輯區塊
+        function showTinyMCE(){
+            $('#wrapper').show();
+        }
+        // 隱藏 RichContent 編輯區塊
+        function hideTinyMCE(){
+            $('#wrapper').hide();
+        }
+        // TinyMCE 初始後動作
+        function afterTinyMCE(){
+            // 避免JS執行過慢造成畫面殘留，原wrapper先用CSS影藏；TinyMCE 初始後須恢復正常。
+            $('#wrapper').css("height", "auto");
+            $('#wrapper').css("overflow-y", "auto");
+        }
+        
+        // 警示 TinyMCE Content 將被清除
+//        function checkContent(){
+//            var html = tinyMCE.get('mytextarea').getContent();
+//            var s = html.indexOf("<body>");
+//            var e = html.indexOf("</body>");
+//            html = html.substring(s+6, e-1).trim();
+//            if( html !== '' ){// TinyMCE 編輯區非空白
+//                if( !confirm('此動作將清除[自製網頁]輸入內容!\n確定要執行嗎?') ){
+//                    return false;
+//                }else{
+//                    tinyMCE.get('mytextarea').setContent('');
+//                }
+//            }
+//            return true;
+//        }
+        
+        // 儲存前將 TinyMCE 編輯內容，指定給JSF元件傳值
+        function preSave(){
+            //$('#mytextarea').val(tinyMCE.get('mytextarea').getContent());
+            // 過濾已知的[看不見的特殊控制字元 // 0x0C
+//            var content = tinyMCE.get('mytextarea').getContent();
+//            var ctrl0 = String.fromCharCode(0xc);
+//            var myRegExp = new RegExp(ctrl0, 'g');
+            //alert(content.length);
+//            content = content.replace(myRegExp, ""); 
+            //alert(content.length);
+//            $('#mytextarea').val(content);
+            return true;
+        }
+        
+        
+        // 確定關閉(回查詢頁)
+        function confirmClose(){
+            if( confirm('您確定要離開文章編輯畫面嗎?\n(若有要保留的修改，請按[取消]，先[儲存]後再離開。)') ){
+                hideTinyMCE();
+                return true;
+            }
+            return false;
+        }
+        //]]>
+    </script>
+</ui:composition>

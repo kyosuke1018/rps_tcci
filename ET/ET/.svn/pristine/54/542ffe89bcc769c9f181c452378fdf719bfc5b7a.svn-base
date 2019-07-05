@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="台泥陽光採購平台招標案件詳細資訊" />
+    <title>台泥陽光採購平台</title>
+    <link rel="icon" 	   type="image/x-icon"	href="img/logo.ico" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/jquery-ui.css" />
+    <link rel="stylesheet" href="css/style-comm.css" />
+    <link rel="stylesheet" href="css/style-projDetail.css" />
+</head>
+
+<body>
+	<div id="headerField" class="headerField">
+		<div id="header"></div>
+	</div>        
+    
+    <div id="container">
+        <div class="cover">
+            <div class="slogan">招標案件詳細資訊</div>
+        </div>
+        
+        <div class="section">
+            <div class="ajaxLoading"></div>
+            
+            <div id="projDetail">
+                <div class="projTitle">{{detail.title}}</div>
+                <div class="projDate">發佈日期：{{getDate(detail.datadate)}}</div>
+                <table class="baseInfo">
+                    <tr>
+                        <td>• 招標編號：</td>
+                        <td>{{detail.code}}</td>
+                    </tr>
+                    <tr>
+                        <td>• 招標單位：</td>
+                        <td>{{detail.areaName}}</td>
+                    </tr>
+                    <tr>
+                        <td>• 招標類型：</td>
+                        <td>{{detail.categoryName}}</td>
+                    </tr>
+                    <tr>
+                        <td>• 標書費金額：</td>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                        <td>• 投保金金額：</td>
+                        <td>2,000,000</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><div class="status">{{detail.statusName}}</div></td>
+                    </tr>
+                </table>
+
+                <div class="schedule">
+                    <div class="timeLine"></div>
+                    <table border="0">
+                        <tr>
+                            <td><img class="point" src="img/icon_pointOrange.png"/></td>
+                            <td>
+                                <div class="triangel"></div>
+                                <div class="outline">
+                                    <div class="time">標書發售開始時間：</div>
+                                    <div class="cont">{{getDate(detail.ssaleDate)}}</div>
+                                    <br>
+                                    <div class="time">標書發售截止時間：</div>
+                                    <div class="cont">{{getDate(detail.esaleDate)}}</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img class="point" src="img/icon_pointGreen.png"/></td>
+                            <td>
+                                <div class="triangel"></div>
+                                <div class="outline">
+                                    <div class="time">投標起始時間：</div>
+                                    <div class="cont">{{getDate(detail.stenderDate)}}</div>
+                                    <br>
+                                    <div class="time">投標截止時間：</div>
+                                    <div class="cont">{{getDate(detail.etenderDate)}}</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img class="point" src="img/icon_pointBlue.png"/></td>
+                            <td>
+                                <div class="triangel"></div>
+                                <div class="outline">
+                                    <div class="time">評標起始時間：</div>
+                                    <div class="cont">{{getDate(detail.verifyDate)}}</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img class="point" src="img/icon_pointGray.png"/></td>
+                            <td>
+                                <div class="triangel"></div>
+                                <div class="outline">
+                                    <div class="time">招標結果公佈：</div>
+                                    <div class="cont">{{getDate(detail.closeDate)}}</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="clear"></div>
+                    
+
+                <div class="fileList">
+                    <div class="title">標書文件下載</div>
+                    <template v-if = detail.docRsList>
+                        <template v-if = !SESSION>
+                            <br>
+                            <div class="noData">未登入狀態無法下載文件</div>
+                        </template>
+                        <template v-else>
+                            <a class="file" v-for="row in detail.docRsList" :href="row.url" :title="row.fileName">
+                                <div class="fileIcon"><i class="fas fa-file-download"></i></div>
+                                <div class="fileName">{{row.fileName}}</div>
+                            </a>
+                            <div class="chkUpdate">
+                                <select>
+                                    <option v-for="row in venderList" :value="row.venderCode">{{row.cname}}</option>
+                                </select>
+                                <span class="btn" @click="chkUpload()">確認上傳</span>
+                            </div>
+                        </template>             
+                        <div class="clear"></div>
+                    </template>
+                    <template v-else>
+                        <br><br>
+                        <center>無相關文件</center>
+                    </template>
+                </div>
+
+                
+                <div class="description">
+                    <div class="title">招標詳細資訊</div>
+                    <br><br>
+                    <div class="cont" v-html="getSummary(detail.summary)"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+	<div id="footerField">
+		<div id="footer"></div>
+	</div>
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui-accordion.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/content-ajax.js"></script>
+    <script src="js/content.js"></script>
+    <script>
+        $(function(){
+            initHeadFoot();
+        });
+        
+        var vm = new Vue({
+            el: "#projDetail",
+            data: {
+                detail: {
+                    //測試資料
+                    //title: "台泥水泥助磨劑招標公告",
+                    //datadate: "20XX-12-03",
+                    //code: "GYB-20XX1201",
+                    //areaName: "台泥水泥",
+                    //categoryName: "石灰石",
+                    //status: "E",
+                    //statusName: "已決標",
+                    //ssaleDate: "20XX-12-12",
+                    //esaleDate: "20XX-12-18",
+                    //stenderDate: "20XX-12-18",
+                    //etenderDate: "20XX-12-26",
+                    //verifyDate: "20XX-01-01",
+                    //closeDate: "20XX-03-29",
+                    //summary: "Summary"
+                },
+                venderList: {}
+            },
+            methods: {
+                //標案日期文字
+                getDate: function(date){
+                    return (date == "" || date == null) ? "-" : date.substr(0, 10);
+                },
+                //招標詳細資訊
+                getSummary: function(summary){
+                    return (summary == "" || summary == null) ? "<center>無相關資訊</center>" : summary.replace(/\n/g, "<br>");
+                },
+                //確認上傳按鈕
+                chkUpload: function(){
+                    chkUpload();
+                },
+                //判斷發售、招標、評標、決標狀態
+                chkStatus: function(){
+                    var statusColor = "";
+                    var step = "";
+
+                    switch(this.detail.status){
+                        case "NS":
+                            statusColor = "statusRed";
+                            step = 0;
+                            break;                            
+                        case "OS":
+                            statusColor = "statusOrange";
+                            step = 0;
+                            break;
+                        case "T":
+                            statusColor = "statusGreen";
+                            step = 1;
+                            break;
+                        case "V":
+                            statusColor = "statusBlue";
+                            step = 2;
+                            break;
+                        case "E":
+                            statusColor = "statusGray";
+                            step = 3;
+                            break;
+                    }                        
+
+                    document.querySelector(".baseInfo").classList.add(statusColor + "Opacity01");
+                    document.querySelector(".baseInfo .status").classList.add(statusColor);
+                    document.querySelectorAll(".schedule table tr")[step].children[0].classList.add("pointBreath");
+                    document.querySelectorAll(".schedule table tr")[step].children[1].style.opacity = 1;
+                },
+                //調整時間軸虛線長度
+                adjTimeline: function(){
+                    var height  = document.querySelector(".schedule table").clientHeight;
+                    var elem = document.querySelector(".schedule table tr td");
+                    var padding = parseInt(window.getComputedStyle(elem, null).getPropertyValue('padding-top'));
+                    document.querySelector(".schedule .timeLine").style.height = height - (padding*10) + "px";
+                }
+            },
+            mounted: function(){
+                var id = GetUrlString("id");            
+                restUrl = REST_URL + "services/tender/full/" + id;
+                ajaxGetData(restUrl);                
+                
+                if(MEMBER_ID){
+                    restUrl = REST_URL + "services/members/full/" + MEMBER_ID;
+                    ajaxGetVender(restUrl);
+                }
+                
+                var _this = this;
+                window.addEventListener("resize", function(){
+                    _this.adjTimeline();
+                });
+            }
+        });        
+        
+        //ajax data
+        function fetchData(response){
+            vm.detail = response;
+            setTimeout(function(){
+                vm.chkStatus();
+                vm.adjTimeline();
+            }, 10);
+            
+            document.querySelector(".ajaxLoading").style.display = "none";
+            document.querySelector("#projDetail").style.display = "block";
+        }
+        
+        function fetchVenderData(response){
+            console.log(response);
+            vm.venderList = response.venderList;
+        }
+
+        
+        //確認檔案上傳
+        function chkUpload(){
+            var txt = $(".chkUpdate select option:selected").text();
+            var val = $(".chkUpdate select").val();
+            alert("\n確認上傳\n\n" + txt + " - " + val);
+        }
+    </script>
+</body>
+</html>

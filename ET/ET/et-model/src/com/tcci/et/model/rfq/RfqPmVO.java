@@ -17,25 +17,29 @@ import java.util.Date;
 public class RfqPmVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private Long id;
-    private Long tenderId;
-    private Long rfqId;
-    private String mandt;
-    private String ebeln;
-    private long ebelp;
-    private BigInteger extrow;
-    private String ktext1;
-    private BigDecimal menge;
-    private String meins;
-    private BigDecimal tbtwr;
-    private String waers;
-    private BigDecimal netwr;
     
-    private Long creatorId;
-    private Date createtime;
-    private Long modifierId;
-    private Date modifytime;
+    private Long id; // PK ID
+    private Long tenderId; // 標案 ID
+    private Long rfqId; // FK ET_RFQ_EKKO.ID
+    //private Long rfqEbelp; // FK ET_RFQ_EKPO.EBELP
+    private String mandt; // 用戶端
+    private String ebeln; // 採購文件號碼
+    private Long ebelp; // 採購文件的項目號碼
+    private String banfn;// 請購單號碼
+    private Long bnfpo;// 請購單的項目號碼
+    private BigInteger extrow; // 服務行號
+    private String ktext1; // 說明
+    private BigDecimal menge; // 數量
+    private String meins; // 基礎計量單位
+    
+    private BigDecimal tbtwr; // 單價
+    private String waers; // 幣別碼
+    private BigDecimal netwr; // 總價
+    
+    private Long creatorId; // 建立人
+    private Date createtime; // 建立時間
+    private Long modifierId; // 修改人
+    private Date modifytime; // 修改時間
 
     public RfqPmVO() {
     }
@@ -44,7 +48,7 @@ public class RfqPmVO implements Serializable {
         this.id = id;
     }
 
-    public RfqPmVO(Long id, String mandt, String ebeln, long ebelp, BigInteger extrow) {
+    public RfqPmVO(Long id, String mandt, String ebeln, Long ebelp, BigInteger extrow) {
         this.id = id;
         this.mandt = mandt;
         this.ebeln = ebeln;
@@ -58,6 +62,22 @@ public class RfqPmVO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getBanfn() {
+        return banfn;
+    }
+
+    public void setBanfn(String banfn) {
+        this.banfn = banfn;
+    }
+
+    public Long getBnfpo() {
+        return bnfpo;
+    }
+
+    public void setBnfpo(Long bnfpo) {
+        this.bnfpo = bnfpo;
     }
 
     public Long getTenderId() {
@@ -92,11 +112,11 @@ public class RfqPmVO implements Serializable {
         this.ebeln = ebeln;
     }
 
-    public long getEbelp() {
+    public Long getEbelp() {
         return ebelp;
     }
 
-    public void setEbelp(long ebelp) {
+    public void setEbelp(Long ebelp) {
         this.ebelp = ebelp;
     }
 

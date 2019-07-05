@@ -20,7 +20,7 @@ import javax.ejb.Stateless;
  * @author Peter.pan
  */
 @Stateless
-public class PrDwFacade extends AbstractFacadeNE {
+public class PrDwFacade extends AbstractFacadeDW {
     
     /**
      * TC_PR_ZTAB_EXP_EBAN
@@ -147,7 +147,7 @@ public class PrDwFacade extends AbstractFacadeNE {
         
         return this.selectBySql(PrEbanPmVO.class, sql.toString(), params);
     }
-    public List<PrEbanPmVO> findByEbanPmByKey(String mandt, String banfn, Integer bnfpo){
+    public List<PrEbanPmVO> findByEbanPmByKey(String mandt, String banfn, Long bnfpo){
         PrCriteriaVO criteriaVO = new PrCriteriaVO();
         criteriaVO.setMandt(mandt);
         criteriaVO.setBanfn(banfn);

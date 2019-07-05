@@ -1,0 +1,324 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.tcci.et.entity;
+
+import com.tcci.fc.entity.org.TcUser;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author Peter.pan
+ */
+@Entity
+@Table(name = "ET_QUOTATION_PM")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "EtQuotationPm.findAll", query = "SELECT e FROM EtQuotationPm e")
+    , @NamedQuery(name = "EtQuotationPm.findById", query = "SELECT e FROM EtQuotationPm e WHERE e.id = :id")
+    , @NamedQuery(name = "EtQuotationPm.findByTenderId", query = "SELECT e FROM EtQuotationPm e WHERE e.tenderId = :tenderId")
+    , @NamedQuery(name = "EtQuotationPm.findByRfqId", query = "SELECT e FROM EtQuotationPm e WHERE e.rfqId = :rfqId")
+    , @NamedQuery(name = "EtQuotationPm.findByQuoId", query = "SELECT e FROM EtQuotationPm e WHERE e.quoId = :quoId")
+    , @NamedQuery(name = "EtQuotationPm.findByMandt", query = "SELECT e FROM EtQuotationPm e WHERE e.mandt = :mandt")
+    , @NamedQuery(name = "EtQuotationPm.findByEbeln", query = "SELECT e FROM EtQuotationPm e WHERE e.ebeln = :ebeln")
+    , @NamedQuery(name = "EtQuotationPm.findByEbelp", query = "SELECT e FROM EtQuotationPm e WHERE e.ebelp = :ebelp")
+    , @NamedQuery(name = "EtQuotationPm.findByBanfn", query = "SELECT e FROM EtQuotationPm e WHERE e.banfn = :banfn")
+    , @NamedQuery(name = "EtQuotationPm.findByBnfpo", query = "SELECT e FROM EtQuotationPm e WHERE e.bnfpo = :bnfpo")})
+public class EtQuotationPm implements Serializable {
+
+    private static final Long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ID")
+    @SequenceGenerator(name = "SEQ_QUOTATION_PM", sequenceName = "SEQ_QUOTATION_PM", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_QUOTATION_PM")        
+    private Long id;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "TENDER_ID")
+    private Long tenderId;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "RFQ_ID")
+    private Long rfqId;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "QUO_ID")
+    private Long quoId;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 6)
+    @Column(name = "MANDT")
+    private String mandt;
+    @Size(max = 20)
+    @Column(name = "EBELN")
+    private String ebeln;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "EBELP")
+    private Long ebelp;
+    @Size(max = 20)
+    @Column(name = "BANFN")
+    private String banfn;
+    @Column(name = "BNFPO")
+    private Long bnfpo;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "EXTROW")
+    private BigInteger extrow;
+    @Size(max = 120)
+    @Column(name = "KTEXT1")
+    private String ktext1;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "MENGE")
+    private BigDecimal menge;
+    @Size(max = 6)
+    @Column(name = "MEINS")
+    private String meins;
+    @Column(name = "TBTWR")
+    private BigDecimal tbtwr;
+    @Size(max = 10)
+    @Column(name = "WAERS")
+    private String waers;
+    @Column(name = "NETWR")
+    private BigDecimal netwr;
+    
+    @JoinColumn(name = "CREATOR", referencedColumnName = "ID")
+    @ManyToOne
+    private TcUser creator;
+    @Column(name = "CREATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createtime;
+    @JoinColumn(name = "MODIFIER", referencedColumnName = "ID")
+    @ManyToOne
+    private TcUser modifier;
+    @Column(name = "MODIFYTIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date modifytime;
+
+    public EtQuotationPm() {
+    }
+
+    public EtQuotationPm(Long id) {
+        this.id = id;
+    }
+
+    public EtQuotationPm(Long id, Long tenderId, Long rfqId, Long quoId, String mandt, Long ebelp, BigInteger extrow) {
+        this.id = id;
+        this.tenderId = tenderId;
+        this.rfqId = rfqId;
+        this.quoId = quoId;
+        this.mandt = mandt;
+        this.ebelp = ebelp;
+        this.extrow = extrow;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getTenderId() {
+        return tenderId;
+    }
+
+    public void setTenderId(Long tenderId) {
+        this.tenderId = tenderId;
+    }
+
+    public Long getRfqId() {
+        return rfqId;
+    }
+
+    public void setRfqId(Long rfqId) {
+        this.rfqId = rfqId;
+    }
+
+    public Long getQuoId() {
+        return quoId;
+    }
+
+    public void setQuoId(Long quoId) {
+        this.quoId = quoId;
+    }
+
+    public String getMandt() {
+        return mandt;
+    }
+
+    public void setMandt(String mandt) {
+        this.mandt = mandt;
+    }
+
+    public String getEbeln() {
+        return ebeln;
+    }
+
+    public void setEbeln(String ebeln) {
+        this.ebeln = ebeln;
+    }
+
+    public Long getEbelp() {
+        return ebelp;
+    }
+
+    public void setEbelp(Long ebelp) {
+        this.ebelp = ebelp;
+    }
+
+    public String getBanfn() {
+        return banfn;
+    }
+
+    public void setBanfn(String banfn) {
+        this.banfn = banfn;
+    }
+
+    public Long getBnfpo() {
+        return bnfpo;
+    }
+
+    public void setBnfpo(Long bnfpo) {
+        this.bnfpo = bnfpo;
+    }
+
+    public BigInteger getExtrow() {
+        return extrow;
+    }
+
+    public void setExtrow(BigInteger extrow) {
+        this.extrow = extrow;
+    }
+
+    public String getKtext1() {
+        return ktext1;
+    }
+
+    public void setKtext1(String ktext1) {
+        this.ktext1 = ktext1;
+    }
+
+    public BigDecimal getMenge() {
+        return menge;
+    }
+
+    public void setMenge(BigDecimal menge) {
+        this.menge = menge;
+    }
+
+    public String getMeins() {
+        return meins;
+    }
+
+    public void setMeins(String meins) {
+        this.meins = meins;
+    }
+
+    public BigDecimal getTbtwr() {
+        return tbtwr;
+    }
+
+    public void setTbtwr(BigDecimal tbtwr) {
+        this.tbtwr = tbtwr;
+    }
+
+    public String getWaers() {
+        return waers;
+    }
+
+    public void setWaers(String waers) {
+        this.waers = waers;
+    }
+
+    public BigDecimal getNetwr() {
+        return netwr;
+    }
+
+    public void setNetwr(BigDecimal netwr) {
+        this.netwr = netwr;
+    }
+
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    public Date getModifytime() {
+        return modifytime;
+    }
+
+    public void setModifytime(Date modifytime) {
+        this.modifytime = modifytime;
+    }
+
+    public TcUser getCreator() {
+        return creator;
+    }
+
+    public void setCreator(TcUser creator) {
+        this.creator = creator;
+    }
+
+    public TcUser getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(TcUser modifier) {
+        this.modifier = modifier;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof EtQuotationPm)) {
+            return false;
+        }
+        EtQuotationPm other = (EtQuotationPm) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.tcci.et.entity.EtQuotationPm[ id=" + id + " ]";
+    }
+    
+}

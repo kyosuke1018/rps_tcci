@@ -26,6 +26,7 @@ import com.tcci.et.enums.ImageSizeEnum;
 import com.tcci.et.enums.LanguageEnum;
 import com.tcci.et.enums.PhotoGalleryEnum;
 import com.tcci.et.enums.PublicationEnum;
+import com.tcci.et.enums.VenderSrcEnum;
 import com.tcci.et.enums.VideoLibraryEnum;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,6 +66,7 @@ public class CommonUIController {
     private List<SelectItem> dataTypeOptions; // 資料型態選單
     private List<SelectItem> criteriaDateTypeOptions; // 資料型態選單
     private List<SelectItem> sysOptions; // 資料別選單
+    private List<SelectItem> VenderSrcOptions;// 供應商來源
     
     private List<SelectItem> langWebSiteOptions; // 網站語系
 
@@ -98,6 +100,9 @@ public class CommonUIController {
         
         // 資料別選單
         sysOptions = buildSysOptions(1);
+        
+        // 供應商來源
+        VenderSrcOptions = buildVenderSrcOptions();
     }
 
     public void refresh(){
@@ -257,6 +262,18 @@ public class CommonUIController {
         return DataTypeEnum.FOLDER.getCode();
     }
     //</editor-fold>
+    
+    /**
+     * 供應商來源選單
+     * @return 
+     */
+    List<SelectItem> buildVenderSrcOptions(){
+        List<SelectItem> options = new ArrayList<SelectItem>();
+        for(VenderSrcEnum item : VenderSrcEnum.values()){
+             options.add(new SelectItem(item.getCode(), item.getDisplayName()));
+        }
+        return options;
+    }
     
     /**
      * 權限階層
@@ -478,6 +495,14 @@ public class CommonUIController {
 
     public void setTcGroupFacade(TcGroupFacade tcGroupFacade) {
         this.tcGroupFacade = tcGroupFacade;
+    }
+
+    public List<SelectItem> getVenderSrcOptions() {
+        return VenderSrcOptions;
+    }
+
+    public void setVenderSrcOptions(List<SelectItem> VenderSrcOptions) {
+        this.VenderSrcOptions = VenderSrcOptions;
     }
 
     public List<SelectItem> getAuthLevelOptions() {

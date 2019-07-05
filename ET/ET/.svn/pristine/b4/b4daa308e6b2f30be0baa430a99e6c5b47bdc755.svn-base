@@ -1,0 +1,633 @@
+*:facus {
+	outline: none;
+}
+
+html, body {
+    min-width: 1200px;
+    height: 100%;
+	margin: 0 auto;
+	padding: 0;
+	font-family: Microsoft JhengHei, Arial;
+	text-align: justify;
+    color: #303030;
+	cursor: default;
+}
+
+a {
+	margin: 0px;
+	padding: 0px;
+	text-decoration: none;
+    color: #008aff;
+	outline: 0;
+}
+
+img {
+	border: 0px;
+}
+
+.clear {
+	height: 0px;
+	margin: 0px;
+	padding: 0px;
+	clear: both;
+}
+
+select {
+    font-family: Microsoft JhengHei, Arial;
+}
+
+select option {
+    padding: 2px 10px;
+}
+
+.ajaxLoading {
+    height: 50px;
+    margin: 20px 0;
+    background: url(../img/loading.svg) center no-repeat;
+    background-size: contain;
+}
+
+/*---------- Header (start) ----------*/
+#headerField {
+	width: 100%;
+/*	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);    */
+    background: rgba(255, 255, 255, 1);
+}
+
+.homeHeaderField {
+    position: absolute;
+    z-index: 9;
+    box-shadow: none !important;
+    background: none !important;
+}
+
+#header {
+	width: 1200px;
+	height: 80px;
+	margin: 0 auto;
+	padding: 0;
+	position: relative;
+    text-align: center;
+}
+
+.headerLogo {
+	position: absolute;
+    z-index: 1;
+}
+
+.headerLogo a .logoBorder {
+    float: left;
+    border: solid 5px rgb(255, 255, 255);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.headerLogo a .logoBorder .logo {
+	height: 70px;
+    padding: 40px 16px;
+	vertical-align: middle;
+    border: dotted 1px #c0c0c0;
+    background: rgb(255, 255, 255);
+}
+
+.headerLogo a .logoMobi {
+    display: none;
+    float: left;
+}
+
+.headerLogo a .logoMobi .logo{
+    height: 35px;
+    padding: 12px 8px;    
+}
+
+.headerLogo a .name {
+	width: 300px;
+    margin: 15px 0 0 10px;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 36px;
+    color: #b00;
+    text-shadow: 0 0 3px #fff, 0 0 5px #fff, 0 0 10px #fff;
+}
+
+.deskMenuField {
+	margin-top: 30px;
+	position: absolute;
+	right: 0;	
+	text-align: center;
+    z-index: 9;
+}
+
+.deskMenuField .user .menu {
+    margin: 5px 10px 0;
+    display: inline-block;
+    font-weight: bold;
+    color: #b00;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.deskMenuField .user .menu:hover {
+    transform: scale(1.2);
+}
+
+.deskMenuField .user .dropMenu {
+    width: 200px;
+    display: inline-block;
+}
+
+.deskMenuField .user .dropMenu .acct {
+    overflow: hidden;
+    white-space : nowrap;
+    text-overflow : ellipsis;
+    text-shadow: 0 0 0 #303030;
+}
+
+.deskMenuField .user .dropMenu i {
+    color: #808080;
+}
+
+.deskMenuField .user .dropMenu ul {
+    width: 100%;
+    margin: 5px 0 0;
+    padding: 10px 0;
+    display: none;
+    border-top: solid 3px #b00000;
+    list-style: none;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+.deskMenuField .user .dropMenu:hover ul {
+    display: block;
+}
+
+.deskMenuField .user .dropMenu ul li {
+    margin: 0;
+    padding: 10px 0;
+    list-style: none;
+    font-weight: normal;
+    color: #555;
+    transition: transform 0.3s;
+}
+
+.deskMenuField .user .dropMenu ul li:hover {
+    transform: scale(1.2);
+}
+
+.deskMenuField .divide {
+    color: rgba(128, 128, 128, 0.25);
+}
+
+.deskMenuField ul {	
+	margin: 0;
+    padding: 0;
+	float: left;
+	list-style-type: none;
+}
+
+.deskMenuField ul li {
+	text-align: center;
+}
+
+.deskMenuField ul li span {
+	padding: 10px;
+	display: block;    
+    color: #303030;
+}
+
+.deskMenuField ul li ul {
+    width: 100%;
+	height: 0;
+	margin: -5px auto 0;
+	padding: 1px 0 0;
+	clear: both;
+	visibility: hidden;
+    border: solid 1px #c0c0c0\0;
+	border-top: #b00000 3px solid;	
+	border-radius: 1px;
+	box-shadow: 0px 0px 10px #c0c0c0;
+	background: rgba(255,255,255,0.95);
+    background: #ffffff \9\0;
+}
+
+.deskMenuField ul li ul a li {
+    padding: 10px 25px;
+    visibility: inherit;
+	font-size: 15px;
+    color: #505050;
+}
+
+.deskMenuField ul li ul a:hover li {
+	color: #fff;	
+	background: #808080;
+}
+
+.deskMenuField ul li:hover ul {
+	height: auto;
+	visibility: visible;    
+}
+
+.phoneMenuField {
+	width: 100%;
+	display: none;
+}
+
+.phoneMenuField .hamburger {
+    width: 30px;
+    height: 30px;    
+    display: inline-block;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    z-index: 9;
+    color: #b00000;
+}
+
+.phoneMenuField .hamburger .hamburOpen {
+    margin: 0 0 0 -14px;
+    padding: 0;
+    position: absolute;
+    font-size: 32px;
+    transform-origin: center;
+}
+
+.phoneMenuField .hamburger .hamburClose {
+    margin: -2px 0 0 -14px;
+    padding: 0;
+    position: absolute;
+    font-size: 36px;
+    opacity: 0;
+    transform-origin: center;
+}
+
+.phoneMenuField .hamburger .hamburOpenAni {
+    animation: hamburOpen 0.3s ease-in-out 0.0s 1 alternate forwards;
+}
+
+.phoneMenuField .hamburger .hamburCloseAni {
+    animation: hamburClose 0.3s ease-in-out 0.0s 1 alternate forwards;
+}
+
+@keyframes hamburOpen {    
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
+@keyframes hamburClose {    
+    0% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.phoneMenuField #phoneMenu {
+	width: 100%;
+	margin: 60px 0 0;
+    box-sizing: border-box;
+    display: none;
+	position: absolute;
+    left: 0;    
+	z-index: 8;
+	background: #f0f0f0;
+}
+
+.phoneMenuField #phoneMenu .acct {
+    width: 90%;
+    margin: 0 5%;
+    padding: 25px 0 20px;
+    border-bottom: dotted 1px #c0c0c0;
+    vertical-align: middle;
+    color: #808080;
+    text-shadow: 0 0 0 #303030;
+}
+
+.phoneMenuField #phoneMenu .acct i {
+    padding: 0 10px 0 0;
+    font-size: 30px;
+    vertical-align: middle;
+}
+
+.phoneMenuField #phoneMenu #phoneAccordionMenu {
+    padding: 15px 0 0;
+}
+
+.phoneMenuField #phoneAccordionMenu h3 {
+    padding: 25px 0;
+    text-align: center;
+}    
+
+.phoneMenuField #phoneAccordionMenu div a div {
+    padding: 15px 0;
+    font-size: 18px;
+    color: #808080;
+}
+
+.phoneMenuField #phoneAccordionMenu .subMenu {        
+    padding: 15px 0 10px;
+    border-bottom: dotted 1px #808080;
+}
+
+.phoneMenuField #phoneAccordionMenu .subMenu .title {
+    padding: 10px 0;
+    font-weight: bold;
+    font-size: 18px;
+    color: #808080;
+}
+
+.phoneMenuField #phoneAccordionMenu .subMenu a {
+    width: 33%;
+    float: left;
+    color: #808080;
+}
+
+.phoneMenuField #phoneAccordionMenu .subMenu a div {
+    padding: 10px 0;
+    font-size: 14px;
+}
+/*---------- Header (end) ----------*/
+
+/*---------- Footer (start) ----------*/
+#footerField {
+	width: 100%;
+    margin: 0;
+	padding: 0;
+    box-sizing: border-box;
+	background: #b0b0b0;
+}
+
+#footer .content {
+	width: 1200px;
+	height: 50px;
+	margin: 0 auto;
+    padding: 17px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#footer .content .copyright {
+    font-size: 14px;
+	color: #303030;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    #footer .content .copyright {
+        transform: scale(0.9);
+    }
+}
+/*---------- Footer (end) ----------*/
+
+/*---------- Container (start) ----------*/
+.height100 {
+    height: 100%;
+}
+
+#container {
+	width: 100%;
+    min-height: 100%;
+    margin: -80px 0 -50px;
+    padding: 80px 0 50px;
+	box-sizing: border-box;
+    position: relative;
+}
+
+.homeContainer {
+    margin: 0 0 -50px !important;
+    padding: 0 0 50px !important;
+}
+
+#container .section {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 10px 0 30px;
+    box-sizing: border-box;
+    color: #505050;
+}
+
+#container .section .contOver {
+	width: 100%;
+	overflow-x: auto;
+    overflow-y: hidden;
+    text-align: center;
+}
+
+#container img {
+    vertical-align: bottom;
+}
+
+#container .img33 {
+	width: 32.8%;
+	box-sizing: border-box;
+	border: solid 1px #aaa;	
+}
+
+#container .img100 {
+	width: 100%;
+	box-sizing: border-box;
+	border: solid 1px #aaa;	
+}
+
+#container .imgWrapR350 {
+	width: 350px;
+	margin: 0 0 10px 30px;
+	float: right;
+}
+
+.containerDivide {
+	height: 1px;
+	margin: 3px 0 1px;	
+	line-height: 1px;
+    background: #c0c0c0;
+}
+
+.containerDivideDot {
+    margin: 40px;
+    border-top: dotted 1px #e0e0e0;
+}
+
+.containerDivideDash {
+	border-top: dashed 1px #c0c0c0;
+}
+
+.goButton {
+	padding: 5px 10px;
+	position: Fixed;
+	right: 10px;	
+	box-shadow: -1px -1px 2px #808080 inset;
+	border: solid 1px #c0c0c0;
+	font-size: 18px;
+	color: #a0a0a0;
+	background: #fff;
+	cursor: pointer;	
+}
+
+.goTop {
+/*	bottom: 42px;*/
+    bottom: -1px;
+	border-top-left-radius: 50px;
+	border-top-right-radius: 50px;
+}
+
+.goBottom {	
+    top: 100%;
+/*	bottom: 6px;*/
+	border-bottom-left-radius: 50px;
+	border-bottom-right-radius: 50px;
+}
+
+.goTop:hover, .goBottom:hover {
+	color: #505050;
+}
+
+.goTop:active, .goBottom:active {
+	box-shadow: 2px 2px 3px #505050 inset;
+}
+/*---------- Container (end) ----------*/
+
+/*---------- Custom Input (start) ----------*/
+.customInput {
+    height: 45px;
+    margin: 15px 0;
+    position: relative;
+}
+
+.customInput .title {
+    position: absolute;
+    font-size: 16px;
+    color: #b00;
+    pointer-events: auto;
+}
+
+.customInput input {
+    width: 100%;
+    margin: 0 auto;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 0;
+    border: none;
+    border-bottom: dotted 1px #808080;
+    font-size: 16px;
+    color: #505050;
+    background: rgba(255, 255, 255, 0);
+    outline: none;
+}
+/*---------- Custom Input (end) ----------*/
+
+/*---------- Status Color (start) ----------*/
+.statusRed {
+    background: #dd0000;
+}
+
+.statusRedOpacity01 {
+    background: rgba(221, 0, 0, 0.1);
+}
+
+.statusOrange {
+    background: #ee8800;
+}
+
+.statusOrangeOpacity01 {
+    background: rgba(238, 136, 0, 0.1);
+}
+
+.statusGreen {
+    background: #00a666;
+}
+
+.statusGreenOpacity01 {
+    background: rgba(0, 166, 102, 0.1);
+}
+
+.statusBlue {
+    background: #0088ff;
+}
+
+.statusBlueOpacity01 {
+    background: rgba(0, 136, 255, 0.1);
+}
+
+.statusGray {
+    background: #808080;
+}
+
+.statusGrayOpacity01 {
+    background: rgba(128, 128, 128, 0.1);
+}
+/*---------- Status Color (end) ----------*/
+
+/*---------- RWD (start) ----------*/
+@media screen and (min-width: 1px) and (max-width: 1200px) {
+	html, body {
+		width: 100%;
+        min-width: 100%;
+	}
+    
+	#header {
+		width: 100%;
+		height: 60px;
+	}
+    
+    .homeHeaderField {
+        background: #fff !important;
+    }
+	
+    .headerLogo a .logoBorder {
+        display: none;
+    }
+    
+    .headerLogo a .logoMobi {
+        display: inline;;
+    }
+
+    .headerLogo a .name {
+        width: auto;
+        margin: 15px 0 0 0;        
+        display: inline-block;
+        font-size: 24px;
+        text-shadow: none;
+    }
+    
+    .deskMenuField {
+        display: none;
+    }
+	
+	.phoneMenuField {
+		display: block;
+	}
+    
+    #footer .content {
+        width: 100%;
+    }
+    
+    .containerDivideDot {
+        margin: 20px 40px;
+        border-top: dotted 1px #c0c0c0;
+    }
+	
+	#container {
+		width: 100%;
+        margin: -60px 0 -50px;
+        padding: 60px 0 50px;
+	}
+    
+    #container .section {
+        width: 100%;
+        padding: 15px;
+    }    
+	
+	.goButton {
+		display: none;		
+	}
+    
+    /*------------------------------*/
+    .customInput .title {
+        font-size: 14px;
+    }
+}
+/*---------- RWD (end) ----------*/

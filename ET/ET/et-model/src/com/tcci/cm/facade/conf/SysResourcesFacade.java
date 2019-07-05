@@ -64,6 +64,10 @@ public class SysResourcesFacade {
         return (list==null)?0:list.size();
     }
     
+    public boolean isId(Long id){
+        return (id!=null && id>0);
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="for JNDI Setting">
     public String getStringProp(String propName, String def){
         String res = def;

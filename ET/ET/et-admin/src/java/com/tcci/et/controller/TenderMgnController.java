@@ -411,16 +411,6 @@ public class TenderMgnController extends SessionAwareController implements Seria
     }
 
     /**
-     * 可否編輯
-     *
-     * @param vo
-     * @return
-     */
-    public boolean canEditDoc(TenderVO vo) {
-        return true;
-    }
-    
-    /**
      * 可否下架
      *
      * @param vo
@@ -794,6 +784,72 @@ public class TenderMgnController extends SessionAwareController implements Seria
         } catch (Exception e) {
             processUnknowException(this.getLoginUser(), "redirectRfq", e, false);
         }
+    }
+    
+    /**
+     * link 邀標
+     *
+     * @param vo
+     */
+    public void redirectInviteVender(TenderVO vo) {
+        logger.debug("redirectInviteVender ...");
+        try {
+            redirect("../rfq/inviteVender.xhtml?tenderId="+vo.getId());
+        } catch (Exception e) {
+            processUnknowException(this.getLoginUser(), "redirectRfq", e, false);
+        }
+    }
+    
+    /**
+     * link 報價查詢
+     *
+     * @param vo
+     */
+    public void redirectQuate(TenderVO vo) {
+        logger.debug("redirectQuate ...");
+        try {
+            redirect("../rfq/quotationMgn.xhtml?tenderId="+vo.getId());
+        } catch (Exception e) {
+            processUnknowException(this.getLoginUser(), "redirectQuate", e, false);
+        }
+    }
+    
+    /**
+     * 可否邀標
+     * @param tenderVO
+     * @return
+     */
+    public boolean canInviteVender(TenderVO tenderVO) {
+        if(tenderVO!=null){
+            if(TenderMethodEnum.OPEN.getCode().equals(tenderVO.getType())){
+                return false;
+            }
+            //可邀標的狀態 待定義
+            if(TenderStatusEnum.VERIFY.getCode().equals(tenderVO.getType())
+                    || TenderStatusEnum.END.getCode().equals(tenderVO.getType())){
+                return false;
+            }
+            
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * 可否編輯
+     *
+     * @param vo
+     * @return
+     */
+    public boolean canEdit(TenderVO vo) {
+        //可編輯的狀態
+        if(TenderStatusEnum.ON_TENDER.getCode().equals(vo.getStatus())
+                || TenderStatusEnum.NOT_SALE.getCode().equals(vo.getStatus())
+                || TenderStatusEnum.ON_SALE.getCode().equals(vo.getStatus())
+                || TenderStatusEnum.DRAFT.getCode().equals(vo.getStatus())){
+            return true;
+        }
+        return false;
     }
     //</editor-fold>
     

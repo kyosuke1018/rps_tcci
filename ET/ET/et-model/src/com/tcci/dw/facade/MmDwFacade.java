@@ -20,11 +20,11 @@ import java.util.Map;
 import javax.ejb.Stateless;
 
 /**
- *
+ * no special entity for datawarehouse
  * @author Peter.pan
  */
 @Stateless
-public class MmDwFacade extends AbstractFacadeNE {
+public class MmDwFacade extends AbstractFacadeDW {
     
     /**
      * TC_ZTAB_EXP_T024 採購群組

@@ -18,6 +18,7 @@ public class VenderVO extends BaseResponseVO implements IOperator, Serializable 
     private static final long serialVersionUID = 1L;
     private Long id;
     private Long mainId;
+    private String loginAccount;
     private String mandt;
     private String venderCode;
     private String cname;
@@ -68,6 +69,14 @@ public class VenderVO extends BaseResponseVO implements IOperator, Serializable 
 
     public void setMainId(Long mainId) {
         this.mainId = mainId;
+    }
+
+    public String getLoginAccount() {
+        return loginAccount;
+    }
+
+    public void setLoginAccount(String loginAccount) {
+        this.loginAccount = loginAccount;
     }
 
     public String getMandt() {

@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml"
+                >
+    <ui:define name="title">
+        <h:outputText value="#{quotationMgnController.funcTitle}" />
+    </ui:define>
+    <ui:define name="head"></ui:define>
+    <ui:define name="content">
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <h:form id="fmMain" prependId="false" >
+            <p:panel header="#{quotationMgnController.funcTitle}" style="overflow-x: scroll;" 
+                     rendered="#{!quotationMgnController.functionDenied}" >
+                <p:panelGrid columns="1" >
+                    <h:panelGroup >
+                        <p:outputLabel value="案件：" styleClass="fieldname" />
+                        <p:autoComplete size="80" value="#{quotationMgnController.selectedTenderTxt}" required="true" requiredMessage="您未選取案件!"
+                                        completeMethod="#{quotationMgnController.autoCompleteTenderOptions}" 
+                                        onkeypress="ajaxStatusShow=false" onblur="ajaxStatusShow=true" 
+                                        dropdown="true" scrollHeight="240" 
+                                        >
+                        </p:autoComplete>
+                        <p:spacer width="5"/>
+                        <p:commandButton id="cbTender" value="確認" 
+                                         actionListener="#{quotationMgnController.conformTender()}"  
+                                         update="pgVender pgRfqVender" 
+                                         icon="ui-icon-circle-check" 
+                                         />
+                    </h:panelGroup>
+                    <h:panelGroup id="pgVender" >
+                        <p:outputLabel value="(已詢價)供應商：" styleClass="fieldname" />
+                        <h:panelGroup >
+                            <p:selectCheckboxMenu label="選取(要再次詢價的)供應商" id="smmCategorys" value="#{quotationMgnController.selectedVenders}" 
+                                                  filter="true" filterMatchMode="contains" panelStyle="width:480px" scrollHeight="400">
+                                <f:selectItems value="#{quotationMgnController.allVenderList}" var="item"   
+                                               itemLabel="#{item.name}(#{item.lifnrUi})" itemValue="#{item.id}" />
+                            </p:selectCheckboxMenu>
+                            
+                            <p:commandButton id="cbVender" value="確認" 
+                                         actionListener="#{quotationMgnController.conformVender()}"  
+                                         update="pgSelected" 
+                                         icon="ui-icon-circle-check" 
+                                         />
+                            <h:panelGroup rendered="#{quotationMgnController.canInviteVender()}">
+                                <p:commandButton id="cbInviteVender" value="邀標(新增要詢價供應商)" 
+                                         actionListener="#{quotationMgnController.redirectInviteVender()}"  
+                                         icon="ui-icon-plus" 
+                                         rendered="true"/>
+                            </h:panelGroup>
+                            
+                        </h:panelGroup>
+                    </h:panelGroup>
+                    <h:panelGroup id="pgSelected" >
+                        <br/>
+                        <p:commandButton id="cbNoticeVender" value="通知供應商(再次詢價)" 
+                                         actionListener="#{quotationMgnController.notice()}"  
+                                         icon="ui-icon-mail-closed" 
+                                         rendered="#{not empty  quotationMgnController.selectedVenders}"/>
+                        <p:dataTable id="dtResult" var="row"  
+                                     value="#{quotationMgnController.selectedVenderList}"
+                                     widgetVar="wvDTResult"
+                                     styleClass="ui-datatable-hor-scroll"
+                                     rows="10"
+                                     paginator="true" 
+                                     reflow="true"
+                                     rowKey="#{row.id}" >
+                            <!-- filter 後變更筆數, 使用 Lazy Loading 不可直接 update 會抓到上次筆數，故用 oncomplete -->
+                            <p:ajax event="filter" oncomplete="doResize(); rcGetRowCountAfterFiltered();" /><!-- 調整寬度 for chrome -->
+                            <p:column headerText="id" sortBy="#{row.id}" width="80" rendered="#{quotationMgnController.isAdmin}">
+                                <h:outputText value="#{row.id}"/>
+                            </p:column>
+                            <p:column headerText="申請單號" sortBy="#{row.applyId}" width="80">
+                                <h:link value="#{row.applyId}"
+                                        target="_blank"
+                                        outcome="/member/formView.xhtml" 
+                                        rendered="#{row.applyId ne null}">
+                                    <f:param name="id" value="#{row.applyId}"/>
+                                </h:link>
+                            </p:column>
+                            <p:column headerText="供應商代碼" sortBy="#{row.lifnrUi}" width="80">
+                                <h:outputText value="*" style="color: red;" rendered="#{row.lifnrUi ne null and row.applyId ne null}"/>
+                                <h:outputText value="#{row.lifnrUi}"/>
+                            </p:column>
+                            <p:column headerText="供應商名稱">
+                                <h:outputText value="#{row.name}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGroup>
+                    
+                    <p:fieldset legend="#{msg['search.result']}">
+                    <!--rendered="#{not empty  quotationMgnController.rfqVenderList}"-->
+                        <h:panelGroup id="pgRfqVender" >
+                            <br/>
+                            <p:dataTable id="dtResult2" var="row"  
+                                         value="#{quotationMgnController.rfqVenderList}"
+                                         widgetVar="wvDTResult2"
+                                         styleClass="ui-datatable-hor-scroll"
+                                         rows="10"
+                                         paginator="true" 
+                                         reflow="true"
+                                         rowKey="#{row.id}" >
+                                <!-- filter 後變更筆數, 使用 Lazy Loading 不可直接 update 會抓到上次筆數，故用 oncomplete -->
+                                <p:ajax event="filter" oncomplete="doResize(); rcGetRowCountAfterFiltered();" /><!-- 調整寬度 for chrome -->
+                                <!-- 操作 -->
+                                <p:column headerText="#{msg['table.action']}" 
+                                          style="text-align: center;" exportable="false"
+                                          width="45">
+                                    <p:tooltip for="mbOptions" value="操作(#{row.id})" />
+                                    <p:menuButton id="mbOptions" value="&nbsp;" >
+                                        <p:menuitem value="報價紀錄"
+                                                    icon="ui-icon-search"/>
+                                    </p:menuButton>
+                                </p:column>
+                                <p:column headerText="id" sortBy="#{row.id}" width="80" rendered="#{quotationMgnController.isAdmin}">
+                                    <h:outputText value="#{row.id}"/>
+                                </p:column>
+                                <p:column headerText="用戶端" sortBy="#{row.mandt}" width="50">
+                                    <h:outputText value="#{row.mandt}"/>
+                                </p:column>
+                                <p:column headerText="供應商代碼" sortBy="#{row.lifnr}" width="80">
+                                    <h:outputText value="#{row.lifnr}"/>
+                                </p:column>
+                                <p:column headerText="報價次數" sortBy="#{row.times}" width="80">
+                                    <h:outputText value="#{row.times}"/>
+                                </p:column>
+                                <p:column headerText="詢價文件號碼" sortBy="#{row.ebeln}" width="80">
+                                    <h:outputText value="#{row.ebeln}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGroup>
+                    </p:fieldset>    
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

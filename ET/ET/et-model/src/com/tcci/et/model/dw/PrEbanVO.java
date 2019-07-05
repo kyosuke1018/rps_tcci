@@ -15,7 +15,7 @@ import java.util.Date;
 public class PrEbanVO {
     private String mandt;// 用戶端
     private String banfn;// 請購單號碼
-    private Integer bnfpo;// 請購單的項目號碼
+    private Long bnfpo;// 請購單的項目號碼
     private String bsart;// 請購文件類型
     private String loekz;// 採購檔的刪除指示碼(請購單)
     private String statu;// 請購處理狀態
@@ -43,7 +43,7 @@ public class PrEbanVO {
     private String knttp;// 科目指派種類
     private String ekorg;// 採購組織
     private String ebeln;// 採購單號碼
-    private Integer ebelp;// 採購單項目號碼
+    private Long ebelp;// 採購單項目號碼
     private String frggr;// 核發群組
     private BigDecimal rlwrt;// 核發時的總值
     private String waers;// 幣別碼
@@ -54,6 +54,23 @@ public class PrEbanVO {
     private BigDecimal quantity;
     
     private String matnrUI;
+    
+    public void setMatnr(String matnr) {
+        this.matnr = matnr;
+        if( matnr!=null ){
+            matnrUI = matnr.startsWith("000000")?matnr.substring(6):matnr;
+        }else{
+            matnrUI = null;
+        }
+    }
+
+    public String getMatnrUI() {
+        return matnrUI;
+    }
+
+    public void setMatnrUI(String matnrUI) {
+        this.matnrUI = matnrUI;
+    }
     
     public String getMandt() {
         return mandt;
@@ -69,14 +86,6 @@ public class PrEbanVO {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
-    }
-
-    public String getMatnrUI() {
-        return matnrUI;
-    }
-
-    public void setMatnrUI(String matnrUI) {
-        this.matnrUI = matnrUI;
     }
 
     public BigDecimal getQuantity() {
@@ -95,11 +104,11 @@ public class PrEbanVO {
         this.banfn = banfn;
     }
 
-    public Integer getBnfpo() {
+    public Long getBnfpo() {
         return bnfpo;
     }
 
-    public void setBnfpo(Integer bnfpo) {
+    public void setBnfpo(Long bnfpo) {
         this.bnfpo = bnfpo;
     }
 
@@ -193,15 +202,6 @@ public class PrEbanVO {
 
     public String getMatnr() {
         return matnr;
-    }
-
-    public void setMatnr(String matnr) {
-        this.matnr = matnr;
-        if( matnr!=null ){
-            matnrUI = matnr.startsWith("000000")?matnr.substring(6):matnr;
-        }else{
-            matnrUI = null;
-        }
     }
 
     public String getWerks() {
@@ -316,11 +316,11 @@ public class PrEbanVO {
         this.ebeln = ebeln;
     }
 
-    public Integer getEbelp() {
+    public Long getEbelp() {
         return ebelp;
     }
 
-    public void setEbelp(Integer ebelp) {
+    public void setEbelp(Long ebelp) {
         this.ebelp = ebelp;
     }
 

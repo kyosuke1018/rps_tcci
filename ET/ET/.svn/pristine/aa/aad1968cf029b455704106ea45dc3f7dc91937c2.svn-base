@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex、nofollow" />
+    <meta name="viewport" content="width=device-width" />
+    <title>台泥陽光採購平台</title>
+    <link rel="icon" 	   type="image/x-icon"	href="img/logo.ico" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/jquery-ui.css" />
+    <link rel="stylesheet" href="css/style-comm.css" />
+    <link rel="stylesheet" href="css/style-userCompanyInfo.css" />
+</head>
+
+<body>
+	<div id="headerField" class="headerField">
+		<div id="header"></div>
+	</div>        
+    
+    <div id="container">
+        <div class="cover"></div>
+        <div class="section">
+            <div class="contentTopSpacing"></div>
+            
+            <h2>公司資料</h2>
+            <div class="memberInfo">
+                <h3>基本資料</h3>
+                <ul class="baseInfo">
+                    <li class="w50">
+                        <div class="title">公司全名：</div>
+                        <div class="data">ＯＯＯＯＯＯＯＯＯＯＯＯ</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">公司統編 / 稅籍編號：</div>
+                        <div class="data">123456789000</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">負責人：</div>
+                        <div class="data">ＯＯＯ</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">公司創立日期：</div>
+                        <div class="data">1234 / 01 / 01</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">國別：</div>
+                        <div class="data">ＯＯＯ</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">訂單幣別：</div>
+                        <div class="data">ＯＯＯ</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">公司資本額：</div>
+                        <div class="data">333333333</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">年營業額：</div>
+                        <div class="data">123456789</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">員工人數：</div>
+                        <div class="data">12345</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">公司登記電話：</div>
+                        <div class="data">9191981918</div>
+                    </li>
+                    <li>
+                        <div class="title">公司登記地址：</div>
+                        <div class="data">台北市中山區中山北路二段 113 號</div>
+                    </li>
+                    <li>
+                        <div class="title">供貨商類別：</div>
+                        <div class="data">OOOOOO、ZZZZZZ、XXXXXXXX</div>
+                    </li>
+                    <li>
+                        <div class="title">供應商行業別 (例：砂石、橡膠、汽車)：</div>
+                        <div class="data">OOOOOO、XXXXXXX、ZZZZZZ、XXXXXXXX</div>
+                    </li>
+                    <li>
+                        <div class="title">主要產品 (例：砂石、橡膠、汽車)：</div>
+                        <div class="data">XXXX、ZZZZZZ、OOOO</div>
+                    </li>
+                    <li>
+                        <div class="title">代理品牌：</div>
+                        <div class="data">XXXXXX、OOOOOO、ZZZZ</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">聯絡人：</div>
+                        <div class="data">ＯＯＯ</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">職稱：</div>
+                        <div class="data">ＯＯＯＯＯＯ</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">聯絡人電話：</div>
+                        <div class="data">123456789000</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">聯絡人手機：</div>
+                        <div class="data">123456789000</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">聯絡傳真：</div>
+                        <div class="data">123456789000</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">聯絡人電子信箱：</div>
+                        <div class="data">TCCservice@taiwancement.com</div>
+                    </li>
+                    <li>
+                        <div class="title">聯絡地址：</div>
+                        <div class="data">浙江省杭州市建國北路 586 號嘉聯華銘座 19 樓</div>
+                    </li>
+                    <div class="clear"></div>
+                </ul>
+                <br>
+                <hr>
+                <h3>匯款銀行帳戶資料</h3>
+                <ul class="baseInfo">
+                    <li class="w50">
+                        <div class="title">銀行名稱 / 分行：</div>
+                        <div class="data">ＯＯＯＯＯＯＯＯＯＯ</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">受款人：</div>
+                        <div class="data">ＯＯＯ</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">銀行代號 (金資代碼)：</div>
+                        <div class="data">1234567890123</div>
+                    </li>
+                    <li class="w50">
+                        <div class="title">銀行帳號：</div>
+                        <div class="data">1234567890123</div>
+                    </li>
+                    <li>
+                        <div class="title">銀行地址：</div>
+                        <div class="data">台北市中山區中山北路二段 113 號</div>
+                    </li>
+                    <div class="clear"></div>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+	<div id="footerField">
+		<div id="footer"></div>
+	</div>
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui-accordion.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/content-ajax.js"></script>
+    <script src="js/content.js"></script>
+    <script>
+        $(function(){            
+            initHeadFoot();
+            
+//            new Vue({
+//                el:".projList",
+//                data: {
+//                    bidListTCC:[
+//                        {dataDateStr:"2019-03-29", status:"未開始", type:"物料類", sn:"GYB-20181201", bidName:"台泥水泥 2019 年度助磨劑招標公告"},
+//                        {dataDateStr:"2019-03-28", status:"未開始", type:"物料類", sn:"wzgs20170310", bidName:"物資公司 2019 年 3 月下旬煤炭招標"},
+//                        {dataDateStr:"2019-03-27", status:"未開始", type:"電儀類", sn:"wzgs20170221", bidName:"物資公司 3 月上旬煤炭招標"},
+//                        {dataDateStr:"2019-02-26", status:"已決標", type:"機械類", sn:"wzgs20170206", bidName:"物資公司 2019 年 2 月份煤炭招標"},
+//                        {dataDateStr:"2019-02-25", status:"已決標", type:"物料類", sn:"wzgs20161126", bidName:"台泥物資公司 12 月份煤炭招標"}
+//                    ]
+//                },
+//                methods:{
+//                    chkStatusTxt: function(status){
+//                        return status;
+//                    }
+//                },
+//                mounted: function(){
+//                    var obj = document.querySelectorAll(".status");
+//                    obj.forEach(function(elem){
+//                        switch(elem.innerText){
+//                            case "未開始":
+//                                statusColor = "statusRed";
+//                                break;
+//                            case "發售中":
+//                                statusColor = "statusOrange";                             
+//                                break;
+//                            case "投標中":
+//                                statusColor = "statusGreen";                             
+//                                break;
+//                            case "評標中":
+//                                statusColor = "statusBlue";
+//                                break;
+//                            case "已決標":
+//                                statusColor = "statusGray";
+//                                break;
+//                        }
+//                        elem.classList.add(statusColor);
+//                    });
+//                }
+//            });
+        });
+	</script>
+</body>
+</html>

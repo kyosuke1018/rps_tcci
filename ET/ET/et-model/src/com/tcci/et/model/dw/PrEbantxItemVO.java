@@ -14,7 +14,7 @@ import java.util.Date;
 public class PrEbantxItemVO {
     private String mandt;// 用戶端
     private String banfn;// 請購單號碼
-    private Integer bnfpo;// 請購單的項目號碼
+    private Long bnfpo;// 請購單的項目號碼
     private String tdid;// 內文 ID
     private Integer lineNo;// 短文
     private String tdtext;// 表格行號
@@ -37,11 +37,11 @@ public class PrEbantxItemVO {
         this.banfn = banfn;
     }
 
-    public Integer getBnfpo() {
+    public Long getBnfpo() {
         return bnfpo;
     }
 
-    public void setBnfpo(Integer bnfpo) {
+    public void setBnfpo(Long bnfpo) {
         this.bnfpo = bnfpo;
     }
 

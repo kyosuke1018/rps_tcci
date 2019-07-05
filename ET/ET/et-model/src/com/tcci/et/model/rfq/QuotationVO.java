@@ -8,6 +8,7 @@ package com.tcci.et.model.rfq;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  *　ET_QUOTATION
@@ -17,36 +18,94 @@ public class QuotationVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
-    private Long tenderId;
-    private Long rfqId;
-    private Long rfqVenderId;
-    private Long times;
-    private Boolean last;
-    private Date expiretime;
-    private Boolean invoice;
-    private String curRfq;
-    private String curQuo;
-    private BigDecimal exRate;
-    private BigDecimal totalAmtRfq;
-    private BigDecimal taxRfq;
-    private BigDecimal netAmtRfq;
-    private BigDecimal totalAmtQuo;
-    private BigDecimal taxQuo;
-    private BigDecimal netAmtQuo;
-    private BigDecimal discount;
-    private String memo;
-
-    private Long creatorId;
-    private Date createtime;
-    private Long modifierId;
-    private Date modifytime;
-
+    private Long id; // PK ID
+    private Long tenderId; // 標案 ID
+    private Long rfqId; // FK ET_RFQ_EKKO.ID
+    private Long rfqVenderId; // FK ET_RFQ_VENDER.ID
+    private Integer times; // 次數
+    private Boolean last; // 最終報價
+    private Date expiretime; // 有效日期
+    private Boolean invoice; // 是否開發票
+    private String curRfq; // 詢價單幣別
+    private String curQuo; // 報價幣別
+    private BigDecimal exRate; // 匯率
+    private BigDecimal totalAmtRfq; // 總金額(詢價單幣別)
+    private BigDecimal taxRfq; // 稅金(詢價單幣別)
+    private BigDecimal netAmtRfq; // 淨總額(詢價單幣別)
+    private BigDecimal totalAmtQuo; // 總金額(報價幣別)
+    private BigDecimal taxQuo; // 稅金(報價幣別)
+    private BigDecimal netAmtQuo; // 淨總額(報價幣別)
+    private BigDecimal discount; // 折扣%
+    private String memo; // 備註
+    private Long creatorId; // 建立人
+    private Date createtime; // 建立時間
+    private Long modifierId; // 修改人
+    private Date modifytime; // 修改時間
+    private String status; // 狀態(T:廠商暫存;C:廠商確認;R:退回報價;D:禁止報價)
+    private Boolean disabled; // 無效
+    
+    private Long memberId; // 報價會員ID
+    private Date quotetime; // 報價時間
+    private BigDecimal taxRate;// 稅率
+    
+    // for UI
+    private Long venderId;// FK: ET_VENDER_ALL.ID
+    private String venderName;
+    private List<QuotationItemVO> itemList;// 報價明細
+    
     public QuotationVO() {
     }
 
     public QuotationVO(Long id) {
         this.id = id;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
+
+    public Date getQuotetime() {
+        return quotetime;
+    }
+
+    public void setQuotetime(Date quotetime) {
+        this.quotetime = quotetime;
+    }
+
+    public BigDecimal getTaxRate() {
+        return taxRate;
+    }
+
+    public void setTaxRate(BigDecimal taxRate) {
+        this.taxRate = taxRate;
+    }
+
+    public Long getVenderId() {
+        return venderId;
+    }
+
+    public void setVenderId(Long venderId) {
+        this.venderId = venderId;
+    }
+
+    public String getVenderName() {
+        return venderName;
+    }
+
+    public void setVenderName(String venderName) {
+        this.venderName = venderName;
+    }
+
+    public List<QuotationItemVO> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(List<QuotationItemVO> itemList) {
+        this.itemList = itemList;
     }
 
     public Long getId() {
@@ -55,6 +114,14 @@ public class QuotationVO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        this.disabled = disabled;
     }
 
     public Long getTenderId() {
@@ -81,12 +148,20 @@ public class QuotationVO implements Serializable {
         this.rfqVenderId = rfqVenderId;
     }
 
-    public Long getTimes() {
+    public Integer getTimes() {
         return times;
     }
 
-    public void setTimes(Long times) {
+    public void setTimes(Integer times) {
         this.times = times;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Boolean getLast() {

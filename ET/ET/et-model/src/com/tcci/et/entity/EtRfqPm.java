@@ -13,11 +13,14 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -47,11 +50,17 @@ public class EtRfqPm implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
+    @SequenceGenerator(name = "SEQ_RFQ_PM", sequenceName = "SEQ_RFQ_PM", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RFQ_PM")        
     private Long id;
     @Column(name = "TENDER_ID")
     private Long tenderId;
     @Column(name = "RFQ_ID")
     private Long rfqId;
+    //@Basic(optional = false)
+    //@NotNull
+    //@Column(name = "RFQ_EBELP")
+    //private Long rfqEbelp;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 6)
@@ -65,7 +74,15 @@ public class EtRfqPm implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "EBELP")
-    private long ebelp;
+    private Long ebelp;
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "BANFN")
+    private String banfn;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "BNFPO")
+    private Long bnfpo;
     @Basic(optional = false)
     @NotNull
     @Column(name = "EXTROW")
@@ -124,6 +141,22 @@ public class EtRfqPm implements Serializable {
         this.id = id;
     }
 
+    public String getBanfn() {
+        return banfn;
+    }
+
+    public void setBanfn(String banfn) {
+        this.banfn = banfn;
+    }
+
+    public Long getBnfpo() {
+        return bnfpo;
+    }
+
+    public void setBnfpo(Long bnfpo) {
+        this.bnfpo = bnfpo;
+    }
+
     public Long getTenderId() {
         return tenderId;
     }
@@ -156,11 +189,11 @@ public class EtRfqPm implements Serializable {
         this.ebeln = ebeln;
     }
 
-    public long getEbelp() {
+    public Long getEbelp() {
         return ebelp;
     }
 
-    public void setEbelp(long ebelp) {
+    public void setEbelp(Long ebelp) {
         this.ebelp = ebelp;
     }
 

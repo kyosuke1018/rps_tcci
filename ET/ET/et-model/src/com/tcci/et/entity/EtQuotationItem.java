@@ -12,11 +12,14 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -45,6 +48,8 @@ public class EtQuotationItem implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
+    @SequenceGenerator(name = "SEQ_QUOTATION_ITEM", sequenceName = "SEQ_QUOTATION_ITEM", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_QUOTATION_ITEM")        
     private Long id;
     @Column(name = "TENDER_ID")
     private Long tenderId;
@@ -74,12 +79,16 @@ public class EtQuotationItem implements Serializable {
     @Column(name = "PEINH")
     private BigDecimal peinh;
     @Column(name = "NETWR")
-    private BigDecimal netwr;
+    private BigDecimal netwr; // X
     @Column(name = "BRTWR")
-    private BigDecimal brtwr;
+    private BigDecimal brtwr; // X
     @Size(max = 1024)
     @Column(name = "MEMO")
     private String memo;
+    // RFQ EKET
+    @Column(name = "EINDT")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date eindt;// 項目交貨日期
     
     @JoinColumn(name = "CREATOR", referencedColumnName = "ID")
     @ManyToOne
@@ -103,6 +112,14 @@ public class EtQuotationItem implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    public Date getEindt() {
+        return eindt;
+    }
+
+    public void setEindt(Date eindt) {
+        this.eindt = eindt;
     }
 
     public void setId(Long id) {

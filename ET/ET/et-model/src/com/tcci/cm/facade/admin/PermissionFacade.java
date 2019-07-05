@@ -239,7 +239,7 @@ public class PermissionFacade extends AbstractFacade<TcUser> {
                             existedList.add(vo.getId());
                             resList.add(vo);
                         }else{
-                            logger.debug("fetchFunctionInfo existed vo.getId() = "+vo.getId());
+                            //logger.debug("fetchFunctionInfo existed vo.getId() = "+vo.getId());
                         }
                     }
                     // 同一功能取出最高授權等級(level值最小)即可

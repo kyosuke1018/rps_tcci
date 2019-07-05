@@ -1,0 +1,477 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml"
+                >
+    <ui:define name="title">
+        <h:outputText value="#{msg['func.name.A24']}" />
+    </ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            $(function () {
+                // for datatable resize in chrome 
+                doResize();
+                $(window).resize(function () {
+                    doResize();
+                });
+            });
+            
+            function confrimSaveAward(){
+                return confirm("確定要儲存決標嗎?");
+            }
+            
+            function confrimCancelAward(){
+                return confirm("確定要取消決標嗎?");
+            }
+            
+            function confrimNotifyAward(){
+                return confirm("確定要發送決標通知嗎?");
+            }
+            
+            function confrimCreatePo(){
+                return confirm("確定要建立SAP採購單嗎?");
+            }
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <h:form id="fmMain" prependId="false" >
+            <p:panel header="#{msg['func.name.A24']}" rendered="#{!tenderAward.functionDenied}" >
+                <!-- BEGIN : 關聯標案資訊　-->
+                <p:fieldset legend="關聯標案資訊" toggleable="false" >
+                    <p:panelGrid columns="4" >
+                        <p:outputLabel value="標案編號：" styleClass="fieldname" />
+                        <h:panelGroup rendered="#{!empty tenderAward.tenderVO.id}" >
+                            <p:outputLabel value="#{tenderAward.tenderVO.code}" />
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{empty tenderAward.tenderVO.id}" >
+                            <p:inputText value="#{tenderAward.tenderVO.code}" size="20" />
+                            <p:spacer width="5" height="5" />
+                            <p:commandButton value="查詢" actionListener="#{tenderAward.onQueryTender()}"
+                                             update=":fmMain" />
+                            <i class="fa fa-arrow-circle-down fa-1x"></i>
+                            <p:outputLabel value="#{tenderAward.queryResultMsg}" />
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <hr/>
+                    <p:panelGrid columns="6" >
+                        <p:outputLabel value="標案名稱：" styleClass="fieldname" />
+                        <p:outputLabel value="#{tenderAward.tenderVO.title}" />
+
+                        <p:outputLabel value="公司/地區：" styleClass="fieldname" />
+                        <h:panelGroup rendered="#{!empty tenderAward.tenderVO}" >
+                            <p:outputLabel value="#{tenderAward.tenderVO.companyName}" />
+                        </h:panelGroup>
+                        <p:outputLabel value="廠別：" styleClass="fieldname" />
+                        <h:panelGroup rendered="#{!empty tenderAward.tenderVO}" >
+                            <p:outputLabel value="#{tenderAward.tenderVO.factoryName}" />
+                        </h:panelGroup>
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="6" >
+                        <p:outputLabel value="標案狀態：" styleClass="fieldname" />
+                        <p:outputLabel value="#{tenderAward.tenderVO.statusName}" />
+                        
+                        <p:outputLabel value="招標/詢價方式：" styleClass="fieldname" />
+                        <h:panelGroup >
+                            <p:outputLabel value="#{tenderAward.tenderVO.tenderMethod.displayName}" />
+                        </h:panelGroup>
+                    </p:panelGrid>
+                </p:fieldset>
+                <!-- END : 關聯標案資訊　-->
+                
+                <p:spacer width="5" height="5" />
+                <!-- BEGIN : 未決標項目列表　-->
+                <p:panel id="plNotAward" header="未決標項目列表" toggleable="true" >
+                    <h:panelGroup id="pgRfqItemList" >
+                        <h:panelGroup id="otRowCount" rendered="#{!empty tenderAward.lazyModel}" >
+                            <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                            <p:outputLabel value="詢價單包含品項數：" />
+                            <p:outputLabel value="#{tenderAward.lazyModel.rowCount}" />
+                        </h:panelGroup>
+                        
+                        <p:remoteCommand name="getRowCountAfterFiltered" update=":fmMain:otRowCount" />
+
+                        <p:dataTable id="dtRfqItemList" var="row" lazy="true"
+                                 widgetVar="wvDtRfqItemList" 
+                                 styleClass="ui-datatable-hor-scroll"
+                                 scrollable="true" 
+                                 paginator="true"
+                                 paginatorPosition="bottom"
+                                 value="#{tenderAward.lazyModel}"
+                                 filteredValue="#{tenderAward.filterResultList}"
+                                 rows="10"
+                                 rowIndexVar="r" 
+                                 rowsPerPageTemplate="5,10,20,30,40,50"
+                                 >
+                            <p:ajax event="filter" oncomplete="getRowCountAfterFiltered();" />
+                            <p:ajax event="page" process="@none" immediate="true" />
+                            <p:ajax event="sort" process="@none" immediate="true" />
+                        
+                            <p:column headerText="項次" footerText="項次" width="40" styleClass="tar" >
+                                <h:outputText value="#{row.ebelp}" />
+                                
+                                <h:panelGroup rendered="#{row.pstyp eq '9'}" > 
+                                    <p:spacer width="2" height="2" />
+                                    <p:commandLink actionListener="#{tenderAward.onViewRfqSrvItems(row)}" 
+                                                   update=":pgRfqItemList" 
+                                                   process="@this"
+                                                   oncomplete="scrollY(800)" 
+                                                   title="查看服務類項目明細" 
+                                                   ><i class="fa fa-list fa-1x"></i>
+                                    </p:commandLink>
+                                </h:panelGroup>
+                            </p:column>
+                            <p:column headerText="詢價項目" footerText="詢價項目" sortBy="#{row.matnrUI}" width="240">
+                                <p:outputLabel value="物料：" /><h:outputText value="#{row.matnrUI}" />
+                                <br/>
+                                <p:outputLabel value="短文：" /><h:outputText value="#{row.txz01}" />
+                                <br/>
+                                <p:outputLabel value="交貨日期：" /><h:outputText value="#{row.eindt}" />
+                                <br/>
+                                <p:outputLabel value="數量：" /><h:outputText value="#{row.menge}" />
+                                <p:spacer width="2" height="2" />
+                                <p:outputLabel value="(已決標數量：" styleClass="alert"/><h:outputText value="#{row.awardQuantity}" styleClass="alert" /><p:outputLabel value=")" styleClass="alert" />
+                                <br/>
+                                <p:outputLabel value="價格單位：" /><h:outputText value="#{row.peinh}" />
+                            </p:column>
+                            
+                            <p:columns value="#{tenderAward.venderQuoList}" var="col" columnIndexVar="c"
+                                       headerText="#{col.venderName}" footerText="#{col.venderName}" >
+                                <f:facet name="header" >
+                                    <div style="width:100%; text-align:left;" >
+                                        <h:outputText  value="#{col.venderName}" style="font-weight: bold;" />
+                                        <br/>
+                                        <h:outputText  value="第 #{col.times} 次報價" style="font-weight: bold;" />
+                                        <br/>
+                                        <h:outputText  value="稅率： 13% " style="font-weight: bold;" />
+                                        <br/>
+                                        <h:outputText  value="未稅總金額： 13,234 " style="font-weight: bold;" />
+                                        <br/>
+                                        <h:outputText  value="含稅總金額： 14,932 " style="font-weight: bold;" />
+                                    </div>
+                                </f:facet>
+                                
+                                <h:panelGroup rendered="#{tenderAward.quoMatrix[r][c].hasQuote}" >
+                                    <p:outputLabel value="得標：" /><p:selectBooleanCheckbox value="#{tenderAward.quoMatrix[r][c].winning}" />
+                                    <br/>
+                                    <p:outputLabel value="單價：" />
+                                    <h:outputText value="#{tenderAward.quoMatrix[r][c].netpr}" >
+                                        <f:convertNumber pattern="#,###.###"/>
+                                    </h:outputText>
+                                    <br/>
+                                    <p:outputLabel value="提供數量：" />
+                                    <h:outputText value="#{tenderAward.quoMatrix[r][c].menge}" >
+                                        <f:convertNumber pattern="#,###.###"/>
+                                    </h:outputText>
+                                    <br/>
+                                    <p:outputLabel value="得標數量：" />
+                                    <p:inputText value="#{tenderAward.quoMatrix[r][c].winningQuantity}" size="8" />
+                                </h:panelGroup>
+                                
+                                <h:panelGroup rendered="#{!tenderAward.quoMatrix[r][c].hasQuote}" >
+                                    <p:outputLabel value="無報價" />
+                                </h:panelGroup>
+                            </p:columns>
+                            <!--
+                            <p:column headerText="數量" styleClass="tar">
+                                <h:outputText value="#{row.menge}" />
+                            </p:column>
+                            <p:column headerText="單位" width="50">
+                                <h:outputText value="#{row.meins}" />
+                            </p:column>
+                            <p:column headerText="計價數量" styleClass="tar">
+                                <h:outputText value="#{row.peinh}" />
+                            </p:column>
+                            <p:column headerText="報價幣別" sortBy="#{row.preis}" styleClass="tar">
+                                <h:outputText value="#{row.preis}" />
+                            </p:column>
+                            <p:column headerText="單價" sortBy="#{row.preis}" styleClass="tar">
+                                <h:outputText value="#{row.preis}" />
+                            </p:column>
+                            <p:column headerText="總價" sortBy="#{row.preis}" styleClass="tar">
+                                <h:outputText value="#{row.preis}" />
+                            </p:column>
+                            <p:column headerText="原幣總價" sortBy="#{row.preis}" styleClass="tar">
+                                <h:outputText value="#{row.preis}" />
+                            </p:column>
+                            -->
+                            <!--
+                            <p:column headerText="單價">
+                            </p:column>
+                            <p:column headerText="預估總價">
+                            </p:column>
+                            <p:column headerText="需求日期">
+                            </p:column>
+                            <p:column headerText="現有庫存">
+                            </p:column>
+                            <p:column headerText="待收庫存">
+                            </p:column>
+                            <p:column headerText="前購單價">
+                            </p:column>
+                            <p:column headerText="前購日期">
+                            </p:column>
+                            <p:column headerText="工廠" sortBy="#{row.werks}" >
+                                <h:outputText value="#{row.werks}" />
+                            </p:column>
+                            <p:column headerText="儲存地點" sortBy="#{row.lgort}" >
+                                <h:outputText value="#{row.lgort}" />
+                            </p:column>
+                            <p:column headerText="需求追蹤號碼" sortBy="#{row.bednr}" >
+                                <h:outputText value="#{row.bednr}" />
+                            </p:column>
+                            <p:column headerText="申請人" sortBy="#{row.afnam}" >
+                                <h:outputText value="#{row.afnam}" />
+                            </p:column>
+                            -->
+                        </p:dataTable>
+                        
+                        <!-- RFQ 服務類明細 -->
+                        <div id="divTopPgRfqSrvList" ></div>
+                        <h:panelGroup id="pgRfqSrvList" rendered="#{!empty tenderAward.rfqPmList}" >
+                            <h:panelGroup>
+                                <h:outputText value="#{tenderAward.queryRfqPmMsg}" class="fieldvalue" />
+                                <p:spacer width="3" height="20" />
+                                <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                                <p:outputLabel value="包含品項數：" />
+                                <p:outputLabel value="#{tenderAward.rfqPmList.size()}" />
+                            </h:panelGroup>
+                            
+                            <p:dataTable id="dtRfqSrvList" var="srv" lazy="true" reflow="true"
+                                     widgetVar="wvDtRfqSrvList" 
+                                     styleClass="ui-datatable-hor-scroll"
+                                     scrollable="true" 
+                                     paginator="true"
+                                     paginatorPosition="bottom"
+                                     value="#{tenderAward.rfqPmList}" 
+                                     rows="5"
+                                     rowsPerPageTemplate="5,10,20,30,40,50"
+                                     >
+                                <p:column headerText="服務號碼">
+                                    <h:outputText value="#{srv.extrow}" />
+                                </p:column>
+                                <p:column headerText="短文">
+                                    <h:outputText value="#{srv.ktext1}" />
+                                </p:column>
+                                <p:column headerText="數量" styleClass="tar">
+                                    <h:outputText value="#{srv.menge}" />
+                                </p:column>
+                                <p:column headerText="單位">
+                                    <h:outputText value="#{srv.meins}" />
+                                </p:column>
+                                <p:column headerText="單價" styleClass="tar">
+                                    <h:outputText value="#{srv.tbtwr}" />
+                                </p:column>
+                                <p:column headerText="總價" styleClass="tar">
+                                    <h:outputText value="#{srv.netwr}" />
+                                </p:column>
+                                <p:column headerText="幣別">
+                                    <h:outputText value="#{srv.waers}" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGroup>
+                        
+                    </h:panelGroup>
+                </p:panel>
+                <!-- END : 未決標項目列表　-->
+                <h:panelGroup styleClass="blockBtnC" >
+                    <p:commandButton value="確定決標"
+                                                actionListener="#{tenderAward.onSaveAward()}"
+                                                process=":plNotAward"
+                                                update=":fmMain"
+                                                onstart="return confrimSaveAward()"  
+                                                oncomplete="afterCallBackHandler(xhr, status, args);" />
+                </h:panelGroup>
+
+                <p:spacer width="5" height="5" />
+                <!-- BEGIN : 已決標項目列表　-->
+                <p:panel id="plAward" header="已決標項目列表" toggleable="true" >
+                    <p:panelGrid columns="5" >
+                        <p:outputLabel value="決標時間：" styleClass="fieldname" />
+                        <p:selectOneMenu >
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="得標廠商：" styleClass="fieldname" />
+                        <p:selectOneMenu >
+                        </p:selectOneMenu>
+                        
+                        <h:panelGroup>
+                            <p:commandButton value="上傳/檢視附件"
+                                                        actionListener="#{tenderAward.onUploadFiles()}"
+                                                        process="@this"
+                                                        update=":plAward"
+                                                        oncomplete="afterCallBackHandler(xhr, status, args);" />
+                            <p:spacer width="5" height="5" />
+                            <p:commandButton value="撤銷決標"
+                                                actionListener="#{tenderAward.onCancelAward()}"
+                                                process="@this"
+                                                update=":plAward"
+                                                onstart="return confrimCancelAward()"  
+                                                oncomplete="afterCallBackHandler(xhr, status, args);" />
+                            <p:spacer width="5" height="5" />
+                            <p:commandButton value="通知廠商"
+                                                actionListener="#{tenderAward.onNotifyAward()}"
+                                                process="@this"
+                                                update=":fmMain"
+                                                onstart="return confrimNotifyAward()"  
+                                                oncomplete="afterCallBackHandler(xhr, status, args);" />                    
+                            <p:spacer width="5" height="5" />
+                            <p:commandButton value="建立採購單"
+                                                        actionListener="#{tenderAward.onCreatePo()}"
+                                                        process="@this"
+                                                        update=":plAward"
+                                                        onstart="return confrimCreatePo()"  
+                                                        oncomplete="afterCallBackHandler(xhr, status, args);" />
+                        </h:panelGroup>
+                        
+                    </p:panelGrid>
+                    
+                    <h:panelGroup id="pgAwardOtherInfo" rendered="#{! empty tenderAward.otherInfo}" >
+                        <hr />
+                        <p:panelGrid columns="4" rendered="#{tenderAward.otherInfo eq 'U'}" >
+                            <p:outputLabel value="已上傳檔案：" />
+                            <h:panelGroup >
+                                <p:dataList ></p:dataList>
+                            </h:panelGroup>
+                            <p:fileUpload fileUploadListener="#{fileController.handleFileUpload}" 
+                                          dragDropSupport="true" 
+                                          fileLimit="10" 
+                                          invalidSizeMessage="檔案大小超過限制" 
+                                          mode="advance"
+                                          multiple="true"
+                                          auto="false"
+                                          oncomplete=""
+                                          sizeLimit="10485760"
+                                          label="選取上傳檔案"
+                                          cancelLabel="取消"  
+                                          uploadLabel="上傳" />
+                            <p:commandButton value="取消" actionListener="#{tenderAward.onCancelOtherInfo()}" update=":plAward" />
+                        </p:panelGrid>
+                        
+                        <p:panelGrid columns="4" rendered="#{tenderAward.otherInfo eq 'C'}" >
+                            <p:outputLabel value="說明：" />
+                            <p:inputTextarea cols="30" rows="3" styleClass="vam" />
+                            <p:commandButton value="確定送出" />
+                            <p:commandButton value="取消" actionListener="#{tenderAward.onCancelOtherInfo()}" update=":plAward" />
+                        </p:panelGrid>
+                        
+                       <p:panelGrid columns="2" rendered="#{tenderAward.otherInfo eq 'S'}" >
+                            <p:outputLabel value="SAP 採購單補充資訊：" />
+                            <p:panelGrid columns="6" >
+                            </p:panelGrid>
+                        </p:panelGrid>
+                        <hr/>
+                        <p:commandButton value="確定送出" />
+                        <p:commandButton value="取消" actionListener="#{tenderAward.onCancelOtherInfo()}" update=":plAward" />
+                    </h:panelGroup>
+                    
+                    <hr />
+                    <h:panelGroup>
+                        <h:panelGroup id="otRowCountAward" rendered="#{!empty tenderAward.lazyModelAward}" >
+                            <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                            <p:outputLabel value="得標單包含品項數：" />
+                            <p:outputLabel value="#{tenderAward.lazyModelAward.rowCount}" />
+                        </h:panelGroup>
+                        
+                        <p:remoteCommand name="getRowCountAwardAfterFiltered" update=":fmMain:otRowCountAward" />
+
+                        <p:dataTable id="dtAwardItemList" var="row" lazy="true" reflow="true"
+                                 widgetVar="wvDtAwardItemList" 
+                                 styleClass="ui-datatable-hor-scroll"
+                                 scrollable="true" 
+                                 paginator="true"
+                                 paginatorPosition="bottom"
+                                 value="#{tenderAward.lazyModelAward}"
+                                 filteredValue="#{tenderAward.filterResultListAward}"
+                                 rows="10"
+                                 rowsPerPageTemplate="5,10,20,30,40,50"
+                                 >
+                            <p:ajax event="filter" oncomplete="getRowCountAwardAfterFiltered();" />
+                            <p:ajax event="page" process="@none" immediate="true" />
+                            <p:ajax event="sort" process="@none" immediate="true" />
+                        
+                            <p:column headerText="項次" sortBy="#{row.ebelp}" width="50" styleClass="tar">
+                                <h:outputText value="#{row.ebelp}" />
+                                
+                                <h:panelGroup rendered="#{row.pstyp eq '9'}" > 
+                                    <p:spacer width="2" height="2" />
+                                    <p:commandLink actionListener="#{tenderAward.onViewAwardSrvItems(row)}" 
+                                                   update=":pgRfqItemList" 
+                                                   process="@this"
+                                                   oncomplete="scrollY(800)" 
+                                                   title="查看服務類項目明細" 
+                                                   ><i class="fa fa-list fa-1x"></i>
+                                    </p:commandLink>
+                                </h:panelGroup>
+                            </p:column>
+                            <p:column headerText="物料" sortBy="#{row.matnrUI}">
+                                <h:outputText value="#{row.matnrUI}" />
+                            </p:column>
+                            <p:column headerText="短文" sortBy="#{row.txz01}">
+                                <h:outputText value="#{row.txz01}" />
+                            </p:column>
+                            <p:column headerText="數量" styleClass="tar">
+                                <h:outputText value="#{row.menge}" />
+                            </p:column>
+                            <p:column headerText="單位" width="50">
+                                <h:outputText value="#{row.meins}" />
+                            </p:column>
+                            <p:column headerText="計價數量" styleClass="tar">
+                                <h:outputText value="#{row.peinh}" />
+                            </p:column>
+                            <p:column headerText="報價幣別" sortBy="#{row.preis}" styleClass="tar">
+                                <h:outputText value="#{row.preis}" />
+                            </p:column>
+                            <p:column headerText="單價" styleClass="tar">
+                                <h:outputText value="#{row.preis}" />
+                            </p:column>
+                            <p:column headerText="總價" styleClass="tar">
+                                <h:outputText value="#{row.netpr}" />
+                            </p:column>
+                            <p:column headerText="原幣總價" styleClass="tar">
+                                <h:outputText value="#{row.netwr}" />
+                            </p:column>
+                            <p:column headerText="交貨日期" width="90">
+                                <p:calendar id="calRfqEindt" pattern="#{app.dateFormat}" value="#{row.eindt}"  
+                                            size="10" maxlength="10" readonlyInput="false"
+                                            navigator="true" required="true" requiredMessage="請輸入[交貨日期]"
+                                            converterMessage="交貨日期格式錯誤" >
+                                </p:calendar>
+                            </p:column>
+                            <p:column headerText="可供應數量" styleClass="tar">
+                                <h:outputText value="#{row.quoteMenge}" />
+                            </p:column>
+                            <p:column headerText="工廠" sortBy="#{row.werks}" >
+                                <h:outputText value="#{row.werks}" />
+                            </p:column>
+                            <p:column headerText="需求追蹤號碼" sortBy="#{row.bednr}" >
+                                <h:outputText value="#{row.bednr}" />
+                            </p:column>
+                            <p:column headerText="申請人" sortBy="#{row.afnam}" >
+                                <h:outputText value="#{row.afnam}" />
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGroup>    
+                </p:panel>
+                <!-- BEGIN : 已決標項目列表　-->
+                
+            </p:panel>
+        </h:form>
+        
+        <!-- 功能權限檢查對話框 -->
+        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+            <ui:param name="controller" value="#{tenderAward}"/>
+        </ui:include>
+        
+    </ui:define>
+</ui:composition>

@@ -11,6 +11,8 @@ import com.tcci.et.model.rfq.QuotationVO;
 import com.tcci.et.entity.EtRfqPm;
 import com.tcci.et.model.rfq.RfqPmVO;
 import com.tcci.et.model.criteria.RfqCriteriaVO;
+import com.tcci.et.model.rfq.RfqEkpoVO;
+import com.tcci.et.model.rfq.RfqVO;
 import com.tcci.fc.entity.org.TcUser;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,7 +41,7 @@ public class EtRfqPmFacade extends AbstractFacade<EtRfqPm> {
         super(EtRfqPm.class);
     }
     
-    public void remove(QuotationVO vo, boolean simulated) {       
+    public void remove(RfqPmVO vo, boolean simulated) {       
         EtRfqPm entity = findByVO(vo);
         
         if( entity!=null ){
@@ -47,7 +49,7 @@ public class EtRfqPmFacade extends AbstractFacade<EtRfqPm> {
         }
     }
 
-    public EtRfqPm findByVO(QuotationVO vo){
+    public EtRfqPm findByVO(RfqPmVO vo){
         EtRfqPm entity = this.find(vo.getId());
         return entity;
     }
@@ -74,7 +76,7 @@ public class EtRfqPmFacade extends AbstractFacade<EtRfqPm> {
             }
         }
     }
-    public void saveVO(QuotationVO vo, TcUser operator, boolean simulated){
+    public void saveVO(RfqPmVO vo, TcUser operator, boolean simulated){
         if( vo==null ){
             logger.error("saveVO vo==null");
             return;
@@ -83,6 +85,28 @@ public class EtRfqPmFacade extends AbstractFacade<EtRfqPm> {
         
         ExtBeanUtils.copyProperties(entity, vo);
         save(entity, operator, simulated);
+    }
+
+    /**
+     * 儲存 詢價單 服務類明細
+     * @param vo
+     * @param operator
+     * @param simulated 
+     */
+    public void saveRfqPm(RfqVO vo, TcUser operator, boolean simulated) {
+        logger.debug("saveRfqPm ... ");
+        if( vo==null || vo.getEkko()==null || vo.getEkko().getId()==null ){
+            logger.error("saveRfqPm error vo.getEkko().getId()==null");
+            return;
+        }
+        if( sys.isEmpty(vo.getPmList()) ){
+            logger.error("saveRfqEkpo error getPmList isEmpty");
+            return;
+        }
+        
+        for(RfqPmVO pm : vo.getPmList()){
+            saveVO(pm, operator, simulated);
+        }
     }
     
     /**
@@ -93,6 +117,22 @@ public class EtRfqPmFacade extends AbstractFacade<EtRfqPm> {
      */
     public String findByCriteriaSQL(RfqCriteriaVO criteriaVO, Map<String, Object> params){
         StringBuilder sql = new StringBuilder();
+        
+        sql.append("FROM ET_RFQ_PM S \n");
+        sql.append("WHERE 1=1 \n");
+        
+        if( criteriaVO.getTenderId()!=null ){
+            sql.append("AND S.TENDER_ID=#TENDER_ID \n");
+            params.put("TENDER_ID", criteriaVO.getTenderId());
+        }
+        if( criteriaVO.getRfqId()!=null ){
+            sql.append("AND S.RFQ_ID=#RFQ_ID \n");
+            params.put("RFQ_ID", criteriaVO.getRfqId());
+        }
+        if( criteriaVO.getEbelp()!=null ){
+            sql.append("AND S.EBELP=#EBELP \n");
+            params.put("EBELP", criteriaVO.getEbelp());
+        }
         
         return sql.toString();
     }
@@ -136,12 +176,11 @@ public class EtRfqPmFacade extends AbstractFacade<EtRfqPm> {
 
     /**
      * 依 ID 查詢
-     * @param storeId
      * @param id
      * @param fullData
      * @return 
      */
-    public RfqPmVO findById(Long storeId, Long id, boolean fullData) {
+    public RfqPmVO findById(Long id, boolean fullData) {
         RfqCriteriaVO criteriaVO = new RfqCriteriaVO();
         criteriaVO.setId(id);
         criteriaVO.setFullData(fullData);
@@ -149,4 +188,18 @@ public class EtRfqPmFacade extends AbstractFacade<EtRfqPm> {
         List<RfqPmVO> list = findByCriteria(criteriaVO);
         return (list!=null && !list.isEmpty())? list.get(0):null;
     }
+
+    public List<RfqPmVO> findByRfqId(Long tenderId, Long rfqId) {
+        if( tenderId==null || rfqId==null ){
+            logger.error("findByRfqId tenderId==null || rfqId==null");
+            return null;
+        }
+        
+        RfqCriteriaVO criteriaVO = new RfqCriteriaVO();
+        criteriaVO.setTenderId(tenderId);
+        criteriaVO.setRfqId(rfqId);
+        
+        return this.findByCriteria(criteriaVO);
+    }
+
 }

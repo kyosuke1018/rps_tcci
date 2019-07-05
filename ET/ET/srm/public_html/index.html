@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="台泥秉持著公平、公開、公正的原則，設立採購招標平台" />
+    <title>台泥陽光採購平台</title>
+    <link rel="icon" 	   type="image/x-icon"	href="img/logo.ico" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/jquery-ui.css" />
+    <link rel="stylesheet" href="css/style-comm.css" />
+    <link rel="stylesheet" href="css/style-index.css" />
+</head>
+
+<body>
+	<div id="headerField" class="homeHeaderField">
+		<div id="header"></div>
+	</div>        
+    
+    <div id="container" class="homeContainer">
+        <div class="cover">
+            <div class="slogan">
+                <div class="txt1">公平、公開、公正</div>
+                <div></div>
+                <span class="txt2">現有供應商 <span id="runNum1" class="runNum">0</span> 家</span>
+                <span class="divLine">/</span>
+                <span class="txt2">現有招標案 <span id="runNum2" class="runNum">0</span> 件</span>
+            </div>
+        </div>
+        <br>
+        
+        <div class="ajaxLoading"></div>
+        
+        <div id="bidList">
+            <div class="section">
+                <!-- 招標公告列表 -->
+                <div class="listTotal">
+                    <span class="caption"><img src="img/icon_projRelease.png"/> 招標公告<span class="triL"></span><span class="triR"></span></span>
+                    <a class="more" href="projList.html?type=STATUS&status=T">更多...</a>
+                    <br>
+                    <a class="item" :href="'projDetail.html?id=' + row.id" v-for="row in tenderOn.list" :title="row.title">
+                        <div class="title">{{row.title}}</div>
+                        <div class="date">{{getDate(row.datadate)}}</div>
+                    </a>
+                </div>
+                
+                <!-- 決標公告列表 -->
+                <div class="listTotal">
+                    <span class="caption"><img src="img/icon_projClose.png"/> 決標公告<span class="triL"></span><span class="triR"></span></span>
+                    <a class="more" href="projList.html?type=STATUS&status=E">更多...</a>
+                    <br>
+                    <a class="item" :href="'projDetail.html?id=' + row.id" v-for="row in tenderEnd.list" :title="row.title">
+                        <div class="title">{{row.title}}</div>
+                        <div class="date">{{getDate(row.datadate)}}</div>
+                    </a>
+                </div>
+                <div class="clear"></div>
+                
+                <!-- 區域招標列表 -->
+                <span class="caption"><img src="img/icon_projArea.png"/> 按區域查看招投標項目<span class="triL"></span><span class="triR"></span></span>
+                <div class="listArea" v-for="row in tenderArea">
+                    <template v-if="row.list">
+                        <div class="subCaption">
+                            <span class="areaName">{{row.name}}</span>
+                            <a class="more" :href="'projList.html?type=AREA&areaId=' + row.list[0].areaId" >更多...</a>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="itemTitle">
+                            <div>招標編號</div>                                
+                            <div>招標類型</div>                                
+                            <div>招標名稱</div>
+                            <div>招標狀態</div>
+                            <div>發佈時間</div>
+                            <div class="clear"></div>
+                        </div>
+                        <a class="item" :href="'projDetail.html?id=' + row2.id" v-for="row2 in row.list" :title="row2.title">
+                            <span class="block1">
+                                <div class="code">{{row2.code}}&nbsp;</div>
+                                <div class="category">{{row2.categoryName}}&nbsp;</div>                            
+                                <div class="title">{{row2.title}}</div>
+                            </span>
+                            <span class="block2">
+                                <div class="status" :class="chkStatusColor(row2.status)">&nbsp;{{row2.statusName}}&nbsp;</div>
+                                <div class="date">{{getDate(row2.datadate)}}</div>
+                            </span>
+                        </a>
+                        <div class="clear"></div>                        
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+	<div id="footerField">
+		<div id="footer"></div>
+	</div>
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui-accordion.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/content-ajax.js"></script>
+    <script src="js/content.js"></script>
+    <script>
+        $(function(){
+            initHeadFoot();
+        });
+
+        var vm = new Vue({
+            el: "#bidList",
+            data: {
+                tenderOn:"",
+                tenderEnd:"",
+                tenderArea:""
+            },
+            methods: {
+                getDate: function(date){
+                    return (date == "" || date == null) ? "-" : date.substr(0, 10);
+                },
+                chkStatusColor: function(status){
+                    switch(status){
+                        case "NS":
+                            statusColor = "statusRed";
+                            break;
+                        case "OS":
+                            statusColor = "statusOrange";                             
+                            break;
+                        case "T":
+                            statusColor = "statusGreen";                             
+                            break;
+                        case "V":
+                            statusColor = "statusBlue";
+                            break;
+                        case "E":
+                            statusColor = "statusGray";
+                            break;
+                    }
+                    return statusColor;
+                }
+            },
+            mounted: function(){
+                var restUrl = REST_URL + "services/tender/home";
+                ajaxPostData(restUrl);
+
+                restUrl = REST_URL + "services/vender/count";
+                ajaxPostVenderCount(restUrl);
+                
+                restUrl = REST_URL + "services/tender/count";
+                ajaxPostTenderCount(restUrl);
+            }
+        });        
+
+        function fetchData(response){
+            var tenderOn;  //招標中
+            var tenderEnd; //決標
+            var tenderArea = new Array(); //地區性標案
+            var list = response.list;
+
+            list.forEach(function(elem, k){
+                switch(elem.value){
+                    case "T":
+                        tenderOn = elem;
+                        break;
+                    case "E":
+                        tenderEnd = elem;
+                        break;
+                    default:
+                        tenderArea.push(elem);
+                        break;
+                }
+            });
+
+            vm.tenderOn = tenderOn;
+            vm.tenderEnd = tenderEnd;
+            vm.tenderArea = tenderArea;
+            
+            document.querySelector(".ajaxLoading").style.display = "none";
+            document.querySelector("#bidList").style.display = "block";            
+        }
+        
+        function fetchVenderCount(response){
+            var VenderCount = toThousands(response.res.totalRows);
+            new runNumber($("#runNum1"), VenderCount, 4, "int"); //物件, 最終值, 執行時間(秒), 整數/小數顯示    ***初始值在該HTML標籤設定***
+        }
+
+        function fetchTenderCount(response){
+            var tenderCount = toThousands(response.res.totalRows);
+            new runNumber($("#runNum2"), tenderCount, 4, "int"); //物件, 最終值, 執行時間(秒), 整數/小數顯示    ***初始值在該HTML標籤設定***
+        }     
+	</script>
+</body>
+</html>

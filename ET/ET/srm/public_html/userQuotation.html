@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="robots" content="noindex、nofollow" />
+        <meta name="viewport" content="width=device-width" />
+        <title>台泥陽光採購平台</title>
+        <link rel="icon" 	   type="image/x-icon"	href="img/logo.ico" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/jquery-ui.css" />
+        <link rel="stylesheet" href="css/style-comm.css" />
+        <link rel="stylesheet" href="css/style-userQuotation.css" />
+    </head>
+    
+    <body>
+        <div id="headerField" class="headerField">
+            <div id="header"></div>
+        </div>
+            
+        <div id="container">
+            <div class="cover"></div>
+            <div class="section">
+                <form class="form">
+                    <div class="caption">台泥廣東區域 2019 年 5 月 ~ 2020 年 4 月火山灰招標</div>
+                    <div><span class="fieldname" >報價截止日：</span><span class="fieldvalue">2019-04-40</span></div>
+                    <div>
+                        <span class="fieldname" >報價廠商：</span>
+                        <span id="spVenders" ></span>
+                    </div>
+                    <div><span class="fieldname" >報價狀態：</span><span class="fieldvalue">暫存 (2019-04-40 13:40:33)</span></div>
+                    <hr/>
+                    
+                    <div id="divStep1">
+                        <!-- 詢價項目 -->
+                        <div id="divRfqList" ></div>
+                        <hr/>
+                        <div id="divPayFee" >
+                            <div class="vam">
+                                <span class="fieldname" >付款方式：</span>
+                                <span class="fieldvalue">
+                                    <select id="selPayMethod" style="vertical-align: middle;">
+                                        <option value="" >選取或於右側文字框自行輸入</option>
+                                    </select>
+                                    
+                                    <textarea id="payMethod" style="vertical-align: middle;" rows="3" cols="50" ></textarea>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="fieldname" >稅別：</span>
+                                <span id="spTaxType" ></span>
+                            </div>
+                            <div>
+                                <span class="fieldname" >稅率：</span>
+                                <span id="spTaxRate" ></span>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="divBtns" >
+                            <span id="btnSave" class="btn" onclick="doNext()" >暫存 &gt 下一步</span>
+                        </div>
+                    </div>
+                    
+                    <div id="divStep2">
+                        <div class="divCalResult" >
+                            <span class="fieldname" >未稅總金額：</span>
+                            <span id="spTotal" ></span>
+                            &nbsp;&nbsp;&nbsp;
+                            <span class="fieldname" >含稅總金額：</span>
+                            <span id="spNetTotal" ></span>
+                        </div>
+
+                        <table>
+                            <tr>
+                                <td><span class="fieldname" >已上傳附件：</span></td>
+                                <td>
+                                    <div id="divExistedFiles" ></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="fieldname" >附件上傳：</span><span id="btnAddFile" class="btn" onclick="addFile()" >新增</span>
+                                </td>
+                                <td>
+                                    <div id="divUploadFiles" ></div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr/>
+                        <div class="divBtns" >
+                            <span id="btnSend" class="btn" onclick="sendQuotation()">確定送出</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div id="footerField">
+            <div id="footer"></div>
+        </div>
+            
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery-ui-accordion.min.js"></script>
+        <script src="js/tcc-utils.js"></script>
+        <script src="js/content-ajax.js"></script>
+        <script src="js/content.js"></script>
+        <script src="js/userQuotation.js"></script>
+        <script>
+            $(function(){            
+                initHeadFoot();
+                
+                fetchData({});
+            });
+        </script>
+    </body>
+</html>

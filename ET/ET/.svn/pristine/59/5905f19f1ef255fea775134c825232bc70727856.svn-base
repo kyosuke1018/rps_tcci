@@ -1,0 +1,65 @@
+.cover {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    z-index: -1;
+    background: url(../img/cover_login.jpg) center 20% no-repeat;
+    background-size: cover;
+}
+
+.form {
+    width: 500px;
+    height: 330px;
+    margin: auto;    
+    padding: 30px 40px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.form .caption {
+    margin: 0 0 10px;
+    font-weight: bold;
+    font-size: 28px;
+    color: #808080;
+}
+
+.form .btn {
+    width: 80px;
+    margin: 20px auto 0;
+    padding: 7px 10px;
+    box-sizing: border-box;
+    border-radius: 2px;
+    text-align: center;
+    color: #fff;
+    background: #b00000;
+    cursor: pointer;
+}
+
+/*---------- RWD (start) ----------*/
+@media screen and (min-width: 1601px) and (max-width: 1920px) {
+}
+
+@media screen and (min-width: 1367px) and (max-width: 1600px) {
+}    
+
+@media screen and (min-width: 1px) and (max-width: 1200px) {
+/*
+    .form {
+        width: 320px;
+        height: 310px;
+        padding: 20px;
+    }
+    
+    .form .caption {
+        font-size: 24px;
+    }
+*/
+}
+/*---------- RWD (end) ----------*/

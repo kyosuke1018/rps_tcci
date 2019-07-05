@@ -26,6 +26,16 @@ public class RfqCriteriaVO extends AbstractCriteriaVO implements IQueryCriteria,
     private String rfqNo;
     
     private String matnr;
+    private String matnrUI;
+    
+    public void setMatnr(String matnr) {
+        this.matnr = matnr;
+        if( matnr!=null ){
+            matnrUI = matnr.startsWith("000000")?matnr.substring(6):matnr;
+        }else{
+            matnrUI = null;
+        }
+    }
 
     //<editor-fold defaultstate="collapsed" desc="getter and setter">
     public Long getCompanyId() {
@@ -34,6 +44,14 @@ public class RfqCriteriaVO extends AbstractCriteriaVO implements IQueryCriteria,
 
     public void setCompanyId(Long companyId) {
         this.companyId = companyId;
+    }
+
+    public String getMatnrUI() {
+        return matnrUI;
+    }
+
+    public void setMatnrUI(String matnrUI) {
+        this.matnrUI = matnrUI;
     }
 
     public Long getFactoryId() {
@@ -86,10 +104,6 @@ public class RfqCriteriaVO extends AbstractCriteriaVO implements IQueryCriteria,
 
     public String getMatnr() {
         return matnr;
-    }
-
-    public void setMatnr(String matnr) {
-        this.matnr = matnr;
     }
     //</editor-fold>
 }

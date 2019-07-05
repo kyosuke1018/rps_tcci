@@ -12,6 +12,6 @@ import javax.ejb.Stateless;
  * @author Peter.pan
  */
 @Stateless
-public class RfqDwFacade extends AbstractFacadeNE {
+public class RfqDwFacade extends AbstractFacadeDW {
     
 }

@@ -48,7 +48,7 @@ public class ConformQueryController extends SessionAwareController implements Se
 
         doQuery();
     }
-    
+
     /**
      * 取得輸入參數
      */
@@ -65,7 +65,6 @@ public class ConformQueryController extends SessionAwareController implements Se
     }
 
     public void doQuery() {
-
         if (!doCheck()) {
             return;
         }
@@ -123,7 +122,6 @@ public class ConformQueryController extends SessionAwareController implements Se
                 options.add(new SelectItem(g.getId(), g.getCode() + "-" + g.getName()));
             }
         }
-
         return options;
     }
 

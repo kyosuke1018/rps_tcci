@@ -21,7 +21,7 @@ public class RfqEkpoVO implements Serializable {
     private Long rfqId; // FK ET_RFQ_EKKO.ID
     private String mandt; // 用戶端
     private String ebeln; // 詢價文件號碼
-    private Integer ebelp; // 詢價文件的項目號碼 (採購單)
+    private Long ebelp; // 詢價文件的項目號碼 (採購單)
     private String loekz; // 詢價文件的刪除指示碼
     private String txz01; // 短文
     private String matnr; // 物料號碼
@@ -30,15 +30,20 @@ public class RfqEkpoVO implements Serializable {
     private String lgort; // 儲存地點
     private String bednr; // 需求追蹤號碼
     private String matkl; // 物料群組
+    // (MENGE / PEINH) * NETPR = BRTWR
     private BigDecimal menge; // 詢價單數量
     private String meins; // 訂購單位
-    private String bprme; // 訂單價格單位（採購）
+
+    /////////////////
+    private String bprme; // 訂單價格單位（採購）    
     private BigDecimal bpumz; // 將訂貨價格單位轉換為訂貨單位的分子
     private BigDecimal bpumn; // 將訂單價格單位轉換為訂單單位的分母值
-    private BigDecimal netpr; // 報價淨價（以文件貨幣計算）
-    private BigDecimal peinh; // 價格單位
-    private BigDecimal netwr; // 以詢價單貨幣計算的訂單淨值
+    
+    private BigDecimal netpr; // 單價 - 報價淨價（以文件貨幣計算）
+    private BigDecimal peinh; // 價格單位 = 計價數量
+    private BigDecimal netwr; // 單價 - 以詢價單貨幣計算的訂單淨值
     private BigDecimal brtwr; // 以詢價單貨幣計算總訂購值
+    
     private BigDecimal uebto; // 過量交貨允差限制
     private String uebtk; // 指示碼：允許的無限制之超量交貨
     private BigDecimal untto; // 交貨不足允差限制
@@ -56,27 +61,68 @@ public class RfqEkpoVO implements Serializable {
     private String inco2; // 國貿條件（第 2 部分）
     private String anfnr; // RFQ 號碼
     private Integer anfps; // RFQ 的項目號碼
+    /////////////////
+    
     private String banfn; // 請購單號碼
-    private Integer bnfpo; // 請購單的項目號碼
+    private Long bnfpo; // 請購單的項目號碼
     private String mtart; // 物料類型
     private Long creatorId; // 建立人
     private Date createtime; // 建立時間
     private Long modifierId; // 修改人
     private Date modifytime; // 修改時間
+    
+    // RFQ EKKO
+    private String waers; // 幣別碼
     // RFQ EKET
     private Date eindt;// EKET.EINDT 項目交貨日期
-    
     // PR EKPO
     private String afnam;// 申請人
     private BigDecimal preis;// 請購單中的價格
     
+    // 報價
+    private BigDecimal quoteMenge;// 報價數量
+    
     private String matnrUI;
-
+    private BigDecimal awardQuantity = BigDecimal.ZERO;// 決標數量
+    
     public RfqEkpoVO() {
     }
 
     public RfqEkpoVO(Long id) {
         this.id = id;
+    }
+
+    public void setMatnr(String matnr) {
+        this.matnr = matnr;
+        if( matnr!=null ){
+            matnrUI = matnr.startsWith("000000")?matnr.substring(6):matnr;
+        }else{
+            matnrUI = null;
+        }
+    }
+
+    public String getWaers() {
+        return waers;
+    }
+
+    public void setWaers(String waers) {
+        this.waers = waers;
+    }
+
+    public BigDecimal getAwardQuantity() {
+        return awardQuantity;
+    }
+
+    public void setAwardQuantity(BigDecimal awardQuantity) {
+        this.awardQuantity = awardQuantity;
+    }
+
+    public BigDecimal getQuoteMenge() {
+        return quoteMenge;
+    }
+
+    public void setQuoteMenge(BigDecimal quoteMenge) {
+        this.quoteMenge = quoteMenge;
     }
 
     public String getAfnam() {
@@ -167,11 +213,11 @@ public class RfqEkpoVO implements Serializable {
         this.ebeln = ebeln;
     }
 
-    public Integer getEbelp() {
+    public Long getEbelp() {
         return ebelp;
     }
 
-    public void setEbelp(Integer ebelp) {
+    public void setEbelp(Long ebelp) {
         this.ebelp = ebelp;
     }
 
@@ -193,15 +239,6 @@ public class RfqEkpoVO implements Serializable {
 
     public String getMatnr() {
         return matnr;
-    }
-
-    public void setMatnr(String matnr) {
-        this.matnr = matnr;
-        if( matnr!=null ){
-            matnrUI = matnr.startsWith("000000")?matnr.substring(6):matnr;
-        }else{
-            matnrUI = null;
-        }
     }
 
     public String getBukrs() {
@@ -444,11 +481,11 @@ public class RfqEkpoVO implements Serializable {
         this.banfn = banfn;
     }
 
-    public Integer getBnfpo() {
+    public Long getBnfpo() {
         return bnfpo;
     }
 
-    public void setBnfpo(Integer bnfpo) {
+    public void setBnfpo(Long bnfpo) {
         this.bnfpo = bnfpo;
     }
 

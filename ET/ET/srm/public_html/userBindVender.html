@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex、nofollow" />
+    <meta name="viewport" content="width=device-width" />
+    <title>台泥陽光採購平台</title>
+    <link rel="icon" 	   type="image/x-icon"	href="img/logo.ico" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/jquery-ui.css" />
+    <link rel="stylesheet" href="css/style-comm.css" />
+    <link rel="stylesheet" href="css/style-userBindVender.css" />
+</head>
+
+<body>
+	<div id="headerField" class="headerField">
+		<div id="header"></div>
+	</div>        
+    
+    <div id="container">
+        <div class="cover"></div>
+        <div class="section">
+            <div class="contentTopSpacing"></div>
+            
+            <div id="member">
+                <h2>會員資料</h2>
+                <div class="memberInfo">
+                    <ul class="baseInfo">
+                        <li class="w33">
+                            <div class="title">電子郵件：</div>
+                            <div class="data">{{member.email}}</div>
+                        </li>
+                        <li class="w33">
+                            <div class="title">姓名：</div>
+                            <div class="data">{{member.name}}</div>
+                        </li>
+                        <li class="w33">
+                            <div class="title">電話號碼：</div>
+                            <div class="data">{{member.phone}}</div>
+                        </li>
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+
+
+                <h2>已綁定供應商</h2>
+                <div class="bindSupplier">                    
+                    <div class="tableTitle">
+                        <span class="block1">
+                            <div>功能</div>
+                        </span>
+                        <span class="block2">
+                            <div>供應商代號</div>
+                            <div>供應商名稱</div>
+                        </span>
+                        <span class="block3">
+                            <div>供應商類型</div>
+                        </span>
+                    </div>
+                    <div class="row" v-for="row in member.venderList">
+                        <span class="block1">
+                            <div>
+                                <!--<a :href="'userCompanyInfo.html?id=' + row.id" class="btn">公司資料</a>-->
+                                <a class="btn" @click="unbind(row.id)">解除綁定</a>
+                            </div>
+                        </span>
+                        <span class="block2">
+                            <div>{{row.venderCode}}</div>
+                            <div>{{row.cname}}</div>
+                        </span>
+                        <span class="block3">
+                            <div>{{row.cnames==undefined ? "-" : row.cnames}}</div>
+                        </span>
+                    </div>
+                </div>
+
+
+                <h2>綁定新供應商申請 &nbsp;<a class="btn" href="userBindSelect.html">新增供應商</a></h2>
+                <div class="bindNewSupplier">                    
+                    <div class="tableTitle">
+                        <span class="block1">
+                            <div>功能</div>
+                        </span>
+                        <span class="block2">
+                            <div>供應商代號</div>
+                            <div>供應商名稱</div>
+                        </span>
+                        <span class="block3">
+                            <div>申請日期</div>
+                            <div>狀態</div>
+                        </span>
+                    </div>
+                    <div class="row" v-for="row in member.applyFormList">
+                        <span class="block1">
+                            <!--<div><a :href="'userCompanyInfo.html?=' + row.id" class="btn">公司資料</a></div>-->
+                            <div></div>
+                        </span>
+                        <span class="block2">
+                            <div>{{row.venderCode}}</div>
+                            <div>{{row.venderName}}</div>
+                        </span>
+                        <span class="block3">
+                            <div>{{row.createtime.substr(0,10)}}</div>
+                            <div>{{row.status}}</div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+	<div id="footerField">
+		<div id="footer"></div>
+	</div>
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui-accordion.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/content-ajax.js"></script>
+    <script src="js/content.js"></script>
+    <script>
+        $(function(){            
+            initHeadFoot();
+        });
+            
+        var vm = new Vue({
+            el:"#member",
+            data: {
+                member:{
+                }
+            },
+            methods: {
+                //ajax 發送解除綁定
+                unbind: function(venderId){
+                    var restUrl = REST_URL + "services/vender/remove";
+                    var formData = {
+                        memberId: MEMBER_ID,
+                        venderId: "" + venderId
+                    }
+                    ajaxPostData(restUrl, formData);
+                }
+            },
+            mounted: function(){
+                //ajax 取得會員相關資料
+                var restUrl = REST_URL + "services/members/full/" + MEMBER_ID;
+                ajaxGetVender(restUrl);
+            }
+        });
+
+        //ajax 回傳會員相關資料
+        function fetchVenderData(response){
+            vm.member = response;
+            document.querySelector("#member").style.opacity = 1;
+        }
+        
+        //ajax 回傳解除綁定結果
+        function fetchData(response){
+            var restUrl = REST_URL + "services/members/full/" + MEMBER_ID;
+            ajaxGetVender(restUrl);
+        }
+        
+	</script>
+</body>
+</html>

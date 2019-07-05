@@ -1,0 +1,376 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.tcci.et.facade.jco;
+
+import com.tcci.cm.enums.SapClientEnum;
+import com.tcci.cm.facade.conf.SysResourcesFacade;
+import com.tcci.cm.model.global.GlobalConstant;
+import com.tcci.et.facade.sap.SapDataFacade;
+import com.tcci.fc.entity.org.TcUser;
+import com.tcci.sap.jco.entity.TcRfcZtab;
+import com.tcci.sap.jco.entity.base.TcZtabExpT024;
+import com.tcci.sap.jco.entity.base.TcZtabExpT024PK;
+import com.tcci.sap.jco.entity.base.TcZtabExpT024e;
+import com.tcci.sap.jco.entity.base.TcZtabExpT024ePK;
+import com.tcci.sap.jco.model.RfcOutputTypeEnum;
+import com.tcci.sap.jco.model.RfcProxyInput;
+import com.tcci.sap.jco.model.RfcProxyOutput;
+import com.tcci.sap.jco.rest.RfcProxyClient;
+import com.tcci.sap.jco.util.JCoUtil;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * 
+ * @author peter.pan
+ */
+@Stateless
+public class JCoClientFacade {
+    private static final Logger logger = LoggerFactory.getLogger(JCoClientFacade.class);
+    
+    @EJB SysResourcesFacade sys;
+    @EJB SapDataFacade sapDataFacade;
+    
+    /**
+     * 採購群組 
+     * @param sapClientCode
+     * @param werks (CSRC 新增 ZFLD_IMP_WERKS)
+     * @param operator
+     * @return 
+     */
+    public List<TcRfcZtab> fetchPurGroup(String sapClientCode, String werks, TcUser operator){
+        String[] rfcInfos = new String[]{"ZSAP_JAVA_EXP_T024", "ZTAB_EXP_T024"};
+        if( SapClientEnum.SAP_CSRC.getSapClientCode().equals(sapClientCode) ){
+            return fetchDataWithWerks(rfcInfos, sapClientCode, werks, TcZtabExpT024.class , TcZtabExpT024PK.class, "tcZtabExpT024PK", operator);
+        }else{
+            return fetchDataWithNoImp(rfcInfos, sapClientCode, TcZtabExpT024.class , TcZtabExpT024PK.class, "tcZtabExpT024PK", operator);
+        }
+    }
+    public int syncPurGroup(String sapClientCode, String werks, TcUser operator){
+        List<TcRfcZtab> list = (List<TcRfcZtab>)fetchPurGroup(sapClientCode, werks, operator);
+        return saveEntityList(list);
+    }
+
+    /**
+     * 採購組織
+     * @param sapClientCode
+     * @param bukrs
+     * @param operator
+     * @return 
+     */
+    public List<TcRfcZtab> fetchPurOrg(String sapClientCode, String bukrs, TcUser operator){
+        String[] rfcInfos = new String[]{"ZSAP_JAVA_EXP_T024E", "ZTAB_EXP_T024E"};
+        return fetchDataWithBukrs(rfcInfos, sapClientCode, bukrs, TcZtabExpT024e.class , TcZtabExpT024ePK.class, "tcZtabExpT024ePK", operator);
+    }
+    public int syncPurOrg(String sapClientCode, String bukrs, TcUser operator){
+        List<TcRfcZtab> list = (List<TcRfcZtab>)fetchPurOrg(sapClientCode, bukrs, operator);
+        return saveEntityList(list);
+    }
+    
+    /**
+     * JCoService restful root Url
+     * @return 
+     */
+    public static String getSapServiceUrlFromJndi(){
+        String sapServiceUrl = null;
+        try {
+            Context ctx = new InitialContext();
+            Properties properties = (Properties)ctx.lookup(GlobalConstant.JNDI_GLOBAL);// jndi/global.config
+            if( properties!=null ){
+                sapServiceUrl = properties.getProperty(GlobalConstant.JNDI_SAP_SERVICE_REST);
+            }
+        }catch(Exception e){
+            logger.error("getGlobalJndiProperties exception:\n");
+        }
+        return sapServiceUrl;
+    }
+    
+    public int saveEntityList(List<TcRfcZtab> list){
+        if( sys.isEmpty(list) ){
+            return 0;
+        }
+        for(TcRfcZtab entity : list){
+            if( entity!=null ){
+                entity.setSyncTimeStamp(new Date());
+            }
+            sapDataFacade.persist(entity);
+        }
+        return list.size();
+    }
+    
+    /**
+     * RFC 回傳單一TABLE (Import 條件可多筆)
+     * @param sapClientCode
+     * @param rfcName
+     * @param impTabValMap
+     * @param expName
+     * @param mainClass
+     * @param pkClass
+     * @param pkName
+     * @param operator
+     * @return 
+     */
+    public List fetchSingleExpTable(String sapClientCode, 
+            String rfcName,
+            Map<String, List<Object>> impTabValMap, 
+            String expName,
+            Class mainClass, Class pkClass, 
+            String pkName, TcUser operator){
+        List resList = null;
+        // 呼叫 Proxy 執行 RFC // http://localhost:8080/JCoService/resources
+        String restRootUrl = getSapServiceUrlFromJndi();
+        RfcProxyClient client = new RfcProxyClient(restRootUrl);// use jersey restful cilent
+        //RfcHttpClient client = new RfcHttpClient(restRootUrl);// only use apache http cilent
+        try{
+            // 準備Proxy輸入參數
+            RfcProxyInput input = new RfcProxyInput(GlobalConstant.AP_CODE, rfcName, sapClientCode);
+            input.setDebugMode(true);
+            // 準備RFC輸入參數
+            // ZFLD_IMP_EKORG、ZFLD_IMP_BUKRS
+            Map<String, List<Map<String, Object>>> impTableParams = new HashMap<String, List<Map<String, Object>>>();
+            if( impTabValMap!=null ){
+                for(String impName : impTabValMap.keySet()){
+                    if( !sys.isEmpty(impTabValMap.get(impName)) ){
+                        List<Map<String, Object>> imgList = new ArrayList<Map<String, Object>>();
+                        for(Object val : impTabValMap.get(impName)){
+                            Map<String, Object> map = JCoUtil.buildSimpleEQImpMap(val);
+                            imgList.add(map);
+                        }
+                        impTableParams.put(impName, imgList);
+                    }
+                }
+            }
+            input.setTables(impTableParams);
+
+            // 準備RFC輸出類型參數
+            Map<String, RfcOutputTypeEnum> outputType = new HashMap<String, RfcOutputTypeEnum>();
+            outputType.put(expName, RfcOutputTypeEnum.TABLE);
+            input.setOutputTypes(outputType);
+
+            RfcProxyOutput out = client.callRfc(input);
+            logger.debug("out = \n"+out.dump());
+            List<Map<String, Object>> expList = out.getTable(expName);
+            resList = JCoUtil.convertRfcExpToPOJOList(expList, mainClass, pkClass, pkName, true);
+            logger.info("fetchSingleExpTable rfcName = "+rfcName+", resList = "+sys.size(resList));
+        }catch(Exception e){
+            sys.processUnknowException(operator, "fetchSingleExpTable", e);
+        }finally{
+            client.close();
+        }
+
+        return resList;
+    }
+    
+    /**
+     * 執行單一 TABLE 回傳 RFC (無輸入參數) 
+     * @param rfcInfos
+     * @param sapClientCode
+     * @param mainClass
+     * @param pkClass
+     * @param pkName
+     * @param operator
+     * @return 
+     */
+    public List fetchDataWithNoImp(String[] rfcInfos, String sapClientCode, Class mainClass, Class pkClass, String pkName, TcUser operator){
+        if( rfcInfos==null || rfcInfos.length<2 ){
+            logger.error("fetchDataWithNoImp rfcInfos==null || rfcInfos.length<2 ");
+            return null;
+        }
+        String rfcName = rfcInfos[0];
+        String expName = rfcInfos[1];
+                
+        return fetchSingleExpTable(sapClientCode, rfcName, null, expName, mainClass, pkClass, pkName, operator);
+    }
+    public int syncDataWithNoImp(String[] rfcInfos, String sapClientCode, Class mainClass, Class pkClass, String pkName, TcUser operator){
+        List<TcRfcZtab> list = (List<TcRfcZtab>)fetchDataWithNoImp(rfcInfos, sapClientCode, mainClass, pkClass, pkName, operator);
+        return saveEntityList(list);
+    }
+    
+    /**
+     * 執行單一 TABLE 回傳 RFC (有廠別別參數 werks) 
+     * RFC with ZFLD_IMP_WERKS
+     * @param rfcInfos
+     * @param sapClientCode
+     * @param werks
+     * @param mainClass
+     * @param pkClass
+     * @param pkName
+     * @param operator
+     * @return 
+     */
+    public List fetchDataWithWerks(String[] rfcInfos, String sapClientCode, String werks, Class mainClass, Class pkClass, String pkName, TcUser operator){
+        if( rfcInfos==null || rfcInfos.length<2 ){
+            logger.error("fetchDataWithWerks rfcInfos==null || rfcInfos.length<2 ");
+            return null;
+        }
+        String rfcName = rfcInfos[0];
+        String expName = rfcInfos[1];
+        
+        List list = new ArrayList();
+        list.add(werks);
+        Map<String, List<Object>> impTabValMap = new HashMap<String, List<Object>>();
+        impTabValMap.put("ZFLD_IMP_WERKS", list);
+                
+        return fetchSingleExpTable(sapClientCode, rfcName, impTabValMap, expName, mainClass, pkClass, pkName, operator);
+            /*
+        List resList = null;
+        // 呼叫 Proxy 執行 RFC // http://localhost:8080/JCoService/resources
+        String restRootUrl = getSapServiceUrlFromJndi();
+        RfcProxyClient client = new RfcProxyClient(restRootUrl);// use jersey restful cilent
+        //RfcHttpClient client = new RfcHttpClient(restRootUrl);// only use apache http cilent
+        try{
+            String rfcName = rfcInfos[0];
+            String impName = rfcInfos[1];
+            String expName = rfcInfos[2];
+            // 準備Proxy輸入參數
+            RfcProxyInput input = new RfcProxyInput(GlobalConstant.AP_CODE, rfcName, sapClientCode);
+            input.setDebugMode(true);
+            // 準備RFC輸入參數
+            // ZFLD_IMP_EKORG、ZFLD_IMP_BUKRS
+            if( impName!=null && werks!=null ){
+                Map<String, List<Map<String, Object>>> impTableParams = new HashMap<String, List<Map<String, Object>>>();
+                List<Map<String, Object>> imgList = JCoUtil.buildSimpleEQImpList(werks);
+                impTableParams.put(impName, imgList);
+                input.setTables(impTableParams);
+            }
+
+            // 準備RFC輸出類型參數
+            Map<String, RfcOutputTypeEnum> outputType = new HashMap<String, RfcOutputTypeEnum>();
+            outputType.put(expName, RfcOutputTypeEnum.TABLE);
+            input.setOutputTypes(outputType);
+
+            RfcProxyOutput out = client.callRfc(input);
+            logger.debug("out = \n"+out.dump());
+            List<Map<String, Object>> expList = out.getTable(expName);
+            resList = JCoUtil.convertRfcExpToPOJOList(expList, mainClass, pkClass, pkName, true);
+            logger.info("fetchDataWithWerks rfcName = "+rfcName+", resList = "+sys.size(resList));
+        }catch(Exception e){
+            sys.processUnknowException(operator, restRootUrl, e);
+        }finally{
+            client.close();
+        }
+
+        return resList;*/
+    }
+    public int syncDataWithWerks(String[] rfcInfos, String sapClientCode, String werks, Class mainClass, Class pkClass, String pkName, TcUser operator){
+        List<TcRfcZtab> list = (List<TcRfcZtab>)fetchDataWithWerks(rfcInfos, sapClientCode, werks, mainClass, pkClass, pkName, operator);
+        return saveEntityList(list);
+    }
+    
+    /**
+     * 執行單一 TABLE 回傳 RFC (有公司別參數 bukrs) 
+     * RFC with ZFLD_IMP_BUKRS
+     * @param rfcInfos
+     * @param sapClientCode
+     * @param bukrs
+     * @param mainClass
+     * @param pkClass
+     * @param pkName
+     * @param operator
+     * @return 
+     */
+    public List fetchDataWithBukrs(String[] rfcInfos, String sapClientCode, String bukrs, Class mainClass, Class pkClass, String pkName, TcUser operator){
+        if( rfcInfos==null || rfcInfos.length<2 ){
+            logger.error("fetchDataWithWerks rfcInfos==null || rfcInfos.length<2 ");
+            return null;
+        }
+        String rfcName = rfcInfos[0];
+        String expName = rfcInfos[1];
+        
+        List list = new ArrayList();
+        list.add(bukrs);
+        Map<String, List<Object>> impTabValMap = new HashMap<String, List<Object>>();
+        impTabValMap.put("ZFLD_IMP_BUKRS", list);
+                
+        return fetchSingleExpTable(sapClientCode, rfcName, impTabValMap, expName, mainClass, pkClass, pkName, operator);
+        /*
+        List resList = null;
+        // 呼叫 Proxy 執行 RFC // http://localhost:8080/JCoService/resources
+        String restRootUrl = getSapServiceUrlFromJndi();
+        RfcProxyClient client = new RfcProxyClient(restRootUrl);// use jersey restful cilent
+        //RfcHttpClient client = new RfcHttpClient(restRootUrl);// only use apache http cilent
+        try{
+            String rfcName = rfcInfos[0];
+            String impName = rfcInfos[1];
+            String expName = rfcInfos[2];
+            // 準備Proxy輸入參數
+            RfcProxyInput input = new RfcProxyInput(GlobalConstant.AP_CODE, rfcName, sapClientCode);
+            input.setDebugMode(true);
+            // 準備RFC輸入參數
+            // ZFLD_IMP_EKORG、ZFLD_IMP_BUKRS
+            if( impName!=null ){
+                Map<String, List<Map<String, Object>>> impTableParams = new HashMap<String, List<Map<String, Object>>>();
+                List<Map<String, Object>> imgList = JCoUtil.buildSimpleEQImpList(bukrs);
+                impTableParams.put(impName, imgList);
+                input.setTables(impTableParams);
+            }
+
+            // 準備RFC輸出類型參數
+            Map<String, RfcOutputTypeEnum> outputType = new HashMap<String, RfcOutputTypeEnum>();
+            outputType.put(expName, RfcOutputTypeEnum.TABLE);
+            input.setOutputTypes(outputType);
+
+            RfcProxyOutput out = client.callRfc(input);
+            logger.debug("out = \n"+out.dump());
+            List<Map<String, Object>> expList = out.getTable(expName);
+            resList = JCoUtil.convertRfcExpToPOJOList(expList, mainClass, pkClass, pkName, true);
+            logger.info("fetchDataWithBukrs rfcName = "+rfcName+", resList = "+sys.size(resList));
+        }catch(Exception e){
+            sys.processUnknowException(operator, restRootUrl, e);
+        }finally{
+            client.close();
+        }
+
+        return resList;
+        */
+    }
+    public int syncDataWithBukrs(String[] rfcInfos, String sapClientCode, String bukrs, Class mainClass, Class pkClass, String pkName, TcUser operator){
+        List<TcRfcZtab> list = (List<TcRfcZtab>)fetchDataWithBukrs(rfcInfos, sapClientCode, bukrs, mainClass, pkClass, pkName, operator);
+        return saveEntityList(list);
+    }
+    
+    /**
+     * RFC with ZFLD_IMP_SPRAS
+     * @param rfcInfos
+     * @param sapClientCode
+     * @param spras
+     * @param mainClass
+     * @param pkClass
+     * @param pkName
+     * @param operator
+     * @return 
+     */
+    public List fetchDataWithSpras(String[] rfcInfos, String sapClientCode, String spras, Class mainClass, Class pkClass, String pkName, TcUser operator){
+        if( rfcInfos==null || rfcInfos.length<2 ){
+            logger.error("fetchDataWithSpras rfcInfos==null || rfcInfos.length<2 ");
+            return null;
+        }
+        String rfcName = rfcInfos[0];
+        String expName = rfcInfos[1];
+        
+        List list = new ArrayList();
+        list.add(spras);
+        Map<String, List<Object>> impTabValMap = new HashMap<String, List<Object>>();
+        impTabValMap.put("ZFLD_IMP_SPRAS", list);
+                
+        return fetchSingleExpTable(sapClientCode, rfcName, impTabValMap, expName, mainClass, pkClass, pkName, operator);
+    }
+    public int syncDataWithSpras(String[] rfcInfos, String sapClientCode, String spras, Class mainClass, Class pkClass, String pkName, TcUser operator){
+        List<TcRfcZtab> list = (List<TcRfcZtab>)fetchDataWithSpras(rfcInfos, sapClientCode, spras, mainClass, pkClass, pkName, operator);
+        return saveEntityList(list);
+    }
+    
+}

@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex、nofollow" />
+    <meta name="viewport" content="width=device-width" />
+    <title>台泥陽光採購平台</title>
+    <link rel="icon" 	   type="image/x-icon"	href="img/logo.ico" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/jquery-ui.css" />
+    <link rel="stylesheet" href="css/style-comm.css" />
+    <link rel="stylesheet" href="css/style-userBindVenderNew.css" />
+</head>
+
+<body>
+	<div id="headerField" class="headerField">
+		<div id="header"></div>
+	</div>        
+    
+    <div id="container">
+        <div class="cover"></div>
+        <div class="section">
+            <form class="form">
+                <div class="caption">新商申請<span class="note"></span></div>
+                <br>
+                <h3>公司基本資料 (所有欄位必填)</h3>
+                <ul>
+                    <li class="w50">
+                        <div id="applyVenderName" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="idCode" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="owner1" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="dateStr" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="capital" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="yearRevenue" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="employee" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="tel1" class="customInput"></div>
+                    </li>
+                    <li>
+                        <div id="addr1" class="customInput"></div>
+                    </li>
+                    <li class="w33">
+                        <div class="nonTxtTitle">廠別</div>
+                        <select id="factoryId" name="factoryId"></select>                        
+                    </li>
+                    <li class="w33">
+                        <div class="nonTxtTitle">國別</div>
+                        <select id="countryCode" name="countryCode"></select>                        
+                    </li>
+                    <li class="w33">
+                        <div class="nonTxtTitle">訂單幣別</div>
+                        <select id="currencyCode" name="currencyCode"></select>
+                    </li>
+                    <li>
+                        <div class="nonTxtTitle">供貨商類別</div>
+                        <div id="venderCate" class="chkboxGroup">
+                            <div>
+                                <input type="checkbox" name="type" id="type1" value="製造商"/>
+                                <label for="type1">製造商</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="type" id="type2" value="供貨商"/>
+                                <label for="type2">供貨商</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="type" id="type3" value="貿易商"/>
+                                <label for="type3">貿易商</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="type" id="type4" value="經銷/代理商"/>
+                                <label for="type4">經銷/代理商</label>
+                            </div>
+                            <div>&nbsp;&nbsp;</div>
+                            <div>                                
+                                <label for="typeOther">其他：</label>
+                                <input type="input" name="type" id="typeOther"/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </li>                    
+                    <li>
+                        <div class="nonTxtTitle">供應商行業別</div>
+                        <select id="industryList" name="industryList" multiple="multiple" size="4"></select>
+                        <span class="multiSelectNote">*按住鍵盤 Ctrl 點選可複選項目</span>
+                    </li>
+                    <li>
+                        <div id="brief2" class="customInput"></div>
+                    </li>
+                    <li >
+                        <div id="brief3" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="owner2" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="owner2Tile" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="tel2" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="tel3" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="tel4" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="url2" class="customInput"></div>
+                    </li>
+                    <li>
+                        <div id="addr2" class="customInput"></div>
+                    </li>
+                    <div class="clear"/>
+                </ul>
+                <br>
+                
+                <h3>匯款銀行帳戶 (所有欄位必填)</h3>
+                <ul>
+                    <li class="w50">
+                        <div id="bank1" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="bank1Beneficiary" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="bank1Code" class="customInput"></div>
+                    </li>
+                    <li class="w50">
+                        <div id="bank1Account" class="customInput"></div>
+                    </li>
+                    <li>
+                        <div id="bank1Addr" class="customInput"></div>
+                    </li>
+                    <div class="clear"/>
+                </ul>
+                <br>
+                <div class="btn">送 出</div>
+            </form>
+        </div>
+    </div>
+    
+	<div id="footerField">
+		<div id="footer"></div>
+	</div>
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui-accordion.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/content-ajax.js"></script>
+    <script src="js/content.js"></script>
+    <script>
+        $(function(){            
+            initHeadFoot();
+        });
+        
+        new customInput("applyVenderName", "text", "公司全名");
+        new customInput("idCode", "text", "公司統編 / 稅籍編號");
+        new customInput("owner1", "text", "負責人");
+        new customInput("dateStr", "text", "公司創立日期 (格式範例：1946/11/01)");
+        new customInput("capital", "text", "公司資本額");
+        new customInput("yearRevenue", "text", "年營業額");
+        new customInput("employee", "text", "員工人數");
+        new customInput("tel1", "text", "公司登記電話");
+        new customInput("addr1", "text", "公司登記地址");
+        new customInput("brief2", "text", "主要產品 (例：砂石、橡膠、汽車)");
+        new customInput("brief3", "text", "代理品牌");            
+        new customInput("owner2", "text", "聯絡人");
+        new customInput("owner2Tile", "text", "職稱");
+        new customInput("tel2", "text", "聯絡人電話");
+        new customInput("tel3", "text", "聯絡人手機");
+        new customInput("tel4", "text", "聯絡傳真");
+        new customInput("url2", "text", "聯絡人電子信箱");
+        new customInput("addr2", "text", "聯絡人地址");
+        new customInput("bank1", "text", "銀行名稱 / 分行");
+        new customInput("bank1Beneficiary", "text", "受款人");
+        new customInput("bank1Code", "text", "銀行代號 (金資代碼)");
+        new customInput("bank1Account", "text", "銀行帳號");
+        new customInput("bank1Addr", "text", "銀行地址");
+
+        
+        //取得選單相關選項
+        var restUrl = REST_URL + "services/ops/get?keys=industry,factorys,country,currency&lang=C";
+        ajaxGetBindVenderOptionData(restUrl);
+            
+        function fetchBindVenderOption(response){
+            var factory = "";
+            var country = "";
+            var currency = "";
+            var industry = "";
+
+            $.each(response.factorys, function(k, v){
+                factory += '<option value="' + v.value + '">' + v.label + '</option>';
+            });
+
+            $.each(response.country, function(k, v){
+                country += '<option value="' + v.value + '">' + v.label + '</option>';
+            });
+
+            $.each(response.currency, function(k, v){
+                currency += '<option value="' + v.value + '">' + v.label + '</option>';
+            });
+            
+            $.each(response.industry, function(k, v){                
+                industry += '<option value="' + v.label + '">' + v.label + '</option>';
+            });
+
+            $("#factoryId").append(factory);
+            $("#countryCode").append(country);
+            $("#currencyCode").append(currency);
+            $("#industryList ").append(industry);
+        }
+        
+        
+        $(".form .btn").click(function(){
+            var validInput;
+            
+            //檢查 <input type="text"> 類型欄位是否有空白，true:無空白，false:有空白
+            validInput = validInputEmpty($(".customInput input"));
+            if(!validInput){
+                return false;
+            }
+
+            //檢查 [公司創立日期] 是否符合表示式            
+            //var re = new RegExp("^([0-9]{4})[./]{1}([0-9]{1,2})[./]{1}([0-9]{1,2})$");
+            var re = new RegExp("^([0-9]{4})[./]{1}([0-9]{2})[./]{1}([0-9]{2})$");
+            var foundDate = $("#dateStr input").val();
+            var strData;
+
+            if((strData = re.exec(foundDate)) != null){
+                var i;
+                i = parseFloat(strData[1]);
+                if(i<=0 || i>9999) validInput = false; /*年*/
+                
+                i = parseFloat(strData[2]);
+                if(i<=0 || i>12)   validInput = false; /*月*/
+                
+                i = parseFloat(strData[3]);
+                if(i<=0 || i>31)   validInput = false; /*日*/
+            }else{
+                validInput = false;
+            }
+
+            if(!validInput){
+                alert("[公司創立日期 (格式範例：1954/11/01)] 格式有誤，輸入格式為 YYYY/MM/DD");
+                return false;
+            }
+
+            //檢查 [供貨商類別] 是否有至少勾選一項或在其他欄位填寫
+            if($("input:checkbox:checked[name='type']").val() == undefined && $("#typeOther").val() == ""){
+                validInput = false;
+                alert("[供貨商類別] 至少勾選一項或在 [其他] 欄位填寫資料");
+                return false;
+            }
+            
+            //檢查 [供應商行業別] 是否有至少選擇一項
+            if($("#industryList").val() == ""){
+                validInput = false;
+                alert("[供應商行業別] 至少選擇一項");
+                return false;
+            }
+
+            //檢查空白OK 上傳資料
+            if(validInput){
+                //RESTful
+                var restUrl = REST_URL + "services/vender/apply";
+                
+                var formData = $("form").serializeObject();            
+                formData.type = formData.type.join();
+                formData.memberId = MEMBER_ID;
+                //console.log(formData);
+                
+                ajaxPostData(restUrl, formData);
+            }            
+        });
+        
+        function fetchData(response){
+            if(response.res.status == 1)
+                location.href = "userBindVenderNewStep2.html?id=" + response.res.id;
+        }
+	</script>
+</body>
+</html>

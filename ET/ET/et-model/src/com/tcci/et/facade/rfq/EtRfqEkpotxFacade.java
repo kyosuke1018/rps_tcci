@@ -136,12 +136,11 @@ public class EtRfqEkpotxFacade extends AbstractFacade<EtRfqEkpotx> {
 
     /**
      * 依 ID 查詢
-     * @param storeId
      * @param id
      * @param fullData
      * @return 
      */
-    public RfqEkpotxVO findById(Long storeId, Long id, boolean fullData) {
+    public RfqEkpotxVO findById(Long id, boolean fullData) {
         RfqCriteriaVO criteriaVO = new RfqCriteriaVO();
         criteriaVO.setId(id);
         criteriaVO.setFullData(fullData);

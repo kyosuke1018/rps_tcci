@@ -60,6 +60,7 @@ public class CmFactoryController extends SessionAwareController implements Seria
     }
     
     public void initConfig(List<Long> filterCompanyIds, List<Long> filterFactoryIds, Long companyId, Long factoryId, boolean needDef){
+        logger.debug("initConfig ...");
         // 過濾(權限)
         this.filterCompanyIds = new ArrayList<Long>();
         this.filterFactoryIds = new ArrayList<Long>();
@@ -88,6 +89,8 @@ public class CmFactoryController extends SessionAwareController implements Seria
      * 初始公司別選單
      */
     public void initCompanyOps(){
+        logger.debug("initCompanyOps ...");
+        
         this.companys = new ArrayList<CmCompanyVO>();
         List<CmCompanyVO> companyAll = companyFacade.findAllCompanies();
         if( filterCompanyIds!=null ){
@@ -99,12 +102,15 @@ public class CmFactoryController extends SessionAwareController implements Seria
         }else{
             this.companys.addAll(companyAll);
         }
+        logger.debug("initCompanyOps companys = "+(companys!=null?companys.size():0));
         //companyOps = rfqCommonFacade.buildCompanyOptions(this.companys);
     }
     
     /**
      * 變更公司別 (回傳是否確認變更)
-     * @param confirm 
+     * @param companyId
+     * @param confirm
+     * @return 
      */
     public boolean onChangeCompany(Long companyId, boolean confirm){
         try{

@@ -1,12 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package com.tcci.et.controller.rfq;
 
 import com.tcci.cm.controller.global.CmFactoryController;
 import com.tcci.cm.controller.global.SessionAwareController;
+import com.tcci.cm.enums.SapClientEnum;
 import com.tcci.cm.facade.admin.CmCompanyFacade;
 import com.tcci.cm.facade.admin.CmFactoryFacade;
 import com.tcci.cm.model.admin.CmCompanyVO;
@@ -15,23 +16,37 @@ import com.tcci.cm.model.global.BaseLazyDataModel;
 import com.tcci.cm.util.ExtBeanUtils;
 import com.tcci.cm.util.JsfUtils;
 import com.tcci.dw.facade.PrDwFacade;
+import com.tcci.et.enums.TenderStatusEnum;
 import com.tcci.et.model.TenderVO;
 import com.tcci.et.facade.EtTenderFacade;
+import com.tcci.et.facade.rfq.EtRfqEkkoFacade;
+import com.tcci.et.facade.rfq.EtRfqEkpoFacade;
+import com.tcci.et.facade.rfq.EtRfqPmFacade;
 import com.tcci.et.facade.rfq.RfqCommonFacade;
+import com.tcci.et.facade.sap.SapDataFacade;
 import com.tcci.et.model.criteria.PrCriteriaVO;
 import com.tcci.et.model.criteria.TenderCriteriaVO;
 import com.tcci.et.model.dw.PrEbanPmVO;
 import com.tcci.et.model.dw.PrEbanVO;
 import com.tcci.et.model.dw.PrEbantxHeadVO;
 import com.tcci.et.model.dw.PrEbantxItemVO;
+import com.tcci.et.model.dw.T024VO;
+import com.tcci.et.model.dw.T024eVO;
+import com.tcci.et.model.dw.T052uVO;
 import com.tcci.et.model.rfq.RfqEkkoVO;
 import com.tcci.et.model.rfq.RfqEkpoVO;
+import com.tcci.et.model.rfq.RfqPmVO;
 import com.tcci.et.model.rfq.RfqVO;
+import com.tcci.fc.entity.org.TcUser;
 import com.tcci.fc.util.DateUtils;
 import com.tcci.fc.util.StringUtils;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -51,11 +66,16 @@ public class RfqCreateController extends SessionAwareController implements Seria
     public static final String DATATABLE_RESULT_PR = "fmMain:dtPrItemList";
     public static final String DATATABLE_RESULT_RFQ = "fmMain:dtRfqItemList";
     
+    
     @EJB EtTenderFacade tenderFacade;
     @EJB CmCompanyFacade companyFacade;
     @EJB CmFactoryFacade factoryFacade;
     @EJB RfqCommonFacade rfqCommonFacade;
+    @EJB SapDataFacade sapDataFacade;
     @EJB PrDwFacade prDwFacade;
+    @EJB EtRfqEkkoFacade rfqEkkoFacade;
+    @EJB EtRfqEkpoFacade rfqEkpoFacade;
+    @EJB EtRfqPmFacade rfqPmFacade;
     
     @ManagedProperty(value="#{selFactory}")
     protected CmFactoryController selFactory;
@@ -65,9 +85,10 @@ public class RfqCreateController extends SessionAwareController implements Seria
     
     public List<SelectItem> companyOps;
     public List<SelectItem> factoryOps;
-
-    public List<SelectItem> purOrgOps;
-    public List<SelectItem> purGroupOps;
+    
+    public List<SelectItem> purOrgOps;// 採購組織
+    public List<SelectItem> purGroupOps;// 採購群組
+    public List<SelectItem> payCondOps;// 付款條件
     
     public TenderVO tenderVO = new TenderVO();
     public RfqVO rfqVO = new RfqVO();
@@ -77,8 +98,8 @@ public class RfqCreateController extends SessionAwareController implements Seria
     public List<PrEbanPmVO> prEbanPmList;
     public List<PrEbantxHeadVO> prEbantxHeadList;
     public List<PrEbantxItemVO> prEbantxItemList;
-
-    public List<PrEbanPmVO> rfqPmList;
+    
+    public List<RfqPmVO> rfqPmList;
     
     // for PR Items datatable
     private BaseLazyDataModel<PrEbanVO> lazyModelPrEban; // LazyModel for primefaces datatable lazy loading
@@ -89,11 +110,12 @@ public class RfqCreateController extends SessionAwareController implements Seria
     
     public List<String> prNoList = new ArrayList<String>();
     public String selPrNo;
+    String bukrs; // SAP 公司代碼
     
-    public String queryResultMsg;
-    public String queryPrResultMsg;
-    public String queryPrPmMsg;
-    public String queryRfqPmMsg;
+    public String queryResultMsg;// 標案查詢結果訊息
+    public String queryPrResultMsg;// PR查詢結果訊息
+    public String queryPrPmMsg;//  PR PM查詢結果訊息
+    public String queryRfqPmMsg;// RFQ PM查詢結果訊息
     
     @PostConstruct
     public void init(){
@@ -102,13 +124,12 @@ public class RfqCreateController extends SessionAwareController implements Seria
         initCompany();
         getInitParams();// query string params
         initByTender(tenderVO);
+        
+        // for DEMO
+        tenderVO = new TenderVO();
+        tenderVO.setCode("GXHL-FC19001");
         // for TEST　1180000902, 1180002223, 1180002224, 1180004946
         prCriteriaVO.setBanfn("1180000261");
-        prNoList.add("1180000261");
-        prNoList.add("1180000902");
-        prNoList.add("1180002223");
-        prNoList.add("1180002224");
-        prNoList.add("1180004946");
     }
     
     //<editor-fold defaultstate="collapsed" desc="for Tender">
@@ -118,46 +139,58 @@ public class RfqCreateController extends SessionAwareController implements Seria
     public void getInitParams(){
         try{
             // for TEST
-            String tenderIdStr = "10"; // JsfUtils.getRequestParameter("tenderId");
+            String tenderIdStr = JsfUtils.getRequestParameter("tenderId");
             if( tenderIdStr!=null ){
                 Long tenderId = Long.parseLong(tenderIdStr);
                 tenderVO = tenderFacade.findById(tenderId, false);
-                logger.info("getInitParams tenderVO = "+tenderVO);
             }
         }catch(Exception e){
-            logger.error("getInitParams Exception:\n", e);
+            this.processUnknowException(this.getLoginUser(), "getInitParams", e, false);
         }
     }
-
+    
     /**
      * 依指定標案初始資料
-     * @param tenderVO 
+     * @param tenderVO
      */
     public void initByTender(TenderVO tenderVO){
-        if( tenderVO==null ){
+        if( tenderVO==null || tenderVO.getId()==null ){
             logger.error("initByTender  tenderVO==null");
             return;
         }
         
         rfqVO.setCompanyId(tenderVO.getCompanyId());
-        onChangeCompany(true);
-        selFactory.setNowFactory(tenderVO.getFactoryId(), false);
-        rfqVO.setFactory(selFactory.getSelFactory());
+        CmFactoryVO factory = factoryFacade.findById(tenderVO.getFactoryId());
+        //onChangeCompany(true);
+        //selFactory.setNowFactory(tenderVO.getFactoryId(), false);
+        rfqVO.setFactory(factory); //selFactory.getSelFactory());
         logger.info("initByTender CompanyId = "+tenderVO.getCompanyId()+", FactoryId = "+rfqVO.getFactoryId());
+        //logger.info("initByTender Company = "+selFactory.getSelCompany()+", Factory = "+selFactory.getSelFactory());
         
+        if( factory!=null ){
+            initUIOptions(factory);
+        }
+        
+        // for DEMO
+        tenderVO.setStatus(TenderStatusEnum.NOT_SALE.getCode());
         // TODO get rfq
         rfqVO = rfqCommonFacade.findRfqByTenderId(tenderVO.getId());
+        
         if( rfqVO==null ){// 未設定過
             rfqVO = new RfqVO();
-            // RFQ Default 
+            // RFQ Default
             rfqVO.setEkko(new RfqEkkoVO());
+            rfqVO.getEkko().setTenderId(tenderVO.getId());
             rfqVO.getEkko().setBedat(DateUtils.getToday());// 詢價單日期
-            rfqVO.getEkko().setAngdt(DateUtils.addDays(DateUtils.getToday(), 10));// 報價截止日        
+            rfqVO.getEkko().setAngdt(DateUtils.addDays(DateUtils.getToday(), 10));// 報價截止日
         }
     }
-
+    
+    /**
+     * 查詢標案 by Code
+     */
     public void onQueryTender(){
-        logger.debug("onQueryTender = "+this.prCriteriaVO.getBanfn());
+        logger.debug("onQueryTender = "+tenderVO.getCode());
         try{
             if( StringUtils.isBlank(tenderVO.getCode()) ){
                 JsfUtils.addErrorMessage("請輸入標案編號!");
@@ -167,7 +200,7 @@ public class RfqCreateController extends SessionAwareController implements Seria
             TenderCriteriaVO tenderCriteriaVO = new TenderCriteriaVO();
             tenderCriteriaVO.setCode(tenderVO.getCode());
             List<TenderVO> list = tenderFacade.findByCriteria(tenderCriteriaVO);
-            if( list==null ){
+            if( sys.isEmpty(list) ){
                 JsfUtils.addErrorMessage("請輸入正確的標案編號!");
                 return;
             }
@@ -177,12 +210,25 @@ public class RfqCreateController extends SessionAwareController implements Seria
             }
             tenderVO = list.get(0);
             initByTender(tenderVO);
+            // 顯示RFQ明細
+            renderRfqItems();
+            
+            // 關聯 PR
+            if( rfqVO!=null && rfqVO.getPrNos()!=null ){
+                prNoList.addAll(rfqVO.getPrNos());
+            }
+            // for DEMO
+            // prNoList.add("1180000261");
+            prNoList.add("1180000902");
+            prNoList.add("1180002223");
+            prNoList.add("1180002224");
+            prNoList.add("1180004946");
         }catch(Exception e){
             this.processUnknowException(this.getLoginUser(), "onQueryTender", e, false);
         }
     }
     //</editor-fold>
-            
+    
     //<editor-fold defaultstate="collapsed" desc="for 公司/廠別">
     /**
      * 初始公司別
@@ -197,7 +243,7 @@ public class RfqCreateController extends SessionAwareController implements Seria
     
     /**
      * 變更公司別
-     * @param confirm 
+     * @param confirm
      */
     public void onChangeCompany(boolean confirm){
         try{
@@ -210,6 +256,8 @@ public class RfqCreateController extends SessionAwareController implements Seria
                 return;
             }
             
+            CmCompanyVO company = rfqCommonFacade.getSelectedCompany(companys, rfqVO.getCompanyId());
+            logger.debug("onChangeCompany company = "+company);
             rfqVO.setCompany(rfqCommonFacade.getSelectedCompany(companys, rfqVO.getCompanyId()));
             // TODO 清除所有設定
             
@@ -218,7 +266,7 @@ public class RfqCreateController extends SessionAwareController implements Seria
             this.processUnknowException(this.getLoginUser(), "onChangeCompany", e, true);
         }
     }
-
+    
     /**
      * 回覆公司別
      */
@@ -226,9 +274,8 @@ public class RfqCreateController extends SessionAwareController implements Seria
         try{
             logger.debug("onCancelCompany ... ");
             selFactory.onCancelCompany();
-
             rfqVO.setCompanyId(selFactory.getCompanyId());
-
+            
             JsfUtils.buildSuccessCallback();
         }catch(Exception e){
             this.processUnknowException(this.getLoginUser(), "onCancelCompany", e, true);
@@ -242,21 +289,21 @@ public class RfqCreateController extends SessionAwareController implements Seria
         try{
             logger.debug("onOpenSelFactoryDlg ... ");
             //selFactory.setNowCompany(rfqVO.getCompany().getId(), true);
-
+            
             JsfUtils.buildSuccessCallback();
         }catch(Exception e){
-            this.processUnknowException(this.getLoginUser(), "onChangeCompany", e, true);
+            this.processUnknowException(this.getLoginUser(), "onOpenSelFactoryDlg", e, true);
         }
-
+        
     }
     
     /**
      * 初始廠別
      */
     /*public void initFactory(CmCompanyVO company){
-        factorys = factoryFacade.findByCompanyCode(company.getSapClientCode());
-        factoryOps = rfqCommonFacade.buildFactoryOptions(factorys);
-    }*/  
+    factorys = factoryFacade.findByCompanyCode(company.getSapClientCode());
+    factoryOps = rfqCommonFacade.buildFactoryOptions(factorys);
+    }*/
     
     /**
      * 選取廠別
@@ -268,10 +315,51 @@ public class RfqCreateController extends SessionAwareController implements Seria
             
             rfqVO.setFactorys(selFactory.getSelFactorys());
             rfqVO.setFactoryIds(selFactory.getSelFactoryIds());
-
+            
             JsfUtils.buildSuccessCallback();
         }catch(Exception e){
             this.processUnknowException(this.getLoginUser(), "selectFactorys", e, true);
+        }
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="for UI Options">
+    /**
+     *
+     * @param factory
+     */
+    public void initUIOptions(CmFactoryVO factory){
+        if( factory==null ){
+            logger.error("factory==null");
+            return;
+        }
+        bukrs = (factory!=null && factory.getCode()!=null)? factory.getCode().substring(0, 2)+"00":"";
+        logger.debug("initUIOptions sapClientEnum="+factory.getSapClientCode()+", bukrs = "+bukrs);
+        // 採購組織
+        purOrgOps = new ArrayList<SelectItem>();
+        List<T024eVO> purOrgList = sapDataFacade.findPurOrg(factory.getSapClientCode(), bukrs);
+        if( purOrgList!=null ){
+            for(T024eVO vo : purOrgList){
+                purOrgOps.add(new SelectItem(vo.getEkorg(), vo.getEkotx()));
+            }
+        }
+        // 採購群組
+        purGroupOps = new ArrayList<SelectItem>();
+        List<T024VO> purGroupList = sapDataFacade.findPurGroup(factory.getSapClientCode(), false);
+        if( purGroupList!=null ){
+            for(T024VO vo : purGroupList){
+                purGroupOps.add(new SelectItem(vo.getEkgrp(), vo.getEknam()));
+            }
+        }
+        // 付款條件
+        payCondOps = new ArrayList<SelectItem>();
+        List<T052uVO> payCondList = sapDataFacade.findPayCond(factory.getSapClientCode(), tenderVO.getLanguage());
+        if( payCondList!=null ){
+            for(T052uVO vo : payCondList){
+                if( vo.getText1()!=null ){
+                    payCondOps.add(new SelectItem(vo.getZterm(), vo.getText1()));
+                }
+            }
         }
     }
     //</editor-fold>
@@ -320,7 +408,7 @@ public class RfqCreateController extends SessionAwareController implements Seria
                 return;
             }
             prNoList.add(prCriteriaVO.getBanfn().trim());
-
+            
         }catch(Exception e){
             this.processUnknowException(this.getLoginUser(), "onAddPr", e, false);
         }
@@ -328,7 +416,7 @@ public class RfqCreateController extends SessionAwareController implements Seria
     
     /**
      * 選取 PR ITEM
-     * @param selVO 
+     * @param selVO
      */
     public void onSelPrItem(PrEbanVO selVO){
         logger.debug("onSelPrItem "+selVO.getBnfpo());
@@ -336,12 +424,12 @@ public class RfqCreateController extends SessionAwareController implements Seria
             selVO.setQuantity(selVO.isSelected()?selVO.getMenge():null);
         }catch(Exception e){
             this.processUnknowException(this.getLoginUser(), "onQueryPr", e, false);
-        }        
+        }
     }
     
     /**
      * 檢視服務類明細
-     * @param selVO 
+     * @param selVO
      */
     public void onViewPrSrvItems(PrEbanVO selVO){
         logger.debug("onViewPrSrvItems ... "+selVO.getBanfn()+" : "+selVO.getBnfpo());
@@ -383,12 +471,12 @@ public class RfqCreateController extends SessionAwareController implements Seria
             this.processUnknowException(this.getLoginUser(), "onAddRfqItems", e, true);
         }
     }
-
+    
     /**
      * 重設 RFQ 中指定 PR 的項目
      * @param rfqVO
      * @param banfn
-     * @param ebanList 
+     * @param ebanList
      */
     public void resetRfqItems(RfqVO rfqVO, String banfn, List<PrEbanVO> ebanList){
         logger.debug("resetRfqItems banfn="+banfn+", ebanList="+sys.size(ebanList));
@@ -397,10 +485,12 @@ public class RfqCreateController extends SessionAwareController implements Seria
             return;
         }
         List<RfqEkpoVO> newList = new ArrayList<RfqEkpoVO>();
-        List<Integer> existedBnfpos = new ArrayList<Integer>();
-        Integer maxEbelp = 0;
+        List<Long> existedBnfpos = new ArrayList<Long>();
+        List<Long> selSrvBnfpos = new ArrayList<Long>();// 服務類
+        Map<Long, Long> prRFqBnfposMap = new HashMap<Long, Long>();// for 重設 服務類明細
+        Long maxEbelp = (rfqVO.getEkpoList()!=null)?rfqVO.getEkpoList().size():0L;
         
-        // 已存在
+        // 已存在 (變更數量 or 移除)
         if( rfqVO.getEkpoList()!=null ){
             for(RfqEkpoVO vo : rfqVO.getEkpoList()){
                 if( !banfn.equals(vo.getBanfn()) ){// 非處理中 PR
@@ -409,24 +499,32 @@ public class RfqCreateController extends SessionAwareController implements Seria
                     boolean selected = false;
                     for(PrEbanVO prEbanVO : ebanList){
                         if( prEbanVO.isSelected() && prEbanVO.getBnfpo()!=null && prEbanVO.getBnfpo().equals(vo.getBnfpo()) ){
-                            if( prEbanVO.getMatnr()!=null && prEbanVO.getMatnr().equals(vo.getMatnr()) ){
+                            if( (prEbanVO.getMatnr()==null && vo.getMatnr()==null) // 服務類 matnr = null
+                                    || (prEbanVO.getMatnr()!=null && prEbanVO.getMatnr().equals(vo.getMatnr())) ){
                                 vo.setMenge(prEbanVO.getQuantity());// 變更數量
                                 logger.debug("resetRfqItems update "+vo.getBnfpo());
                                 newList.add(vo);
                                 existedBnfpos.add(vo.getBnfpo());
+                                if( "9".equals(vo.getPstyp()) ){// 服務類
+                                    selSrvBnfpos.add(vo.getBnfpo());
+                                    prRFqBnfposMap.put(vo.getBnfpo(), vo.getEbelp());// for 重設 服務類明細
+                                }
                                 selected = true;
                             }else{
                                 logger.error("resetRfqItems error bnfpo = "+prEbanVO.getBnfpo()+":"+prEbanVO.getMatnr()+"!="+vo.getMatnr());
                             }
                             break;
                         }
+                    }// end of for
+                    
+                    // vo.setLoekz(selected?null:"X"); no used
+                    if( selected ){
+                        maxEbelp = (maxEbelp < vo.getEbelp())?vo.getEbelp():maxEbelp;
                     }
-                    vo.setLoekz(selected?null:"X");
-                    maxEbelp = (maxEbelp < vo.getEbelp())?vo.getEbelp():maxEbelp;
                 }
             }
         }
-        
+
         // 新加入
         if( ebanList!=null ){
             for(PrEbanVO prEbanVO : ebanList){
@@ -440,12 +538,121 @@ public class RfqCreateController extends SessionAwareController implements Seria
                         
                         logger.debug("resetRfqItems new "+vo.getBnfpo());
                         newList.add(vo);
+                        if( "9".equals(vo.getPstyp()) ){// 服務類
+                            selSrvBnfpos.add(vo.getBnfpo());
+                            prRFqBnfposMap.put(vo.getBnfpo(), vo.getEbelp());// for 重設 服務類明細
+                        }
                     }
                 }
             }
         }
         
-        rfqVO.setEkpoList(newList);
+        rfqVO.setEkpoList(newList);// 詢價項目
+        
+        // 重設 服務類明細
+        resetRfqSrvItems(rfqVO, banfn, selSrvBnfpos, prRFqBnfposMap);
+        
+        // 顯示RFQ明細
+        renderRfqItems();
+    }
+    
+    /**
+     * 重設 服務類明細
+     * @param rfqVO
+     * @param banfn
+     * @param selSrvBnfpos 
+     * @param prRFqBnfposMap 
+     */
+    public void resetRfqSrvItems(RfqVO rfqVO, String banfn, List<Long> selSrvBnfpos, Map<Long, Long> prRFqBnfposMap){
+        logger.debug("resetRfqSrvItems banfn="+banfn+", ebanList="+sys.size(selSrvBnfpos));
+        if( rfqVO==null || banfn==null ){
+            logger.error("resetRfqSrvItems rfqVO==null || banfn==null");
+            return;
+        }
+        
+        List<RfqPmVO> newList = new ArrayList<RfqPmVO>();
+        List<String> oriBanfnList = new ArrayList<String>();// 原有 PR 
+        List<Long> oriBnfpoList = new ArrayList<Long>();// 此 PR 原有 PR 項目
+        
+        // 已存在 (注意 PM 欄位名稱為 ebeln、ebelp)
+        if( rfqVO.getPmList()!=null ){
+            for(RfqPmVO vo : rfqVO.getPmList()){
+                if( !banfn.equals(vo.getEbeln()) ){// 非處理中 PR
+                    newList.add(vo);
+                }else{// 處理中 PR
+                    if( selSrvBnfpos!=null && selSrvBnfpos.contains(vo.getEbelp()) ){// 有選取
+                        newList.add(vo);
+                    }
+                    if( !oriBnfpoList.contains(vo.getEbelp()) ){
+                        oriBnfpoList.add(vo.getEbelp());
+                    }
+                }
+
+                if( !oriBanfnList.contains(vo.getEbeln()) ){
+                    oriBanfnList.add(vo.getEbeln());
+                }
+            }
+        }
+        
+        // 新增 (抓取服務類明細加入)
+        // 1. 此 PR 是新增 - 加入所有選取的服務類明細
+        if( !oriBanfnList.contains(banfn) ){
+            if( selSrvBnfpos!=null ){
+                for(Long bnfpo : selSrvBnfpos){
+                    List<RfqPmVO> pmList = toRfqPmByBnfpo(rfqVO.getTenderId(), rfqVO.getRfqId(), prRFqBnfposMap.get(bnfpo), rfqVO.getEkko().getMandt(), banfn, bnfpo);
+                    newList.addAll(pmList);
+                }
+            }
+        }else{
+            // 2. 此 PR 項目 是新增 - 加入選取新增項目的服務類明細
+            if( selSrvBnfpos!=null ){
+                for(Long bnfpo : selSrvBnfpos){
+                    if( !oriBnfpoList.contains(bnfpo) ){
+                        List<RfqPmVO> pmList = toRfqPmByBnfpo(rfqVO.getTenderId(), rfqVO.getRfqId(), prRFqBnfposMap.get(bnfpo), rfqVO.getEkko().getMandt(), banfn, bnfpo);
+                        newList.addAll(pmList);
+                    }
+                }
+            }
+        }
+        
+        rfqVO.setPmList(newList);
+    }
+    
+    /**
+     * 轉指定 PR 服務類明細 至  RFQ 服務類明細
+     * @param tenderId
+     * @param rfqId
+     * @param ebelp
+     * @param mandt
+     * @param banfn
+     * @param bnfpo
+     * @return 
+     */
+    public List<RfqPmVO> toRfqPmByBnfpo(Long tenderId, Long rfqId, Long ebelp, String mandt, String banfn, Long bnfpo){
+        List<RfqPmVO> newList = new ArrayList<RfqPmVO>();
+        
+        List<PrEbanPmVO> pmList = prDwFacade.findByEbanPmByKey(mandt, banfn, bnfpo);
+        if( pmList!=null ){
+            for(PrEbanPmVO pm : pmList ){
+                RfqPmVO rfqPmVO = new RfqPmVO();
+                ExtBeanUtils.copyProperties(rfqPmVO, pm);
+                rfqPmVO.setTenderId(tenderId);
+                rfqPmVO.setRfqId(rfqId);
+                rfqPmVO.setEbelp(ebelp);
+                //rfqPmVO.setEbeln(banfn);
+                //rfqPmVO.setEbelp(bnfpo);
+
+                newList.add(rfqPmVO);
+            }
+        }
+
+        return newList;
+    }
+    
+    /**
+     * 顯示RFQ明細
+     */
+    public void renderRfqItems(){
         // 移除 datatable 目前排序、filter 效果
         JsfUtils.resetDataTable(DATATABLE_RESULT_RFQ);
         filterResultList = null; // filterValue 初始化
@@ -454,13 +661,21 @@ public class RfqCreateController extends SessionAwareController implements Seria
     
     /**
      * 檢視服務類明細
-     * @param selVO 
+     * @param selVO
      */
     public void onViewRfqSrvItems(RfqEkpoVO selVO){
         logger.debug("onViewRfqSrvItems ... "+selVO.getBanfn()+" : "+selVO.getBnfpo());
         try{
             queryRfqPmMsg = "["+selVO.getEbelp()+"]"+selVO.getTxz01()+"：";
-            rfqPmList = prDwFacade.findByEbanPmByKey(selVO.getMandt(), selVO.getBanfn(), selVO.getBnfpo());
+            // rfqPmList = prDwFacade.findByEbanPmByKey(selVO.getMandt(), selVO.getBanfn(), selVO.getBnfpo());
+            rfqPmList = new ArrayList<RfqPmVO>();
+            if( rfqVO.getPmList()!=null ){
+                for(RfqPmVO vo : rfqVO.getPmList()){
+                    if( vo.getEbelp().equals(selVO.getEbelp()) ){
+                        rfqPmList.add(vo);
+                    }
+                }
+            }
         }catch(Exception e){
             this.processUnknowException(this.getLoginUser(), "onViewRfqSrvItems", e, false);
         }
@@ -477,10 +692,24 @@ public class RfqCreateController extends SessionAwareController implements Seria
                 return;
             }
             
-            prepareRfqFullData();
+            //  RFQ 主檔 EKKO
+            rfqVO.setBukrs(bukrs);
+            rfqCommonFacade.saveRfq(tenderVO, rfqVO, this.getLoginUser(), false);
+            /*
+            prepareRfqEkko(rfqVO, this.getLoginUser());
+            RfqEkkoVO ekkoVO = rfqVO.getEkko();
+            rfqEkkoFacade.saveVO(ekkoVO, this.getLoginUser(), false);
+            logger.debug("onSaveRfq ekko id = "+ ekkoVO.getId());
+            rfqVO.setEkko(ekkoVO);
+            // RFQ 明細 EKPO
+            prepareRfqEkpo(rfqVO, this.getLoginUser());
+            rfqEkpoFacade.saveRfqEkpo(rfqVO, this.getLoginUser(), false);
+            // 服務類明細
+            //prepareRfqPm(rfqVO, this.getLoginUser());
+            rfqPmFacade.saveRfqPm(rfqVO, this.getLoginUser(), false);
+            */
             
-            // TODO SAVE
-            
+            JsfUtils.buildSuccessCallback();
         }catch(Exception e){
             this.processUnknowException(this.getLoginUser(), "onSaveRfq", e, true);
         }
@@ -488,7 +717,7 @@ public class RfqCreateController extends SessionAwareController implements Seria
     
     /**
      * 檢查詢價單輸入
-     * @return 
+     * @return
      */
     public boolean checkRfqInput(){
         if( sys.isEmpty(rfqVO.getEkpoList()) ){
@@ -497,224 +726,233 @@ public class RfqCreateController extends SessionAwareController implements Seria
         }
         return true;
     }
-    
-    /**
-     * 完整儲存資料
-     */
-    public void prepareRfqFullData(){
-        // TODO
-    }
     //</editor-fold>
-            
+    
     //<editor-fold defaultstate="collapsed" desc="getter and setter">
     /**
      * 功能標題
-     * @return 
+     * @return
      */
     @Override
     public String getFuncTitle(){
         return sessionController.getFunctionTitle(FUNC_OPTION);
-    } 
+    }
     
     public List<CmCompanyVO> getCompanys() {
         return companys;
     }
-
+    
     public void setCompanys(List<CmCompanyVO> companys) {
         this.companys = companys;
     }
-
+    
     public BaseLazyDataModel<RfqEkpoVO> getLazyModel() {
         return lazyModel;
     }
-
+    
     public void setLazyModel(BaseLazyDataModel<RfqEkpoVO> lazyModel) {
         this.lazyModel = lazyModel;
     }
-
+    
     public List<RfqEkpoVO> getFilterResultList() {
         return filterResultList;
     }
-
+    
     public void setFilterResultList(List<RfqEkpoVO> filterResultList) {
         this.filterResultList = filterResultList;
     }
-
+    
     public BaseLazyDataModel<PrEbanVO> getLazyModelPrEban() {
         return lazyModelPrEban;
     }
-
+    
     public void setLazyModelPrEban(BaseLazyDataModel<PrEbanVO> lazyModelPrEban) {
         this.lazyModelPrEban = lazyModelPrEban;
     }
-
+    
     public List<PrEbanVO> getFilterResultListPrEban() {
         return filterResultListPrEban;
     }
-
+    
     public void setFilterResultListPrEban(List<PrEbanVO> filterResultListPrEban) {
         this.filterResultListPrEban = filterResultListPrEban;
     }
-
+    
     public List<String> getPrNoList() {
         return prNoList;
     }
-
+    
     public void setPrNoList(List<String> prNoList) {
         this.prNoList = prNoList;
     }
-
+    
     public List<CmFactoryVO> getFactorys() {
         return factorys;
     }
-
+    
     public void setFactorys(List<CmFactoryVO> factorys) {
         this.factorys = factorys;
     }
-
+    
     public TenderVO getTenderVO() {
         return tenderVO;
     }
-
+    
     public void setTenderVO(TenderVO tenderVO) {
         this.tenderVO = tenderVO;
     }
-
+    
     public List<SelectItem> getCompanyOps() {
         return companyOps;
     }
-
+    
     public void setCompanyOps(List<SelectItem> companyOps) {
         this.companyOps = companyOps;
     }
-
+    
     public List<SelectItem> getFactoryOps() {
         return factoryOps;
     }
-
+    
     public void setFactoryOps(List<SelectItem> factoryOps) {
         this.factoryOps = factoryOps;
     }
-
+    
     public List<SelectItem> getPurOrgOps() {
         return purOrgOps;
     }
-
+    
     public void setPurOrgOps(List<SelectItem> purOrgOps) {
         this.purOrgOps = purOrgOps;
     }
-
+    
     public RfqVO getRfqVO() {
         return rfqVO;
     }
-
+    
     public void setRfqVO(RfqVO rfqVO) {
         this.rfqVO = rfqVO;
     }
-
+    
     public String getQueryResultMsg() {
         return queryResultMsg;
     }
-
+    
     public void setQueryResultMsg(String queryResultMsg) {
         this.queryResultMsg = queryResultMsg;
     }
-
+    
     public CmFactoryController getSelFactory() {
         return selFactory;
     }
-
+    
     public void setSelFactory(CmFactoryController selFactory) {
         this.selFactory = selFactory;
     }
-
+    
     public List<PrEbanVO> getPrEbanList() {
         return prEbanList;
     }
-
+    
     public void setPrEbanList(List<PrEbanVO> prEbanList) {
         this.prEbanList = prEbanList;
     }
-
+    
     public List<PrEbanPmVO> getPrEbanPmList() {
         return prEbanPmList;
     }
-
+    
     public void setPrEbanPmList(List<PrEbanPmVO> prEbanPmList) {
         this.prEbanPmList = prEbanPmList;
     }
-
+    
     public List<PrEbantxHeadVO> getPrEbantxHeadList() {
         return prEbantxHeadList;
     }
-
+    
     public void setPrEbantxHeadList(List<PrEbantxHeadVO> prEbantxHeadList) {
         this.prEbantxHeadList = prEbantxHeadList;
     }
-
+    
     public List<PrEbantxItemVO> getPrEbantxItemList() {
         return prEbantxItemList;
     }
-
+    
     public void setPrEbantxItemList(List<PrEbantxItemVO> prEbantxItemList) {
         this.prEbantxItemList = prEbantxItemList;
     }
-
+    
     public String getQueryPrResultMsg() {
         return queryPrResultMsg;
     }
-
+    
     public void setQueryPrResultMsg(String queryPrResultMsg) {
         this.queryPrResultMsg = queryPrResultMsg;
     }
-
+    
     public PrCriteriaVO getPrCriteriaVO() {
         return prCriteriaVO;
     }
-
+    
     public void setPrCriteriaVO(PrCriteriaVO prCriteriaVO) {
         this.prCriteriaVO = prCriteriaVO;
     }
-
+    
     public String getSelPrNo() {
         return selPrNo;
     }
-
+    
     public void setSelPrNo(String selPrNo) {
         this.selPrNo = selPrNo;
     }
 
-    public List<PrEbanPmVO> getRfqPmList() {
+    public List<RfqPmVO> getRfqPmList() {
         return rfqPmList;
     }
 
-    public void setRfqPmList(List<PrEbanPmVO> rfqPmList) {
+    public void setRfqPmList(List<RfqPmVO> rfqPmList) {
         this.rfqPmList = rfqPmList;
     }
-
+    
     public String getQueryPrPmMsg() {
         return queryPrPmMsg;
     }
-
+    
     public void setQueryPrPmMsg(String queryPrPmMsg) {
         this.queryPrPmMsg = queryPrPmMsg;
     }
-
+    
     public String getQueryRfqPmMsg() {
         return queryRfqPmMsg;
     }
-
+    
     public void setQueryRfqPmMsg(String queryRfqPmMsg) {
         this.queryRfqPmMsg = queryRfqPmMsg;
     }
-
+    
+    public List<SelectItem> getPayCondOps() {
+        return payCondOps;
+    }
+    
+    public void setPayCondOps(List<SelectItem> payCondOps) {
+        this.payCondOps = payCondOps;
+    }
+    
+    public String getBukrs() {
+        return bukrs;
+    }
+    
+    public void setBukrs(String bukrs) {
+        this.bukrs = bukrs;
+    }
+    
     public List<SelectItem> getPurGroupOps() {
         return purGroupOps;
     }
-
+    
     public void setPurGroupOps(List<SelectItem> purGroupOps) {
         this.purGroupOps = purGroupOps;
     }
     //</editor-fold>
-
+    
 }

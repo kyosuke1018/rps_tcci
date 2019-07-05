@@ -15,7 +15,7 @@ import java.util.Date;
 public class PrEbanPmVO {
     private String mandt;// 用戶端
     private String banfn;// 請購單號碼
-    private Integer bnfpo;// 請購單的項目號碼
+    private Long bnfpo;// 請購單的項目號碼
     private Integer extrow;// 服務行號
     private String ktext1;// 說明
 
@@ -50,11 +50,11 @@ public class PrEbanPmVO {
         this.banfn = banfn;
     }
 
-    public Integer getBnfpo() {
+    public Long getBnfpo() {
         return bnfpo;
     }
 
-    public void setBnfpo(Integer bnfpo) {
+    public void setBnfpo(Long bnfpo) {
         this.bnfpo = bnfpo;
     }
 

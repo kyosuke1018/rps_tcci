@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.tcci.cm.facade.doc;
 
 import com.tcci.cm.entity.doc.CmDocument;
@@ -29,9 +28,12 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class CmDocumentFacade extends AbstractFacade<CmDocument> {
-    @EJB private TcDomainFacade domainFacade;
-    @EJB private TcFvvaultFacade tcFvvaultFacade;
-    
+
+    @EJB
+    private TcDomainFacade domainFacade;
+    @EJB
+    private TcFvvaultFacade tcFvvaultFacade;
+
     @PersistenceContext(unitName = "Model")
     private EntityManager em;
 
@@ -46,48 +48,52 @@ public class CmDocumentFacade extends AbstractFacade<CmDocument> {
 
     /**
      * 單筆儲存
-     * @param entity 
-     * @param operator 
+     *
+     * @param entity
+     * @param operator
      */
-    public void save(CmDocument entity, TcUser operator, boolean simulated){
-        if( entity!=null ){
-            if( entity.getId()!=null && entity.getId()>0 ){
+    public void save(CmDocument entity, TcUser operator, boolean simulated) {
+        if (entity != null) {
+            if (entity.getId() != null && entity.getId() > 0) {
                 entity.setModifier(operator);
                 entity.setModifytimestamp(new Date());
                 this.edit(entity, simulated);
-            }else{
+            } else {
+
                 entity.setCreator(operator);
                 entity.setCreatetimestamp(new Date());
                 this.create(entity, simulated);
             }
         }
-    }    
+    }
 
     /**
      * find by Type and DataId
+     *
      * @param ctype
      * @param dataId
-     * @return 
+     * @return
      */
     public List<CmDocument> findByTypeAndDataId(String ctype, long dataId) {
-        logger.debug("findByTypeAndDataId ... ctype="+ctype+", dataId="+dataId);
+        logger.debug("findByTypeAndDataId ... ctype=" + ctype + ", dataId=" + dataId);
         Map<String, Object> params = new HashMap<>();
         params.put("ctype", ctype);
         params.put("dataId", dataId);
-        
+
         return findByNamedQuery("CmDocument.findByTypeAndDataId", params);
     }
-        
+
     /**
      * 系統檔案路徑
-     * @return 
+     *
+     * @return
      */
-    public String getDefFilePath(){
+    public String getDefFilePath() {
         TcDomain tcDomain = domainFacade.getDefaultDomain();
         String fvVaultHost = GlobalConstant.getFvVaultHost(); // GlobalConstant.FVVAULT_HOST_WIN;
         TcFvvault tcFvvault = tcFvvaultFacade.getTcFvvaultByHost(tcDomain, fvVaultHost);
-        
-        return (tcFvvault.getLocation()!=null)?tcFvvault.getLocation():null;
+
+        return (tcFvvault.getLocation() != null) ? tcFvvault.getLocation() : null;
     }
-    
+
 }

@@ -11,11 +11,14 @@ import com.tcci.et.model.rfq.QuotationVO;
 import com.tcci.et.entity.EtRfqEkko;
 import com.tcci.et.model.rfq.RfqEkkoVO;
 import com.tcci.et.model.criteria.RfqCriteriaVO;
+import com.tcci.et.model.rfq.RfqEkpoVO;
+import com.tcci.et.model.rfq.RfqVO;
 import com.tcci.fc.entity.org.TcUser;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +29,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class EtRfqEkkoFacade extends AbstractFacade<EtRfqEkko> {
+    @EJB EtRfqEkpoFacade rfqEkpoFacade;
 
     @PersistenceContext(unitName = "Model")
     private EntityManager em;
@@ -74,7 +78,7 @@ public class EtRfqEkkoFacade extends AbstractFacade<EtRfqEkko> {
             }
         }
     }
-    public void saveVO(QuotationVO vo, TcUser operator, boolean simulated){
+    public void saveVO(RfqEkkoVO vo, TcUser operator, boolean simulated){
         if( vo==null ){
             logger.error("saveVO vo==null");
             return;
@@ -83,6 +87,7 @@ public class EtRfqEkkoFacade extends AbstractFacade<EtRfqEkko> {
         
         ExtBeanUtils.copyProperties(entity, vo);
         save(entity, operator, simulated);
+        ExtBeanUtils.copyProperties(vo, entity);// return ID
     }
     
     /**
@@ -93,6 +98,9 @@ public class EtRfqEkkoFacade extends AbstractFacade<EtRfqEkko> {
      */
     public String findByCriteriaSQL(RfqCriteriaVO criteriaVO, Map<String, Object> params){
         StringBuilder sql = new StringBuilder();
+        sql.append("FROM ET_RFQ_EKKO S \n");
+        
+        sql.append("WHERE 1=1 \n");
         
         return sql.toString();
     }
@@ -136,17 +144,48 @@ public class EtRfqEkkoFacade extends AbstractFacade<EtRfqEkko> {
 
     /**
      * 依 ID 查詢
-     * @param storeId
      * @param id
      * @param fullData
      * @return 
      */
-    public RfqEkkoVO findById(Long storeId, Long id, boolean fullData) {
+    public RfqEkkoVO findById(Long id, boolean fullData) {
         RfqCriteriaVO criteriaVO = new RfqCriteriaVO();
         criteriaVO.setId(id);
         criteriaVO.setFullData(fullData);
         
         List<RfqEkkoVO> list = findByCriteria(criteriaVO);
         return (list!=null && !list.isEmpty())? list.get(0):null;
+    }
+    
+    /**
+     * 依標案ID 查詢
+     * @param tenderId
+     * @return 
+     */
+    public RfqEkkoVO findByTenderId(Long tenderId) {
+        RfqCriteriaVO criteriaVO = new RfqCriteriaVO();
+        criteriaVO.setTenderId(tenderId);
+        
+        List<RfqEkkoVO> list = findByCriteria(criteriaVO);
+        return (list!=null && !list.isEmpty())? list.get(0):null;
+    }
+
+    /**
+     * 依標案ID 查詢 (含明細資訊)
+     * @param tenderId
+     * @return 
+     */
+    public RfqVO findRfqVOByTenderId(Long tenderId) {
+        RfqVO rfq = new RfqVO();
+        
+        RfqEkkoVO rfqEkkoVO = findByTenderId(tenderId);
+        if( rfqEkkoVO!=null ){
+            rfq.setEkko(rfqEkkoVO);
+            
+            List<RfqEkpoVO> ekpoList = rfqEkpoFacade.findByRfqId(tenderId, rfqEkkoVO.getId());
+            rfq.setEkpoList(ekpoList);
+        }
+
+        return rfq;
     }
 }

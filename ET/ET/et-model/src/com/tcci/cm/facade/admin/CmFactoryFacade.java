@@ -345,46 +345,6 @@ public class CmFactoryFacade extends AbstractFacade<CmFactory> {
         return resList;
     }
     
-    //查自己負責案件 廠別 id list
-    //合併廠別權限
-    public List<CmFactory> myTaskFactoryList(List<CmFactory> owenerfactoryList, TcUser user){
-        Map<String, Object> params = new HashMap<>();
-        StringBuilder sb = new StringBuilder();
-        sb.append("select DISTINCT f.ID from PMIS_TASK t \n");
-        sb.append("INNER JOIN CM_FACTORY f ON t.FACTORY_ID = f.ID \n");
-        sb.append("INNER JOIN PMIS_TASK_ASSIGNMENT assign ON t.ID = assign.TASK_ID \n");
-        sb.append("INNER JOIN TC_USER u_a ON assign.USER_ID = u_a.ID \n");
-        sb.append("INNER JOIN TC_USER u_d ON t.DIRECTOR = u_d.ID \n");
-        sb.append("INNER JOIN TC_USER u_c ON t.CREATOR = u_c.ID \n");
-        sb.append("WHERE 1=1 AND t.FACTORY_ID IS NOT NULL \n");
-        if(user != null){
-            sb.append(" AND (U_A.ID = #userId or U_D.ID = #userId or u_c.ID = #userId) \n");
-            params.put("userId", user.getId());
-        }
-        
-        Query q = em.createNativeQuery(sb.toString());
-        for(String key : params.keySet()){
-            q.setParameter(key, params.get(key));
-        }
-        
-        List<CmFactory> list = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(owenerfactoryList)) {
-            list.addAll(owenerfactoryList);
-        }
-        
-        List<BigDecimal> templist = q.getResultList();
-        if (CollectionUtils.isNotEmpty(templist)) {
-            for(BigDecimal temp : templist){
-                CmFactory factory = this.find(temp.longValue());
-//            list.add(temp.longValue());
-                if(!list.contains(factory)){
-                    list.add(factory);
-                }
-            }
-        }
-        return list;
-    }
-    
     //對應地區(ET_OPTION area) 的廠別
     public List<CmFactory> findByAreaCode(List<CmFactory> owenerfactoryList, Long areaId, String areaCode){ // 
         Map<String, Object> params = new HashMap<>();
@@ -434,5 +394,26 @@ public class CmFactoryFacade extends AbstractFacade<CmFactory> {
         }
         return list;
     }
-    
+
+    /**
+     * 
+     * @param factoryId
+     * @return 
+     */
+    public CmFactoryVO findById(Long factoryId) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("select f.* \n");
+        sb.append("from cm_factory f \n");
+        sb.append("where 1=1 \n");
+        sb.append("and id=#factoryId");
+        
+        params.put("factoryId", factoryId);
+
+        List<CmFactoryVO> list=this.selectBySql(CmFactoryVO.class, sb.toString(), params);
+        return sys.isEmpty(list)?null:list.get(0);
+    }
+
 }

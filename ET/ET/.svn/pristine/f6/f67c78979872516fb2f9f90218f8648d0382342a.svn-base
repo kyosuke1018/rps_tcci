@@ -1,0 +1,559 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml"
+                >
+    <ui:define name="title">
+        <h:outputText value="#{msg['func.name.A12']}" />
+    </ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            $(function () {
+                // for datatable resize in chrome 
+                doResize();
+                $(window).resize(function () {
+                    doResize();
+                });
+            });
+            
+            function afterQuery(){
+                doResize();
+                scrollY(200);
+            }
+            
+            function confirmDel(){
+                // 確定要刪除嗎?
+                return confirm("確定要刪除嗎?");
+            }
+            
+            function afterChangeCompany(xhr, status, args){
+                if( afterCallBackHandler(xhr, status, args) ){
+                    if( args.changeCompany ){
+                        if( confirm("確定要變更公司/地區別嗎? 原有設定將全部清除，重新輸入。") ){
+                            rcConfirmCompany();
+                            return;
+                        }
+                    }
+                }
+                rcCancelCompany();
+            }
+            
+            function afterAddRfqItems(xhr, status, args){
+                if( afterCallBackHandler(xhr, status, args) ){
+                    scrollY(1000);
+                    return;
+                }
+            }
+            
+            function afterSaveRfq(xhr, status, args){
+                if( afterCallBackHandler(xhr, status, args) ){
+                    return;
+                }
+            }
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <h:form id="fmMain" prependId="false" >
+            <p:panel header="#{msg['func.name.A12']}" rendered="#{!rfqCreate.functionDenied}" >
+                <p:fieldset legend="關聯標案資訊" toggleable="false" >
+                    <p:panelGrid columns="4" >
+                        <p:outputLabel value="標案編號：" styleClass="fieldname" />
+                        <h:panelGroup rendered="#{!empty rfqCreate.tenderVO.id}" >
+                            <p:outputLabel value="#{rfqCreate.tenderVO.code}" />
+                        </h:panelGroup>
+                        <h:panelGroup id="pgTenderCode" rendered="#{empty rfqCreate.tenderVO.id}" >
+                            <p:inputText id="itTenderCode" value="#{rfqCreate.tenderVO.code}" size="20" />
+                            <p:spacer width="5" height="5" />
+                            <p:commandButton value="查詢" 
+                                             actionListener="#{rfqCreate.onQueryTender()}"
+                                             process=":fmMain:pgTenderCode" 
+                                             update=":fmMain" />
+                            <i class="fa fa-arrow-circle-down fa-1x"></i>
+                            <p:outputLabel value="#{rfqCreate.queryResultMsg}" />
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    
+                    <h:panelGroup rendered="#{!empty rfqCreate.tenderVO.id}" >
+                        <hr/>
+                        <p:panelGrid columns="6" >
+                            <p:outputLabel value="標案名稱：" styleClass="fieldname" />
+                            <p:outputLabel value="#{rfqCreate.tenderVO.title}" />
+                            
+                            <p:outputLabel value="公司/地區：" styleClass="fieldname" />
+                            <h:panelGroup rendered="#{!empty rfqCreate.tenderVO.id}" >
+                                <p:outputLabel value="#{rfqCreate.tenderVO.companyName}" />
+                            </h:panelGroup>
+                            <!-- 依標案帶出 - 不在此維護
+                            <h:panelGroup rendered="false" >
+                                <p:selectOneMenu id="somCom" value="#{rfqCreate.rfqVO.companyId}" >
+                                    <f:selectItems value="#{selFactory.companys}" var="row" 
+                                                   itemLabel="#{row.companyName}" 
+                                                   itemValue="#{row.id}" />
+                                    
+                                    <p:ajax listener="#{rfqCreate.onChangeCompany(false)}" 
+                                            oncomplete="afterChangeCompany(xhr, status, args);" 
+                                            update=":fmMain" />
+                                </p:selectOneMenu>
+                                
+                                <p:remoteCommand name="rcConfirmCompany" actionListener="#{rfqCreate.onChangeCompany(true)}"
+                                                 update=":fmMain" oncomplete="afterChangeCompany(xhr, status, args);" /> 
+                                <p:remoteCommand name="rcCancelCompany" actionListener="#{rfqCreate.onCancelCompany()}"
+                                                 update=":fmMain:somCom" oncomplete="afterCallBackHandler(xhr, status, args);" /> 
+                            </h:panelGroup>
+                            -->
+                            <p:outputLabel value="廠別：" styleClass="fieldname" />
+                            <h:panelGroup rendered="#{!empty rfqCreate.tenderVO.id}" >
+                                <p:outputLabel value="#{rfqCreate.tenderVO.factoryName}" />
+                            </h:panelGroup>
+                            <!-- 依標案帶出 - 不在此維護
+                            <h:panelGroup rendered="false" >
+                                <h:panelGroup rendered="#{selFactory.multiFactory}" >
+                                    <p:commandButton value="挑選"
+                                                     actionListener="#{rfqCreate.onOpenSelFactoryDlg()}"
+                                                     update=":fmSelectFactory"
+                                                     oncomplete="openSelectFactoryDlg(xhr, status, args)" />
+                                    
+                                    <p:outputLabel value="#{selFactory.selFactoryDesc}" styleClass="info" />
+                                </h:panelGroup>
+    
+                                <h:panelGroup rendered="#{!selFactory.multiFactory}" >
+                                    <p:selectOneMenu value="#{selFactory.factoryId}" >
+                                        <f:selectItems value="#{selFactory.factorys}" var="op" 
+                                                       itemLabel="#{op.displayLabel}" itemValue="#{op.id}" />
+                                    </p:selectOneMenu>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                            -->
+                        </p:panelGrid>
+                        
+                        <p:panelGrid columns="6" rendered="#{!empty rfqCreate.tenderVO.id}" >
+                            <p:outputLabel value="標案狀態：" styleClass="fieldname" />
+                            <p:outputLabel value="#{rfqCreate.tenderVO.statusName}" />
+                            
+                            <p:outputLabel value="招標/詢價方式：" styleClass="fieldname" />
+                            <h:panelGroup >
+                                <p:outputLabel value="#{rfqCreate.tenderVO.tenderMethod.displayName}" />
+                            </h:panelGroup>
+                        </p:panelGrid>
+                    </h:panelGroup>
+                    
+                </p:fieldset>
+                
+                <!-- BEGIN : 輸入詢價單基本資訊 -->
+                <p:fieldset legend="輸入詢價單基本資訊" toggleable="true" rendered="#{!empty rfqCreate.tenderVO.id}" >
+                    <p:panelGrid columns="8" >
+                        <p:outputLabel value="詢價單日期：" styleClass="fieldname" />
+                        <h:panelGroup rendered="#{!empty rfqCreate.rfqVO and !empty rfqCreate.rfqVO.ekko}" >
+                            <p:calendar value="#{rfqCreate.rfqVO.ekko.bedat}" showOn="button"
+                                        size="10" pattern="#{app.dateFormat}" ></p:calendar>
+                        </h:panelGroup>
+                        <p:outputLabel value="報價截止日：" styleClass="fieldname" />
+                        <h:panelGroup rendered="#{!empty rfqCreate.rfqVO and !empty rfqCreate.rfqVO.ekko}" >
+                            <p:calendar value="#{rfqCreate.rfqVO.ekko.angdt}" showOn="button"
+                                        size="10" pattern="#{app.dateFormat}" ></p:calendar>
+                        </h:panelGroup>
+                        <p:outputLabel value="採購組織：" styleClass="fieldname" />
+                        <h:panelGroup rendered="#{!empty rfqCreate.rfqVO and !empty rfqCreate.rfqVO.ekko}" >
+                            <p:selectOneMenu value="#{rfqCreate.rfqVO.ekko.ekorg}" >
+                                <f:selectItems value="#{rfqCreate.purOrgOps}"/>
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                        <p:outputLabel value="採購群組：" styleClass="fieldname" />
+                        <h:panelGroup rendered="#{!empty rfqCreate.rfqVO and !empty rfqCreate.rfqVO.ekko}" >
+                            <p:selectOneMenu value="#{rfqCreate.rfqVO.ekko.ekgrp}" >
+                                <f:selectItems value="#{rfqCreate.purGroupOps}"/>
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    
+                    <p:panelGrid columns="2" >    
+                        <p:outputLabel value="付款條件：" styleClass="fieldname" />
+                        <h:panelGroup rendered="#{!empty rfqCreate.rfqVO and !empty rfqCreate.rfqVO.ekko}" >
+                            <p:selectOneMenu value="#{rfqCreate.rfqVO.ekko.zterm}" >
+                                <f:selectItems value="#{rfqCreate.payCondOps}"/>
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                </p:fieldset>
+                <!-- END : 輸入詢價單基本資訊 -->
+                
+                <!-- BEGIN : 輸入詢價單資訊 : 選取採購項目 -->
+                <p:fieldset id="fsPrInput" legend="選取採購項目" toggleable="true" rendered="#{!empty rfqCreate.tenderVO.id}" >
+                    <p:panelGrid columns="4" >
+                        <p:outputLabel value="輸入請購單號：" />
+                        <h:panelGroup id="pgPrNo" >
+                            <p:inputText value="#{rfqCreate.prCriteriaVO.banfn}" size="12" id="itBanfn" />
+                            <p:spacer width="2" height="2" />
+                            <p:commandButton value="查詢" 
+                                             actionListener="#{rfqCreate.onQueryPr()}" 
+                                             process=":fmMain:fsPrInput" 
+                                             update=":pgPrItemList" />
+                            <p:spacer width="2" height="2" />
+                            <p:commandButton value="加入" 
+                                             actionListener="#{rfqCreate.onAddPr()}" 
+                                             process=":fmMain:fsPrInput" 
+                                             update=":pgPrList" />
+                            <i class="fa fa-arrow-circle-right fa-1x"></i>
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="已加入請購單：" />
+                        <h:panelGroup id="pgPrList" >
+                            <p:selectOneMenu value="#{rfqCreate.selPrNo}" >
+                                <f:selectItem noSelectionOption="true" />
+                                <f:selectItems value="#{rfqCreate.prNoList}" />
+                                
+                                <p:ajax listener="#{rfqCreate.onSelectPr()}" update=":pgPrItemList :itBanfn" />
+                            </p:selectOneMenu>
+                            <p:spacer width="2" height="2" />
+                            <p:commandButton value="移除此請購單"
+                                             process=":fmMain:fsPrInput" />
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    
+                    <h:panelGroup id="pgPrItemList" >
+                        <h:panelGroup id="otRowCountPr" rendered="#{!empty rfqCreate.lazyModelPrEban}" >
+                            <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                            <p:outputLabel value="請購單包含品項數：" />
+                            <p:outputLabel value="#{rfqCreate.lazyModelPrEban.rowCount}" />
+                            <p:spacer width="5" height="5" />
+                            <p:outputLabel value="(選取加入品項，及輸入指定數量)" />
+                        </h:panelGroup>
+                        
+                        <p:remoteCommand name="getRowCountAfterFilteredPr" update=":fmMain:otRowCountPr" />
+                        
+                        <p:dataTable id="dtPrItemList" lazy="true" reflow="true"
+                                     widgetVar="wvDtPrItemList"
+                                     styleClass="ui-datatable-hor-scroll"
+                                     scrollable="true" 
+                                     paginator="true"
+                                     paginatorPosition="bottom"
+                                     rows="10"
+                                     rowsPerPageTemplate="5,10,20,30,40,50"
+                                     value="#{rfqCreate.lazyModelPrEban}"
+                                     filteredValue="#{rfqCreate.filterResultListPrEban}"
+                                     var="row"
+                                     >
+                            <p:ajax event="filter" oncomplete="getRowCountAfterFilteredPr();" />
+                            <p:ajax event="page" process="@none" immediate="true" />
+                            <p:ajax event="sort" process="@none" immediate="true" />
+                            
+                            <p:column headerText="選取" width="40" styleClass="tac">
+                                <p:selectBooleanCheckbox value="#{row.selected}" disabled="#{!empty row.loekz}" >
+                                    <p:ajax listener="#{rfqCreate.onSelPrItem(row)}" 
+                                            update=":dtPrItemList" />
+                                </p:selectBooleanCheckbox>
+                                <h:panelGroup rendered="#{row.pstyp eq '9'}" > 
+                                    <p:spacer width="2" height="2" />
+                                    <p:commandLink actionListener="#{rfqCreate.onViewPrSrvItems(row)}" 
+                                                   process="@this"
+                                                   update=":pgPrItemList" 
+                                                   oncomplete="scrollY(400)" 
+                                                   title="查看服務類項目明細" 
+                                                   ><i class="fa fa-list fa-1x"></i>
+                                    </p:commandLink>
+                                </h:panelGroup>
+                            </p:column>
+                            <p:column headerText="詢價數量" width="90" styleClass="tac">
+                                <p:inputText value="#{row.quantity}" size="8" />
+                            </p:column>
+                            <p:column headerText="項目" width="40" sortBy="#{row.bnfpo}" styleClass="tar" >
+                                <h:outputText value="#{row.bnfpo}" />
+                            </p:column>
+                            <!--
+                            <p:column headerText="刪除指示碼">
+                                <h:outputText value="#{row.loekz}" />
+                            </p:column>
+                            <p:column headerText="處理狀態" sortBy="#{row.statu}">
+                                <h:outputText value="#{row.statu}" />
+                            </p:column>
+                            -->
+                            <p:column headerText="物料" sortBy="#{row.matnrUI}" 
+                                      filterBy="#{row.matnrUI}" filterMatchMode="contains" >
+                                <h:outputText value="#{row.matnrUI}" />
+                            </p:column>
+                            <p:column headerText="短文" sortBy="#{row.txz01}" width="250" 
+                                      filterBy="#{row.txz01}" filterMatchMode="contains" >
+                                <h:outputText value="#{row.txz01}" />
+                            </p:column>
+                            <p:column headerText="請購數量" sortBy="#{row.menge}" styleClass="tar">
+                                <h:outputText value="#{row.menge}" />
+                            </p:column>
+                            <p:column headerText="單位" width="40" sortBy="#{row.meins}">
+                                <h:outputText value="#{row.meins}" />
+                            </p:column>
+                            <p:column headerText="價格" sortBy="#{row.preis}" styleClass="tar">
+                                <h:outputText value="#{row.preis}" />
+                            </p:column>
+                            <p:column headerText="計價數量" width="40" sortBy="#{row.peinh}">
+                                <h:outputText value="#{row.peinh}" />
+                            </p:column>
+                            <p:column headerText="請購單日期" sortBy="#{row.badat}">
+                                <h:outputText value="#{row.badat}" >
+                                    <f:convertDateTime pattern="#{app.dateFormat}"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="物料群組" sortBy="#{row.matkl}">
+                                <h:outputText value="#{row.matkl}" />
+                            </p:column>
+                            <p:column headerText="工廠" width="40" sortBy="#{row.werks}">
+                                <h:outputText value="#{row.werks}" />
+                            </p:column>
+                            <!--
+                            <p:column headerText="儲存地點" sortBy="#{row.lgort}">
+                                <h:outputText value="#{row.lgort}" />
+                            </p:column>
+                            -->
+                            <p:column headerText="需求追蹤號碼" sortBy="#{row.bednr}" 
+                                      filterBy="#{row.bednr}" filterMatchMode="contains" >
+                                <h:outputText value="#{row.bednr}" />
+                            </p:column>
+                            <p:column headerText="申請人" sortBy="#{row.afnam}" 
+                                      filterBy="#{row.afnam}" filterMatchMode="contains" >
+                                <h:outputText value="#{row.afnam}" />
+                            </p:column>
+                        </p:dataTable>
+                        
+                        <!-- PR 服務類明細 -->
+                        <div id='divTopPgPrSrvList' ></div>
+                        <h:panelGroup id="pgPrSrvList" rendered="#{!empty rfqCreate.prEbanPmList}" >
+                            <h:panelGroup>
+                                <h:outputText value="#{rfqCreate.queryPrPmMsg}" class="fieldvalue" />
+                                <p:spacer width="3" height="20" />
+                                <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                                <p:outputLabel value="包含品項數：" />
+                                <p:outputLabel value="#{rfqCreate.prEbanPmList.size()}" />
+                            </h:panelGroup>
+                            
+                            <p:dataTable id="dtPrSrvList" var="srv" lazy="true" reflow="true"
+                                         widgetVar="wvDtPrSrvList" 
+                                         styleClass="ui-datatable-hor-scroll"
+                                         scrollable="true" 
+                                         paginator="true"
+                                         paginatorPosition="bottom"
+                                         value="#{rfqCreate.prEbanPmList}" 
+                                         rows="5"
+                                         rowsPerPageTemplate="5,10,20,30,40,50"
+                                         >
+                                <p:column headerText="服務號碼">
+                                    <h:outputText value="#{srv.extrow}" />
+                                </p:column>
+                                <p:column headerText="短文" width="250">
+                                    <h:outputText value="#{srv.ktext1}" />
+                                </p:column>
+                                <p:column headerText="數量" styleClass="tar">
+                                    <h:outputText value="#{srv.menge}" />
+                                </p:column>
+                                <p:column headerText="單位">
+                                    <h:outputText value="#{srv.meins}" />
+                                </p:column>
+                                <p:column headerText="單價" styleClass="tar">
+                                    <h:outputText value="#{srv.tbtwr}" />
+                                </p:column>
+                                <p:column headerText="總價" styleClass="tar">
+                                    <h:outputText value="#{srv.netwr}" />
+                                </p:column>
+                                <p:column headerText="幣別">
+                                    <h:outputText value="#{srv.waers}" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGroup>
+                        
+                        <h:panelGroup styleClass="blockBtnC" >
+                            <p:commandButton value="確定加入/修改"
+                                             actionListener="#{rfqCreate.onAddRfqItems()}"
+                                             process=":fsPrInput"
+                                             update=":fmMain"
+                                             oncomplete="afterAddRfqItems(xhr, status, args);" />
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </p:fieldset>
+                <!-- END : 輸入詢價單資訊 : 選取採購項目 -->
+                
+                <!-- BEGIN : 詢價單品項列表　-->
+                <p:fieldset id="fsRfqInput" legend="詢價單品項列表" toggleable="true" rendered="#{!empty rfqCreate.tenderVO.id}" >
+                    <h:panelGroup id="pgRfqItemList" >
+                        <h:panelGroup id="otRowCount" rendered="#{!empty rfqCreate.lazyModel}" >
+                            <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                            <p:outputLabel value="詢價單包含品項數：" />
+                            <p:outputLabel value="#{rfqCreate.lazyModel.rowCount}" />
+                            <p:spacer width="5" height="5" />
+                            <p:outputLabel value="(選取加入品項，及輸入指定數量)" />
+                        </h:panelGroup>
+                        
+                        <p:remoteCommand name="getRowCountAfterFiltered" update=":fmMain:otRowCount" />
+                        
+                        <p:dataTable id="dtRfqItemList" var="row" lazy="true" reflow="true"
+                                     widgetVar="wvDtRfqItemList" 
+                                     styleClass="ui-datatable-hor-scroll"
+                                     scrollable="true" 
+                                     paginator="true"
+                                     paginatorPosition="bottom"
+                                     value="#{rfqCreate.lazyModel}"
+                                     filteredValue="#{rfqCreate.filterResultList}"
+                                     rows="10"
+                                     rowsPerPageTemplate="5,10,20,30,40,50"
+                                     >
+                            <p:ajax event="filter" oncomplete="getRowCountAfterFiltered();" />
+                            <p:ajax event="page" process="@none" immediate="true" />
+                            <p:ajax event="sort" process="@none" immediate="true" />
+                            
+                            <p:column headerText="項次" sortBy="#{row.ebelp}" width="50" styleClass="tar">
+                                <h:outputText value="#{row.ebelp}" />
+                                
+                                <h:panelGroup rendered="#{row.pstyp eq '9'}" > 
+                                    <p:spacer width="2" height="2" />
+                                    <p:commandLink actionListener="#{rfqCreate.onViewRfqSrvItems(row)}" 
+                                                   update=":pgRfqItemList" 
+                                                   process="@this"
+                                                   oncomplete="scrollY(800)" 
+                                                   title="查看服務類項目明細" 
+                                                   ><i class="fa fa-list fa-1x"></i>
+                                    </p:commandLink>
+                                </h:panelGroup>
+                            </p:column>
+                            <p:column headerText="請購單號" sortBy="#{row.banfn}">
+                                <h:outputText value="#{row.banfn}" />
+                            </p:column>
+                            <p:column headerText="請購項次" sortBy="#{row.bnfpo}">
+                                <h:outputText value="#{row.bnfpo}" />
+                            </p:column>
+                            <p:column headerText="物料" sortBy="#{row.matnrUI}">
+                                <h:outputText value="#{row.matnrUI}" />
+                            </p:column>
+                            <p:column headerText="短文" width="250" sortBy="#{row.txz01}">
+                                <h:outputText value="#{row.txz01}" />
+                            </p:column>                            
+                            <p:column headerText="交貨日期" width="90">
+                                <p:calendar id="calRfqEindt" pattern="#{app.dateFormat}" value="#{row.eindt}"  
+                                            size="10" maxlength="10" readonlyInput="false"
+                                            navigator="true" required="true" requiredMessage="請輸入[交貨日期]"
+                                            converterMessage="交貨日期格式錯誤" >
+                                </p:calendar>
+                            </p:column>
+                            <p:column headerText="數量" styleClass="tar">
+                                <h:outputText value="#{row.menge}" />
+                            </p:column>
+                            <p:column headerText="單位" width="50">
+                                <h:outputText value="#{row.meins}" />
+                            </p:column>
+                            <p:column headerText="價格" sortBy="#{row.preis}" styleClass="tar">
+                                <h:outputText value="#{row.preis}" />
+                            </p:column>
+                            <p:column headerText="計價數量" styleClass="tar">
+                                <h:outputText value="#{row.peinh}" />
+                            </p:column>
+                            <!--
+                            <p:column headerText="單價">
+                            </p:column>
+                            <p:column headerText="預估總價">
+                            </p:column>
+                            <p:column headerText="需求日期">
+                            </p:column>
+                            <p:column headerText="現有庫存">
+                            </p:column>
+                            <p:column headerText="待收庫存">
+                            </p:column>
+                            <p:column headerText="前購單價">
+                            </p:column>
+                            <p:column headerText="前購日期">
+                            </p:column>
+                            -->
+                            <p:column headerText="工廠" sortBy="#{row.werks}" >
+                                <h:outputText value="#{row.werks}" />
+                            </p:column>
+                            <!--
+                            <p:column headerText="儲存地點" sortBy="#{row.lgort}" >
+                                <h:outputText value="#{row.lgort}" />
+                            </p:column>
+                            -->
+                            <p:column headerText="需求追蹤號碼" sortBy="#{row.bednr}"  
+                                      filterBy="#{row.bednr}" filterMatchMode="contains" >
+                                <h:outputText value="#{row.bednr}" />
+                            </p:column>
+                            <p:column headerText="申請人" sortBy="#{row.afnam}" 
+                                      filterBy="#{row.afnam}" filterMatchMode="contains" >
+                                <h:outputText value="#{row.afnam}" />
+                            </p:column>
+                        </p:dataTable>
+                        
+                        <!-- RFQ 服務類明細 -->
+                        <div id='divTopPgRfqSrvList' ></div>
+                        <h:panelGroup id="pgRfqSrvList" rendered="#{!empty rfqCreate.rfqPmList}" >
+                            <h:panelGroup>
+                                <h:outputText value="#{rfqCreate.queryRfqPmMsg}" class="fieldvalue" />
+                                <p:spacer width="3" height="20" />
+                                <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                                <p:outputLabel value="包含品項數：" />
+                                <p:outputLabel value="#{rfqCreate.rfqPmList.size()}" />
+                            </h:panelGroup>
+                            
+                            <p:dataTable id="dtRfqSrvList" var="srv" lazy="true" reflow="true"
+                                         widgetVar="wvDtRfqSrvList" 
+                                         styleClass="ui-datatable-hor-scroll"
+                                         scrollable="true" 
+                                         paginator="true"
+                                         paginatorPosition="bottom"
+                                         value="#{rfqCreate.rfqPmList}" 
+                                         rows="5"
+                                         rowsPerPageTemplate="5,10,20,30,40,50"
+                                         >
+                                <p:column headerText="服務號碼">
+                                    <h:outputText value="#{srv.extrow}" />
+                                </p:column>
+                                <p:column headerText="短文" width="250" >
+                                    <h:outputText value="#{srv.ktext1}" />
+                                </p:column>
+                                <p:column headerText="數量" styleClass="tar">
+                                    <h:outputText value="#{srv.menge}" />
+                                </p:column>
+                                <p:column headerText="單位">
+                                    <h:outputText value="#{srv.meins}" />
+                                </p:column>
+                                <p:column headerText="單價" styleClass="tar">
+                                    <h:outputText value="#{srv.tbtwr}" />
+                                </p:column>
+                                <p:column headerText="總價" styleClass="tar">
+                                    <h:outputText value="#{srv.netwr}" />
+                                </p:column>
+                                <p:column headerText="幣別">
+                                    <h:outputText value="#{srv.waers}" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup styleClass="blockBtnC" >
+                        <p:commandButton value="確定儲存" 
+                                         actionListener="#{rfqCreate.onSaveRfq()}"
+                                         update=":fmMain:fsRfqInput" 
+                                         oncomplete="afterSaveRfq(xhr, status, args);" />
+                    </h:panelGroup>
+                </p:fieldset>
+                <!-- END : 詢價單品項列表　-->
+            </p:panel>
+        </h:form>
+        
+        <!-- 廠別選取對話框 -->
+        <ui:include src="/inc/inc_selectFactorys.xhtml">
+            <ui:param name="controller" value="#{rfqCreate}"/>
+            <ui:param name="update" value=":fmMain"/>
+        </ui:include>
+        
+        <!-- 功能權限檢查對話框 -->
+        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+            <ui:param name="controller" value="#{rfqCreate}"/>
+        </ui:include>
+        
+    </ui:define>
+</ui:composition>

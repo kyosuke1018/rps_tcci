@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RFQ" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4ab8414c-177d-44f7-8eea-b69556a5679b">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="169"/>
+	<parameter name="address" class="java.lang.String"/>
+	<parameter name="companyName" class="java.lang.String"/>
+	<parameter name="contactNumber" class="java.lang.String"/>
+	<parameter name="contactTax" class="java.lang.String"/>
+	<parameter name="deadline" class="java.lang.String"/>
+	<parameter name="RFQnumber" class="java.lang.String"/>
+	<parameter name="RFQdate" class="java.lang.String"/>
+	<parameter name="buyerTax" class="java.lang.String"/>
+	<parameter name="buyerEmail" class="java.lang.String"/>
+	<parameter name="contactName" class="java.lang.String"/>
+	<parameter name="buyerNumber" class="java.lang.String"/>
+	<parameter name="buyerName" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="292" splitType="Stretch">
+			<staticText>
+				<reportElement x="203" y="23" width="121" height="42" uuid="3c518990-69b2-4903-acb1-9787e5b7f27c"/>
+				<textElement>
+					<font fontName="新細明體" size="24" isBold="true" isUnderline="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[詢  價  單]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="381" y="23" width="101" height="15" uuid="711634e5-110b-4bd0-88ed-a211bbbbc90b"/>
+				<textElement>
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[建立來源：SAP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="381" y="38" width="115" height="15" uuid="cc7ef3b2-abfc-4610-974d-5e6c12a891b0"/>
+				<textElement>
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[輸出來源：WEB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="83" width="70" height="16" uuid="8b884fb4-ed5f-45e4-ad35-4bf5d4f50b73"/>
+				<textElement>
+					<font fontName="新細明體" size="13" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[公司名稱：]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="88" y="83" width="154" height="20" uuid="7f4f7c5c-26c7-4240-9748-787830e0e83c"/>
+				<textElement>
+					<font fontName="新細明體" size="13" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="18" y="103" width="45" height="16" uuid="536bd9f3-5031-4661-80d0-598f0b045494"/>
+				<textElement>
+					<font fontName="新細明體" size="13" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[地址：]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="63" y="103" width="154" height="20" uuid="ac3806ef-93b0-4650-9597-19cb8cafe7a9"/>
+				<textElement>
+					<font fontName="新細明體" size="13" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{address}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="18" y="135" width="57" height="16" isRemoveLineWhenBlank="true" uuid="bb778035-ce87-46ff-9598-97da32824000">
+					<printWhenExpression><![CDATA[($V{PAGE_NUMBER})==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[聯絡人：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="151" width="65" height="16" isRemoveLineWhenBlank="true" uuid="864a8bda-72a1-49e7-b77e-3adb774c04b3">
+					<printWhenExpression><![CDATA[($V{PAGE_NUMBER})==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[聯絡電話：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="167" width="65" height="16" isRemoveLineWhenBlank="true" uuid="ccf73871-e507-4079-af9e-8c0ab6d1899c">
+					<printWhenExpression><![CDATA[($V{PAGE_NUMBER})==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[傳真電話：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="194" width="85" height="16" isRemoveLineWhenBlank="true" uuid="12dd2528-5e1c-4042-98f3-1d5614b65371">
+					<printWhenExpression><![CDATA[($V{PAGE_NUMBER})==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[報價截止日：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="132" width="131" height="16" isRemoveLineWhenBlank="true" uuid="5b744e76-889e-4fe8-a44b-f007737393b2">
+					<printWhenExpression><![CDATA[($V{PAGE_NUMBER})==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[請購單號 (彙總號碼)：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="148" width="80" height="16" isRemoveLineWhenBlank="true" uuid="290bbce8-8ade-44b5-8c48-f23ee886ac77">
+					<printWhenExpression><![CDATA[($V{PAGE_NUMBER})==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[詢價單日期：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="164" width="54" height="16" isRemoveLineWhenBlank="true" uuid="d33ad1fc-5231-4a5d-9e7e-aba7e345331d">
+					<printWhenExpression><![CDATA[($V{PAGE_NUMBER})==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[採購員：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="180" width="65" height="16" isRemoveLineWhenBlank="true" uuid="00719b72-bee0-4bd6-8615-736c4c47ee92">
+					<printWhenExpression><![CDATA[($V{PAGE_NUMBER})==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[聯絡電話：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="196" width="65" height="16" isRemoveLineWhenBlank="true" uuid="96f1a715-5a20-4305-b1a6-88711152033a">
+					<printWhenExpression><![CDATA[($V{PAGE_NUMBER})==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[傳真電話：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="212" width="65" height="16" isRemoveLineWhenBlank="true" uuid="7e1ae1d7-c1a6-4551-b614-0a2f838d3ff4">
+					<printWhenExpression><![CDATA[($V{PAGE_NUMBER})==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[電子信箱：]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="83" y="135" width="154" height="20" uuid="8e53615d-3017-475e-88dc-e894d06ca003"/>
+				<textElement>
+					<font fontName="新細明體" size="12" isBold="false" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{contactName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="151" width="154" height="20" uuid="2ce96edf-3cc4-4052-95bd-859bc5c97c27"/>
+				<textElement>
+					<font fontName="新細明體" size="12" isBold="false" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{contactNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="167" width="154" height="20" uuid="0325b215-f116-4210-9737-3aa3469e133b"/>
+				<textElement>
+					<font fontName="新細明體" size="12" isBold="false" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{contactTax}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="103" y="194" width="154" height="20" uuid="b4fe6e1e-a9ad-4718-851c-abc8d6d1a328"/>
+				<textElement>
+					<font fontName="新細明體" size="12" isBold="false" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{deadline}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="419" y="132" width="154" height="20" uuid="ea908d55-df88-485e-839b-79fd76b00a0b"/>
+				<textElement>
+					<font fontName="新細明體" size="12" isBold="false" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RFQnumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="368" y="148" width="154" height="20" uuid="53727a83-3fe9-4f23-9671-a443a93a4956"/>
+				<textElement>
+					<font fontName="新細明體" size="12" isBold="false" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RFQdate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="353" y="180" width="154" height="20" uuid="cf1deef6-a04a-4891-a282-7349958f8464"/>
+				<textElement>
+					<font fontName="新細明體" size="12" isBold="false" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{buyerNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="353" y="196" width="154" height="20" uuid="24923347-4f9f-46d8-8167-36f39cbbdfb9"/>
+				<textElement>
+					<font fontName="新細明體" size="12" isBold="false" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{buyerTax}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="353" y="212" width="154" height="20" uuid="01806a74-c721-42ca-a86f-348d5ad342a8"/>
+				<textElement>
+					<font fontName="新細明體" size="12" isBold="false" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{buyerEmail}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="18" y="261" width="542" height="20" isRemoveLineWhenBlank="true" uuid="9bed1294-de85-40ef-9b0b-e7ed3322a0b8">
+					<printWhenExpression><![CDATA[($V{PAGE_NUMBER})==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="新細明體" size="12" isBold="false" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[請將下列各料去除一切折扣之價格 (不含營業稅) 於截止日前以本詢價單報價]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="353" y="164" width="154" height="20" uuid="79011d22-47b9-42f6-9f30-4d2debbd0334"/>
+				<textElement>
+					<font fontName="新細明體" size="12" isBold="false" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{buyerName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="186" splitType="Stretch">
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="38" y="119" width="105" height="16" uuid="0b7d80c2-0a41-48ef-8413-a1be5aa9ce69"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ 總計含稅價：]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="119" width="555" height="67" uuid="d0367d61-5fca-463a-b469-46908619ddeb"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="38" y="149" width="45" height="16" uuid="50817b32-135c-4d30-aba1-86556940aab9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ 税别:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="38" y="167" width="45" height="16" uuid="fe82eb9e-f215-425f-8d76-f5389b89b56d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ 税率:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="108" y="149" width="75" height="16" uuid="141c0b67-678e-4413-b40f-3da3880f96e7"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[□零税率]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="108" y="165" width="55" height="16" uuid="f367fa4b-83e8-418f-8fff-85d7a0ed6959"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[□4%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="213" y="149" width="75" height="16" uuid="a3c6a4ad-6c43-468d-8220-7319349b3b58"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[□增值税]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="324" y="149" width="75" height="16" uuid="fa1a71a4-ed19-4948-aa46-3a6c3533ce52"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[□普通发票]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="183" y="165" width="45" height="16" uuid="e9c3db55-62b1-41d4-8620-5ccd2f9ee935"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[□6%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="243" y="165" width="45" height="16" uuid="b7da0c38-13bf-4b8a-be5e-94b0b527b1eb"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[□7%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="324" y="165" width="65" height="16" uuid="79584188-e273-4e70-86f5-e5b0685285c1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[□13%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="419" y="165" width="45" height="16" uuid="be84980c-18c5-413a-91af-d655e92bfe37"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[□17%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="95" width="18" height="24" uuid="95f30f16-3d6e-4e81-a966-9812044d6514"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="9" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="18" y="95" width="105" height="24" uuid="e1db8898-f350-43f5-ba0e-d7464e8f9114"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="9" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="123" y="95" width="100" height="24" uuid="3dbcc6bd-192b-4d2a-9678-81d0007370ad"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="9" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="223" y="95" width="100" height="24" uuid="c4238d8d-14d8-4a76-8283-b1df1f65c243"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="9" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="323" y="95" width="100" height="24" uuid="cbeefc15-294e-4917-8c30-175bdc7e5c96"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="9" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="423" y="95" width="132" height="24" uuid="6be5407d-6b5f-4971-b53f-f950df3764ad"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="9" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="123" y="77" width="300" height="18" uuid="ab8f5798-4f65-4562-b946-52a1263cc10b"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="9" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="123" y="59" width="300" height="18" uuid="df61d577-6788-4557-8c01-ba1f5e752e4d"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="9" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="423" y="77" width="132" height="18" uuid="843f23e8-9195-46ec-9e42-55e3f4abb1e1"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="9" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="423" y="59" width="132" height="18" uuid="198becfa-3f16-4ec6-b2df-179492991648"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="9" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="123" y="41" width="100" height="18" uuid="297a30dd-3bbc-4751-980a-af3a49e54ef9"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ 幣別          單價]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="223" y="41" width="100" height="18" uuid="2b6ab09a-da7a-4e02-855d-1f9e260bb11e"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[總價		]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="323" y="41" width="100" height="18" uuid="ed2b2054-fc6d-4da1-8222-601b0748e3e4"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[   可交貨日]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="18" y="77" width="105" height="18" uuid="d29f8fd7-a474-4b51-a3c5-4e531409ef2d"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="9" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="18" y="59" width="105" height="18" uuid="ff670dbe-8441-4e33-baa2-8c40dcc33f60"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="9" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="18" y="41" width="105" height="18" uuid="88d1cc1e-1c75-4d5d-a2ae-1e7309c9055b"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[供應商回覆		]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="423" y="41" width="132" height="18" uuid="2e38b1d6-c41f-4106-81cf-7a945fec652b"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[   廠牌]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="18" y="23" width="105" height="18" uuid="c94612a9-df7c-4301-b3cc-9548f905cdbf"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ 數量          單位]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="18" y="5" width="105" height="18" uuid="b3d378cd-aeba-497d-9264-19f19a736b8a"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ 料號]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="423" y="23" width="132" height="18" uuid="2dfe94ef-6ad0-4d83-a00d-6a28bf50b020"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[   交貨地點]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="423" y="5" width="132" height="18" uuid="f4930185-3cc1-41ae-9c75-e6b2706c056c"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[   圖號]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="123" y="23" width="100" height="18" uuid="e8a6b52c-3307-4edf-bf91-2280f8d7627f"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ 需求日期]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="77" width="18" height="18" uuid="10ae6e1d-40e4-4aed-8da3-14a27c5213bf"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="9" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="59" width="18" height="18" uuid="6f000cb0-a856-4fcc-8318-62cef3f7af0e"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="新細明體" size="9" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="123" y="5" width="300" height="18" uuid="0e56f65a-a3f3-4a9d-9610-8c9c0c801aae"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ 品格規格]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="5" width="18" height="54" uuid="e6145ebf-e188-4a2e-9b21-2ca17c8c6e12"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[項  次]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="223" y="23" width="200" height="18" uuid="970bf416-2f9d-448f-b0df-95ae1506a665"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="新細明體" size="12" isBold="true" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[                      備註]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<summary>
+		<band height="287" splitType="Stretch">
+			<staticText>
+				<reportElement x="13" y="13" width="542" height="16" uuid="c3cb40a5-a6bd-4645-9338-111f43af9df7"/>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[注意事項：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="29" width="542" height="16" uuid="7f5b074d-fd7f-41dc-a0b9-1e8c84c7e787"/>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[1.以上各料均須全新並依本單之規定否則應加以註明。]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="45" width="542" height="16" uuid="d1712c0a-d6ce-4501-941a-970e2a154da9"/>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[2.報價如對本詢價單規定之各部分有所改變或塗改，應加以蓋章以資慎重，否則無效。]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="61" width="542" height="16" uuid="a00ca0df-b614-4257-ac4a-39233f8c7fcf"/>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[3.逾期罰則:除因天災人禍等不可抗力情事經買方確認者外，賣方應按本採購單所規定之日期交貨，]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="77" width="542" height="16" uuid="addd403c-8ed0-41d8-b79d-576e20a53abd"/>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[否則買方得改向他廠商訂購，其價差及因此所生之費用概由賣方負擔，賣方並應照下列]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="93" width="542" height="16" uuid="31940cde-f679-4009-83f1-99c36a664dbf"/>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[規定罰款:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="109" width="542" height="16" uuid="d2e3bb36-198a-4290-993c-0e9640ad01fd"/>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[(1)逾期交貨:每逾期壹天，按遲交部分貨價之千分之壹扣罰貨款。]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="125" width="542" height="16" uuid="e386b760-8c03-4907-a2c3-2ec4ffe4f624"/>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[(2)因退換貨品而致逾原定交貨日期交貨者，概作逾期論。]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="141" width="542" height="16" uuid="46689ebc-0501-4499-aeb3-f97e3bc17108"/>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[4.不付訂金俟貨品交清後，發票日90天一次付清。但仍需依我方實際付款作業時間為每月月中及月底]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="157" width="542" height="16" uuid="7dde7d93-00de-41e2-b618-9149be83c021"/>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[辦理。]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="173" width="542" height="16" uuid="2294cb4b-2383-40c4-9319-39168f55307c"/>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[5.賣方責任:運費及包裝、卸貨由賣方自行負責，賣方作業人員進入交貨地點時，須遵守該區相關規]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="189" width="542" height="16" uuid="d67f392b-b730-4c40-8a47-6738e15f89f0"/>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[定並注意作業安全，如有任何傷亡及損失時，賣方應負全部法律責任，概與買方無涉。]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="205" width="542" height="16" uuid="0e7f8097-7972-4b44-82cc-edb57b7e0cf7"/>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[6.凡承售廠商承制絕非來歷不明，如發生糾紛，須由廠商依時價賠償。]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="221" width="542" height="16" uuid="571aa4eb-7547-473b-a082-b54d8077401a"/>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[7.本公司保留總價或分項決標權，未得標者本公司不另行通知。]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="237" width="542" height="16" uuid="408b9697-d9cb-4293-a0bd-b083781f6f4f"/>
+				<textElement>
+					<font fontName="新細明體" size="12" pdfFontName="mingliu.ttc,0" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[備註:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

@@ -17,7 +17,9 @@ import com.tcci.et.entity.EtMemberForm;
 import com.tcci.et.enums.FormStatusEnum;
 import com.tcci.et.enums.FormTypeEnum;
 import com.tcci.et.facade.EtMemberFormFacade;
+import com.tcci.et.facade.EtVenderAllFacade;
 import com.tcci.et.facade.EtVenderFacade;
+import com.tcci.et.model.VenderAllVO;
 import com.tcci.et.model.criteria.BaseCriteriaVO;
 import com.tcci.et.model.criteria.PrCriteriaVO;
 import com.tcci.fc.controller.util.AttachmentBean;
@@ -27,7 +29,6 @@ import com.tcci.fc.entity.org.TcUser;
 import com.tcci.fc.facade.bpm.IBPMEngine;
 import com.tcci.fc.facade.bpm.ProcessActivityVO;
 import com.tcci.fc.facade.content.ContentFacade;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,8 +38,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -60,6 +59,8 @@ public class MemberFormSignController extends SessionAwareController implements 
     @EJB
     private EtVenderFacade etVenderFacade;
     private @EJB MmDwFacade mmDwFacade;
+    @EJB 
+    private EtVenderAllFacade etVenderAllFacade;
     @Inject
     protected IBPMEngine bpmEngine;
     
@@ -274,24 +275,45 @@ public class MemberFormSignController extends SessionAwareController implements 
         if (!workitem.getActivityid().getProcessid().getPrimaryobjectid().equals(formId)) {
             throw new Exception("資料不正確!");
         }
+        if(FormTypeEnum.M_NV.getCode().equals(form.getType())){
+            //disable 該筆申請的 ET_VENDER_ALL
+            VenderAllVO venderAllVO = etVenderAllFacade.findByApplyId(form.getId());
+            if(venderAllVO!=null){
+                venderAllVO.setDisabled(Boolean.TRUE);
+                etVenderAllFacade.saveVO(venderAllVO, this.getLoginUser(), false);
+            }
+        }
+        
         bpmEngine.completeWorkitem(workitem, "reject", "reject", comment, this.getLoginUser(), true);
     }
     
     public void approve(TcWorkitem workitem, String comment, Long formId) throws Exception {
         if(FormTypeEnum.M_NV.getCode().equals(form.getType())){
-            if (StringUtils.isBlank(form.getApplyVenderCode())) {
+            String venderCode = form.getApplyVenderCode();
+            if (StringUtils.isBlank(venderCode)) {
                 throw new Exception("請輸入供應商代碼!");
             }else{
-                String venderCode = formVO.getApplyVenderCode();
                 BaseCriteriaVO criteriaVO = new BaseCriteriaVO();
                 criteriaVO.setDisabled(Boolean.FALSE);//排除黑名單
                 criteriaVO.setType(form.getMandt());
                 criteriaVO.setCode(venderCode);
                 List<VenderVO> list = etVenderFacade.findLfa1ByCriteria(criteriaVO);
+                VenderVO lfa1VO;
                 if(CollectionUtils.isEmpty(list)){
                     throw new Exception("供應商代碼不存在!");
+                }else{
+                    lfa1VO = list.get(0);
                 }
                 formFacade.save(form, this.getLoginUser(), Boolean.FALSE);
+                
+                //update ET_VENDER_ALL 中的供應商代碼 供應商名稱
+                VenderAllVO venderAllVO = etVenderAllFacade.findByApplyId(form.getId());
+                if(venderAllVO!=null && lfa1VO!=null){
+                    venderAllVO.setLifnr(lfa1VO.getVenderCode());
+                    venderAllVO.setLifnrUi(lfa1VO.getVenderCode());
+                    venderAllVO.setName(lfa1VO.getCname());
+                    etVenderAllFacade.saveVO(venderAllVO, this.getLoginUser(), false);
+                }
             }
         }
         if (comment != null && comment.length()>200) {

@@ -27,16 +27,12 @@ import com.tcci.fc.entity.org.TcUser;
 import com.tcci.fc.facade.org.TcUserFacade;
 import com.tcci.fc.util.StringUtils;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import javax.annotation.Priority;
 import javax.ejb.EJB;
 import javax.enterprise.inject.Alternative;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import static javax.interceptor.Interceptor.Priority.APPLICATION;
 import org.apache.commons.collections.CollectionUtils;
@@ -79,7 +75,7 @@ public class BpmEngineEx extends BPMEngineImpl {
     @Override
     public String onExecuteExpressionRobot(TcActivity activity) {
         String result = "success";
-        System.out.println("Robot activity(" + activity.getId() + ") " + activity.getActivityname() + " return " + result);
+        logger.info("Robot activity(" + activity.getId() + ") " + activity.getActivityname() + " return " + result);
         return result;
     }
 
@@ -88,7 +84,7 @@ public class BpmEngineEx extends BPMEngineImpl {
     // app 可實作通知系統管理員來處理。
     @Override
     public void onWaitingActivity(TcActivity activity) {
-        System.out.println("activity(" + activity.getId() + ") " + activity.getActivityname() + " 等待處理!");
+        logger.info("activity(" + activity.getId() + ") " + activity.getActivityname() + " 等待處理!");
     }
 
     // 當activity執行到END
@@ -115,7 +111,7 @@ public class BpmEngineEx extends BPMEngineImpl {
             List<VenderVO> list2 = venderFacade.findLfa1ByCriteria(criteriaVO);
             if(CollectionUtils.isEmpty(list) && CollectionUtils.isNotEmpty(list2)){
                 VenderVO lfa1 = list2.get(0);
-                
+                //會員綁定供應商
                 EtVender entity = new EtVender();
                 entity.setMainId(vo.getMemberId());
                 entity.setMandt(lfa1.getMandt());
@@ -127,6 +123,22 @@ public class BpmEngineEx extends BPMEngineImpl {
             if(FormTypeEnum.M_V.getCode().equals(vo.getType())){
                 this.completeProcessNotificationMv(process, vo);
             }else if(FormTypeEnum.M_NV.getCode().equals(vo.getType())){
+                //disable ET_VENDER_ALL中 沒有APPLY_ID, 相同供應商代碼的資料
+                //20190625 不disable
+//                RfqCriteriaVO rfqCriteriaVO = new RfqCriteriaVO();
+//                rfqCriteriaVO.setMandt(className);
+//                rfqCriteriaVO.setLifnrUi(className);
+//                rfqCriteriaVO.setDisabled(Boolean.FALSE);
+//                List<VenderAllVO> venderAllVOList = etVenderAllFacade.findByCriteria(rfqCriteriaVO);
+//                if(CollectionUtils.isNotEmpty(venderAllVOList)){
+//                    TcUser admin = userFacade.findUserByLoginAccount("administrator", null);
+//                    for(VenderAllVO venderAllVO:venderAllVOList){
+//                        if(venderAllVO.getApplyId() == null){
+//                            venderAllVO.setDisabled(Boolean.TRUE);
+//                            etVenderAllFacade.saveVO(venderAllVO, admin, false);
+//                        }
+//                    }
+//                }
                 this.completeProcessNotificationMnv(process, vo);
 //            }else if(FormTypeEnum.M_I.getCode().equals(vo.getType())){
                 
@@ -349,7 +361,7 @@ public class BpmEngineEx extends BPMEngineImpl {
     // operator是執行的人,若與workitem.owner不同時且allowAgent是false時會拋出exception
     @Override
     public void completeWorkitem(TcWorkitem workitem, String ballot, String routeName, String comments, TcUser operator, boolean allowAgent) {
-        System.out.println("completeWorkitem by " + operator);
+        logger.info("completeWorkitem by " + operator);
         threadLocal.set(operator);
         super.completeWorkitem(workitem, ballot, routeName, comments, operator, allowAgent);
         threadLocal.remove();
@@ -419,7 +431,7 @@ public class BpmEngineEx extends BPMEngineImpl {
         mailBean.put("mvMap", mvMap);
         mailBean.put("mnvFormName",  FormTypeEnum.M_NV.getName());
         mailBean.put("mnvWorkitems", mnvWorkitems);
-        mailBean.put("mnvMap", mvMap);
+        mailBean.put("mnvMap", mnvMap);
 //        mailBean.put("miFormName",  FormTypeEnum.M_I.getName());
 //        mailBean.put("miWorkitems", miWorkitems);
 //        mailBean.put("miMap", mvMap);
@@ -440,7 +452,7 @@ public class BpmEngineEx extends BPMEngineImpl {
         if (vo != null) {
             String newOwner = (null == vo.getNewOwner()) ? null : vo.getNewOwner().getCname();
             String msg = String.format("%s(%d) auto reassign -> %s", workitem.getActivityname(), workitem.getId(), newOwner);
-            System.out.println(msg);
+            logger.info(msg);
         }
         return vo;
     }
