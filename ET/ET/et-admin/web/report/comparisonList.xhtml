@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml"
+
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        <h:outputText value="#{comparisonTableController.funcTitle}" />
+    </ui:define>
+    <ui:define name="head"> 
+    </ui:define>
+    <ui:define name="content">
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        <h:form id="fmMain" prependId="false" >
+
+            <p:panel header="#{comparisonTableController.funcTitle}" style="overflow-x: scroll;"  >
+                <h:panelGroup>
+                    <p:fieldset legend="#{msg['search.critical']}" toggleable="true" collapsed="false" >
+                        <!-- 查詢 -->
+                        <p:commandButton icon="ui-icon-search" value="#{msg['button.search']}"
+                                         title="#{msg['button.search']}"
+                                         actionListener="#{comparisonTableController.doQuery()}" 
+                                         oncomplete="doResize('dtResult');"
+                                         update="fsResult"/>
+                        <p:spacer width="5px"/> 
+
+                        <!--清除按鈕-->
+                        <p:commandButton value="#{msg['common.button.clear']}"
+                                         icon="ui-icon ui-icon-cancel"  
+                                         title="#{msg['common.button.clear']}"
+                                         actionListener="#{comparisonTableController.doReset()}"
+                                         oncomplete="doResize('dtResult');" 
+                                         update="fsResult"/>
+                    </p:fieldset>
+                    <p:fieldset id="fsResult" legend="#{msg['search.result']}">
+
+                        <p:dataTable id="dtResult" var="row"  
+                                     value="#{comparisonTableController.lazyModel}" lazy="true"
+                                     widgetVar="wvDTResult"
+                                     filteredValue="#{comparisonTableController.filterResultList}"
+                                     styleClass="ui-datatable-hor-scroll"
+                                     rows="10"
+                                     paginator="true" 
+                                     reflow="true"
+                                     > 
+                            <p:ajax event="filter" oncomplete="doResize(); rcGetRowCountAfterFiltered();" /> 調整寬度 for chrome 
+
+                            <p:column width="100">
+                                <f:facet name="header">
+                                    <h:panelGroup style="text-align: left;">
+                                        <div style="white-space: pre-wrap">
+                                            <h:outputText value="料物" />
+                                        </div>
+                                        <div style="white-space: pre-wrap">
+                                            <h:outputText value="短文本" />
+                                        </div>
+                                        <div style="white-space: pre-wrap">
+                                            <h:outputText value="基本單位的數量" />
+                                        </div>
+                                    </h:panelGroup>
+                                </f:facet>
+                                <div style="white-space: pre-wrap">
+                                    <h:outputText escape="false" value="#{row.matnr}" />
+                                </div>
+                                <div style="white-space: pre-wrap">
+                                    <h:outputText escape="false" value="#{row.txz01}" />
+                                </div>
+                                <div style="white-space: pre-wrap">
+                                    <h:outputText escape="false" value="#{row.menge}" />
+                                </div>
+                            </p:column>
+
+
+                            <p:column width="35">
+                                <f:facet name="header">
+                                    <h:panelGroup style="text-align: left;">
+                                        <div style="white-space: pre-wrap">
+                                            <h:outputText value="報價:" />
+                                        </div>
+                                        <div style="white-space: pre-wrap">
+                                            <h:outputText value="投標人:" />
+                                        </div>
+                                        <div style="white-space: pre-wrap">
+                                            <h:outputText value="名稱:" />
+                                        </div>
+                                    </h:panelGroup>
+                                </f:facet>
+                                <div style="white-space: pre-wrap">
+                                    <h:outputText escape="false" value="值:" />
+                                </div>
+                                <div style="white-space: pre-wrap">
+                                    <h:outputText escape="false" value="價格:" />
+                                </div>
+                                <div style="white-space: pre-wrap">
+                                    <h:outputText escape="false" value="排列:" />
+                                </div>
+                            </p:column>
+
+
+
+
+
+
+
+
+
+
+                            <c:forEach  items="#{comparisonTableController.comparisonListVenderlList}" var="comparisonTableVender" varStatus="metadata">
+
+                                <p:column width="80">
+                                    <f:facet name="header">
+                                        <h:panelGroup style="text-align: left;">
+                                            <div style="white-space: pre-wrap">
+                                                <h:outputText value="#{comparisonTableVender.lifnr}" />
+                                            </div>
+                                            <div style="white-space: pre-wrap">
+                                                <h:outputText value="#{comparisonTableVender.createtime}" />
+                                            </div>
+                                            <div style="white-space: pre-wrap">
+                                                <h:outputText value="#{comparisonTableVender.name1}" />
+                                            </div>
+                                        </h:panelGroup>
+                                    </f:facet>
+                                    <!--                                    <div style="white-space: pre-wrap">
+                                                                            <h:outputText escape="false" value="值:" />
+                                                                        </div>
+                                                                        <div style="white-space: pre-wrap">
+                                                                            <h:outputText escape="false" value="價格:" />
+                                                                        </div>
+                                                                        <div style="white-space: pre-wrap">
+                                                                            <h:outputText escape="false" value="排列:" />
+                                                                        </div>-->
+                                </p:column>
+
+
+
+
+                            </c:forEach>
+
+
+
+
+                            <p:column sortBy="#{row.mandt}" headerText="平均" width="180" filterBy="#{row.mandt}" filterStyle="width:60px">  
+                                <!--<h:outputText value=" #{row.mandt}" />-->
+                            </p:column>
+
+                            <p:column sortBy="#{row.mandt}" headerText="最小" width="180" filterBy="#{row.mandt}" filterStyle="width:60px">  
+                                <!--<h:outputText value=" #{row.mandt}" />-->
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:fieldset>
+                </h:panelGroup>
+            </p:panel>
+        </h:form>
+
+
+
+
+        <!-- 編輯對話框 -->
+        <!--<ui:include src="/vender/inc_categoryEditDlg.xhtml"></ui:include>-->
+
+        <!-- 功能權限檢查對話框 -->
+        <!--        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+                    <ui:param name="controller" value="#{venderCategoryController}"/>
+                </ui:include>-->
+
+    </ui:define>
+</ui:composition>
+

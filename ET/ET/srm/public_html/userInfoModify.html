@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex、nofollow" />
+    <meta name="viewport" content="width=device-width" />
+    <title>台泥陽光採購平台</title>
+    <link rel="icon" 	   type="image/x-icon"	href="img/logo.ico" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/jquery-ui.css" />
+    <link rel="stylesheet" href="css/style-comm.css" />
+    <link rel="stylesheet" href="css/style-userInfoModify.css" />
+</head>
+
+<body>
+	<div id="headerField" class="headerField">
+		<div id="header"></div>
+	</div>        
+    
+    <div id="container">
+        <div class="cover"></div>
+        <div class="section">
+            <div class="form">
+                <div class="caption">修改會員資料</div>
+                <div id="name"  class="customInput"></div>
+                <div id="phone" class="customInput"></div>                
+                <div class="btn">送 出</div>
+            </div>
+        </div>
+    </div>
+    
+	<div id="footerField">
+		<div id="footer"></div>
+	</div>
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui-accordion.min.js"></script>
+    <script src="js/content-ajax.js"></script>
+    <script src="js/content.js"></script>
+    <script>
+        $(function(){            
+            initHeadFoot();
+        });
+        
+        var nameInput =  new customInput("name",  "text", "姓名");
+        var phoneInput = new customInput("phone", "text", "電話號碼");
+        
+        $(".form .btn").click(function(){
+            submitData();
+        });
+        
+        function submitData(){
+            //確認全部欄位是否有空白
+            var validEmptyOK = validInputEmpty($(".customInput input"));
+
+            if(validEmptyOK){
+                var restUrl = REST_URL + "services/members/modify";
+                var formData = {
+                    memberId: MEMBER_ID,
+                    name: nameInput.getVal(),
+                    phone: phoneInput.getVal()
+                }                    
+                ajaxPostData(restUrl, formData);
+            }            
+        }
+        
+        function fetchData(response){
+            if(response.res.status == 1){
+                alert("修改會員資料成功");
+                
+                if(checkBrowser() == "Firefox") {
+                    location.href = "userBindVender.html";
+                }else{                    
+                    history.replaceState({}, "台泥陽光採購平台", "userBindVender.html");
+                    history.back();
+                }
+            }else{
+                alert("修改會員資料失敗，請重新輸入");
+                location.reload();
+            }            
+        }
+	</script>
+</body>
+</html>
