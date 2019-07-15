@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Demo JavaEE 8 Security 1.0 API</title>
+    </h:head>
+    <h:body>
+        Hello from Facelets - No Protected Page ...
+        <br/><br/>
+        <a href="/JavaEESecSSO/html5/protect/sse.html">SSE</a>
+        <br/><br/>
+        <a href="/JavaEESecSSO/html5/login.html">Session Protect HTML+JS AP</a>
+        <br/><br/>
+        <h:link outcome="/protect/home" value="Go To Protected Page" />
+        <br/><br/>
+        <h:link outcome="/protect/upload" value="Go To Test Upload Page" />
+        <br/><br/>
+        <h:outputLink value = "/JavaEESecSSO/Secured" >OAuth2 Protected Page</h:outputLink> 
+        <br/><br/>
+        <h:outputLink value = "/JavaEESecSSO/SecuredOIDC" >OpenID Protected Page</h:outputLink> 
+        <br/><br/>
+        <a href="logout?authType=CAS" >CAS Logout</a>
+        <br/><br/>
+        <a href="logout?authType=OAuth2" >OAuth2 and OpenID Logout</a>
+        <br/><br/>
+        <a href="logout?authType=DB" >Session Logout</a>
+    </h:body>
+</html>
+

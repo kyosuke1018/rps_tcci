@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>登入頁</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <script type="text/javascript">
+        //<![CDATA[
+        function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                    sURLVariables = sPageURL.split('&'),
+                    sParameterName,
+                    i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        }
+        
+        function showStatus(){
+            var status = getUrlParameter("status");
+            var msg = (status==="none")?"未登入":(status==="fail")?"登入失敗":"";
+            if( msg!=="" ){
+                alert(msg);
+            }
+        }
+        //]]>
+    </script>
+    <body onload="showStatus()" >
+        <div>我是登入頁</div>
+        <form method="post" action="../loginServlet" >
+            <table>
+                <tr>
+                    <td>帳號：</td><td><input name="loginAccount" type="text" size="15" value="admin" /></td>
+                </tr>
+                <tr>
+                    <td>密碼：</td><td><input name="password" type="password" size="15" value="abcd1234" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="登入" />
+                    </td>
+                </tr>
+            </table>    
+        </form>
+    </body>
+</html>

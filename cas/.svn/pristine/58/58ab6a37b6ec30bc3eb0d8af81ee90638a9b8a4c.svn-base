@@ -1,0 +1,13 @@
+{
+  /*
+    Generic service definition that applies to http urls
+    that wish to register with CAS for authentication.
+  */
+  "@class" : "org.apereo.cas.services.RegexRegisteredService",
+  "serviceId" : "http://.*.taiwancement.com/internal/.*",
+  "name" : "002_INTERNAL",
+  "id" : 2,
+  "attributeReleasePolicy" : {
+    "@class" : "org.apereo.cas.services.ReturnAllAttributeReleasePolicy"
+  }
+}

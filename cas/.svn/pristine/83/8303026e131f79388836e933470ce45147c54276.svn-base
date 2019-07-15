@@ -1,0 +1,6 @@
+# D:\Server\payara-5.184\bin\asadmin --host localhost --user admin --passwordfile pwd_DEV.properties multimode --file resources.conf
+# jdbc, jndi config
+delete-jdbc-resource jdbc/testDB
+delete-jdbc-connection-pool testDBPool
+delete-custom-resource jndi/JavaEESecSSO.config
+add-resources glassfish-resources.xml

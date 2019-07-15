@@ -1,0 +1,89 @@
+CAS Server Customization or Configuration Guide
+
+1. Set no ssl
+   File: ticketGrantingTicketCookieGenerator.xml
+   p:cookieSecure="false"
+
+   File: warnCookieGenerator.xml
+   p:cookieSecure="false"
+
+2. Setting cookie lifecycle
+   File: ticketGrantingTicketCookieGenerator.xml
+   p:cookieMaxAge="43200"
+   
+3. Setting ticket expiration policy
+   File: ticketExpirationPolicies.xml
+   <!--
+		1 hour=3600000
+		2 hours=7200000
+		4 hours=14400000
+        12 hours=43200000
+        24 hours=86400000
+        -->
+	<bean id="grantingTicketExpirationPolicy" class="org.jasig.cas.ticket.support.TimeoutExpirationPolicy">
+		
+		<constructor-arg
+			index="0"
+			value="3600000" />
+	</bean>
+			  
+4.	認證來自 兩個地方 LDAP 與 DB
+    可參考做法: http://tcci-svn/svn/src/sso/cas-server/branches/20111125/web/WEB-INF/deployerConfigContext.xml
+    File :deployerConfigContext.xml
+    <bean class="com.tcc.sso.authentication.TCCSsoAuthenticationHandler">
+          <property name="ldapURL"><value>ldap://192.168.15.3:389/</value></property>
+          <property name="securityAuthentication"><value>simple</value></property>
+          <property name="suffix"><value>@taiwancement.com</value></property>
+          <property name="dataSourceJndi"><value>jdbc/cas</value></property>
+          <property name="dbUser"><value>cas</value></property>
+          <property name="dbPassword"><value>abcd1234</value></property>
+          <property name="sqlStatement"><value>select userid,password,activation from cas_user where userid=?</value></property>
+        </bean>
+
+5. LDAP認證使用 sprintframework
+   File :deployerConfigContext.xml
+   <bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="anonymousReadOnly" value="false" />
+		<property name="pooled" value="false" />
+		<!-- only single ldap -->
+                <property name="url" value="ldap://192.168.15.3:3268/" />
+                <!-- ldap pool , if first server is now work, would go to next
+		<property name="urls">
+			<list>
+				<value>ldap://192.168.15.3:389/</value>
+                                <value>ldap://192.168.15.4:389/</value>
+                                <value>ldap://192.168.15.75:389/</value>
+                                <value>ldap://192.168.15.76:389/</value>
+			</list>
+		</property>
+                -->
+		<property name="userDn" value="tccicommon@taiwancement.com" />
+		<property name="password" value="Tcci@7000" />                
+		<property name="baseEnvironmentProperties">
+			<map>
+                            <entry key="com.sun.jndi.ldap.connect.timeout" value="3000" />
+                            <entry key="com.sun.jndi.ldap.read.timeout" value="3000" />
+                            <!--
+				<entry>
+				        <key><value>java.naming.security.protocol</value></key>
+        				<value>ssl</value>
+        			</entry>
+                                -->
+				<entry>
+				        <key><value>java.naming.security.authentication</value></key>
+        				<value>simple</value>
+        			</entry>
+        		</map>
+		</property>
+	</bean>
+	------------
+	<bean id="attributeRepository"
+		class="org.jasig.services.persondir.support.StubPersonAttributeDao">
+		<property name="backingMap">
+			<map>
+				<entry key="uid" value="uid" />
+				<entry key="eduPersonAffiliation" value="eduPersonAffiliation" /> 
+				<entry key="groupMembership" value="groupMembership" />
+			</map>
+		</property>
+	</bean>

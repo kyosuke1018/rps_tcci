@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Server-Sent Event Broadcasting</title>
+</head>
+<body>
+<h2>Stock prices :</h2>
+<div>
+    <ul id="data">
+    </ul>
+    <button onclick="publish()" >Start Broadcast</button>
+</div>
+<script>
+    var urlRoot = "/JavaEESecSSO/resources/sse/";
+    var source = new EventSource(urlRoot+'stock/subscribe');
+    source.onopen = function(event) {
+        console.log(event);
+    };
+    source.addEventListener("stock", function(event) {
+        append(event.data);
+    }, false);
+
+    source.onmessage = function(event) {
+        append(event.data);
+    };
+    source.onerror = function(event) {
+        console.log(event);
+    };
+
+    function append(data) {
+        var ul = document.getElementById("data");
+        var li = document.createElement("li");
+        li.appendChild(document.createTextNode(data));
+        ul.insertBefore(li, ul.childNodes[0]);
+    };
+
+    function publish(){
+        var img = new Image();
+        img.src = "/JavaEESecSSO/resources/sse/stock/publish";
+    }
+</script>
+</body>
+</html>

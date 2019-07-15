@@ -1,0 +1,174 @@
+@charset "UTF-8";
+
+body
+{
+    min-width: 100%;
+    min-height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: auto;
+    font-family: "微軟正黑體", "新細明體", Microsoft JhengHei, Arial, sans-serif, serif, cursive, fantasy, monospace;
+    background: url(../images/eagle/sky.png) repeat-x;
+}
+
+#shine
+{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+#eagle
+{
+    top: 10%;
+    left: 2%;
+}
+
+#step
+{
+    position: absolute;
+    left: 0px;
+    width: 100%;
+}
+
+#ground
+{
+    width: 100%;
+    height: 136px;
+    position: absolute;
+    background: url(../images/eagle/ground.png) repeat-x;
+}
+
+#login .slogan1
+{
+    margin: 22px 0px 0px 0px;
+    float: right;
+    display: inline;
+    color: rgb(200, 0, 0);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#login .slogan2
+{
+    float: left;
+    display: inline;
+    margin: 0px 0px 0px 10px;
+    color: rgb(200, 0, 0);
+    font-size: 36px;
+    font-weight: bold;
+}
+
+#login .line
+{
+    width: 356px;
+    float: left;
+    height: 5px;
+    margin: 5px 0px 25px 0px;
+    background: url(../images/eagle/line.png);
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";    
+}
+
+#login .title
+{
+    float: left;
+    margin: 0px 0px 0px 10px;
+    display: inline;
+    font-size: 23px;
+    font-weight: bold;
+    color: rgb(200, 0, 0);
+}
+
+#login .left
+{
+    width: 155px;
+    float: left;
+    margin: 5px 0px 0px 10px;
+}
+
+#login .left .id_icon
+{
+    width: 20px;
+    height: 20px;
+    margin: 0px 0px -5px 0px;
+    display: inline-block;
+    background: url(../images/eagle/id.png) no-repeat;
+}
+
+#login .left #username
+{
+    width: 120px;
+    padding-left: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#login .left .space
+{
+    height: 5px;
+}
+
+#login .left .password_icon
+{
+    width: 20px;
+    height: 20px;
+    margin: 0px 0px -5px 0px;
+    display: inline-block;
+    background: url(../images/eagle/password.png) no-repeat;
+}
+
+#login .left #password
+{
+    width: 120px;
+    padding-left: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#login #error
+{
+    margin-left: 23px;
+    color: rgb(200, 0, 0);
+}
+
+#login .right
+{
+    width: 188px;
+    float: left;
+}
+
+#login .right .btn-submit {
+    width: 55px;
+    height: 48px;
+    margin: 3px 0px 0px -5px;
+    padding: 0px 0px 0px 2px;
+    display: inline-block;
+    border: solid 1px #909090;
+    border-radius: 5px;
+    box-shadow: 1px 2px 2px #FFFFFF inset, -1px -1px 3px #666666 inset;
+    font-weight: bold;
+    color: rgb(200, 0, 0);
+    background: white;
+}
+
+#login .right .loginBtn:hover
+{
+    cursor: pointer;
+}
+
+#login .right .loginBtn:active
+{
+    box-shadow:  1px  2px 2px #666666 inset,
+        -1px -1px 3px #FFFFFF inset;
+    cursor: pointer;
+}
+
+#login .clear
+{
+    clear: both;
+}

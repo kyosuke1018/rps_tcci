@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8">
+	
+	<script type="text/javascript" src="../../sso/js/jquery.ba-throttle-debounce.min.js"></script>
+	<script type="text/javascript" src="../../sso/js/tcci.js"></script>
+	<script type="text/javascript" src="../../sso/js/jquery-1.11.1.min.js"></script>
+	
+	<script type="text/javascript">
+		//<![CDATA[
+		setTimeout(function ()
+		{
+			var backgroundUrl ='../../sso/images/background/background_2'+document.getElementById('imagelocale').value+'.jpg';
+			document.getElementById('backgroundImg').src = backgroundUrl;
+			var desktop = document.getElementById('desktop');
+			var mobile = document.getElementById('mobile');
+			if (isMobile()) {
+				mobile.style.display='block';
+				desktop.parentNode.removeChild(desktop);
+				$("head").append("<link rel='stylesheet' href='../../sso/css/mobile.css' type='text/css' media='screen' />");
+				var documentWidth = document.documentElement.clientWidth;
+				var documentHeight = document.documentElement.clientHeight;
+				document.getElementById('container').style.height = documentHeight+"px";
+				var picArray = new Array("logo_tcc", "logo_csrc", "logo_hpipc", "logo_hppc", "logo_kho", "logo_kric", "logo_molicel", "logo_sking", "logo_sole", "logo_taho",
+						"logo_tccc", "logo_tcchk", "logo_tcci", "logo_tcec", "logo_thmc", "logo_ton", "logo_tpcc");
+				var cloneArray = picArray.slice();
+				var imgLoaded = 0;
+				var inputFieldW = parseInt($(".inputField").css("width"));
+				var bottomLineH = parseInt($("#container .bottomLine").css("height"));
+
+
+				$(".bottomLine").css("bottom", "0px");
+				$(".inputField").css("top", documentHeight / 3.7 + "px");
+				$(".inputField").css("left", 20 + "px");
+				$(".inputField").css("width", documentWidth - 40 + "px");
+				$(".mainTitle img").attr("src", "../../sso/images/mobile/mainTitle.png?" + new Date().getTime());
+				$(".mainTitle img").load(function () {
+					var mainTitleAniTop = 30;
+					var mainTitleH = parseInt($(this).css("height"));
+					var inputFieldTop = parseInt($(".inputField").css("top"));
+
+					$(this).parent().css("opacity", 1);
+					$(this).parent().css("top", documentHeight / 2 - mainTitleH / 2 - bottomLineH - 50 + "px");
+
+					if ((mainTitleAniTop + mainTitleH) > inputFieldTop)
+						$(".inputField").css("top", mainTitleAniTop + mainTitleH + 200 + "px");
+
+					setTimeout(function () {
+						$(".mainTitle").animate({top: mainTitleAniTop + "px"}, 1000)
+					}, 1500);
+
+					setTimeout(function () {
+						$(".inputField").animate({opacity: 1}, 1000);
+					}, 2000);
+					setTimeout(function () {
+						$(".inputFieldFooter").animate({opacity: 1}, 1000);
+					}, 2000);
+				});
+
+				var logoMargin = parseInt($(".logo").css("margin-left")) * 6 + 10;
+				$(".logo").css("width", (documentWidth - logoMargin) / 3 + "px");
+				$(".logo").each(function () {
+					var num = Math.floor(Math.random() * cloneArray.length);
+					var name = cloneArray[num];
+					cloneArray.splice(num, 1);
+					$(this).attr("alt", name);
+					$(this).attr("src", "../../sso/images/mobile/" + name + ".png?" + new Date().getTime());
+					imgLoaded++;
+				});
+
+				cloneArray = picArray.slice();
+				$(".logo").load(function () {
+					if (imgLoaded == cloneArray.length) {
+						$("#container").css("height", parseInt($("#container").css("height")) + "px");
+
+						$(".logo").each(function (index) {
+							var num = Math.floor(Math.random() * cloneArray.length);
+							var name = cloneArray[num];
+							cloneArray.splice(num, 1);
+							setTimeout(function () {
+								$(".logo[alt='" + name + "']").animate({opacity: 0.07}, 1000);
+							}, index * 350);
+						});
+					}
+				});
+				document.getElementById('m_username').value = '';
+				document.getElementById('m_username').focus();
+			} else {
+				desktop.style.display='block';
+				mobile.parentNode.removeChild(mobile);
+				$("head").append("<link rel='stylesheet' href='../../sso/css/style_2019Q2.css' type='text/css' media='screen' />");
+				document.getElementById('username').value = '';
+				document.getElementById('username').focus();
+			}
+			$(".tag").click(function () {
+				var index = $(this).index();
+				//oauth tab no effect.
+				if (index > 1) {
+					return;
+				}
+				$(".tag").removeClass("tagFocus");
+				$(".tag:eq(" + index + ")").addClass("tagFocus");
+				$(".tab").css("display", "none");
+				$(".tab:eq(" + index + ")").css("display", "block");
+			})
+			resize();
+		}, 200);
+		$(function ()
+		{
+			resize();
+		});
+		function isMobile() {
+			if( navigator.userAgent.match(/Android/i)
+			 || navigator.userAgent.match(/webOS/i)
+			 || navigator.userAgent.match(/iPhone/i)
+			 || navigator.userAgent.match(/iPad/i)
+			 || navigator.userAgent.match(/iPod/i)
+			 || navigator.userAgent.match(/BlackBerry/i)
+			 || navigator.userAgent.match(/Windows Phone/i)){
+				return true;
+			} else {
+				return false;
+			}
+		}
+		//for tms sytem (iframe).
+		if (window.top !== window.self) {
+			window.top.location = window.location;
+		}
+		//]]>
+	</script>
+	<style>
+	#container .inputField .inputFieldHeader{
+		height: 40px;
+		margin-bottom: 0px;
+		border-bottom: solid 1px #fff;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		box-shadow: 0px 10px 30px #888, 0px 0px 25px #ee0000 inset;
+		background: linear-gradient(0deg, #cc0000 0%, #880000 50%);
+	}
+	.logo {
+		margin: 10px;
+		opacity: 0;
+		width: 300px !important;
+		height: 300px !important;
+	}
+	.desktop_logo {
+		margin: 10px;
+	}
+	</style>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+</head>
+<body>
+<div id="desktop" style="display: none;">
+	<main role="main" style="paddin: 0px;margin-top: 0px;">
+		<div layout:fragment="content" class="background" style="text-align: center;">
+			<input type="hidden" id="imagelocale" th:value="#{imagelocale.suffix}"/>
+			<img class="background" id="backgroundImg"/>
+			<img class="desktop_logo" src="../../sso/images/logo.gif"/>
+			<div class="login">
+				<div class="tagBar">
+					<span class="tag tagFocus">TCC AD</span>
+					<span class="tag tagFocus">EMP ID</span>
+					<span th:each="entry: ${pac4jUrls}" th:switch="${entry.type}" class="tag" style="margin-right:4px;">
+						<a th:href="@{${entry.redirectUrl}}"
+						   style="text-decoration: none;color: #808080;"
+						   >
+							<span th:text="${entry.name}"/>
+						</a>
+					</span>
+				</div>
+				<form method="post" id="fm1" th:object="${credential}" action="login">
+				<div th:fragment="loginform"  class="tcc tab">
+					<table  border="0" cellspacing="0" cellpadding="0" style="white-space: nowrap;border-radius: 5px;spacing:3px;">
+						<tr>
+							<td colspan="3">
+								<div class="title" th:text="#{screen.tcc_sso.title}">台泥企業團資訊雲登入</div>
+								<div class="clear"></div>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 12px;">
+								<img src="../../sso/images/id.png"/>
+							</td>
+							<td>
+								<div th:if="${openIdLocalId}">
+									<strong>
+										<span th:utext="${openIdLocalId}"/>
+									</strong>
+									<input type="hidden"
+										   id="username"
+										   name="username"
+										   th:value="${openIdLocalId}"/>
+								</div>
+								<div th:unless="${openIdLocalId}">
+									<input class="form-control required"
+										   style="margin-left: 2px;width: 110px;padding: 2px 5px;border-radius: 5px;font-size: 14px;color: #505050;"
+										   id="username"
+										   size="12"
+										   tabindex="1"
+										   type="text"
+										   th:disabled="${guaEnabled}"
+										   th:field="*{username}"
+										   th:accesskey="#{screen.welcome.label.netid.accesskey}"
+										   autocomplete="off"/>
+								</div>
+							</td>
+							<td rowspan="2">
+								<div class="right" style="margin-right:5px; margin-left:10px">
+									<input type="hidden" name="execution" th:value="${flowExecutionKey}"/>
+									<input type="hidden" name="_eventId" value="submit"/>
+									<input type="hidden" name="geolocation"/>
+									<input class="btn btn-block btn-submit"
+										   th:unless="${recaptchaSiteKey != null AND recaptchaInvisible != null AND recaptchaSiteKey AND recaptchaInvisible}"
+										   name="submit"
+										   accesskey="l"
+										   th:value="#{screen.welcome.button.login}"
+										   tabindex="6"
+										   type="submit"
+										   value="Login3"
+										   onclick="lowCaseConverter()"
+									/>
+									<button class="btn btn-block btn-submit g-recaptcha"
+											th:if="${recaptchaSiteKey != null AND recaptchaInvisible != null AND recaptchaSiteKey AND recaptchaInvisible}"
+											th:attr="data-sitekey=${recaptchaSiteKey}, data-badge=${recaptchaPosition}"
+											data-callback="onSubmit"
+											name="submitBtn"
+											accesskey="l"
+											th:text="#{screen.welcome.button.login}"
+											tabindex="6"
+											onclick="lowCaseConverter()"
+									/>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<img src="../../sso/images/password.png"/>
+							</td>
+							<td>
+								<input class="form-control required"
+									   style="margin-left: 2px;width: 114px;padding-left: 5px;border-radius: 5px;font-size: 15px;"
+									   type="password"
+									   id="password"
+									   size="12"
+									   tabindex="2"
+									   th:accesskey="#{screen.welcome.label.password.accesskey}"
+									   th:field="*{password}"
+									   autocomplete="off"
+									   onkeyup="if(event.keyCode===13)lowCaseConverter();"/>
+								<span id="capslock-on" style="display:none;">
+								<p>
+									<i class="fa fa-exclamation-circle"></i>
+									<span th:utext="#{screen.capslock.on}"/>
+								</p>
+							</span>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3" style="text-align: left !important;">
+								<span class="error">
+									<div id="error" class="alert alert-danger" th:if="${#fields.hasErrors('*')}" 
+										<span th:each="err : ${#fields.errors('*')}" th:utext="${err}">Example error</span>
+									</div>
+								</span>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div th:fragment="loginform2" class="org tab">
+					<table  border="0" cellspacing="0" cellpadding="0" style="white-space: nowrap;border-radius: 5px;">
+						<tr>
+							<td colspan="3">
+								<div class="title" th:text="#{screen.tcc_sso.title}">台泥企業團資訊雲登入</div>
+								<div class="clear"></div>
+							</td>
+						</tr>
+						<tr>	
+							<td colspan="2" class="left">
+								<select id="companyCode" class="left">
+									<option th:value="#{1000.code}"><span th:text="#{1000.name}"/></option>
+									<option th:value="#{1900.code}"><span th:text="#{1900.name}"/></option>
+									<option th:value="#{1600.code}"><span th:text="#{1600.name}"/></option>
+									<option th:value="#{5200.code}"><span th:text="#{5200.name}"/></option>
+									<option th:value="#{5300.code}"><span th:text="#{5300.name}"/></option>
+									<option th:value="#{5500.code}"><span th:text="#{5500.name}"/></option>
+									<option th:value="#{7700.code}"><span th:text="#{7700.name}"/></option>
+									<option th:value="#{8000.code}"><span th:text="#{8000.name}"/></option>
+									<option th:value="#{8800.code}"><span th:text="#{8800.name}"/></option>
+									<option th:value="#{8L00.code}"><span th:text="#{8L00.name}"/></option>
+								</select>
+							</td>
+							<td rowspan="3">
+								<div class="right">
+									<input class="btn btn-block btn-submit"
+										   name="submit"
+										   style="margin-left:5px;"
+										   accesskey="l"
+										   th:value="#{screen.welcome.button.login}"
+										   tabindex="6"
+										   type="submit"
+										   value="Login3"
+										   onclick="usernameConverter()"
+									/>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" class="left">
+									<div class="space"></div>
+									<img src="../../sso/images/id.png" style="margin-right: 2px;"/>
+									<input type="text" id="badgeNo" size="12"/>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" class="left">
+									<div class="space"></div>
+									<img src="../../sso/images/password.png" style="margin-right: 2px;"/>
+									<input type="password" id="password2" size="12" style="margin-left:2px;" onkeypress="if(event.keyCode =='13') usernameConverter()"/>
+									
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div th:each="entry: ${pac4jUrls}" th:switch="${entry.type}">
+				</div>
+				</form>
+			</div>
+		</div>
+	</main>
+</div>
+<div id="mobile" style="display: none;">
+	<form method="post" id="fm1" th:object="${credential}" action="login">
+		<div id="building">	
+			<div id="headerField">
+			</div>	
+
+			<div id="container">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo1" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo2" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo3" class="logo">
+				<br>
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo4" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo5" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo6" class="logo">
+				<br>
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo7" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo8" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo9" class="logo">
+				<br>
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo10" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo11" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo12" class="logo">
+				<br>
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo13" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo14" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo15" class="logo">
+				<br>
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo16" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo17" class="logo">
+
+				<div class="mainTitle">
+					<img src="../../sso/images/mobile/mainTitle.png">
+				</div>
+				<div class="inputField">
+					<div class="inputFieldHeader"></div>
+					<br>
+					<select id="m_companyCode" style="size:75%;font-size: 40px;">
+						<option value="">AD登入</option>
+						<option value="1000">台灣水泥</option>
+						<option value="1900">和平工業區專用港實業</option>
+						<option value="1600">信昌化學工業</option>
+						<option value="5200">台灣通運倉儲</option>
+						<option value="5300">達和航運</option>
+						<option value="5500">臺泥資訊</option>
+						<option value="7700">台泥綠能</option>
+						<option value="8000">林園先進材料科技</option>
+						<option value="8800">國際中橡投資控股</option>
+						<option value="8L00">全循環經濟</option>
+					</select>
+					<br/>
+					<div class="inputTitle" th:text="#{screen.welcome.label.netid}" style="font-size: 40px;"></div>
+					<br/>
+					<div th:if="${openIdLocalId}">
+						<strong>
+							<span th:utext="${openIdLocalId}"/>
+						</strong>
+						<input type="hidden"
+							   id="m_username"
+							   name="username"
+							   th:value="${openIdLocalId}"/>
+					</div>
+					<div th:unless="${openIdLocalId}">
+						<input class="form-control required"
+							   style="margin-left: 2px;padding: 2px 5px;border-radius: 5px;font-size: 40px;color: #505050;"
+							   id="m_username"
+							   tabindex="1"
+							   type="text"
+							   th:disabled="${guaEnabled}"
+							   th:field="*{username}"
+							   th:accesskey="#{screen.welcome.label.netid.accesskey}"
+							   autocomplete="off"/>
+					</div>
+					<br><br>
+					<div class="inputTitle" th:text="#{screen.welcome.label.password}" style="font-size: 40px;"></div>
+					<br/>
+					<input class="form-control required"
+						   style="margin-left: 2px;padding-left: 5px;border-radius: 5px;font-size: 40px;"
+						   type="password"
+						   id="m_password"
+						   tabindex="2"
+						   th:accesskey="#{screen.welcome.label.password.accesskey}"
+						   th:field="*{password}"
+						   autocomplete="off"
+						   onkeypress="if(event.keyCode =='13') m_usernameConverter()"
+						   />
+					<span id="capslock-on" style="display:none;">
+						<p>
+							<i class="fa fa-exclamation-circle"></i>
+							<span th:utext="#{screen.capslock.on}"/>
+						</p>
+					</span>
+					<br><br>
+					<span class="error" style="color: red; font-size: 40px;">
+						<div id="error" class="alert alert-danger" th:if="${#fields.hasErrors('*')}"> 
+							<span th:each="err : ${#fields.errors('*')}" th:utext="${err}">Example error</span>
+						</div>
+					</span>
+					<div class="inputFieldFooter">
+						<input type="hidden" name="execution" th:value="${flowExecutionKey}"/>
+						<input type="hidden" name="_eventId" value="submit"/>
+						<input type="hidden" name="geolocation"/>
+						<input id="submit"
+						       class="submit"
+							   th:unless="${recaptchaSiteKey != null AND recaptchaInvisible != null AND recaptchaSiteKey AND recaptchaInvisible}"
+							   name="submit"
+							   accesskey="l"
+							   th:value="#{screen.welcome.button.login}"
+							   tabindex="6"
+							   type="submit"
+							   style="font-size: 40px"
+							   value="Login3"
+							   onclick="m_usernameConverter()"
+						/>
+						<button class="submit"
+								th:if="${recaptchaSiteKey != null AND recaptchaInvisible != null AND recaptchaSiteKey AND recaptchaInvisible}"
+								th:attr="data-sitekey=${recaptchaSiteKey}, data-badge=${recaptchaPosition}"
+								data-callback="onSubmit"
+								name="submitBtn"
+								accesskey="l"
+								th:text="#{screen.welcome.button.login}"
+								tabindex="6"
+						/>
+					</div>
+				</div>
+				<div class="bottomLine">
+					<div class="minLine"></div>
+				</div>
+			</div>	
+
+		</div>   
+	</form>
+</div>
+</body>
+</html>

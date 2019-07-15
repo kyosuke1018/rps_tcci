@@ -1,0 +1,54 @@
+buildscript {
+    repositories {
+		mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${project.'springboot.version'}"
+    }
+}
+
+subprojects {
+    task allDependenciesInsight(type: DependencyInsightReportTask, description: "Produce insight information for all dependencies") {}
+    task allDependencies(type: DependencyReportTask, description: "Display a graph of all project dependencies") {}
+}
+
+task wrapper(type: Wrapper, description: "Update the Gradle wrapper") {
+    gradleVersion = project."gradle.version"
+}
+
+task casVersion() {
+    doFirst {
+        println "${project.'cas.version'}"
+    }
+}
+
+task unzip(type: Copy) {
+	def zipFile = file('cas/build/libs/cas.war')
+	def outputDir = file("${buildDir}/unpacked/dist")
+	
+	from zipTree(zipFile)
+	into outputDir
+}
+
+task copyProp(type: Copy) {
+    dependsOn unzip
+	def outputDir = file("${buildDir}/unpacked/dist/WEB-INF/classes")
+	from "src"
+	into outputDir
+}
+
+task copyLib(type: Copy) {
+	dependsOn copyProp
+	def outputDir = file("${buildDir}/unpacked/dist/WEB-INF/lib")
+	from "lib"
+	into outputDir
+}
+
+task customize(type: Zip) {
+	dependsOn copyLib
+	def srcDir = file("${buildDir}/unpacked/dist")
+	
+	from srcDir
+	setArchiveName "${buildDir}/cas-server.war"
+}

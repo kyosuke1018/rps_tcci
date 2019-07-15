@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>這是保護的HTML</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../js/lib/jquery.js"></script>
+    </head>
+    <script type="text/javascript">
+        //<![CDATA[
+        function doAjax(){
+            var restUrl = "../../resources/protect/getLoginInfo";
+            
+            $.ajax({
+                type: "GET",
+                url: restUrl,
+                dataType: "json",
+                context: this,
+                success: function(response) {
+                    console.log("fetchData success ", restUrl, response);
+                    renderResponse(response);
+                },
+                error: function (response) {
+                    alert("ajax fail !");
+                }
+            });
+        }
+        
+        function renderResponse(response){
+            console.log("renderResponse response=\n", response);
+            var html = "<pre>";
+            html += "\n caller : " + response.caller;
+            html += "\n loginAccount : " + response.loginAccount;
+            html += "\n Number of groups : " + ((response.groups!==null)?response.groups.length:0);
+            html += "</pre>";
+            
+            $("#divResult").html(html);
+        }
+        
+        function doLogout(){
+            top.location.href="../../logout?authType=DB";
+        }
+        //]]>
+    </script>
+    <body>
+        <div>這是保護的HTML</div>
+        <div>
+            <input type="button" id="btnAjax" value="Ajax 呼叫受保護 RESTful" onclick="doAjax();" />
+            <br/><br/>
+            <a href="/JavaEESecSSO/html5/protect/sse.html">Session Protect SSE</a>
+            <br/><br/>
+            <input type="button" id="btnLogout" value="登出" onclick="doLogout();" />
+        </div>
+        <div id="divResult"></div>
+    </body>
+</html>

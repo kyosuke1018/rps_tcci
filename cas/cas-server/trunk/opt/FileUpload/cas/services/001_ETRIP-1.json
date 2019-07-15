@@ -1,0 +1,13 @@
+{
+  /*
+    Generic service definition that applies to http urls
+    that wish to register with CAS for authentication.
+  */
+  "@class" : "org.apereo.cas.services.RegexRegisteredService",
+  "serviceId" : "http://.*.taiwancement.com/etrip/.*",
+  "name" : "001_ETRIP",
+  "id" : 1,
+  "attributeReleasePolicy" : {
+    "@class" : "org.apereo.cas.services.ReturnAllAttributeReleasePolicy"
+  }
+}

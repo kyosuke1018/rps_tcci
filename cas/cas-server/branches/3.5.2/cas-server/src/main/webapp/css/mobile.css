@@ -1,0 +1,156 @@
+*:facus{
+	outline: 0;
+}
+
+html, body{	
+	margin: 0px auto;
+	padding: 0px;
+	
+	font-family: 微軟正黑體, 新細明體, Microsoft JhengHei, Arial, sans-serif, serif, cursive, fantasy, monospace;
+	font-smoothing: subpixel-antialiased;
+	position: relative;
+	z-index: -2;
+	cursor: default;
+	background: url(../images/mobile/bodyBG.jpg);
+        text-align: center;
+}
+
+a{
+	margin: 0px;
+	padding: 0px;
+	text-decoration: none;	
+}
+
+img{
+	border: 0px;
+}
+
+.clear{
+	height: 0px;
+	margin: 0px;
+	padding: 0px;
+	clear: both;
+}
+
+/*---------- login (start) ----------*/
+#headerField{
+}
+
+#container{
+	position: relative;
+	overflow: hidden;
+}
+
+#container .mainTitle{
+	width: 100%;	
+	position: absolute;
+	top: 30px;
+	text-align: center;
+	opacity: 0;
+}
+
+#container .mainTitle img{
+	width: 65%;
+}
+
+#container .inputField{
+	width: 75%;
+	position: absolute;	
+	border: solid 1px #555;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	text-align: center;
+	box-shadow: 0px 0px 50px #aaa, 0px 0px 30px #ccc inset;
+	background: rgba(255, 255, 255, 0.5);
+	opacity: 0;
+}
+
+#container .inputField .inputFieldHeader{
+	height: 10px;
+	margin-bottom: 0px;
+	border-bottom: solid 1px #fff;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	box-shadow: 0px 10px 30px #888, 0px 0px 25px #ee0000 inset;
+	background: linear-gradient(0deg, #cc0000 0%, #880000 50%);
+}
+
+#container .inputField .inputTitle{
+	width: 75%;
+	margin-bottom: 10px;
+	display: inline-block;
+	text-align: left;
+	font-size: 15px;
+	color: #888;
+}
+
+#container .inputField input{
+	width: 70%;
+	border: none;
+	border-bottom: solid 1px #aa0000;
+	font-size: 15px;
+	color: #333333;
+	background: rgba(255, 255, 255, 0);
+}
+
+#container .inputFieldFooter{
+	width: 100%;
+	position: absolute;	
+	border: solid 1px #aa0000;
+	border-bottom-left-radius: 40px;
+	border-bottom-right-radius: 40px;
+	text-align: center;
+	box-shadow: 0px 0px 20px #aaa, 0px 0px 70px #ee0000 inset;
+	background: linear-gradient(0deg, #880000 60%, #cc0000 100%);
+	opacity: 0;
+}
+
+#container .inputFieldFooter:active{	
+	box-shadow: 0px 0px 70px #660000 inset;
+}
+
+#container .inputFieldFooter .submit{
+	width: 90%;
+	margin: 10px;
+	border: none;
+	font-size: 20px;
+	background: transparent;
+	color: #fff !important;
+}
+
+#container .bottomLine{
+	width: 100%;
+	height: 30px;
+	padding-top: 5px;
+	position: fixed;
+	text-align: right;
+	font-size: 30px;
+	color: #fff important; 
+	background: linear-gradient(90deg, #880000 0%, #cc0000 50%, #880000 100%);
+}
+
+#container .bottomLine .minLine{
+	margin-top: 5px;
+	height: 1px;
+	background: #eee;
+}
+
+#footerField .footerEndLine{
+	height: 60px;	
+	padding-top: 5px;
+	background: linear-gradient(90deg, #880000 0%, #cc0000 50%, #880000 100%);
+}
+
+#footerField .footerEndLine .minLine{
+	margin-top: 10px;
+	height: 2px;
+	background: #eee;
+}
+
+.logo{
+	margin: 10px;
+	opacity: 0;
+	width: 80px !important;
+	height: 80px !important;
+}
+/*---------- login (end) ----------*/

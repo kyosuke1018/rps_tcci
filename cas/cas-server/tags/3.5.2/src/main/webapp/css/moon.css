@@ -1,0 +1,126 @@
+@charset "UTF-8";
+
+body
+{	
+    min-width: 1004px;
+    min-height: 100%;
+    margin: 0px;
+    padding: 0px;
+    font-family: "微軟正黑體", "新細明體", Microsoft JhengHei, Arial, sans-serif, serif, cursive, fantasy, monospace;
+    background: #FFF;
+}
+
+#background
+{
+    width: 1004px;
+    height: 705px;
+    margin: 0 auto;
+}
+
+#login
+{
+    top: 105px;
+    position: absolute;	
+    display: inline;
+    z-index: 1;
+}
+
+#login .title
+{	
+    float: left;
+    margin: 0px 5px 6px 0px;
+    display: inline;
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+
+#login .left
+{
+    float: left;
+    border: 1px;
+}
+
+#login .left .id_icon
+{
+    width: 20px;
+    height: 20px;
+    margin: 0px 0px -5px 0px;
+    display: inline-block;
+    background: url(../images/moon/id.png) no-repeat;
+}
+
+#login .left #username
+{
+    width: 120px;
+    padding-left: 5px;
+    font-size: 16px;
+}
+
+#login .left .space
+{
+    height: 5px;
+}
+
+#login .left .password_icon
+{
+    width: 20px;
+    height: 20px;
+    margin: 0px 0px -5px 0px;
+    display: inline-block;
+    background: url(../images/moon/password.png) no-repeat;
+}
+
+#login .left #password
+{
+    width: 120px;
+    padding-left: 5px;
+    font-size: 16px;
+}
+
+#login #error
+{
+    margin-left: 23px;
+    color: rgb(255, 255, 255);
+}
+
+
+#login .right
+{
+    width: 50px;
+    height: 51px;
+}
+
+#login .right .btn-submit
+{
+    width: 55px;
+    height: 48px;
+    margin: 3px 0px 0px -5px;
+    padding: 5px 0px 0px 0px;
+    display: inline-block;
+    border: solid 1px #909090;
+    border-radius: 5px;
+    box-shadow:  1px  2px 2px #FFFFFF inset,
+        -1px -1px 3px #666666 inset;
+    font-size: 12px;
+    font-weight: bold;
+    color: rgb(200, 0, 0);
+    background: white;
+}
+
+#login .right .loginBtn:hover
+{
+    cursor: pointer;
+}
+
+#login .right .loginBtn:active
+{
+    box-shadow:  1px  2px 2px #666666 inset,
+        -1px -1px 3px #FFFFFF inset;
+    cursor: pointer;
+}
+
+#login .clear
+{
+    clear: both;
+}

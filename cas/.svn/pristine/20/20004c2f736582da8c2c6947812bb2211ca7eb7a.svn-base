@@ -1,0 +1,69 @@
+*:facus{
+    outline: none;
+}
+
+html, body{
+    margin: 0;
+    padding: 0;
+    font-family: arial;
+    cursor: default;
+}
+
+a{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: #303030;
+    outline: 0;
+}
+
+img{
+    border: 0;
+}
+
+.clear{
+    height: 0;
+    margin: 0;
+    padding: 0;
+    clear: both;
+}
+
+/*-------------------- Login ---------------------*/
+.background{
+    width: 1000px;
+    height: 650px;
+    margin: 0 auto;
+    position: relative;
+    background: url(../images/oauth/background.jpg) no-repeat center;
+    background-size: contain;
+}    
+
+.login{
+    width: 100%;
+    margin: 50px 0 0;
+    position: absolute;
+    text-align: center;
+}
+
+.login .title{
+    font-size: 22px;
+    color: #303030;
+}
+
+.login .allow{
+    margin: 15px 0 0;
+    font-size: 24px;
+    text-decoration: underline;
+    color: #d00000;
+    cursor: pointer;
+    animation: ani 1s ease-in-out 0s infinite alternate both;
+}
+
+@keyframes ani{
+    0% {
+        transform: scale(1);
+    }    
+    100% {
+        transform: scale(1.15);
+    }
+}

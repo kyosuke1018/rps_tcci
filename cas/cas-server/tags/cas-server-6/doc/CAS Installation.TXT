@@ -1,0 +1,34 @@
+CAS Server Installation Guide
+
+1. Get Latest cas release zip from site : http://www.jasig.org/cas/download
+   Example : cas-server-3.4.11-release.zip
+
+2. Unzip file cas release zip:
+
+3. Create a new web project in Netbeans:
+   Example: cas-server
+
+4. Unzip cas-server-webapp-3.4.11.war to get library  that in cas-server-3.4.11\modules\cas-server-webapp-3.4.11.war\WEB-INF\lib\*
+   Then set cas-server library.
+
+5. Copy cas-server-3.4.11\cas-server-webapp\src\main\webapp to 
+   cas-server\lib
+   
+6. Copy cas-server-3.4.11\cas-server-webapp\src\main\java to
+   cas-server\src\java
+   Copy D:\workspace\cas\cas-server-3.4.11\cas-server-webapp\src\main\resources\META-INF\persistence.xml to cas-server\src\conf\persistence.xml
+
+7. Change persistence.xml
+
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <jta-data-source>jdbc/cas</jta-data-source>
+    <properties>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+    </properties>
+	
+8. configure jdbc/cas in glassfish server
+
+9. Deploy
+
+10. Testing for checking deployment successfully:
+    The default SimpleTestUsernamePasswordAuthenticationHandler authenticates UsernamePasswordCredentials where the username equals the password.

@@ -1,0 +1,226 @@
+*:facus{
+	outline: none;
+}
+
+html, body{
+    min-width: 1000px;
+    min-height: 100%;
+	margin: 0 auto;
+	padding: 0;
+	position: relative;
+	z-index: -1;
+	font-family: 微軟正黑體, 新細明體, Microsoft JhengHei, Arial, sans-serif, serif, cursive, fantasy, monospace;
+	text-align: justify;
+    background: #fff;    
+	cursor: default;    
+}
+
+a{
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+    color: #303030;
+	outline: 0;
+}
+
+img{
+	border: 0;
+}
+
+.clear{
+	height: 0;
+	margin: 0;
+	padding: 0;
+	_line-height: 0px;
+	_font-size: 0px;
+	clear: both;
+}
+
+/*---------- ----------*/
+
+#login .clear{
+    clear: both;
+}
+
+#container{
+    width: 1000px;
+    height: 705px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#login{
+    width: 200px;
+    height: 95px;
+    padding: 10px;
+    position: absolute;
+    top: 90px;
+    left: 10px;	
+    z-index: 1;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.75);
+}
+
+#login .title{	
+    float: left;
+    margin: 0 5px 6px 0;
+    display: inline;
+    font-size: 18px;
+    font-weight: bold;
+    color: #808080;
+}
+
+#login .left{
+    width: 155px;
+    float: left;
+    margin-right: 10px;
+}
+
+#login .left .id_icon{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;        
+}
+
+#login .left #username{
+    width: 125px;
+    *width: 120px;
+    _width: 120px;
+    margin: 3px 0;
+    padding: 3px 5px;
+    box-sizing: border-box;
+    display: inline-block;
+    border-radius: 3px;
+    font-family: Arial;
+    font-size: 14px;
+    color: #505050;
+}
+
+#login .left .password_icon{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;        
+}
+
+#login .left #password{
+    width: 125px;
+    *width: 120px;
+    _width: 120px;
+    margin: 3px 0;
+    padding: 3px 5px;
+    box-sizing: border-box;
+    display: inline-block;
+    border-radius: 3px;
+    font-family: Arial;
+    font-size: 14px;
+    color: #505050;
+}
+
+#login .right{
+    float: right;
+}
+
+#login .right .loginBtn{
+    width: 45px;
+    margin: 10px 0 0 -5px;
+    padding: 10px 8px;
+    display: inline-block;
+    border: solid 1px #909090;
+    border-radius: 5px;
+    box-shadow:  1px  2px 2px #fff inset, -1px -1px 3px #c0c0c0 inset;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: #505050;
+    background: white;
+    cursor: pointer;
+}
+
+#login .right .loginBtn:active{
+    box-shadow:  1px  2px 2px #808080 inset, -1px -1px 3px #fff inset;
+}
+
+#cover_left{
+    position: absolute;
+    top: 267px;
+    left: 702px;
+}
+
+#cover_right{
+    position: absolute;
+    top: 269px;
+    left: 208px;
+}
+
+.cover_left_ani{
+    animation: fall 1.5s ease-in 0.5s 1 normal both;
+}
+
+.cover_right_ani{
+    animation: fall 1.5s ease-in 2s 1 normal both;
+}
+
+@keyframes fall{
+    0% {
+        clip: rect(2px, 100px, 274px, 0px);
+    }
+    100% {
+        clip: rect(273px, 100px, 274px, 0px);
+    }
+}
+
+#couplet_left{
+    position: absolute;
+    top: 264px;
+    left: 707px;
+}
+
+.couplet_left_ani{
+    animation: left_fall 1.5s ease-in 0.5s 1 normal both;
+}
+
+@keyframes left_fall{
+    0% {
+        top: 264px;
+        left: 707px;
+    }
+    100% {
+        top: 530px;
+        left: 718px;
+    }
+}
+
+#couplet_right{
+    position: absolute;
+    top: 270px;
+    left: 227px;
+}
+
+.couplet_right_ani{
+    animation: right_fall 1.5s ease-in 2s 1 normal both;
+}
+
+@keyframes right_fall{
+    0% {
+        top: 270px;
+        left: 227px;
+    }
+    100% {
+        top: 535px;
+        left: 216px;
+    }
+}
+
+@media \0screen\,screen\9 {
+    #cover_left, #cover_right, #couplet_left, #couplet_right{
+        display: none;
+    }
+}
+
+@media screen and (min-width:0\0) and (min-resolution: .001dpcm){  
+    #cover_left, #cover_right, #couplet_left, #couplet_right{
+        display: none;
+    }
+}

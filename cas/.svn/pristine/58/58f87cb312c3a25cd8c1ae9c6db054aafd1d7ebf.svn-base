@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+	<style>
+		.login {
+			left: 15px !important;
+		}
+		.login .contentTitle
+		{
+			width: 250px;
+			text-align: center;
+			font-size: 14px;
+			font-family: "Times New Roman" "新細明體";
+			font-weight: bold;
+			color: rgb(200, 0, 0);
+		}
+		.login .content
+		{
+			font-size: 14px;
+			color: rgb(200, 0, 0);
+		}
+		.login .left
+		{
+			width: 50px;
+			padding-left: -30px;
+			float: left;
+		}
+		.login .right
+		{
+			width: 200px;
+			float: right;
+		}
+		#container .inputField .inputFieldHeader{
+			height: 10px;
+			margin-bottom: 0px;
+			border-bottom: solid 1px #fff;
+			border-top-left-radius: 10px;
+			border-top-right-radius: 10px;
+			box-shadow: 0px 10px 30px #888, 0px 0px 25px #ee0000 inset;
+			background: linear-gradient(0deg, #cc0000 0%, #880000 50%);
+		}
+		.logo{
+			margin: 10px;
+			opacity: 0;
+			width: 80px !important;
+			height: 80px !important;
+		}
+		.desktop_logo {
+			margin:10px;
+		}
+	</style>
+	<script type="text/javascript" src="../../sso/js/jquery.ba-throttle-debounce.min.js"></script>
+	<script type="text/javascript" src="../../sso/js/tcci.js"></script>
+	<script type="text/javascript" src="../../sso/js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript">
+		//<![CDATA[
+		setTimeout(function ()
+		{
+			var backgroundUrl ='../../sso/images/background/background_2'+document.getElementById('imagelocale').value+'.jpg';
+			document.getElementById('backgroundImg').src = backgroundUrl;
+			var desktop = document.getElementById('desktop');
+			var mobile = document.getElementById('mobile');
+			if (isMobile()) {
+				mobile.style.display='block';
+				desktop.parentNode.removeChild(desktop);
+				$("head").append("<link rel='stylesheet' href='../../sso/css/mobile.css' type='text/css' media='screen' />");
+				var documentWidth = document.documentElement.clientWidth;
+				var documentHeight = document.documentElement.clientHeight;
+				document.getElementById('container').style.height = documentHeight+"px";
+				var picArray = new Array("logo_tcc", "logo_csrc", "logo_hpipc", "logo_hppc", "logo_kho", "logo_kric", "logo_molicel", "logo_sking", "logo_sole", "logo_taho",
+						"logo_tccc", "logo_tcchk", "logo_tcci", "logo_tcec", "logo_thmc", "logo_ton", "logo_tpcc");
+				var cloneArray = picArray.slice();
+				var imgLoaded = 0;
+				var inputFieldW = parseInt($(".inputField").css("width"));
+				var bottomLineH = parseInt($("#container .bottomLine").css("height"));
+
+
+				$(".bottomLine").css("bottom", "0px");
+				$(".inputField").css("top", documentHeight / 5.5 + "px");
+				$(".inputField").css("left", 20 + "px");
+				$(".inputField").css("width", documentWidth - 40 + "px");
+				$(".mainTitle img").attr("src", "../../sso/images/mobile/mainTitle.png?" + new Date().getTime());
+				$(".mainTitle img").load(function () {
+					var mainTitleAniTop = 30;
+					var mainTitleH = parseInt($(this).css("height"));
+					var inputFieldTop = parseInt($(".inputField").css("top"));
+
+					$(this).parent().css("opacity", 1);
+					$(this).parent().css("top", documentHeight / 2 - mainTitleH / 2 - bottomLineH - 50 + "px");
+
+					if ((mainTitleAniTop + mainTitleH) > inputFieldTop)
+						$(".inputField").css("top", mainTitleAniTop + mainTitleH + 50 + "px");
+
+					setTimeout(function () {
+						$(".mainTitle").animate({top: mainTitleAniTop + "px"}, 1000)
+					}, 1500);
+
+					setTimeout(function () {
+						$(".inputField").animate({opacity: 1}, 1000);
+					}, 2000);
+					setTimeout(function () {
+						$(".inputFieldFooter").animate({opacity: 1}, 1000);
+					}, 2000);
+				});
+
+				var logoMargin = parseInt($(".logo").css("margin-left")) * 6 + 10;
+				$(".logo").css("width", (documentWidth - logoMargin) / 3 + "px");
+				$(".logo").each(function () {
+					var num = Math.floor(Math.random() * cloneArray.length);
+					var name = cloneArray[num];
+					cloneArray.splice(num, 1);
+					$(this).attr("alt", name);
+					$(this).attr("src", "../../sso/images/mobile/" + name + ".png?" + new Date().getTime());
+					imgLoaded++;
+				});
+
+				cloneArray = picArray.slice();
+				$(".logo").load(function () {
+					if (imgLoaded == cloneArray.length) {
+						$("#container").css("height", parseInt($("#container").css("height")) + "px");
+
+						$(".logo").each(function (index) {
+							var num = Math.floor(Math.random() * cloneArray.length);
+							var name = cloneArray[num];
+							cloneArray.splice(num, 1);
+							setTimeout(function () {
+								$(".logo[alt='" + name + "']").animate({opacity: 0.07}, 1000);
+							}, index * 350);
+						});
+					}
+				});
+			} else {
+				desktop.style.display='block';
+				mobile.parentNode.removeChild(mobile);
+				$("head").append("<link rel='stylesheet' href='../../sso/css/style_2019Q2.css' type='text/css' media='screen' />");
+			}
+		}, 200);
+		function isMobile() {
+			if( navigator.userAgent.match(/Android/i)
+			 || navigator.userAgent.match(/webOS/i)
+			 || navigator.userAgent.match(/iPhone/i)
+			 || navigator.userAgent.match(/iPad/i)
+			 || navigator.userAgent.match(/iPod/i)
+			 || navigator.userAgent.match(/BlackBerry/i)
+			 || navigator.userAgent.match(/Windows Phone/i)){
+				return true;
+			} else {
+				return false;
+			}
+		}
+		//]]>	
+	</script>
+    <title th:text="#{screen.logout.header}">CAS Logout</title>
+</head>
+
+<body>
+<div id="desktop" style="display: none;">
+<main role="main" class="container mt-3 mb-3">
+    <div layout:fragment="content" class="background">
+		<input type="hidden" id="imagelocale" th:value="#{imagelocale.suffix}"/>
+		<img class="background" id="backgroundImg"/>
+		<img class="desktop_logo" src="../../sso/images/logo.gif"/>
+        <div class="alert alert-success">
+			<div class="login">
+				<div class="tcc tab" style="width: 330px;">
+					<table border="0" cellspacing="0" cellpadding="0" style="">
+						<tr>
+							<td style="padding: 5px 5px 10px 8px">
+								<div class="title" th:text="#{screen.tcc_sso.title}"></div>
+								<div class="clear"></div>
+							</td>
+						</tr>
+						<tr>
+							<td style="padding: 0px 5px 5px 0px;">
+								<div class="message" style="width:330px;">
+									<div style="margin-left: 10px">
+										<span th:utext="#{screen.logout.header}" class="contentTitle">Logout successful</span>
+										<br/>
+										<span th:utext="#{screen.logout.success}" class="content">You have successfully logged out of the Central Authentication Service. You may <a href="login">log in</a> again.</span>
+										<br/>
+										<span th:utext="#{screen.logout.security}"  class="content">For security reasons, exit your web browser.</span>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+        </div>
+    </div>
+</main>
+</div>
+<div id="mobile" style="display: none;">
+	<form method="post" id="fm1" th:object="${credential}" action="login">
+		<div id="building">	
+			<div id="headerField">
+			</div>	
+
+			<div id="container">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo1" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo2" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo3" class="logo">
+				<br>
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo4" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo5" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo6" class="logo">
+				<br>
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo7" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo8" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo9" class="logo">
+				<br>
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo10" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo11" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo12" class="logo">
+				<br>
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo13" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo14" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo15" class="logo">
+				<br>
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo16" class="logo">
+				<img src="../../sso/images/mobile/transparent_w80.png" alt="canAni" id="logo17" class="logo">
+
+				<div class="mainTitle">
+					<img src="../../sso/images/mobile/mainTitle.png">
+				</div>
+				<div class="inputField">
+					<div class="inputFieldHeader"></div>
+					<br>
+					<table>
+						<tr>
+							<td style="vertical-align: top;">
+								<img src="../../sso/images/confirm.gif"/>
+							</td>
+							<td>
+								<span th:utext="#{screen.logout.header}" class="contentTitle">Logout successful</span>
+								<br/>
+								<span th:utext="#{screen.logout.success}" class="content">You have successfully logged out of the Central Authentication Service. You may <a href="login">log in</a> again.</span>
+								<br/>
+								<span th:utext="#{screen.logout.security}"  class="content">For security reasons, exit your web browser.</span>
+							</td>
+						</tr>
+					</table>
+
+
+				</div>
+				<div class="bottomLine">
+					<div class="minLine"></div>
+				</div>
+			</div>	
+
+		</div>   
+	</form>
+</div>
+</body>
+</html>

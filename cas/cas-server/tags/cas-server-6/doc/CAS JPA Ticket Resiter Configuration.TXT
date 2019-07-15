@@ -1,0 +1,29 @@
+1. Reference https://wiki.jasig.org/display/CASUM/JpaTicketRegistry
+
+2. Changed File:
+\WEB-INF\deployerConfigContext.xml
+\WEB-INF\cas.properties
+\WEB-INF\spring-configuration\ticketRegistry.xml
+
+3. ddl generation :persistence.xml
+
+First time:
+<properties>
+      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+</properties>
+
+After generate ddl:
+<properties>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+</properties>
+
+4. Add index in db
+
+CREATE INDEX "ST_TGT_FK_I"
+  ON SERVICETICKET ("TICKETGRANTINGTICKET_ID")
+  COMPUTE STATISTICS;
+ 
+/** Create index on TGT self-referential foreign-key constraint */
+CREATE INDEX "TGT_TGT_FK_I"
+  ON TICKETGRANTINGTICKET ("TICKETGRANTINGTICKET_ID")
+  COMPUTE STATISTICS;
