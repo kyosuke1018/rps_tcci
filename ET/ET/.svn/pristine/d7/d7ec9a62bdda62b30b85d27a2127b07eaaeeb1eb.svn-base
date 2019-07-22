@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml"
+                >
+    <ui:define name="title">
+        <h:outputText value="#{msg['func.name.B11']}" />
+    </ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            $(function () {
+                // for datatable resize in chrome 
+                doResize();
+                $(window).resize(function () {
+                    doResize();
+                });
+            });
+            
+            function confirmDel(){
+                return confirm('您確定要刪除嗎?');
+            }
+            
+            function confirmDoNext(){
+                if( confirm("確定要離開目前標案議價設定畫面?\n(注意:未儲存的資料將遺失!)") ){
+                    window.location.href = "bargain.xhtml";
+                }
+                return false;
+            }
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <h:form id="fmMain" prependId="false" >
+            <p:panel header="#{msg['func.name.B11']}" rendered="#{!bargain.functionDenied}" >
+                <!-- BEGIN : 關聯標案資訊　-->
+                <ui:include src="/inc/tender/inc_tenderBasic.xhtml">
+                    <ui:param name="controller" value="#{bargain}"/>
+                </ui:include>
+                <!-- END : 關聯標案資訊　-->
+                
+                <h:panelGroup rendered="#{!empty bargain.tenderVO.id}" >
+                    <br/>
+                    <!-- 議價設定編輯區 -->
+                    <p:panel id="plBargainEdit" header="議價設定維護" >
+                        <p:panelGrid columns="4" >
+                            <p:outputLabel styleClass="fieldname" value="議價階段：" />
+                            <h:outputText value="第 #{bargain.bargainVO.times} 次議價" rendered="#{bargain.bargainVO.times gt 0}" />
+                            
+                            <p:outputLabel styleClass="fieldname" value="開放報價截止時間：" />
+                            <p:calendar pattern="#{app.dateTimeFormat}" value="#{bargain.bargainVO.EDate}" 
+                                        size="18" maxlength="18" 
+                                        showButtonPanel="true" 
+                                        showHour="true" showMinute="true" showSecond="false" 
+                                        readonlyInput="false" navigator="true"
+                                        converterMessage="報價日期格式錯誤" >
+                            </p:calendar>
+                            <!--
+                            <p:spacer width="10" height="10" />
+                            <p:selectBooleanCheckbox value="" itemLabel="立即通知廠商" />
+                            -->
+                        </p:panelGrid>
+                        
+                        <h:panelGroup id="otRowCount" >
+                            <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                            <p:outputLabel value="請勾選要開放再次報價的廠商" styleClass="fieldname" />
+                            <br/>
+                            <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                            <p:outputLabel value="已投標/邀標供應商筆數：" />
+                            <p:outputLabel value="#{bargain.lazyModel.rowCount}" />
+                            <br/>
+                            <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                            <p:selectBooleanCheckbox value="#{bargain.selectAll}" disabled="#{bargain.readOnly}" styleClass="ps info" itemLabel="全選/全不選" >
+                                <p:ajax event="change" listener="#{bargain.onSelAllVender()}" update=":dtVenderList" />
+                            </p:selectBooleanCheckbox>
+                        </h:panelGroup>
+
+                        <p:remoteCommand name="getRowCountAfterFiltered" update=":fmMain:otRowCount" />
+
+                        <p:dataTable id="dtVenderList" var="row" lazy="true" reflow="true" 
+                                     rendered="#{!empty bargain.rfqVenderList}"
+                                     widgetVar="wvDtVenderList" 
+                                     styleClass="ui-datatable-hor-scroll"
+                                     scrollable="true" 
+                                     paginator="true"
+                                     paginatorPosition="bottom"
+                                     value="#{bargain.lazyModel}"
+                                     filteredValue="#{bargain.filterResultList}"
+                                     rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50"
+                                     >
+                            <p:ajax event="filter" oncomplete="getRowCountAfterFiltered();" />
+                            <p:ajax event="page" process="@none" immediate="true" />
+                            <p:ajax event="sort" process="@none" immediate="true" />
+                            
+                            <p:column headerText="選取" styleClass="tac" width="100" >
+                                <p:selectBooleanCheckbox value="#{row.selected}" disabled="#{row.disabled}" />
+                            </p:column>
+                            <p:column headerText="名稱" sortBy="#{row.name}">
+                                <h:outputText value="#{row.name}" />
+                            </p:column>
+                            <p:column headerText="SAP代碼" sortBy="#{row.lifnrUi}">
+                                <h:outputText value="#{row.lifnrUi}" />
+                            </p:column>
+                            <p:column headerText="申請單號" sortBy="#{row.applyId}">
+                                <h:outputText value="#{row.applyId}" />
+                            </p:column>
+                            <p:column headerText="投標/邀標" sortBy="#{row.sourceLabel}" width="100">
+                                <h:outputText value="#{row.sourceLabel}" />
+                            </p:column>
+                            <p:column headerText="參與日期" sortBy="#{row.createtime}">
+                                <h:outputText value="#{row.createtime}" >
+                                    <f:convertDateTime pattern="#{app.dateFormat}"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="狀態" sortBy="#{row.statusLabel}" width="100">
+                                <h:outputText value="#{row.statusLabel}" />
+                            </p:column>
+                            <p:column headerText="資料同步時間" sortBy="#{row.syncTime}" width="150">
+                                <h:outputText value="#{row.syncTime}" >
+                                    <f:convertDateTime pattern="#{app.dateTimeFormat}" />
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+
+                        <h:panelGroup styleClass="blockBtnC" >
+                            <!-- 新增 / 儲存 -->
+                            <p:commandButton value="#{(empty bargain.bargainVO.id)? msg['button.add']:msg['button.save']}" icon="ui-icon-plus"
+                                             actionListener="#{bargain.doSaveBargain()}" 
+                                             oncomplete="doResize();" 
+                                             update=":fmMain"/>
+                            <p:spacer width="5px"/>
+                            <!-- 取消 -->
+                            <p:commandButton value="#{msg['common.button.cancel']}" icon="ui-icon ui-icon-cancel"
+                                             actionListener="#{bargain.doCancelEdit()}"
+                                             update=":fmMain"
+                                             />
+                            <br/>
+                            <i class="fa fa-1x fa-star ps" ></i>
+                            <p:outputLabel value="新加入廠商，將再次開放線上報價，並 E-mail 通知廠商 (廠商於陽光平台註冊 E-mail)。" styleClass="info" />
+                        </h:panelGroup>
+                    </p:panel>
+                    
+                    <!-- 已投標/邀標供應商 -->
+                    <br/>
+                    <p:panel id="plExists" header="目前開標/議價設定" rendered="#{!empty bargain.bargainList}" >
+                        <h:panelGroup id="otRowCountExists" >
+                            <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                            <p:outputLabel value="筆數：" />
+                            <p:outputLabel value="#{bargain.bargainList.size()}" />
+                        </h:panelGroup>
+
+                        <p:remoteCommand name="getRowCountExistsAfterFiltered" update=":fmMain:otRowCountExists" />
+
+                        <p:dataTable id="dtBargainList" var="row" lazy="false" reflow="true" 
+                                     rendered="#{!empty bargain.bargainList}"
+                                     widgetVar="wvDtBargainList" 
+                                     styleClass="ui-datatable-hor-scroll"
+                                     scrollable="true" 
+                                     paginator="true"
+                                     paginatorPosition="bottom"
+                                     value="#{bargain.bargainList}"
+                                     rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50"
+                                     >
+                            <p:ajax event="filter" oncomplete="getRowCountExistsAfterFiltered();" />
+                            <p:ajax event="page" process="@none" immediate="true" />
+                            <p:ajax event="sort" process="@none" immediate="true" />
+                            
+                            <p:column headerText="操作" styleClass="tac" width="100" >
+                                 <p:commandButton value="刪除"
+                                                  disabled="#{row.readonly}" 
+                                                  actionListener="#{bargain.doDeleteBargain(vo)}"
+                                                  process="@this" 
+                                                  update=":fmMain" />
+                            </p:column>
+                            
+                            <p:column headerText="議價階段" sortBy="#{row.times}">
+                                <h:outputText value="#{row.times}" />
+                            </p:column>
+                            <p:column headerText="開放報價截止時間" sortBy="#{row.EDate}">
+                                <h:outputText value="#{row.EDate}" >
+                                    <f:convertDateTime pattern="#{app.dateFormat}"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="選取廠商" >
+                                <p:repeat value="#{row.bargainVenderList}" 
+                                          var="item" offset="0" step="1" varStatus="status" 
+                                          size="#{row.bargainVenderList.size()}"  >
+                                    <h:panelGroup >
+                                        <h:outputText value="#{item.name}" />
+                                    </h:panelGroup>
+                                </p:repeat>
+                            </p:column>
+                            <p:column headerText="最後修改人" sortBy="#{row.lastUpdateUser}">
+                                <h:outputText value="#{row.lastUpdateUser}" />
+                            </p:column>
+                            <p:column headerText="最後修改時間" sortBy="#{row.lastUpdateTime}">
+                                <h:outputText value="#{row.lastUpdateTime}" >
+                                    <f:convertDateTime pattern="#{app.dateFormat}"/>
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>                    
+                </h:panelGroup>
+            </p:panel>
+        </h:form>
+        
+        <!-- 功能權限檢查對話框 -->
+        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+            <ui:param name="controller" value="#{bargain}"/>
+        </ui:include>
+    </ui:define>
+</ui:composition>

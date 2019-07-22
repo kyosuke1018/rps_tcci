@@ -1,0 +1,380 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.tcci.et.controller.tender;
+
+import com.tcci.cm.controller.global.SessionAwareController;
+import com.tcci.cm.facade.admin.CmCompanyFacade;
+import com.tcci.cm.facade.admin.CmFactoryFacade;
+import com.tcci.cm.model.global.BaseLazyDataModel;
+import com.tcci.cm.util.JsfUtils;
+import com.tcci.dw.facade.PrDwFacade;
+import com.tcci.et.enums.RfqVenderSrcEnum;
+import com.tcci.et.enums.VenderStatusEnum;
+import com.tcci.et.facade.EtTenderFacade;
+import com.tcci.et.facade.EtVenderAllFacade;
+import com.tcci.et.facade.jco.JCoClientFacade;
+import com.tcci.et.facade.rfq.EtRfqVenderFacade;
+import com.tcci.et.facade.rfq.RfqCommonFacade;
+import com.tcci.et.model.TenderVO;
+import com.tcci.et.model.VenderAllVO;
+import com.tcci.et.model.criteria.TenderCriteriaVO;
+import com.tcci.et.model.criteria.VenderCriteriaVO;
+import com.tcci.et.model.rfq.RfqVO;
+import com.tcci.fc.util.StringUtils;
+import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+/**
+ *
+ * @author Peter.pan
+ */
+@ManagedBean(name = "tendering")
+@ViewScoped
+public class TenderingController extends SessionAwareController implements Serializable {
+    private static final long FUNC_OPTION = 39;
+    private static final String DATATABLE_RESULT = "fmMain:dtResultList";
+    private static final String DATATABLE_RESULT_TI = "fmMain:dtTenderingList";
+    
+    @EJB EtTenderFacade tenderFacade;
+    @EJB CmCompanyFacade companyFacade;
+    @EJB CmFactoryFacade factoryFacade;
+    @EJB RfqCommonFacade rfqCommonFacade;
+    @EJB EtVenderAllFacade venderAllFacade;
+    @EJB EtRfqVenderFacade rfqVenderFacade;
+    
+    private TenderVO tenderVO;
+    private RfqVO rfqVO = new RfqVO();
+    
+    private VenderCriteriaVO criteriaVO = new VenderCriteriaVO();
+    
+    private List<VenderAllVO> venderList;// 查詢結果
+    private BaseLazyDataModel<VenderAllVO> lazyModel; // LazyModel for primefaces datatable lazy loading
+    private List<VenderAllVO> filterResultList;
+    
+    private VenderAllVO venderVO;// 供應商明細
+    private List<VenderAllVO> tenderingList;// 已投標/邀標廠商
+    private BaseLazyDataModel<VenderAllVO> lazyModelExists; // LazyModel for primefaces datatable lazy loading
+    private List<VenderAllVO> filterResultListExists;
+    
+    private String queryResultMsg;
+    
+    @PostConstruct
+    public void init(){
+        logger.debug("init ...");
+        
+        getInitParams();// query string params
+        initByTender(tenderVO);
+        
+        // for DEMO
+        if( tenderVO==null ){
+            tenderVO = new TenderVO();
+            tenderVO.setCode("GXHL-FC19001");
+        }
+        
+        criteriaVO.setStatus(VenderStatusEnum.ORI.getCode());
+    }
+    
+    //<editor-fold defaultstate="collapsed" desc="for Tender">
+    /**
+     * query string params 初始處理
+     */
+    public void getInitParams(){
+        try{
+            String tenderIdStr = JsfUtils.getRequestParameter("tenderId");
+            if( tenderIdStr!=null ){
+                Long tenderId = Long.parseLong(tenderIdStr);
+                tenderVO = tenderFacade.findById(tenderId, false);
+                logger.info("getInitParams tenderVO = "+tenderVO);
+                logger.info("getInitParams SapClientEnum = "+(tenderVO!=null?tenderVO.getSapClientEnum():null));
+            }
+        }catch(Exception e){
+            this.processUnknowException(this.getLoginUser(), "getInitParams", e, false);
+        }
+    }
+
+    /**
+     * 依指定標案初始資料
+     * @param tenderVO 
+     */
+    public void initByTender(TenderVO tenderVO){
+        if( tenderVO==null || tenderVO.getId()==null ){
+            logger.debug("initByTender tenderVO==null");
+            return;
+        }
+        
+        rfqVO.setCompanyId(tenderVO.getCompanyId());
+        //onChangeCompany(true);
+        //selFactory.setNowFactory(tenderVO.getFactoryId(), false);
+        //rfqVO.setFactory(selFactory.getSelFactory());
+        logger.info("initByTender CompanyId = "+tenderVO.getCompanyId()+", FactoryId = "+tenderVO.getFactoryId());
+        rfqVO = rfqCommonFacade.findRfqByTenderId(tenderVO.getId());
+
+        // 已邀標/投標廠商
+        renderTenderingVenders();
+    }
+
+    /**
+     * 查詢標案 by Code
+     */
+    public void onQueryTender(){
+        logger.debug("onQueryTender = "+tenderVO.getCode());
+        try{
+            if( StringUtils.isBlank(tenderVO.getCode()) ){
+                JsfUtils.addErrorMessage("請輸入標案編號!");
+                return;
+            }
+            
+            TenderCriteriaVO tenderCriteriaVO = new TenderCriteriaVO();
+            tenderCriteriaVO.setCode(tenderVO.getCode());
+            List<TenderVO> list = tenderFacade.findByCriteria(tenderCriteriaVO);
+            if( sys.isEmpty(list) ){
+                JsfUtils.addErrorMessage("請輸入正確的標案編號!");
+                return;
+            }
+            if( list.size()>1 ){
+                JsfUtils.addErrorMessage("有多筆相同的標案編號!");
+                return;
+            }
+            tenderVO = list.get(0);
+            initByTender(tenderVO);
+        }catch(Exception e){
+            this.processUnknowException(this.getLoginUser(), "onQueryTender", e, false);
+        }
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="for 供應商查詢">
+    /**
+     * 查詢
+     */
+    public void doQuery(){
+        logger.debug("doQuery ...");
+        if( !doCheck() ){
+            return;
+        }
+        
+        resetDataTable();
+        //criteriaVO.setSetMaxResultsSize(GlobalConstant.DEF_MAX_RESULT_SIZE);//設定最大回傳筆數
+        try {
+            //List<UsersVO> resList = usersFacade.findUsersByCriteria(criteriaVO);
+            criteriaVO.setOuterJoinRfq(true);
+            criteriaVO.setTenderId(tenderVO.getId());
+            criteriaVO.setRfqId(rfqVO.getRfqId());
+            criteriaVO.setJoinLFA1(true);
+            venderList = venderAllFacade.findByCriteria(criteriaVO);
+            lazyModel = new BaseLazyDataModel<VenderAllVO>(venderList);
+            
+            checkSelected();// 檢查是否已存在 (venderList or tenderingList 有異動時)
+        }catch(Exception e){
+            this.processUnknowException(this.getLoginUser(), "onQueryTender", e, false);
+        }
+    }
+    
+    /**
+     * 查詢檢查
+     * @return 
+     */
+    public boolean doCheck(){
+        if( VenderStatusEnum.ORI.getCode().equals(criteriaVO.getStatus()) ){// 舊商
+            if( sys.isBlank(criteriaVO.getKeyword()) && sys.isBlank(criteriaVO.getNameKeyword()) ){
+                JsfUtils.addErrorMessage("請輸入供應商名稱或代碼查詢!");
+                return false;
+            }
+        }else if( VenderStatusEnum.NEW.getCode().equals(criteriaVO.getStatus()) ){// 新商
+            if( criteriaVO.getApplyId()==null && sys.isBlank(criteriaVO.getNameKeyword()) ){
+                JsfUtils.addErrorMessage("請輸入供應商名稱或申請編號查詢!");
+                return false;
+            }
+        }
+                
+        return true;
+    }
+    
+    /**
+     * 重設表單、結果
+     */
+    public void doReset(){
+        logger.debug("doReset ...");
+        criteriaVO.reset();
+        criteriaVO.setStatus(VenderStatusEnum.ORI.getCode());
+        
+        if( lazyModel!=null ){
+            lazyModel.reset();
+        }
+        resetDataTable();
+    }
+    
+    /**
+     * 移除 datatable 目前排序、filter 效果
+     */
+    public void resetDataTable(){
+        JsfUtils.resetDataTable(DATATABLE_RESULT);
+    }   
+    
+    /**
+     * 檢查是否已存在 (venderList or tenderingList 有異動時)
+     */
+    public void checkSelected(){
+        if( venderList!=null ){
+            for(VenderAllVO vender : venderList){
+                if( tenderingList!=null ){
+                    for(VenderAllVO existed : tenderingList){
+                        vender.setSelected(vender.getId().equals(existed.getId()));
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 增加
+     * @param vo 
+     */
+    public void doAddVender(VenderAllVO vo){
+        logger.debug("doAddVender ...");
+        try {
+            rfqVenderFacade.addByVender(tenderVO.getId(), rfqVO.getRfqId(), RfqVenderSrcEnum.INVITE, vo, this.getLoginUser(), false);
+
+            renderTenderingVenders();
+        }catch(Exception e){
+            this.processUnknowException(this.getLoginUser(), "doAddVender", e, false);
+        }
+    }
+    //</editor-fold>
+    
+    /**
+     * 已投標/邀標供應商
+     */
+    public void getTenderingVenders(){
+        VenderCriteriaVO venderCriteriaVO  = new VenderCriteriaVO();
+        venderCriteriaVO.setOuterJoinRfq(false);
+        venderCriteriaVO.setTenderId(tenderVO.getId());
+        venderCriteriaVO.setRfqId(rfqVO.getRfqId());
+        tenderingList = venderAllFacade.findByCriteria(venderCriteriaVO);
+        
+        checkSelected();// 檢查是否已存在 (venderList or tenderingList 有異動時)
+    }
+
+    /**
+     * 顯示 已投標/邀標供應商
+     */
+    public void renderTenderingVenders(){
+        getTenderingVenders();
+
+        lazyModelExists = new BaseLazyDataModel<VenderAllVO>(tenderingList);
+        JsfUtils.resetDataTable(DATATABLE_RESULT_TI);
+    }
+    
+    /**
+     * 撤消 已投標/邀標供應商
+     * @param vo 
+     */
+    public void doCancelVender(VenderAllVO vo){
+        logger.debug("doCancelVender ...vo.getRfqVenderId() = "+vo.getRfqVenderId());
+        try {
+            rfqVenderFacade.removeByVender(tenderVO.getId(), rfqVO.getRfqId(), vo, this.getLoginUser(), false);
+             
+            renderTenderingVenders();
+        }catch(Exception e){
+            this.processUnknowException(this.getLoginUser(), "doCancelVender", e, false);
+        }
+    }           
+            
+    //<editor-fold defaultstate="collapsed" desc="getter and setter">
+    public TenderVO getTenderVO() {
+        return tenderVO;
+    }
+
+    public void setTenderVO(TenderVO tenderVO) {
+        this.tenderVO = tenderVO;
+    }
+
+    public VenderCriteriaVO getCriteriaVO() {
+        return criteriaVO;
+    }
+
+    public void setCriteriaVO(VenderCriteriaVO criteriaVO) {
+        this.criteriaVO = criteriaVO;
+    }
+
+    public List<VenderAllVO> getVenderList() {
+        return venderList;
+    }
+
+    public void setVenderList(List<VenderAllVO> venderList) {
+        this.venderList = venderList;
+    }
+
+    public BaseLazyDataModel<VenderAllVO> getLazyModel() {
+        return lazyModel;
+    }
+
+    public void setLazyModel(BaseLazyDataModel<VenderAllVO> lazyModel) {
+        this.lazyModel = lazyModel;
+    }
+
+    public List<VenderAllVO> getFilterResultList() {
+        return filterResultList;
+    }
+
+    public void setFilterResultList(List<VenderAllVO> filterResultList) {
+        this.filterResultList = filterResultList;
+    }
+
+    public VenderAllVO getVenderVO() {
+        return venderVO;
+    }
+
+    public void setVenderVO(VenderAllVO venderVO) {
+        this.venderVO = venderVO;
+    }
+
+    public List<VenderAllVO> getTenderingList() {
+        return tenderingList;
+    }
+
+    public void setTenderingList(List<VenderAllVO> tenderingList) {
+        this.tenderingList = tenderingList;
+    }
+
+    public BaseLazyDataModel<VenderAllVO> getLazyModelExists() {
+        return lazyModelExists;
+    }
+
+    public void setLazyModelExists(BaseLazyDataModel<VenderAllVO> lazyModelExists) {
+        this.lazyModelExists = lazyModelExists;
+    }
+
+    public List<VenderAllVO> getFilterResultListExists() {
+        return filterResultListExists;
+    }
+
+    public void setFilterResultListExists(List<VenderAllVO> filterResultListExists) {
+        this.filterResultListExists = filterResultListExists;
+    }
+
+    public String getQueryResultMsg() {
+        return queryResultMsg;
+    }
+
+    public void setQueryResultMsg(String queryResultMsg) {
+        this.queryResultMsg = queryResultMsg;
+    }
+
+    public RfqVO getRfqVO() {
+        return rfqVO;
+    }
+
+    public void setRfqVO(RfqVO rfqVO) {
+        this.rfqVO = rfqVO;
+    }
+    //</editor-fold>
+
+}

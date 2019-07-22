@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <p:fieldset legend="關聯標案資訊" toggleable="false" >
+        <p:panelGrid columns="4" >
+            <p:outputLabel value="標案編號：" styleClass="fieldname" />
+            <h:panelGroup rendered="#{!empty controller.tenderVO.id}" >
+                <p:outputLabel value="#{controller.tenderVO.code}" />
+                <p:spacer width="10" height="5" />
+                <p:commandButton value="處理下一個標案" 
+                                 styleClass="ms" 
+                                 onstart="return confirmDoNext()"
+                                 />
+            </h:panelGroup>
+            <h:panelGroup rendered="#{empty controller.tenderVO.id}" >
+                <p:inputText value="#{controller.tenderVO.code}" size="20" />
+                <p:spacer width="5" height="5" />
+                <p:commandButton value="查詢" actionListener="#{controller.onQueryTender()}"
+                                 update=":fmMain" />
+                <i class="fa fa-arrow-circle-down fa-1x ps" ></i>
+                <p:outputLabel value="#{controller.queryResultMsg}" />
+            </h:panelGroup>
+        </p:panelGrid>
+            
+        <h:panelGroup rendered="#{!empty controller.tenderVO.id}" >
+            <hr/>
+            <p:panelGrid columns="6" >
+                <p:outputLabel value="標案名稱：" styleClass="fieldname" />
+                <h:panelGroup>
+                    <p:outputLabel value="#{controller.tenderVO.title}" />
+                </h:panelGroup>
+                <p:outputLabel value="公司/地區：" styleClass="fieldname" />
+                <h:panelGroup rendered="#{!empty controller.tenderVO}" >
+                    <p:outputLabel value="#{controller.tenderVO.companyName}" />
+                </h:panelGroup>
+                <p:outputLabel value="廠別：" styleClass="fieldname" />
+                <h:panelGroup rendered="#{!empty controller.tenderVO}" >
+                    <p:outputLabel value="#{controller.tenderVO.factoryName}" />
+                </h:panelGroup>
+            </p:panelGrid>
+                
+            <p:panelGrid columns="6" >
+                <p:outputLabel value="標案狀態：" styleClass="fieldname" />
+                <p:outputLabel value="#{controller.tenderVO.statusName}" />
+                <p:outputLabel value="招標/詢價方式：" styleClass="fieldname" />
+                <h:panelGroup >
+                    <p:outputLabel value="#{controller.tenderVO.tenderMethod.displayName}" />
+                </h:panelGroup>
+                <p:outputLabel value="招標日期：" styleClass="fieldname" />
+                <h:panelGroup >
+                    <h:outputText value="#{controller.tenderVO.stenderDate}" >
+                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+                    </h:outputText>
+                    ~
+                    <h:outputText value="#{controller.tenderVO.etenderDate}" >
+                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+                    </h:outputText>
+                </h:panelGroup>
+            </p:panelGrid>
+        </h:panelGroup>
+    </p:fieldset>
+</ui:composition>

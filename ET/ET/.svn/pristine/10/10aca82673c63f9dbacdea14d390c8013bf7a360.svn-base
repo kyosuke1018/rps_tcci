@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/generalPageTemplate.xhtml"
+                >
+    <ui:define name="title">
+        <h:outputText value="#{msg['func.name.A13']}" />
+    </ui:define>
+    <ui:define name="head">
+        <style type="text/css">
+        </style>
+        <script type="text/javascript">
+            //<![CDATA[
+            $(function () {
+                // for datatable resize in chrome 
+                doResize();
+                $(window).resize(function () {
+                    doResize();
+                });
+            });
+            
+            function confirmDoNext(){
+                if( confirm("確定要離開目前標案邀標/投標畫面?\n(注意:未儲存的資料將遺失!)") ){
+                    window.location.href = "tendering.xhtml";
+                }
+                return false;
+            }
+            //]]>
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <!-- 公用訊息區 -->
+        <ui:include src="/inc/inc_globalMessage.xhtml"></ui:include>
+        
+        <h:form id="fmMain" prependId="false" >
+            <p:panel header="#{msg['func.name.A13']}" rendered="#{!tendering.functionDenied}" >
+                <!-- BEGIN : 關聯標案資訊　-->
+                <ui:include src="/inc/tender/inc_tenderBasic.xhtml">
+                    <ui:param name="controller" value="#{tenderAward}"/>
+                </ui:include>
+                <!-- END : 關聯標案資訊　-->
+
+                <h:panelGroup rendered="#{!empty tendering.tenderVO.id}" >
+                    <br/>
+                    <!-- 選取供應商 -->
+                    <p:panel id="plSelVender" header="選取要邀標的供應商" >
+                        <p:panelGrid columns="8" >
+                            <p:outputLabel styleClass="fieldname" value="供應商狀態：" />
+                            <p:selectOneRadio value="#{tendering.criteriaVO.status}" >
+                                <f:selectItem itemLabel="SAP供應商" itemValue="O" ></f:selectItem>
+                                <f:selectItem itemLabel="申請中新商" itemValue="N" ></f:selectItem>
+                            </p:selectOneRadio>
+                            
+                            <p:outputLabel styleClass="fieldname" value="供應商名稱：" />
+                            <p:inputText value="#{tendering.criteriaVO.nameKeyword}" size="20" />
+                            
+                            <p:outputLabel styleClass="fieldname" value="供應商SAP代號：" />
+                            <p:inputText value="#{tendering.criteriaVO.keyword}" size="15" />
+                            
+                            <p:outputLabel styleClass="fieldname" value="申請單號(新商)：" />
+                            <p:inputText value="#{tendering.criteriaVO.applyId}" size="10" />
+                        </p:panelGrid>
+                        
+                        <hr/>
+                        <h:panelGroup styleClass="blockBtnC" >
+                            <!-- 查詢 -->
+                            <p:commandButton value="#{msg['button.search']}" icon="ui-icon-search"
+                                             actionListener="#{tendering.doQuery()}" 
+                                             oncomplete="doResize();" 
+                                             update=":pgSearchResult"/>
+                            <p:spacer width="5px"/>
+                            <!-- 清除 -->
+                            <p:commandButton value="#{msg['common.button.clear']}" icon="ui-icon ui-icon-cancel"
+                                             actionListener="#{tendering.doReset()}"
+                                             update=":fmMain"
+                                             />
+                        </h:panelGroup>
+                        
+                        <h:panelGroup id="pgSearchResult">
+                            <h:panelGroup id="otRowCount" >
+                                <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                                <p:outputLabel value="符合條件筆數：" />
+                                <p:outputLabel value="#{tendering.lazyModel.rowCount}" />
+                            </h:panelGroup>
+                            
+                            <p:remoteCommand name="getRowCountAfterFiltered" update=":fmMain:otRowCount" />
+                            
+                            <p:dataTable id="dtResultList" var="row" lazy="true" reflow="true"
+                                         widgetVar="wvResultList"
+                                         styleClass="ui-datatable-hor-scroll"
+                                         scrollable="true" 
+                                         paginator="true"
+                                         paginatorPosition="bottom"
+                                         value="#{tendering.lazyModel}"
+                                         filteredValue="#{tendering.filterResultList}"
+                                         rows="10"
+                                         rowsPerPageTemplate="5,10,20,30,40,50"
+                                         >
+                                <p:ajax event="filter" oncomplete="getRowCountAfterFiltered();" />
+                                <p:ajax event="page" process="@none" immediate="true" />
+                                <p:ajax event="sort" process="@none" immediate="true" />
+                                
+                                <p:column headerText="操作" width="100" styleClass="tac" >
+                                    <p:commandButton value="加入"
+                                                     disabled="#{row.selected}" 
+                                                     actionListener="#{tendering.doAddVender(row)}"
+                                                     process="@this" 
+                                                     update=":fmMain" />
+                                </p:column>
+                                <p:column headerText="名稱" sortBy="#{row.name}">
+                                    <h:outputText value="#{row.name}" />
+                                </p:column>
+                                <p:column headerText="SAP代碼" sortBy="#{row.lifnrUi}">
+                                    <h:outputText value="#{row.lifnrUi}" />
+                                </p:column>
+                                <p:column headerText="申請單號" sortBy="#{row.applyId}">
+                                    <h:outputText value="#{row.applyId}" />
+                                </p:column>
+                                <p:column headerText="狀態" sortBy="#{row.statusLabel}" width="100">
+                                    <h:outputText value="#{row.statusLabel}" />
+                                </p:column>
+                                <p:column headerText="資料同步時間" sortBy="#{row.syncTime}" width="150">
+                                    <h:outputText value="#{row.syncTime}" >
+                                        <f:convertDateTime pattern="#{app.dateTimeFormat}" />
+                                    </h:outputText>
+                                </p:column>
+                                <!--
+                                <p:column headerText="電話" sortBy="#{row.telf1}">
+                                    <h:outputText value="#{row.telf1}" />
+                                </p:column>
+                                <p:column headerText="E-mail" sortBy="#{row.telbx}">
+                                    <h:outputText value="#{row.telbx}" />
+                                </p:column>
+                                <p:column headerText="業務員" sortBy="#{row.verkf}">
+                                    <h:outputText value="#{row.verkf}" />
+                                </p:column>
+                                <p:column headerText="城市" sortBy="#{row.ort01}">
+                                    <h:outputText value="#{row.ort01}" />
+                                </p:column>
+                                <p:column headerText="採購幣別" sortBy="#{row.waers}">
+                                    <h:outputText value="#{row.waers}" />
+                                </p:column>
+                                <p:column headerText="付款條件" sortBy="#{row.zterm}">
+                                    <h:outputText value="#{row.zterm}" />
+                                </p:column>
+                                -->
+                            </p:dataTable>
+                        </h:panelGroup>
+                    </p:panel>
+                    
+                    <!-- 已投標/邀標供應商 -->
+                    <br/>
+                    <p:panel id="plExists" header="已投標/邀標供應商" >
+                        <h:panelGroup id="otRowCountExists" >
+                            <i class="fa fa-1x fa-arrow-circle-o-right ps" ></i>
+                            <p:outputLabel value="筆數：" />
+                            <p:outputLabel value="#{tendering.lazyModelExists.rowCount}" />
+                        </h:panelGroup>
+
+                        <p:remoteCommand name="getRowCountExistsAfterFiltered" update=":fmMain:otRowCountExists" />
+
+                        <p:dataTable id="dtTenderingList" var="row" lazy="true" reflow="true" 
+                                     rendered="#{!empty tendering.tenderingList}"
+                                     widgetVar="wvDtTenderingList" 
+                                     styleClass="ui-datatable-hor-scroll"
+                                     scrollable="true" 
+                                     paginator="true"
+                                     paginatorPosition="bottom"
+                                     value="#{tendering.lazyModelExists}"
+                                     filteredValue="#{tendering.filterResultListExists}"
+                                     rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50"
+                                     >
+                            <p:ajax event="filter" oncomplete="getRowCountExistsAfterFiltered();" />
+                            <p:ajax event="page" process="@none" immediate="true" />
+                            <p:ajax event="sort" process="@none" immediate="true" />
+                            
+                            <p:column headerText="操作" styleClass="tac" width="100" >
+                                 <p:commandButton value="撤銷"
+                                                  actionListener="#{tendering.doCancelVender(row)}"
+                                                  process="@this" 
+                                                  update=":fmMain" />
+                             </p:column>
+                            <p:column headerText="名稱" sortBy="#{row.name}">
+                                <h:outputText value="#{row.name}" />
+                            </p:column>
+                            <p:column headerText="SAP代碼" sortBy="#{row.lifnrUi}">
+                                <h:outputText value="#{row.lifnrUi}" />
+                            </p:column>
+                            <p:column headerText="申請單號" sortBy="#{row.applyId}">
+                                <h:outputText value="#{row.applyId}" />
+                            </p:column>
+                            <p:column headerText="投標/邀標" sortBy="#{row.sourceLabel}" width="100">
+                                <h:outputText value="#{row.sourceLabel}" />
+                            </p:column>
+                            <p:column headerText="參與日期" sortBy="#{row.createtime}">
+                                <h:outputText value="#{row.createtime}" >
+                                    <f:convertDateTime pattern="#{app.dateFormat}"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="狀態" sortBy="#{row.statusLabel}" width="100">
+                                <h:outputText value="#{row.statusLabel}" />
+                            </p:column>
+                            <p:column headerText="資料同步時間" sortBy="#{row.syncTime}" width="150">
+                                <h:outputText value="#{row.syncTime}" >
+                                    <f:convertDateTime pattern="#{app.dateTimeFormat}" />
+                                </h:outputText>
+                            </p:column>
+                            <!--
+                            <p:column headerText="電話" sortBy="#{row.telf1}">
+                                <h:outputText value="#{row.telf1}" />
+                            </p:column>
+                            <p:column headerText="E-mail" sortBy="#{row.telbx}">
+                                <h:outputText value="#{row.telbx}" />
+                            </p:column>
+                            <p:column headerText="業務員" sortBy="#{row.verkf}">
+                                <h:outputText value="#{row.verkf}" />
+                            </p:column>
+                            <p:column headerText="城市" sortBy="#{row.ort01}">
+                                <h:outputText value="#{row.ort01}" />
+                            </p:column>
+                            <p:column headerText="採購幣別" sortBy="#{row.waers}">
+                                <h:outputText value="#{row.waers}" />
+                            </p:column>
+                            <p:column headerText="付款條件" sortBy="#{row.zterm}">
+                                <h:outputText value="#{row.zterm}" />
+                            </p:column>
+                            -->
+                        </p:dataTable>
+                    </p:panel>                    
+                </h:panelGroup>
+            </p:panel>
+        </h:form>
+        
+        <!-- 功能權限檢查對話框 -->
+        <ui:include src="/inc/inc_authorizationDlg.xhtml">
+            <ui:param name="controller" value="#{tendering}"/>
+        </ui:include>
+
+    </ui:define>
+</ui:composition>
